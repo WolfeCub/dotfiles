@@ -132,8 +132,7 @@ nnoremap <leader>h3 :MakeHeader 3<cr>
 nnoremap <leader>h4 :MakeHeader 4<cr>
 nnoremap <leader>h5 :MakeHeader 5<cr>
 nnoremap <leader>h6 :MakeHeader 6<cr>
-vnoremap <leader>l1 :<C-u>MakeListOne<cr>
-vnoremap <leader>l2 :<C-u>MakeListTwo<cr>
+vnoremap <leader>ll :<C-u>MakeListOne<cr>
 vnoremap <leader>nl :<C-u>MakeNumberedList<cr>
 vnoremap <leader>cb :<C-u>FencedCodeBlock<cr>
 

@@ -23,6 +23,7 @@ Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim'
 Plug 'WolfeCub/markdown-format-vim'
 Plug 'terryma/vim-expand-region'
+Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/syntastic'
 Plug 'SirVer/ultisnips'
 Plug 'Shougo/neocomplete.vim'
@@ -164,7 +165,7 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-" Configuration for Neocomplete
+" Neocomplete {{{
 " Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
@@ -236,7 +237,7 @@ endif
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-" End of neocomplete setup
+" }}}
 
 " }}}
 

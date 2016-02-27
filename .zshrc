@@ -86,6 +86,4 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES;
-killall Finder /System/Library/CoreServices/Finder.app'
-eval $(thefuck --alias)
+alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES;killall Finder /System/Library/CoreServices/Finder.app'

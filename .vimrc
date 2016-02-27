@@ -37,20 +37,17 @@ call plug#end()
 
 " Basic Configuration {{{
 
-set tabstop=8
-set softtabstop=0
-set expandtab
-set shiftwidth=4
-set smarttab
-set hlsearch
-set laststatus=2     " Displays statusline by default
-set backspace=2      " Allows for free backspacing
-set incsearch	     " incremental search
-set wildchar=<TAB>   " start wild expansion in the command line using <TAB>
-set wildmenu         " wild char completion menu
-set ignorecase       " case insensitive matching
-set smartcase        " smartcase matching
-set showmatch        " show matching brackets when text indicator is over them
+set expandtab      " Basic tab options
+set smarttab       " Basic tab options
+set hlsearch       " Highlights search options
+set laststatus=2   " Displays statusline by default
+set backspace=2    " Allows for free backspacing
+set incsearch      " incremental search
+set wildchar=<TAB> " start wild expansion in the command line using <TAB>
+set wildmenu       " wild char completion menu
+set ignorecase     " case insensitive matching
+set smartcase      " smartcase matching
+set showmatch      " show matching brackets when text indicator is over them
 set timeoutlen=1000 ttimeoutlen=0
 
 " }}}
@@ -60,8 +57,7 @@ set timeoutlen=1000 ttimeoutlen=0
 " Use :W to sudo write file
 command! W w !sudo tee % > /dev/null
 
-" Adds the :Shell command to execute a command via the shell and place the
-" result in a buffer
+" Adds the :Shell command to execute a command via the shell and place the result in a buffer
 function! s:ExecuteInShell(command)
 	let command = join(map(split(a:command), 'expand(v:val)'))
 	let winnr = bufwinnr('^' . command . '$')
@@ -103,7 +99,9 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 " Source visual selection
 vnoremap <leader>S y:execute @@<cr>
 " Remove search highlights
-nnoremap <leader><leader> :set hlsearch! hlsearch?<cr>
+nnoremap <leader>n :set hlsearch! hlsearch?<cr>
+" Shortcut for :
+nnoremap <leader><leader> :
 
 " }}}
 
@@ -112,8 +110,8 @@ nnoremap <leader><leader> :set hlsearch! hlsearch?<cr>
 set relativenumber
 set number
 set background=dark
-colorscheme gruvbox
-let g:gruvbox_contrast_dark='hard'
+colorscheme jellybeans
+"let g:gruvbox_contrast_dark='hard'
 syntax enable
 set t_Co=256
 filetype on
@@ -163,7 +161,7 @@ let g:syntastic_check_on_wq = 0
 "Have syntastic use Python 3 for syntax checking
 let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 
-" Trigger configuration. Do not use <tab> if you use
+" Ultisnips Keybinds
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"

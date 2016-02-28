@@ -53,6 +53,25 @@ set timeoutlen=1000 ttimeoutlen=0
 
 " }}}
 
+" Visual Configuration {{{
+
+set relativenumber
+set number
+set background=dark
+colorscheme jellybeans
+"let g:gruvbox_contrast_dark='hard'
+syntax enable
+set t_Co=256
+filetype on
+set showmatch
+
+if $TERM_PROGRAM =~ "iTerm"
+	let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+	let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+endif
+
+" }}}
+
 " Custom Configuration {{{
 
 " Use :W to sudo write file
@@ -103,25 +122,6 @@ vnoremap <leader>S y:execute @@<cr>
 nnoremap <leader>n :set hlsearch! hlsearch?<cr>
 " Shortcut for :
 nnoremap <leader><leader> :
-
-" }}}
-
-" Visual Configuration {{{
-
-set relativenumber
-set number
-set background=dark
-colorscheme jellybeans
-"let g:gruvbox_contrast_dark='hard'
-syntax enable
-set t_Co=256
-filetype on
-set showmatch
-
-if $TERM_PROGRAM =~ "iTerm"
-	let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
-	let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
-endif
 
 " }}}
 

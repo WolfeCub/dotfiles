@@ -53,6 +53,8 @@ set wildmenu       " wild char completion menu
 set ignorecase     " case insensitive matching
 set smartcase      " smartcase matching
 set showmatch      " show matching brackets when text indicator is over them
+set splitbelow     " Open new splits below
+set splitright     " Open new splits right
 set timeoutlen=1000 ttimeoutlen=0
 
 " }}}
@@ -68,9 +70,11 @@ set t_Co=256
 filetype on
 set showmatch
 
-if $TERM_PROGRAM =~ "iTerm"
-	let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
-	let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+if $TERM_PROGRAM =~ "iTerm" && has('nvim') == 0
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+elseif has('nvim') == 1
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 endif
 
 " }}}
@@ -123,6 +127,11 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 vnoremap <leader>S y:execute @@<cr>
 " Remove search highlights
 nnoremap <leader>n :set hlsearch! hlsearch?<cr>
+" Buffer navigation keybinds
+nnoremap <leader>bb :b#<cr>
+nnoremap <leader>bn :bn<cr>
+nnoremap <leader>bp :bp<cr>
+nnoremap <leader>bd :bd<cr>
 
 if has('nvim') == 1
     inoremap <Tab> <C-n>
@@ -282,3 +291,4 @@ if has('nvim') == 1
 
 endif
 " }}}
+

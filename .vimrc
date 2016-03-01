@@ -27,8 +27,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'godlygeek/tabular'
 Plug 'WolfeCub/vim-markdown-format'
 Plug 'terryma/vim-expand-region'
-Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
 Plug 'matze/vim-move'
+Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
 
 if has("lua") == 1 && has('nvim') == 0
     Plug 'Shougo/neocomplete.vim'
@@ -45,7 +45,6 @@ call plug#end()
 set tabstop=4      " show existing tab with 4 spaces width
 set shiftwidth=4   " when indenting with '>', use 4 spaces width
 set expandtab      " Basic tab options
-set smarttab       " Basic tab options
 set hlsearch       " Highlights search options
 set laststatus=2   " Displays statusline by default
 set backspace=2    " Allows for free backspacing
@@ -135,9 +134,6 @@ nnoremap <leader>bn :bn<cr>
 nnoremap <leader>bp :bp<cr>
 nnoremap <leader>bd :bd<cr>
 
-if has('nvim') == 1
-    inoremap <Tab> <C-n>
-endif
 " }}}
 
 " Plugin Configs {{{
@@ -184,8 +180,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " Neocomplete {{{
 if has("lua") == 1 && has('nvim') == 0
-    " Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
     " Disable AutoComplPop.
+    " Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
     let g:acp_enableAtStartup = 0
     " Use neocomplete.
     let g:neocomplete#enable_at_startup = 1
@@ -197,10 +193,10 @@ if has("lua") == 1 && has('nvim') == 0
 
     " Define dictionary.
     let g:neocomplete#sources#dictionary#dictionaries = {
-        \ 'default' : '',
-        \ 'vimshell' : $HOME.'/.vimshell_hist',
-        \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
+                \ 'default' : '',
+                \ 'vimshell' : $HOME.'/.vimshell_hist',
+                \ 'scheme' : $HOME.'/.gosh_completions'
+                \ }
 
     " Define keyword.
     if !exists('g:neocomplete#keyword_patterns')
@@ -216,9 +212,9 @@ if has("lua") == 1 && has('nvim') == 0
     " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
-      return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-      " For no inserting <CR> key.
-      "return pumvisible() ? "\<C-y>" : "\<CR>"
+        return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+        " For no inserting <CR> key.
+        "return pumvisible() ? "\<C-y>" : "\<CR>"
     endfunction
     " <TAB>: completion.
     inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -246,10 +242,10 @@ if has("lua") == 1 && has('nvim') == 0
 
     " Enable heavy omni completion.
     if !exists('g:neocomplete#sources#omni#input_patterns')
-      let g:neocomplete#sources#omni#input_patterns = {}
+        let g:neocomplete#sources#omni#input_patterns = {}
     endif
     "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-    "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+    let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
     "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
     " For perlomni.vim setting.
@@ -288,8 +284,10 @@ endfunction
 " Neovim Only {{{
 if has('nvim') == 1
 
-    let g:deoplete#enable_at_startup = 1
     tnoremap <Esc> <C-\><C-n>
+
+    let g:deoplete#enable_at_startup = 1
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 endif
 " }}}

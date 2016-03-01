@@ -6,30 +6,34 @@
 "     \/  \/ \___/|_|_| \___| |___/ (_)_/ |_|_| |_| |_|_|  \___|
 
 
-set clipboard=exclude:.*      " Improve startup time by ignoring x server clipboard
 set foldmethod=marker         " Enables marker folding for this file
-set nocompatible              " be iMproved, required
+if has('nvim') == 0
+    set clipboard=exclude:.*  " Improve startup time by ignoring x server clipboard
+    set nocompatible          " be iMproved, required
+endif
 
 " Vim Plug {{{
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'suan/vim-instant-markdown'
-Plug 'godlygeek/tabular'
-Plug 'mattn/webapi-vim'
-Plug 'mattn/gist-vim'
-Plug 'WolfeCub/vim-markdown-format'
-Plug 'terryma/vim-expand-region'
+Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdtree'
 Plug 'SirVer/ultisnips'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'godlygeek/tabular'
+Plug 'WolfeCub/vim-markdown-format'
+Plug 'terryma/vim-expand-region'
+Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
+Plug 'matze/vim-move'
 
-if has("lua") == 1
+if has("lua") == 1 && has('nvim') == 0
     Plug 'Shougo/neocomplete.vim'
+elseif has('nvim') == 1
+    Plug 'Shougo/deoplete.nvim'
 endif
 
 call plug#end()
@@ -59,7 +63,6 @@ set relativenumber
 set number
 set background=dark
 colorscheme jellybeans
-"let g:gruvbox_contrast_dark='hard'
 syntax enable
 set t_Co=256
 filetype on
@@ -120,9 +123,10 @@ nnoremap <leader>S ^vg_y:execute @@<cr>
 vnoremap <leader>S y:execute @@<cr>
 " Remove search highlights
 nnoremap <leader>n :set hlsearch! hlsearch?<cr>
-" Shortcut for :
-nnoremap <leader><leader> :
 
+if has('nvim') == 1
+    inoremap <Tab> <C-n>
+endif
 " }}}
 
 " Plugin Configs {{{
@@ -134,22 +138,22 @@ nnoremap <leader>h3 :MakeHeader 3<cr>
 nnoremap <leader>h4 :MakeHeader 4<cr>
 nnoremap <leader>h5 :MakeHeader 5<cr>
 nnoremap <leader>h6 :MakeHeader 6<cr>
-vnoremap <leader>ll :<C-u>MakeListOne<cr>
+vnoremap <leader>ll :<C-u>MakeList<cr>
 vnoremap <leader>nl :<C-u>MakeNumberedList<cr>
 vnoremap <leader>cb :<C-u>FencedCodeBlock<cr>
 vnoremap <leader>bq :<C-u>BlockQuote<cr>
+nnoremap <leader>li :MakeLink n<cr>
+vnoremap <leader>li :<C-u>MakeLink v<cr>
 
 let g:airline_powerline_fonts = 1 " Sets the powerline font to work properly
-
-" Gist clipboard access
-let g:gist_clip_command = 'pbcopy'
-" Gist detect filetype
-let g:gist_detect_filetype = 1
-" Open browser after post
-let g:gist_open_browser_after_post = 1
+let g:airline#extensions#tabline#enabled = 1
 
 " Change default ctrlp binding
 let g:ctrlp_map = '<leader>p'
+
+" NERDtree Options
+nnoremap <C-n> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "Set up syntastic
 set statusline+=%#warningmsg#
@@ -168,7 +172,7 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " Neocomplete {{{
-if has("lua") == 1
+if has("lua") == 1 && has('nvim') == 0
     " Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
@@ -270,3 +274,11 @@ endfunction
 
 " }}}
 
+" Neovim Only {{{
+if has('nvim') == 1
+
+    let g:deoplete#enable_at_startup = 1
+    tnoremap <Esc> <C-\><C-n>
+
+endif
+" }}}

@@ -22,12 +22,12 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree'
 Plug 'SirVer/ultisnips'
+Plug 'godlygeek/tabular'
+Plug 'terryma/vim-expand-region'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'godlygeek/tabular'
-Plug 'WolfeCub/vim-markdown-format'
-Plug 'terryma/vim-expand-region'
 Plug 'matze/vim-move'
+Plug 'WolfeCub/vim-markdown-format'
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
 
 if has("lua") == 1 && has('nvim') == 0

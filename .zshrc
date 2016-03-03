@@ -88,3 +88,4 @@ source $ZSH/oh-my-zsh.sh
 alias vim='nvim'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES;killall Finder /System/Library/CoreServices/Finder.app'
+alias vlc='/Applications/VLC.app/Contents/MacOS/VLC -I rc'

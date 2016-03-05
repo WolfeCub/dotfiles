@@ -56,7 +56,7 @@ set smartcase      " smartcase matching
 set showmatch      " show matching brackets when text indicator is over them
 set splitbelow     " Open new splits below
 set splitright     " Open new splits right
-set timeoutlen=1000 ttimeoutlen=0
+set timeoutlen=500 ttimeoutlen=0
 
 " }}}
 
@@ -106,6 +106,8 @@ command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
 " Custom Keybinds {{{
 
 let g:mapleader = "\<Space>"
+
+nnoremap <leader>vimrc :vs ~/.vimrc<cr><C-w>r
 
 " Make j and k behave like they should for wrapped lines
 nnoremap j gj

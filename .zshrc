@@ -7,8 +7,6 @@ export ZSH=/Users/wolfe/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="wolfe"
 
-eval "$(thefuck --alias)"
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 

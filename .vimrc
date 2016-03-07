@@ -20,13 +20,15 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/syntastic'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'sjl/gundo.vim', { 'on':  'GundoToggle' }
 Plug 'SirVer/ultisnips'
 Plug 'godlygeek/tabular'
 Plug 'terryma/vim-expand-region'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'matze/vim-move'
+Plug 'tpope/vim-markdown'
 Plug 'WolfeCub/vim-markdown-format'
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
 
@@ -84,6 +86,9 @@ endif
 
 " Use :W to sudo write file
 command! W w !sudo tee % > /dev/null
+
+" Command to remove trailing whitespace
+command! -nargs=0 TrimWhitespace :%s/\s\+$//
 
 " Adds the :Shell command to execute a command via the shell and place the result in a buffer
 function! s:ExecuteInShell(command)
@@ -163,6 +168,12 @@ let g:ctrlp_map = '<leader>p'
 " NERDtree Options
 nnoremap <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Set toggle map for Gundo 
+nnoremap <leader>u :GundoToggle<cr>
+" Change Gundo visual properties
+let g:gundo_width = 52
+let g:gundo_preview_height = 23
 
 "Set up syntastic
 set statusline+=%#warningmsg#

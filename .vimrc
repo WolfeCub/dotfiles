@@ -27,7 +27,6 @@ Plug 'godlygeek/tabular'
 Plug 'terryma/vim-expand-region'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'matze/vim-move'
 Plug 'tpope/vim-markdown'
 Plug 'WolfeCub/vim-markdown-format'
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
@@ -163,13 +162,20 @@ let g:airline_powerline_fonts = 1 " Sets the powerline font to work properly
 let g:airline#extensions#tabline#enabled = 1
 
 " Change default ctrlp binding
-let g:ctrlp_map = '<leader>p'
+let g:ctrlp_map = '<C-p>'
+" Ignores
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 " NERDtree Options
 nnoremap <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Set toggle map for Gundo 
+" Set toggle map for Gundo
 nnoremap <leader>u :GundoToggle<cr>
 " Change Gundo visual properties
 let g:gundo_width = 52

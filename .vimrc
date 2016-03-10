@@ -277,14 +277,6 @@ endif
 
 " Temp & Testing {{{
 
-" To improve vim habits
-" Unbind the cursor keys in insert, normal and visual modes.
-for prefix in ['i', 'n', 'v']
-	for key in ['<Up>', '<Down>', '<Left>', '<Right>']
-		exe prefix . "noremap " . key . " <Nop>"
-	endfor
-endfor
-
 function! GetSyntaxID()
     return synID(line('.'), col('.'), 1)
 endfunction
@@ -302,9 +294,14 @@ endfunction
 
 " Neovim Only {{{
 if has('nvim') == 1
+    
+    "Enable full color support
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
+    " Maps Esc to actually exit insert mode for terminal
     tnoremap <Esc> <C-\><C-n>
 
+    " Starts deoplete
     let g:deoplete#enable_at_startup = 1
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 

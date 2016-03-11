@@ -27,8 +27,8 @@ Plug 'godlygeek/tabular'
 Plug 'terryma/vim-expand-region'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-markdown'
-Plug 'WolfeCub/vim-markdown-format'
+Plug 'tpope/vim-markdown', { 'for': ['md', 'markdown'] }
+Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
 
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }

@@ -30,7 +30,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
-
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 
 call plug#end()
@@ -187,6 +186,11 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 "Have syntastic use Python 3 for syntax checking
 let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+
+" YouCompleteMe will close the preview window after completion
+let g:ycm_autoclose_preview_window_after_completion = 1
+" Have YouCompleteMe use python3
+let g:ycm_python_binary_path = '/usr/bin/python3'
 
 " Ultisnips Keybinds
 let g:UltiSnipsExpandTrigger="<c-j>"

@@ -21,9 +21,7 @@ Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'sjl/gundo.vim', { 'on':  'GundoToggle' }
 Plug 'SirVer/ultisnips'
-Plug 'godlygeek/tabular'
 Plug 'terryma/vim-expand-region'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -31,6 +29,8 @@ Plug 'tpope/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+Plug 'rhysd/clever-f.vim'
+Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 
 call plug#end()
 

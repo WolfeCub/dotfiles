@@ -29,7 +29,6 @@ Plug 'tpope/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
-Plug 'rhysd/clever-f.vim'
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 
 call plug#end()

@@ -19,7 +19,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
-Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'SirVer/ultisnips'
 Plug 'terryma/vim-expand-region'
@@ -30,6 +29,12 @@ Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
+
+if has('nvim') == 1
+    Plug 'benekastah/neomake'
+else
+    Plug 'scrooloose/syntastic'
+endif
 
 call plug#end()
 
@@ -169,27 +174,25 @@ let g:ctrlp_custom_ignore = {
 nnoremap <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Set toggle map for Gundo
-nnoremap <leader>u :GundoToggle<cr>
-" Change Gundo visual properties
-let g:gundo_width = 52
-let g:gundo_preview_height = 23
-
-"Set up syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-"Have syntastic use Python 3 for syntax checking
-let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+if has('nvim') == 0
+    "Set up syntastic
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
+    "Have syntastic use Python 3 for syntax checking
+    let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+endif
 
 " YouCompleteMe will close the preview window after completion
 let g:ycm_autoclose_preview_window_after_completion = 1
 " Have YouCompleteMe use python3
 let g:ycm_python_binary_path = '/usr/bin/python3'
+" Default c completion file
+let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 
 " Ultisnips Keybinds
 let g:UltiSnipsExpandTrigger="<c-j>"

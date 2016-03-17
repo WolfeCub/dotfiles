@@ -20,7 +20,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'SirVer/ultisnips'
 Plug 'terryma/vim-expand-region'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -162,6 +161,7 @@ let g:airline#extensions#tabline#enabled = 1
 
 " Change default ctrlp binding
 let g:ctrlp_map = '<C-p>'
+let g:ctrlp_clear_cache_on_exit = 1
 " Ignores
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = {
@@ -193,11 +193,6 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_python_binary_path = '/usr/bin/python3'
 " Default c completion file
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
-
-" Ultisnips Keybinds
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " }}}
 

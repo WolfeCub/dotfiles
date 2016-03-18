@@ -79,6 +79,41 @@ endif
 
 " }}}
 
+" Custom Keybinds {{{
+
+let g:mapleader = "\<Space>"
+
+nnoremap <leader>vimrc :vs ~/.vimrc<cr><C-w>r
+
+" Make j and k behave like they should for wrapped lines
+nnoremap j gj
+nnoremap k gk
+" Fast saving
+nnoremap <leader>w :<C-u>update<cr>
+" Spellcheck
+noremap <leader>ss :setlocal spell!<cr>
+" Ctrl+A goes to the beginning of the command line
+cnoremap <C-A>	<Home>
+" Ctrl+E goes to the end of the command line
+cnoremap <C-E>	<End>
+" Toggle folds
+nnoremap <silent> <Tab> :call Foldtoggle()<cr>
+" Source current file
+nnoremap <leader>so :source %<cr>
+" Source current line
+nnoremap <leader>S ^vg_y:execute @@<cr>
+" Source visual selection
+vnoremap <leader>S y:execute @@<cr>
+" Remove search highlights
+nnoremap <leader>n :set hlsearch! hlsearch?<cr>
+" Buffer navigation keybinds
+nnoremap <leader>bb :b#<cr>
+nnoremap <leader>bn :bn<cr>
+nnoremap <leader>bp :bp<cr>
+nnoremap <leader>bd :bd<cr>
+
+" }}}
+
 " Custom Configuration {{{
 
 " Use :W to sudo write file
@@ -103,40 +138,13 @@ function! s:ExecuteInShell(command)
 endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
 
-" }}}
-
-" Custom Keybinds {{{
-
-let g:mapleader = "\<Space>"
-
-nnoremap <leader>vimrc :vs ~/.vimrc<cr><C-w>r
-
-" Make j and k behave like they should for wrapped lines
-nnoremap j gj
-nnoremap k gk
-" Fast saving
-nnoremap <leader>w :<C-u>update<cr>
-" Spellcheck
-noremap <leader>ss :setlocal spell!<cr>
-" Ctrl+A goes to the beginning of the command line
-cnoremap <C-A>	<Home>
-" Ctrl+E goes to the end of the command line
-cnoremap <C-E>	<End>
-" Toggle folds
-nnoremap <Tab> za
-" Source current file
-nnoremap <leader>so :source %<cr>
-" Source current line
-nnoremap <leader>S ^vg_y:execute @@<cr>
-" Source visual selection
-vnoremap <leader>S y:execute @@<cr>
-" Remove search highlights
-nnoremap <leader>n :set hlsearch! hlsearch?<cr>
-" Buffer navigation keybinds
-nnoremap <leader>bb :b#<cr>
-nnoremap <leader>bn :bn<cr>
-nnoremap <leader>bp :bp<cr>
-nnoremap <leader>bd :bd<cr>
+" Hides the error message when toggling folds
+function! Foldtoggle()
+    try
+        normal! za
+    catch /E490/
+    endtry
+endfunction
 
 " }}}
 

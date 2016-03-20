@@ -63,9 +63,9 @@ set timeoutlen=500 ttimeoutlen=0
 
 set relativenumber
 set number
+syntax enable
 set background=dark
 colorscheme jellybeans
-syntax enable
 set t_Co=256
 filetype on
 set showmatch

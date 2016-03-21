@@ -63,8 +63,8 @@ set timeoutlen=500 ttimeoutlen=0
 
 set relativenumber
 set number
-set background=light
-colorscheme solarized
+set background=dark
+colorscheme jellybeans
 syntax enable
 set t_Co=256
 filetype on

@@ -120,7 +120,12 @@ nnoremap <leader>bd :bd<cr>
 command! W w !sudo tee % > /dev/null
 
 " Command to remove trailing whitespace
-command! -nargs=0 TrimWhitespace :%s/\s\+$//
+function! TrimWhitespace()
+    normal! mp
+    exec "%s/\\s\\+$//e"
+    normal! `p
+endfunction
+command! -nargs=0 TrimWhitespace :call TrimWhitespace()
 
 " Adds the :Shell command to execute a command via the shell and place the result in a buffer
 function! s:ExecuteInShell(command)
@@ -223,7 +228,7 @@ endfunction
 
 " Neovim Only {{{
 if has('nvim') == 1
-    
+
     "Enable full color support
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 

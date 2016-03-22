@@ -16,7 +16,6 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'whatyouhide/vim-gotham'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
@@ -65,7 +64,7 @@ set timeoutlen=500 ttimeoutlen=0
 set relativenumber
 set number
 set background=dark
-colorscheme gotham256
+colorscheme jellybeans
 syntax enable
 set t_Co=256
 filetype on

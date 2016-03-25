@@ -5,8 +5,6 @@
 "    \  /\  / (_) | | ||  __/ \__ \  \ V /| | | | | | | | | (__
 "     \/  \/ \___/|_|_| \___| |___/ (_)_/ |_|_| |_| |_|_|  \___|
 
-
-set foldmethod=marker         " Enables marker folding for this file
 if has('nvim') == 0
     set clipboard=exclude:.*  " Improve startup time by ignoring x server clipboard
     set nocompatible          " be iMproved, required
@@ -16,13 +14,13 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'terryma/vim-expand-region'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
@@ -55,6 +53,15 @@ set smartcase      " smartcase matching
 set showmatch      " show matching brackets when text indicator is over them
 set splitbelow     " Open new splits below
 set splitright     " Open new splits right
+set shortmess=atI  " No intro message
+set title          " Show the filename in the window titlebar
+set scrolloff=3    " Start scrolling three lines before the horizontal window border
+set visualbell     " Disable screen flash bells
+set t_vb=          " Disable audio bells
+set nostartofline  " Don’t reset cursor to start of line when moving around.
+set foldenable     " Turn on folds
+set fdm=syntax " Fold on syntax
+set foldlevel=999  " make it really high, so they're not displayed by default
 set timeoutlen=500 ttimeoutlen=0
 
 " }}}
@@ -63,6 +70,8 @@ set timeoutlen=500 ttimeoutlen=0
 
 set relativenumber
 set number
+set lcs=trail:·
+set list
 set background=dark
 colorscheme jellybeans
 syntax enable
@@ -111,6 +120,7 @@ nnoremap <leader>bb :b#<cr>
 nnoremap <leader>bn :bn<cr>
 nnoremap <leader>bp :bp<cr>
 nnoremap <leader>bd :bd<cr>
+nnoremap <leader>bl :CtrlPBuffer<cr>
 
 " }}}
 
@@ -121,9 +131,8 @@ command! W w !sudo tee % > /dev/null
 
 " Command to remove trailing whitespace
 function! TrimWhitespace()
-    normal! mp
     exec "%s/\\s\\+$//e"
-    normal! `p
+    exec "normal! \<C-o>"
 endfunction
 command! -nargs=0 TrimWhitespace :call TrimWhitespace()
 
@@ -238,3 +247,6 @@ if has('nvim') == 1
 endif
 " }}}
 
+" Modeline {{{
+" vim: set fdm=marker foldlevel=0:
+" }}}

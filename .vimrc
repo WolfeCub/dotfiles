@@ -39,18 +39,18 @@ call plug#end()
 
 " Basic Configuration {{{
 
-set tabstop=4      " show existing tab with 4 spaces width
-set shiftwidth=4   " when indenting with '>', use 4 spaces width
+set tabstop=4      " Show existing tab with 4 spaces width
+set shiftwidth=4   " When indenting with '>', use 4 spaces width
 set expandtab      " Basic tab options
 set hlsearch       " Highlights search options
 set laststatus=2   " Displays statusline by default
 set backspace=2    " Allows for free backspacing
-set incsearch      " incremental search
-set wildchar=<TAB> " start wild expansion in the command line using <TAB>
-set wildmenu       " wild char completion menu
-set ignorecase     " case insensitive matching
-set smartcase      " smartcase matching
-set showmatch      " show matching brackets when text indicator is over them
+set incsearch      " Incremental search
+set wildchar=<TAB> " Start wild expansion in the command line using <TAB>
+set wildmenu       " Wild char completion menu
+set ignorecase     " Case insensitive matching
+set smartcase      " Smartcase matching
+set showmatch      " Show matching brackets when text indicator is over them
 set splitbelow     " Open new splits below
 set splitright     " Open new splits right
 set shortmess=atI  " No intro message
@@ -60,8 +60,9 @@ set visualbell     " Disable screen flash bells
 set t_vb=          " Disable audio bells
 set nostartofline  " Don’t reset cursor to start of line when moving around.
 set foldenable     " Turn on folds
-set fdm=syntax " Fold on syntax
-set foldlevel=999  " make it really high, so they're not displayed by default
+set fdm=syntax     " Fold on syntax
+set foldlevel=999  " Make it really high, so they're not displayed by default
+set hidden         " Allow buffers with pending changes to be sent to background
 set timeoutlen=500 ttimeoutlen=0
 
 " }}}
@@ -82,8 +83,6 @@ set showmatch
 if $TERM_PROGRAM =~ "iTerm" && has('nvim') == 0
     let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
     let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
-elseif has('nvim') == 1
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 endif
 
 " }}}
@@ -240,6 +239,9 @@ if has('nvim') == 1
 
     "Enable full color support
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+    " Change cursor shape based on current mode
+    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
     " Maps Esc to actually exit insert mode for terminal
     tnoremap <Esc> <C-\><C-n>

@@ -6,4 +6,5 @@ git_prompt_info() {
   fi
 }
 setopt promptsubst
-PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%c%{$reset_color%}$(git_prompt_info) %# '
+PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info) $ '
+RPROMPT='`jobs | sed -E "s;\[([0-9])*\]  (\+|\-| )? (s|r)[a-z]* *(.*); [\1]\3 \2\4;" | tr "\n" "," | sed "s/.$//"` [`date +%H:%M:%S`]'

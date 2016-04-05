@@ -89,6 +89,7 @@ endif
 
 " Custom Keybinds {{{
 
+nnoremap <Space> <nop>
 let g:mapleader = "\<Space>"
 
 nnoremap <leader>vimrc :vs ~/.vimrc<cr><C-w>r

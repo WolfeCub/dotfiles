@@ -24,7 +24,8 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+"Plug 'Valloric/YouCompleteMe' , { 'do': './install.py --clang-completer --system-libclang' }
+Plug 'Shougo/neocomplete.vim'
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 
 if has('nvim') == 1
@@ -60,7 +61,7 @@ set visualbell     " Disable screen flash bells
 set t_vb=          " Disable audio bells
 set nostartofline  " Don’t reset cursor to start of line when moving around.
 set foldenable     " Turn on folds
-set fdm=syntax     " Fold on syntax
+set fdm=indent     " Fold on syntax
 set foldlevel=999  " Make it really high, so they're not displayed by default
 set hidden         " Allow buffers with pending changes to be sent to background
 set timeoutlen=500 ttimeoutlen=0
@@ -209,12 +210,71 @@ if has('nvim') == 0
     let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 endif
 
-" YouCompleteMe will close the preview window after completion
-let g:ycm_autoclose_preview_window_after_completion = 1
-" Have YouCompleteMe use python3
-let g:ycm_python_binary_path = '/usr/bin/python3'
-" Default c completion file
-let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+" Neocomplete settings
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " }}}
 
@@ -252,4 +312,4 @@ endif
 
 " Modeline {{{
 " vim: set fdm=marker foldlevel=0:
-" }}}
+"" }}}

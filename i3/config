@@ -1,8 +1,4 @@
-# Set desktop resolution to 1920x1080
-exec --no-startup-id xrandr --output eDP1 --mode 1920x1080
-
-exec feh --bg-scale ~/Pictures/sakura_road.png
-#exec -load ~/.Xresources
+exec_always feh --bg-scale ~/Pictures/sakura_road.png
 
 # Disable window borders
 for_window [class="^.*"] border pixel 0
@@ -22,7 +18,7 @@ bindsym ctrl+Shift+Mod1+Right exec amixer set Master toggle
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5
 
-set $mod Mod4
+set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.

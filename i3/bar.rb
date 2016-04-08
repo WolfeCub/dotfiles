@@ -7,7 +7,7 @@ class Battery < Barr::Block
   def initialize opts={}
     super
   end
- 
+
   def update!
     @output = `acpi --battery`
     @percent = Regexp.new('.*?(\\d+)(%)',Regexp::IGNORECASE).match(@output)[1]
@@ -60,14 +60,44 @@ class Battery < Barr::Block
   end
 end
 
-@man = Barr::Manager.new
+class Volume < Barr::Block
+    def initialize opts={}  # Don't forget to accept your options hash!
+      # super ensures the common configurable options can be set
+      super
+    end
 
-who = Barr::Blocks::Whoami.new align: :r, icon: "\uf007"
+    def update!
+      @cmd = %x(amixer get Master |grep % |awk '{print $5}'|sed 's/[^0-9]//g' |head -1)
+
+      @icon = "\uf028"
+      @bgcolor = "#a12c2c"
+      @output = @cmd + "%"
+    end
+end
+
+class Brightness < Barr::Block
+    def initialize opts={}  # Don't forget to accept your options hash!
+      # super ensures the common configurable options can be set
+      super
+    end
+
+    def update!
+      @cmd = %x(xbacklight)
+
+      @icon = "\uf185"
+      @bgcolor = "#d8c825"
+      @output = @cmd.to_i.to_s + "%"
+    end
+
+end
+
+
+@man = Barr::Manager.new
 
 i3 = Barr::Blocks::I3.new(fgcolor: '#FFF',
                           bgcolor: '#145266',
-                          focus_markers: %w(> <),
-                          interval: 1,
+                          focus_markers: %w(| |),
+                          interval: 0.25,
                           icon: "\uf009")
 
 clock = Barr::Blocks::Clock.new(bgcolor: '#371E5E',
@@ -81,20 +111,25 @@ weather = Barr::Blocks::Temperature.new(bgcolor: '#4A072B',
                                         icon: "\uf0c2",
                                         interval: 1500)
 
-hdd = Barr::Blocks::HDD.new bgcolor: '#444444', device: 'sda5', interval: 300, align: :r
+hdd = Barr::Blocks::HDD.new bgcolor: '#444444', device: 'sda5', interval: 300
 
 local = Barr::Blocks::IP.new device: 'wlp8s0', bgcolor: '#937739', align: :r, icon: "\uf1ce"
 
 bat = Battery.new align: :r
 
+vol = Volume.new interval: 1, align: :r
+
+bright = Brightness.new interval: 1, align: :r
+
 # Left
 @man.add i3
 @man.add weather
+@man.add hdd
 
 # Right
-@man.add hdd
+@man.add bright
+@man.add vol
 @man.add local
-@man.add who
 @man.add bat
 
 # Center

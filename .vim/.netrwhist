@@ -1,8 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/Users/wolfe/Movies'
-let g:netrw_dirhist_2='/Users/wolfe/.oh-my-zsh/themes'
-let g:netrw_dirhist_3='/home/wolfe/.config'
-let g:netrw_dirhist_4='/home/wolfe/.config/i3'
-let g:netrw_dirhist_5='/home/wolfe/.zsh'
-let g:netrw_dirhist_6='/home/wolfe/.zsh/configs'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/wolfe/.config/fish/functions'
+let g:netrw_dirhist_2='/home/wolfe/.config/fish'
+let g:netrw_dirhist_3='/home/wolfe/.config/fish/functions'

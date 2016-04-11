@@ -6,7 +6,6 @@
 "     \/  \/ \___/|_|_| \___| |___/ (_)_/ |_|_| |_| |_|_|  \___|
 
 if has('nvim') == 0
-    set clipboard=exclude:.*  " Improve startup time by ignoring x server clipboard
     set nocompatible          " be iMproved, required
 endif
 
@@ -65,6 +64,10 @@ set fdm=indent     " Fold on syntax
 set foldlevel=999  " Make it really high, so they're not displayed by default
 set hidden         " Allow buffers with pending changes to be sent to background
 set timeoutlen=500 ttimeoutlen=0
+
+if has('macunix')
+    set clipboard=exclude:.*  " Improve startup time by ignoring x server clipboard
+end
 
 " }}}
 

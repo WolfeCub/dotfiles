@@ -67,9 +67,15 @@ class Volume < Barr::Block
     end
 
     def update!
+      @stat = %x(amixer get Master | tail -n 1 | cut -d '[' -f 3 | sed 's/]//g')
       @cmd = %x(amixer get Master |grep % |awk '{print $5}'|sed 's/[^0-9]//g' |head -1)
 
-      @icon = "\uf028"
+      if @stat == "on\n"
+          @icon = "\uf028"
+      else
+          @icon = "\uf026"
+      end
+
       @bgcolor = "#a12c2c"
       @output = @cmd + "%"
     end

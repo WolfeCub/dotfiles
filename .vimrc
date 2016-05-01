@@ -22,8 +22,6 @@ Plug 'terryma/vim-expand-region'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
-Plug 'suan/vim-instant-markdown', { 'for': ['md', 'markdown'] }
-"Plug 'Valloric/YouCompleteMe' , { 'do': './install.py --clang-completer --system-libclang' }
 Plug 'Shougo/neocomplete.vim'
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 
@@ -278,6 +276,8 @@ endif
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+let g:neocomplete#enable_auto_close_preview = 1
 
 " }}}
 

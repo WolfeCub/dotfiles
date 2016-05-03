@@ -13,12 +13,15 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+(require 'use-package)
+
 ;; Essential settings.
 (setq inhibit-splash-screen t
       inhibit-startup-message t
       inhibit-startup-echo-area-message t)
 (tool-bar-mode -1) ; No toolbar
 (scroll-bar-mode -1) ; Hide scrollbars
+(menu-bar-mode -1) ; Hide menu baR
 (setq initial-scratch-message "") ; No scratch text
 (use-package sublime-themes
   :ensure t
@@ -35,7 +38,9 @@
   (evil-mode t)
   ;; Move up and down through wrapped lines
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line))
+  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+  (setq evil-split-window-below t)
+  (setq evil-vsplit-window-right t))
 
 ;; evil leader key
 (use-package evil-leader
@@ -100,7 +105,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default))))
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default)))
+ '(vc-follow-symlinks t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

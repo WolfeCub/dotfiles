@@ -75,6 +75,12 @@
   (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
   (helm-mode t))
 
+(use-package linum-relative
+  :ensure t
+  :config
+  (global-linum-mode t)
+  (linum-relative-mode))
+
 ;; Backup options
 ;; backup in one place. flat, no tree structure
 (setq backup-directory-alist '(("" . "~/.emacs.bak")))
@@ -82,7 +88,7 @@
 
 ;; esc quits
 (defun minibuffer-keyboard-quit ()
-  "Abort recursive edit.
+"Abort recursive edit.
 In Delete Selection mode, if the mark is active, just deactivate it;
 then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)

@@ -13,6 +13,11 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+;; Specifies local directory to load packages from
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(let ((default-directory  "~/.emacs.d/packages/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
 (require 'use-package)
 
 ;; Essential settings.
@@ -21,7 +26,7 @@
       inhibit-startup-echo-area-message t)
 (tool-bar-mode -1) ; No toolbar
 (scroll-bar-mode -1) ; Hide scrollbars
-(menu-bar-mode -1) ; Hide menu baR
+(menu-bar-mode -1) ; Hide menu bar
 (setq initial-scratch-message "") ; No scratch text
 (use-package sublime-themes
   :ensure t
@@ -55,7 +60,9 @@
     "bb" 'mode-line-other-buffer
     "bn" 'next-buffer
     "bp" 'previous-buffer
-    "bd" 'kill-buffer))
+    "bd" 'kill-buffer
+    "bl" 'helm-buffers-list
+    "in" 'evil-buffer-new nil "~/.emacs.d/init.el"))
 
 ;; Tpope's surround
 (use-package evil-surround
@@ -67,6 +74,7 @@
 (use-package helm
   :ensure t
   :config
+  (helm-autoresize-mode 1)
   (global-set-key (kbd "M-x")     'undefined)
   (global-set-key (kbd "M-x")     'helm-M-x)
   (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
@@ -78,14 +86,18 @@
 (use-package linum-relative
   :ensure t
   :config
+  (setq linum-relative-current-symbol "")
   (global-linum-mode t)
   (linum-relative-mode))
+
+;; External configuration for powerline and evil powerline (~/.emacs.d/lisp/init-powerline.el)
+(require 'init-powerline)
 
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 
 ;; Backup options
 ;; backup in one place. flat, no tree structure
-(setq backup-directory-alist '(("" . "~/.emacs.bak")))
+(setq backup-directory-alist '(("" . "~/.bak.emacs")))
 (setq backup-by-copying t) ; Stop shinanigans with links
 
 ;; esc quits

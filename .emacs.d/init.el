@@ -1,9 +1,9 @@
-;; __        __    _  __      _       _       _ _         _ 
+;; __        __    _  __      _       _       _ _         _
 ;; \ \      / /__ | |/ _| ___( )___  (_)_ __ (_) |_   ___| |
 ;;  \ \ /\ / / _ \| | |_ / _ \// __| | | '_ \| | __| / _ \ |
 ;;   \ V  V / (_) | |  _|  __/ \__ \ | | | | | | |_ |  __/ |
 ;;    \_/\_/ \___/|_|_|  \___| |___/ |_|_| |_|_|\__(_)___|_|
-                                                          
+
 
 ;; Setup package control
 (require 'package)
@@ -57,7 +57,7 @@
     "bp" 'previous-buffer
     "bd" 'kill-buffer))
 
-;; Tpope's surround 
+;; Tpope's surround
 (use-package evil-surround
   :ensure t
   :config
@@ -66,7 +66,7 @@
 ;; Narrowing completion engine
 (use-package helm
   :ensure t
-  :config 
+  :config
   (global-set-key (kbd "M-x")     'undefined)
   (global-set-key (kbd "M-x")     'helm-M-x)
   (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
@@ -80,6 +80,8 @@
   :config
   (global-linum-mode t)
   (linum-relative-mode))
+
+(setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 
 ;; Backup options
 ;; backup in one place. flat, no tree structure

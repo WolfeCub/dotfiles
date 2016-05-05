@@ -15,6 +15,7 @@
 
 ;; Specifies local directory to load packages from
 (add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (let ((default-directory  "~/.emacs.d/packages/"))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -55,14 +56,16 @@
   (setq evil-leader/in-all-states 1)
   (global-evil-leader-mode)
   (evil-leader/set-key
-    "w"  'save-buffer
-    "so" 'eval-buffer
-    "bb" 'mode-line-other-buffer
-    "bn" 'next-buffer
-    "bp" 'previous-buffer
-    "bd" 'kill-buffer
-    "bl" 'helm-buffers-list
-    "in" 'evil-buffer-new nil "~/.emacs.d/init.el"))
+    "w"  'save-buffer ; w(rite)
+    "so" 'eval-buffer ; so(urce)
+    "S" 'eval-defun ; S(ource)
+    "bb" 'mode-line-other-buffer ; b(ack) b(buffer)
+    "bn" 'next-buffer ; b(uffer) n(ext)
+    "bp" 'previous-buffer ; b(uffer) p(revious)
+    "bd" 'kill-buffer ; b(uffer) d(elete)
+    "bl" 'helm-buffers-list ; b(uffer) l(ist)
+    "cf" 'company-files ; c(omplete) f(ile)
+    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
 
 ;; Tpope's surround
 (use-package evil-surround
@@ -92,6 +95,40 @@
 
 ;; External configuration for powerline and evil powerline (~/.emacs.d/lisp/init-powerline.el)
 (require 'init-powerline)
+
+(use-package web-mode
+  :ensure t)
+
+(require 'color)
+
+;; Autocompletion backend
+(use-package company
+  :ensure t
+  :init
+  (global-company-mode)
+  :config
+  (setq company-idle-delay 0) ; Delay to complete
+  (setq company-selection-wrap-around t) ; Loops around suggestions
+  (define-key company-active-map [tab] 'company-select-next) ; Tab to cycle forward
+  (define-key company-active-map (kbd "C-n") 'company-select-next) ; Ctrl-N to cycle forward (vim-ish)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous) ; Ctrl-P to cycle back (vim-ish)
+
+  ;; Inherits colors from theme to style autocomplete menu correctly
+  (let ((bg (face-attribute 'default :background)))
+  (custom-set-faces
+      `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+      `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+      `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+      `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+      `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
+
+;; Uses jedi server and company mode frameword for Python completion
+(use-package company-jedi
+  :ensure t
+  :config
+  (defun my/python-mode-hook ()
+  (add-to-list 'company-backends 'company-jedi))
+  (add-hook 'python-mode-hook 'my/python-mode-hook))
 
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 
@@ -125,11 +162,15 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default)))
+    ("913b84f0b08939412114f7c5b5a1c581e3ac841615a67d81dda28d2b7c4b7892" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "0c29db826418061b40564e3351194a3d4a125d182c6ee5178c237a7364f0ff12" default)))
  '(vc-follow-symlinks t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(company-scrollbar-bg ((t (:background "#2b333c"))))
+ '(company-scrollbar-fg ((t (:background "#20262d"))))
+ '(company-tooltip ((t (:inherit default :background "#1a1f24"))))
+ '(company-tooltip-common ((t (:inherit font-lock-constant-face))))
+ '(company-tooltip-selection ((t (:inherit font-lock-function-name-face)))))

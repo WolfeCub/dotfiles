@@ -29,6 +29,7 @@
 (scroll-bar-mode -1) ; Hide scrollbars
 (menu-bar-mode -1) ; Hide menu bar
 (setq initial-scratch-message "") ; No scratch text
+(setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 (use-package sublime-themes
   :ensure t
   :config
@@ -99,8 +100,6 @@
 (use-package web-mode
   :ensure t)
 
-(require 'color)
-
 ;; Autocompletion backend
 (use-package company
   :ensure t
@@ -114,6 +113,7 @@
   (define-key company-active-map (kbd "C-p") 'company-select-previous) ; Ctrl-P to cycle back (vim-ish)
 
   ;; Inherits colors from theme to style autocomplete menu correctly
+  (require 'color)
   (let ((bg (face-attribute 'default :background)))
   (custom-set-faces
       `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
@@ -130,7 +130,18 @@
   (add-to-list 'company-backends 'company-jedi))
   (add-hook 'python-mode-hook 'my/python-mode-hook))
 
-(setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package expand-region
+  :ensure t
+  :config
+  (global-set-key (kbd "C-=") 'er/expand-region))
 
 ;; Backup options
 ;; backup in one place. flat, no tree structure

@@ -4,7 +4,6 @@
 ;;   \ V  V / (_) | |  _|  __/ \__ \ | | | | | | |_ |  __/ |
 ;;    \_/\_/ \___/|_|_|  \___| |___/ |_|_| |_|_|\__(_)___|_|
 
-
 ;; Setup package control
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
@@ -28,6 +27,7 @@
 (tool-bar-mode -1) ; No toolbar
 (scroll-bar-mode -1) ; Hide scrollbars
 (menu-bar-mode -1) ; Hide menu bar
+(show-paren-mode t)
 (setq initial-scratch-message "") ; No scratch text
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 (use-package sublime-themes
@@ -65,7 +65,6 @@
     "bp" 'previous-buffer ; b(uffer) p(revious)
     "bd" 'kill-buffer ; b(uffer) d(elete)
     "bl" 'helm-buffers-list ; b(uffer) l(ist)
-    "cf" 'company-files ; c(omplete) f(ile)
     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
 
 ;; Tpope's surround
@@ -95,6 +94,7 @@
   (linum-relative-mode))
 
 ;; External configuration for powerline and evil powerline (~/.emacs.d/lisp/init-powerline.el)
+
 (require 'init-powerline)
 
 (use-package web-mode
@@ -143,9 +143,26 @@
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
 
+(use-package neotree
+  :ensure t
+  :config
+  (global-set-key [f8] 'neotree-toggle)
+  (add-hook 'neotree-mode-hook
+    (lambda ()
+      (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+      (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+      (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+      (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
 ;; Backup options
 ;; backup in one place. flat, no tree structure
-(setq backup-directory-alist '(("" . "~/.bak.emacs")))
+(setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
+(setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 (setq backup-by-copying t) ; Stop shinanigans with links
 
 ;; esc quits

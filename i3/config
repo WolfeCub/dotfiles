@@ -16,7 +16,7 @@ bindsym ctrl+Mod1+Right exec amixer set Master toggle
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5
 
-set $mod Mod1
+set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -160,4 +160,4 @@ bindsym $mod+r mode "resize"
 
 exec_always --no-startup-id /home/wolfe/startup.sh &
 exec_always feh --bg-scale ~/Pictures/sakura_road.png
-exec_always ~/.config/i3/bar.rb | lemonbar -B "#333333" -f "Roboto Mono Medium:size=11" -f "Font Awesome:size=11" | sh
+exec_always --no-startup-id ~/.config/i3/bar.rb | lemonbar -B "#333333" -f "Roboto Mono Medium:size=11" -f "Font Awesome:size=11" | sh

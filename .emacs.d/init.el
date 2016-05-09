@@ -27,7 +27,8 @@
 (tool-bar-mode -1) ; No toolbar
 (scroll-bar-mode -1) ; Hide scrollbars
 (menu-bar-mode -1) ; Hide menu bar
-(show-paren-mode t)
+(show-paren-mode t) ; Highlights matching parenthesis
+(electric-pair-mode t)
 (setq initial-scratch-message "") ; No scratch text
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 (use-package sublime-themes
@@ -136,7 +137,9 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "multimarkdown")
+  :config
+  (setq markdown-live-preview-delete-export 'delete-on-export))
 
 (use-package expand-region
   :ensure t
@@ -158,6 +161,14 @@
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package evil-org
+  :ensure t)
+
+(use-package company-web
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-web-html))
 
 ;; Backup options
 ;; backup in one place. flat, no tree structure

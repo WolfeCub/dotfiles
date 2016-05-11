@@ -95,8 +95,13 @@
   (linum-relative-mode))
 
 ;; External configuration for powerline and evil powerline (~/.emacs.d/lisp/init-powerline.el)
-
 (require 'init-powerline)
+
+(use-package magit
+  :ensure t)
+
+(use-package evil-magit
+  :ensure t)
 
 (use-package web-mode
   :ensure t)

@@ -52,14 +52,6 @@ class Battery < Barr::Block
       @icon = "\uf244"
     end
 
-    if percent < 10
-      %x{notify-send "Battery at 10%"}
-    elsif percent < 5
-      %x{notify-send "Battery at 5%"}
-    elsif percent < 3
-      %x{notify-send "Battery at 3%"}
-    end
-
     if @charging
         @icon = "\uf0e7"
     end

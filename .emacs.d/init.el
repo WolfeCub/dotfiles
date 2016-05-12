@@ -79,6 +79,8 @@
   :ensure t
   :config
   (helm-autoresize-mode 1)
+  (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
+    helm-move-to-line-cycle-in-source t) ; move to end or beginning of source when reaching top or bottom of source.
   (global-set-key (kbd "M-x")     'undefined)
   (global-set-key (kbd "M-x")     'helm-M-x)
   (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
@@ -97,12 +99,15 @@
 ;; External configuration for powerline and evil powerline (~/.emacs.d/lisp/init-powerline.el)
 (require 'init-powerline)
 
+;; Git porcelen
 (use-package magit
   :ensure t)
 
+;; Vim bindings for magit
 (use-package evil-magit
   :ensure t)
 
+;; Web major mode
 (use-package web-mode
   :ensure t)
 
@@ -136,6 +141,7 @@
   (add-to-list 'company-backends 'company-jedi))
   (add-hook 'python-mode-hook 'my/python-mode-hook))
 
+;; Markdown formatting and preview
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
@@ -146,11 +152,13 @@
   :config
   (setq markdown-live-preview-delete-export 'delete-on-export))
 
+;; Text manipulation
 (use-package expand-region
   :ensure t
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
 
+;; NERDtree replacement
 (use-package neotree
   :ensure t
   :config
@@ -162,14 +170,17 @@
       (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
       (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
 
+;; Better looking org headers
 (use-package org-bullets
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+;; Vim bindings for org mode
 (use-package evil-org
   :ensure t)
 
+;; Web company backend
 (use-package company-web
   :ensure t
   :config

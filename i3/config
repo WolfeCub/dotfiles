@@ -159,5 +159,5 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 exec_always --no-startup-id /home/wolfe/startup.sh &
-exec_always feh --bg-scale ~/Pictures/sakura_road.png
+exec_always feh --bg-scale ~/Pictures/IBM.jpg
 exec_always --no-startup-id ~/.config/i3/bar.rb | lemonbar -B "#333333" -f "Roboto Mono Medium:size=11" -f "Font Awesome:size=11" | sh

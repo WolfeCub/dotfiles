@@ -36,6 +36,16 @@
   :config
   (load-theme 'spolsky t)) ; Color theme
 
+;; Temporarily set garbage collect threshold high to improve start time
+(setq gc-cons-threshold 100000000)
+(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+
+(use-package recentf
+  :init
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (global-set-key "\C-x\ \C-r" 'recentf-open-files))
+
 ;; Base evil package
 (use-package evil
   :ensure t
@@ -61,11 +71,9 @@
     "w"  'save-buffer ; w(rite)
     "so" 'eval-buffer ; so(urce)
     "S" 'eval-defun ; S(ource)
-    "bb" 'mode-line-other-buffer ; b(ack) b(buffer)
-    "bn" 'next-buffer ; b(uffer) n(ext)
-    "bp" 'previous-buffer ; b(uffer) p(revious)
-    "bd" 'kill-buffer ; b(uffer) d(elete)
-    "bl" 'helm-buffers-list ; b(uffer) l(ist)
+    "b" 'mode-line-other-buffer ; b(ack) b(buffer)
+    "db" 'kill-buffer ; b(uffer) d(elete)
+    "m" 'helm-mini ; b(uffer) l(ist)
     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
 
 ;; Tpope's surround
@@ -81,6 +89,9 @@
   (helm-autoresize-mode 1)
   (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
     helm-move-to-line-cycle-in-source t) ; move to end or beginning of source when reaching top or bottom of source.
+  (define-key helm-map (kbd "<tab>") 'helm-next-line)
+  (define-key helm-map (kbd "<backtab>") 'helm-next-source)
+  (define-key helm-map (kbd "C-<tab>") 'helm-select-action)
   (global-set-key (kbd "M-x")     'undefined)
   (global-set-key (kbd "M-x")     'helm-M-x)
   (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
@@ -185,6 +196,9 @@
   :ensure t
   :config
   (add-to-list 'company-backends 'company-web-html))
+
+(use-package haskell-mode
+  :ensure t)
 
 ;; Backup options
 ;; backup in one place. flat, no tree structure

@@ -86,6 +86,8 @@
 (use-package helm
   :ensure t
   :config
+  (setq helm-mode-fuzzy-match t)
+  (setq helm-completion-in-region-fuzzy-match t)
   (helm-autoresize-mode 1)
   (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
     helm-move-to-line-cycle-in-source t) ; move to end or beginning of source when reaching top or bottom of source.

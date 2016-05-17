@@ -3,9 +3,7 @@
 require 'rubygems'
 require 'barr'
 
-$percent10 = 0
-$percent5 = 0
-$percent3 = 0
+$pcounter = 0
 
 class Battery < Barr::Block
   def initialize opts={}
@@ -56,20 +54,19 @@ class Battery < Barr::Block
       @icon = "\uf244"
     end
 
-    if percent <= 10 and ($percent10 % 24) == 0
+    if percent <= 10 and ($pcounter % 24) == 0
       %x{notify-send "Battery at 10%"}
-      $percent10 += 1
-    elsif percent <= 5 and ($percent5 % 12) == 0
+    elsif percent <= 5 and ($pcounter % 12) == 0
       %x{notify-send "Battery at 5%"}
-      $percent5 += 1
-    elsif percent <= 3 and ($percent3 % 12) == 0
+    elsif percent <= 3 and ($pcounter % 12) == 0
       %x{notify-send "Battery at 3%"}
-      $percent3 += 1
     end
 
     if @charging
         @icon = "\uf0e7"
     end
+
+    $pcounter += 1
 
     @output = @percent + '% (' + @time + ')'
   end

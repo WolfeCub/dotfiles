@@ -1,8 +1,14 @@
 # dotfiles
 
+The first image contains Vim, htop, and chromium (running cVim). The second image is my emacs setup as well as my updated status bar.
+
 What it looks like:
 <a href=http://i.imgur.com/rXwJIf1.jpg>
     <img src=http://i.imgur.com/rXwJIf1.jpg>
+</a>
+
+<a href=http://i.imgur.com/KNNikNl.jpg>
+    <img src=http://i.imgur.com/KNNikNl.jpg>
 </a>
 
 Here are my personal dotfiles.

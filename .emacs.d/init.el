@@ -37,7 +37,7 @@
   (load-theme 'spolsky t)) ; Color theme
 
 ;; Temporarily set garbage collect threshold high to improve start time
-(setq gc-cons-threshold 100000000)
+(setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
 
 (use-package recentf
@@ -86,8 +86,14 @@
 (use-package helm
   :ensure t
   :config
-  (setq helm-mode-fuzzy-match t)
-  (setq helm-completion-in-region-fuzzy-match t)
+  (setq helm-recentf-fuzzy-match t
+	helm-buffers-fuzzy-matching t
+	helm-locate-fuzzy-match t
+	helm-M-x-fuzzy-match t
+	helm-semantic-fuzzy-match t
+	helm-imenu-fuzzy-match t
+	helm-apropos-fuzzy-match t
+	helm-lisp-completion-fuzzy-complete t)
   (helm-autoresize-mode 1)
   (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
     helm-move-to-line-cycle-in-source t) ; move to end or beginning of source when reaching top or bottom of source.

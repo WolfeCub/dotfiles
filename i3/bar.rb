@@ -62,11 +62,11 @@ class Battery < Barr::Block
       %x{notify-send "Battery at 3%"}
     end
 
+    $pcounter += 1
+
     if @charging
         @icon = "\uf0e7"
     end
-
-    $pcounter += 1
 
     @output = @percent + '% (' + @time + ')'
   end

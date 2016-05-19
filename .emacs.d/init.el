@@ -38,7 +38,7 @@
 
 ;; Temporarily set garbage collect threshold high to improve start time
 (setq gc-cons-threshold most-positive-fixnum)
-(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold most-positive-fixnum)))
 
 (use-package recentf
   :init
@@ -159,6 +159,10 @@
   (defun my/python-mode-hook ()
   (add-to-list 'company-backends 'company-jedi))
   (add-hook 'python-mode-hook 'my/python-mode-hook))
+
+;; On the fly syntax checking
+(use-package flycheck
+  :ensure t)
 
 ;; Markdown formatting and preview
 (use-package markdown-mode

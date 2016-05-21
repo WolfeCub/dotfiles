@@ -108,12 +108,12 @@
   (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
   (helm-mode t))
 
-(use-package linum-relative
-  :ensure t
-  :config
-  (setq linum-relative-current-symbol "")
-  (global-linum-mode t)
-  (linum-relative-mode))
+(use-package nlinum-relative
+    :config
+    ;; something else you want
+    (setq nlinum-relative-redisplay-delay 0)
+    (nlinum-relative-setup-evil)
+    (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 ;; External configuration for powerline and evil powerline (~/.emacs.d/lisp/init-powerline.el)
 (require 'init-powerline)

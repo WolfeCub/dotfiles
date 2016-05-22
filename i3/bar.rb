@@ -54,12 +54,14 @@ class Battery < Barr::Block
       @icon = "\uf244"
     end
 
-    if percent <= 10 and ($pcounter % 24) == 0
-      %x{notify-send "Battery at 10%"}
-    elsif percent <= 5 and ($pcounter % 12) == 0
-      %x{notify-send "Battery at 5%"}
-    elsif percent <= 3 and ($pcounter % 12) == 0
-      %x{notify-send "Battery at 3%"}
+    if not @charging
+        if percent <= 3 and ($pcounter % 12) == 0
+        %x{notify-send "Battery at 3%"}
+        elsif percent <= 5 and ($pcounter % 12) == 0
+        %x{notify-send "Battery at 5%"}
+        elsif percent <= 10 and ($pcounter % 24) == 0
+        %x{notify-send "Battery at 10%"}
+        end
     end
 
     $pcounter += 1

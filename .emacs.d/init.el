@@ -33,8 +33,6 @@
   :ensure t
   :config
   (load-theme 'spolsky t)) ; Color theme
-(if (eq system-type 'windows-nt)
-  (set-face-attribute 'default nil :font "Inconsolata-10"))
 
 ;; Temporarily set garbage collect threshold high to improve start time
 (setq gc-cons-threshold most-positive-fixnum)

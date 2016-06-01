@@ -15,8 +15,6 @@
 ;; Specifies local directory to load packages from
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(let ((default-directory  "~/.emacs.d/packages/"))
-  (normal-top-level-add-subdirs-to-load-path))
 
 (require 'use-package)
 
@@ -35,6 +33,8 @@
   :ensure t
   :config
   (load-theme 'spolsky t)) ; Color theme
+(if (eq system-type 'windows-nt)
+  (set-face-attribute 'default nil :font "Inconsolata-10"))
 
 ;; Temporarily set garbage collect threshold high to improve start time
 (setq gc-cons-threshold most-positive-fixnum)

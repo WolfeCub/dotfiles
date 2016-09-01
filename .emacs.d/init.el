@@ -29,6 +29,8 @@
 (electric-pair-mode t)
 (setq initial-scratch-message "") ; No scratch text
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
+(custom-set-faces ;; Sets the color of the trailing-whitespace face
+ '(trailing-whitespace ((t (:background "disabledControlTextColor")))))
 (use-package sublime-themes
   :ensure t
   :config
@@ -36,7 +38,7 @@
 
 ;; Temporarily set garbage collect threshold high to improve start time
 (setq gc-cons-threshold most-positive-fixnum)
-(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold most-positive-fixnum)))
+(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
 
 (use-package recentf
   :init
@@ -108,10 +110,15 @@
 
 (use-package nlinum-relative
     :config
-    ;; something else you want
     (setq nlinum-relative-redisplay-delay 0)
     (nlinum-relative-setup-evil)
     (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize)))
 
 ;; External configuration for powerline and evil powerline (~/.emacs.d/lisp/init-powerline.el)
 (require 'init-powerline)

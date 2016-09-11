@@ -114,7 +114,7 @@ end
 
 @man = Barr::Manager.new
 
-i3 = Barr::Blocks::I3.new(fgcolor: '#FFF',
+i3 = Barr::Blocks::I3.new(fgcolor: '#ffffff',
                           bgcolor: '#145266',
                           focus_markers: %w(| |),
                           interval: 0.25,

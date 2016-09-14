@@ -28,9 +28,12 @@
 (show-paren-mode t) ; Highlights matching parenthesis
 (electric-pair-mode t)
 (setq initial-scratch-message "") ; No scratch text
+(fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 (custom-set-faces ;; Sets the color of the trailing-whitespace face
  '(trailing-whitespace ((t (:background "disabledControlTextColor")))))
+(add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
+(set-face-attribute 'default t :font "Inconsolata-13")
 (use-package sublime-themes
   :ensure t
   :config

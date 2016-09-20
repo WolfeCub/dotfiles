@@ -44,28 +44,29 @@
   :config
   (load-theme 'spolsky t)) ; Color theme
 
-;; Custom Bindings
-(defun swap-next-char ()
+;; Custom Functions
+(defun swap-next-char (count)
   "Swaps the character under the current point with the one directly to the right"
-  (interactive)
-  (setq current-char (char-to-string (char-after (point))))
-  (setq next-char (char-to-string (char-after (+ 1 (point)))))
-  (insert (concat next-char current-char))
-  (delete-char 2)
-  (backward-char 1))
+  (interactive "p")
+  (let (value)
+    (dotimes (number count value)
+	(setq current-char (char-to-string (char-after (point))))
+	(setq next-char (char-to-string (char-after (+ 1 (point)))))
+	(insert (concat next-char current-char))
+	(delete-char 2)
+	(backward-char 1))))
 
-(defun swap-prev-char ()
+(defun swap-prev-char (count)
   "Swaps the character under the current point with the one directly to the left"
-  (interactive)
-  (setq current-char (char-to-string (char-after (point))))
-  (setq prev-char (char-to-string (char-before (point))))
-  (backward-char 1)
-  (delete-char 2)
-  (insert (concat current-char prev-char))
-  (backward-char 2))
-
-(global-set-key "\M-l" 'swap-next-char)
-(global-set-key "\M-h" 'swap-prev-char)
+  (interactive "p")
+  (let (value)
+    (dotimes (number count value)
+	(setq current-char (char-to-string (char-after (point))))
+	(setq prev-char (char-to-string (char-before (point))))
+	(backward-char 1)
+	(delete-char 2)
+	(insert (concat current-char prev-char))
+	(backward-char 2))))
 
 (use-package recentf
   :init
@@ -84,6 +85,8 @@
   ;; Move up and down through wrapped lines
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+  (define-key evil-normal-state-map "\M-l" 'swap-next-char)
+  (define-key evil-normal-state-map "\M-h" 'swap-prev-char)
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t))
 

@@ -4,6 +4,10 @@
 ;;   \ V  V / (_) | |  _|  __/ \__ \ | | | | | | |_ |  __/ |
 ;;    \_/\_/ \___/|_|_|  \___| |___/ |_|_| |_|_|\__(_)___|_|
 
+;; Temporarily set garbage collect threshold high to improve start time
+(setq gc-cons-threshold most-positive-fixnum)
+(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+
 ;; Setup package control
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
@@ -26,22 +30,42 @@
 (scroll-bar-mode -1) ; Hide scrollbars
 (menu-bar-mode -1) ; Hide menu bar
 (show-paren-mode t) ; Highlights matching parenthesis
-(electric-pair-mode t)
+(electric-pair-mode t) ; Add closing pairs automatically
 (setq initial-scratch-message "") ; No scratch text
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 (custom-set-faces ;; Sets the color of the trailing-whitespace face
  '(trailing-whitespace ((t (:background "disabledControlTextColor")))))
-(add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
-(set-face-attribute 'default t :font "Inconsolata-13")
+(when (member "Inconsolata" (font-family-list)) ;; Make sure font is installed before changing it
+    (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
+    (set-face-attribute 'default t :font "Inconsolata-13"))
 (use-package sublime-themes
   :ensure t
   :config
   (load-theme 'spolsky t)) ; Color theme
 
-;; Temporarily set garbage collect threshold high to improve start time
-(setq gc-cons-threshold most-positive-fixnum)
-(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+;; Custom Bindings
+(defun swap-next-char ()
+  "Swaps the character under the current point with the one directly to the right"
+  (interactive)
+  (setq current-char (char-to-string (char-after (point))))
+  (setq next-char (char-to-string (char-after (+ 1 (point)))))
+  (insert (concat next-char current-char))
+  (delete-char 2)
+  (backward-char 1))
+
+(defun swap-prev-char ()
+  "Swaps the character under the current point with the one directly to the left"
+  (interactive)
+  (setq current-char (char-to-string (char-after (point))))
+  (setq prev-char (char-to-string (char-before (point))))
+  (backward-char 1)
+  (delete-char 2)
+  (insert (concat current-char prev-char))
+  (backward-char 2))
+
+(global-set-key "\M-l" 'swap-next-char)
+(global-set-key "\M-h" 'swap-prev-char)
 
 (use-package recentf
   :init
@@ -72,8 +96,8 @@
   (global-evil-leader-mode)
   (evil-leader/set-key
     "w"  'save-buffer ; w(rite)
-    "so" 'eval-buffer ; so(urce)
-    "S" 'eval-defun ; S(ource)
+    "S" 'eval-buffer ; S(ource)
+    "s" 'eval-defun ; s(ource)
     "b" 'mode-line-other-buffer ; b(ack) b(buffer)
     "db" 'kill-buffer ; b(uffer) d(elete)
     "m" 'helm-mini ; b(uffer) l(ist)

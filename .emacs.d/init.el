@@ -24,8 +24,8 @@
 
 ;; Essential settings.
 (setq inhibit-splash-screen t
-      inhibit-startup-message t
-      inhibit-startup-echo-area-message t)
+    inhibit-startup-message t
+    inhibit-startup-echo-area-message t)
 (tool-bar-mode -1) ; No toolbar
 (scroll-bar-mode -1) ; Hide scrollbars
 (menu-bar-mode -1) ; Hide menu bar
@@ -33,6 +33,7 @@
 (electric-pair-mode t) ; Add closing pairs automatically
 (setq initial-scratch-message "") ; No scratch text
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
+(setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
 (custom-set-faces ;; Sets the color of the trailing-whitespace face
  '(trailing-whitespace ((t (:background "disabledControlTextColor")))))
@@ -40,103 +41,103 @@
     (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
     (set-face-attribute 'default t :font "Inconsolata-13"))
 (use-package sublime-themes
-  :ensure t
-  :config
-  (load-theme 'spolsky t)) ; Color theme
+    :ensure t
+    :config
+    (load-theme 'spolsky t)) ; Color theme
 
 ;; Custom Functions
 (defun swap-next-char (count)
-  "Swaps the character under the current point with the one directly to the right"
-  (interactive "p")
-  (let (value)
-    (dotimes (number count value)
-	(setq current-char (char-to-string (char-after (point))))
-	(setq next-char (char-to-string (char-after (+ 1 (point)))))
-	(insert (concat next-char current-char))
-	(delete-char 2)
-	(backward-char 1))))
+    "Swaps the character under the current point with the one directly to the right"
+    (interactive "p")
+    (let (value)
+        (dotimes (number count value)
+            (setq current-char (char-to-string (char-after (point))))
+            (setq next-char (char-to-string (char-after (+ 1 (point)))))
+            (insert (concat next-char current-char))
+            (delete-char 2)
+            (backward-char 1))))
 
 (defun swap-prev-char (count)
-  "Swaps the character under the current point with the one directly to the left"
-  (interactive "p")
-  (let (value)
-    (dotimes (number count value)
-	(setq current-char (char-to-string (char-after (point))))
-	(setq prev-char (char-to-string (char-before (point))))
-	(backward-char 1)
-	(delete-char 2)
-	(insert (concat current-char prev-char))
-	(backward-char 2))))
+    "Swaps the character under the current point with the one directly to the left"
+    (interactive "p")
+    (let (value)
+        (dotimes (number count value)
+            (setq current-char (char-to-string (char-after (point))))
+            (setq prev-char (char-to-string (char-before (point))))
+            (backward-char 1)
+            (delete-char 2)
+            (insert (concat current-char prev-char))
+            (backward-char 2))))
 
 (use-package recentf
-  :init
-  (recentf-mode 1)
-  (setq recentf-max-menu-items 25)
-  (global-set-key "\C-x\ \C-r" 'recentf-open-files))
+    :init
+    (recentf-mode 1)
+    (setq recentf-max-menu-items 25)
+    (global-set-key "\C-x\ \C-r" 'recentf-open-files))
 
 ;; Base evil package
 (use-package evil
-  :ensure t
-  :init
-  ;; Unbind <C-u> for evil mode's use
-  (setq evil-want-C-u-scroll t)
-  :config
-  (evil-mode t)
-  ;; Move up and down through wrapped lines
-  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-  (define-key evil-normal-state-map "\M-l" 'swap-next-char)
-  (define-key evil-normal-state-map "\M-h" 'swap-prev-char)
-  (setq evil-split-window-below t)
-  (setq evil-vsplit-window-right t))
+    :ensure t
+    :init
+    ;; Unbind <C-u> for evil mode's use
+    (setq evil-want-C-u-scroll t)
+    :config
+    (evil-mode t)
+    ;; Move up and down through wrapped lines
+    (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+    (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+    (define-key evil-normal-state-map "\M-l" 'swap-next-char)
+    (define-key evil-normal-state-map "\M-h" 'swap-prev-char)
+    (setq evil-split-window-below t)
+    (setq evil-vsplit-window-right t))
 
 ;; evil leader key
 (use-package evil-leader
-  :ensure t
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (setq evil-leader/in-all-states 1)
-  (global-evil-leader-mode)
-  (evil-leader/set-key
-    "w"  'save-buffer ; w(rite)
-    "S" 'eval-buffer ; S(ource)
-    "s" 'eval-defun ; s(ource)
-    "b" 'mode-line-other-buffer ; b(ack) b(buffer)
-    "db" 'kill-buffer ; b(uffer) d(elete)
-    "m" 'helm-mini ; b(uffer) l(ist)
-    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
+    :ensure t
+    :config
+    (evil-leader/set-leader "<SPC>")
+    (setq evil-leader/in-all-states 1)
+    (global-evil-leader-mode)
+    (evil-leader/set-key
+        "w"  'save-buffer ; w(rite)
+        "S" 'eval-buffer ; S(ource)
+        "s" 'eval-defun ; s(ource)
+        "b" 'mode-line-other-buffer ; b(ack) b(buffer)
+        "db" 'kill-buffer ; b(uffer) d(elete)
+        "m" 'helm-mini ; b(uffer) l(ist)
+        "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
 
 ;; Tpope's surround
 (use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
+    :ensure t
+    :config
+    (global-evil-surround-mode 1))
 
 ;; Narrowing completion engine
 (use-package helm
-  :ensure t
-  :config
-  (setq helm-recentf-fuzzy-match t
-	helm-buffers-fuzzy-matching t
-	helm-locate-fuzzy-match t
-	helm-M-x-fuzzy-match t
-	helm-semantic-fuzzy-match t
-	helm-imenu-fuzzy-match t
-	helm-apropos-fuzzy-match t
-	helm-lisp-completion-fuzzy-complete t)
-  (helm-autoresize-mode 1)
-  (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
+    :ensure t
+    :config
+    (setq helm-recentf-fuzzy-match t
+        helm-buffers-fuzzy-matching t
+        helm-locate-fuzzy-match t
+        helm-M-x-fuzzy-match t
+        helm-semantic-fuzzy-match t
+        helm-imenu-fuzzy-match t
+        helm-apropos-fuzzy-match t
+        helm-lisp-completion-fuzzy-complete t)
+    (helm-autoresize-mode 1)
+    (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
     helm-move-to-line-cycle-in-source t) ; move to end or beginning of source when reaching top or bottom of source.
-  (define-key helm-map (kbd "<tab>") 'helm-next-line)
-  (define-key helm-map (kbd "<backtab>") 'helm-next-source)
-  (define-key helm-map (kbd "C-<tab>") 'helm-select-action)
-  (global-set-key (kbd "M-x")     'undefined)
-  (global-set-key (kbd "M-x")     'helm-M-x)
-  (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x C-b") 'undefined)
-  (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-  (helm-mode t))
+    (define-key helm-map (kbd "<tab>") 'helm-next-line)
+    (define-key helm-map (kbd "<backtab>") 'helm-next-source)
+    (define-key helm-map (kbd "C-<tab>") 'helm-select-action)
+    (global-set-key (kbd "M-x")     'undefined)
+    (global-set-key (kbd "M-x")     'helm-M-x)
+    (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)
+    (global-set-key (kbd "C-x C-b") 'undefined)
+    (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+    (helm-mode t))
 
 (use-package nlinum-relative
     :config
@@ -145,124 +146,125 @@
     (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 (use-package exec-path-from-shell
-  :ensure t
-  :config
-  (when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize)))
+    :ensure t
+    :config
+    (when (memq window-system '(mac ns))
+    (exec-path-from-shell-initialize)))
 
 ;; External configuration for powerline and evil powerline (~/.emacs.d/lisp/init-powerline.el)
 (require 'init-powerline)
 
 ;; Git porcelen
 (use-package magit
-  :ensure t)
+    :ensure t)
 
 ;; Vim bindings for magit
 (use-package evil-magit
-  :ensure t)
+    :ensure t)
 
 ;; Web major mode
 (use-package web-mode
-  :ensure t)
+    :ensure t)
 
 ;; Autocompletion backend
 (use-package company
-  :ensure t
-  :init
-  (global-company-mode)
-  :config
-  (setq company-idle-delay 0) ; Delay to complete
-  (setq company-selection-wrap-around t) ; Loops around suggestions
-  (define-key company-active-map [tab] 'company-select-next) ; Tab to cycle forward
-  (define-key company-active-map (kbd "C-n") 'company-select-next) ; Ctrl-N to cycle forward (vim-ish)
-  (define-key company-active-map (kbd "C-p") 'company-select-previous) ; Ctrl-P to cycle back (vim-ish)
+    :ensure t
+    :init
+    (global-company-mode)
+    :config
+    (setq company-idle-delay 0) ; Delay to complete
+    (setq company-selection-wrap-around t) ; Loops around suggestions
+    (define-key company-active-map [tab] 'company-select-next) ; Tab to cycle forward
+    (define-key company-active-map (kbd "C-n") 'company-select-next) ; Ctrl-N to cycle forward (vim-ish)
+    (define-key company-active-map (kbd "C-p") 'company-select-previous) ; Ctrl-P to cycle back (vim-ish)
 
-  ;; Inherits colors from theme to style autocomplete menu correctly
-  (require 'color)
-  (let ((bg (face-attribute 'default :background)))
-  (custom-set-faces
-      `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-      `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-      `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-      `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-      `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
+    ;; Inherits colors from theme to style autocomplete menu correctly
+    (require 'color)
+    (let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+        `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+        `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+        `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+        `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+        `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
 
 ;; Uses jedi server and company mode frameword for Python completion
 (use-package company-jedi
-  :ensure t
-  :config
-  (defun my/python-mode-hook ()
-  (add-to-list 'company-backends 'company-jedi))
-  (add-hook 'python-mode-hook 'my/python-mode-hook))
+    :ensure t
+    :config
+    (defun my/python-mode-hook ()
+    (add-to-list 'company-backends 'company-jedi))
+    (add-hook 'python-mode-hook 'my/python-mode-hook))
 
 ;; On the fly syntax checking
 (use-package flycheck
-  :ensure t)
+    :ensure t)
 
 ;; Markdown formatting and preview
 (use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown")
-  :config
-  (setq markdown-live-preview-delete-export 'delete-on-export))
+    :ensure t
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+            ("\\.md\\'" . markdown-mode)
+            ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "multimarkdown")
+    :config
+    (setq markdown-live-preview-delete-export 'delete-on-export))
 
 ;; Text manipulation
 (use-package expand-region
-  :ensure t
-  :config
-  (global-set-key (kbd "C-=") 'er/expand-region))
+    :ensure t
+    :config
+    (global-set-key (kbd "C-=") 'er/expand-region))
 
 ;; NERDtree replacement
 (use-package neotree
-  :ensure t
-  :config
-  (global-set-key [f8] 'neotree-toggle)
-  (add-hook 'neotree-mode-hook
-    (lambda ()
-      (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-      (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-      (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-      (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
+    :ensure t
+    :config
+    (global-set-key [f8] 'neotree-toggle)
+    (add-hook 'neotree-mode-hook
+        (lambda ()
+            (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+            (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+            (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
 
 ;; Better looking org headers
 (use-package org-bullets
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;; Vim bindings for org mode
 (use-package evil-org
-  :ensure t)
+    :ensure t)
 
 ;; Web company backend
 (use-package company-web
-  :ensure t
-  :config
-  (add-to-list 'company-backends 'company-web-html))
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-web-html))
 
 (use-package haskell-mode
-  :ensure t)
+    :ensure t)
 
 ;; Backup options
-;; backup in one place. flat, no tree structure
-(setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
-(setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 (setq backup-by-copying t) ; Stop shinanigans with links
+(setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
+(if (eq nil (file-exists-p "~/.bak.emacs/auto")) ; Creates auto directory if it doesn't already exist
+    (make-directory "~/.bak.emacs/auto"))
+(setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t))) ; backup in one place. flat, no tree structure
 
 ;; esc quits
 (defun minibuffer-keyboard-quit ()
-"Abort recursive edit.
-In Delete Selection mode, if the mark is active, just deactivate it;
-then it takes a second \\[keyboard-quit] to abort the minibuffer."
-  (interactive)
-  (if (and delete-selection-mode transient-mark-mode mark-active)
-      (setq deactivate-mark  t)
-    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-    (abort-recursive-edit)))
+    "Abort recursive edit.
+    In Delete Selection mode, if the mark is active, just deactivate it;
+    then it takes a second \\[keyboard-quit] to abort the minibuffer."
+    (interactive)
+    (if (and delete-selection-mode transient-mark-mode mark-active)
+        (setq deactivate-mark  t)
+        (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+        (abort-recursive-edit)))
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
 (define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)

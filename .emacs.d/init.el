@@ -32,6 +32,7 @@
 (show-paren-mode t) ; Highlights matching parenthesis
 (electric-pair-mode t) ; Add closing pairs automatically
 (setq initial-scratch-message "") ; No scratch text
+(setq tab-width 4) ; Default tab width
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t) ; Shows all trailing whitespace
@@ -173,6 +174,7 @@
     (global-company-mode)
     :config
     (setq company-idle-delay 0) ; Delay to complete
+    (setq company-minimum-prefix-length 1)
     (setq company-selection-wrap-around t) ; Loops around suggestions
     (define-key company-active-map [tab] 'company-select-next) ; Tab to cycle forward
     (define-key company-active-map (kbd "C-n") 'company-select-next) ; Ctrl-N to cycle forward (vim-ish)

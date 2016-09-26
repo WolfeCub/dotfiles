@@ -1,0 +1,3 @@
+[submodule ".emacs.d/lisp/move-lines"]
+	path = .emacs.d/lisp/move-lines
+	url = https://github.com/targzeta/move-lines.git

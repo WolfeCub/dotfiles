@@ -17,7 +17,9 @@
 (package-initialize)
 
 ;; Specifies local directory to load packages from
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+(let ((default-directory  "~/.emacs.d/lisp/"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
 (require 'use-package)
@@ -46,52 +48,6 @@
     :config
     (load-theme 'spolsky t)) ; Color theme
 
-;; Custom Functions
-(defun swap-next-char (count)
-    "Swaps the character under the current point with the one directly to the right"
-    (interactive "p")
-    (let (value)
-        (dotimes (number count value)
-            (setq current-char (char-to-string (char-after (point))))
-            (setq next-char (char-to-string (char-after (+ 1 (point)))))
-            (insert (concat next-char current-char))
-            (delete-char 2)
-            (backward-char 1))))
-
-(defun swap-prev-char (count)
-    "Swaps the character under the current point with the one directly to the left"
-    (interactive "p")
-    (let (value)
-        (dotimes (number count value)
-            (setq current-char (char-to-string (char-after (point))))
-            (setq prev-char (char-to-string (char-before (point))))
-            (backward-char 1)
-            (delete-char 2)
-            (insert (concat current-char prev-char))
-            (backward-char 2))))
-
-(defun move-line (n)
-    "Move the current line up or down by N lines."
-    (interactive "p")
-    (setq col (current-column))
-    (beginning-of-line) (setq start (point))
-    (end-of-line) (forward-char) (setq end (point))
-    (let ((line-text (delete-and-extract-region start end)))
-        (forward-line n)
-        (insert line-text)
-        ;; restore point to original column in moved line
-        (forward-line -1)
-        (forward-char col)))
-
-(defun move-line-up (n)
-    "Move the current line up by N lines."
-    (interactive "p")
-    (move-line (if (null n) -1 (- n))))
-
-(defun move-line-down (n)
-    "Move the current line down by N lines."
-    (interactive "p")
-    (move-line (if (null n) 1 n)))
 
 (use-package recentf
     :init
@@ -112,8 +68,6 @@
     (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
     (define-key evil-normal-state-map "\M-l" 'swap-next-char)
     (define-key evil-normal-state-map "\M-h" 'swap-prev-char)
-    (define-key evil-normal-state-map "\M-k" 'move-line-up)
-    (define-key evil-normal-state-map "\M-j" 'move-line-down)
     (setq evil-split-window-below t)
     (setq evil-vsplit-window-right t))
 
@@ -243,6 +197,11 @@
     :ensure t
     :config
     (global-set-key (kbd "C-=") 'er/expand-region))
+
+(use-package move-lines
+    :config
+    (define-key evil-normal-state-map "\M-k" 'move-lines-up)
+    (define-key evil-normal-state-map "\M-j" 'move-lines-down))
 
 ;; NERDtree replacement
 (use-package neotree

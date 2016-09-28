@@ -1,3 +1,6 @@
 [submodule ".emacs.d/lisp/move-lines"]
 	path = .emacs.d/lisp/move-lines
 	url = https://github.com/targzeta/move-lines.git
+[submodule ".vim/autoload"]
+	path = .vim/autoload
+	url = https://github.com/junegunn/vim-plug.git

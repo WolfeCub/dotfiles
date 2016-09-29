@@ -93,31 +93,37 @@
     :config
     (global-evil-surround-mode 1))
 
-;; Narrowing completion engine
-(use-package helm
-    :ensure t
+(use-package ido
     :config
-    (setq helm-recentf-fuzzy-match t
-        helm-buffers-fuzzy-matching t
-        helm-locate-fuzzy-match t
-        helm-M-x-fuzzy-match t
-        helm-semantic-fuzzy-match t
-        helm-imenu-fuzzy-match t
-        helm-apropos-fuzzy-match t
-        helm-lisp-completion-fuzzy-complete t)
-    (helm-autoresize-mode 1)
-    (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
-    helm-move-to-line-cycle-in-source t) ; move to end or beginning of source when reaching top or bottom of source.
-    (define-key helm-map (kbd "<tab>") 'helm-next-line)
-    (define-key helm-map (kbd "<backtab>") 'helm-next-source)
-    (define-key helm-map (kbd "C-<tab>") 'helm-select-action)
-    (global-set-key (kbd "M-x")     'undefined)
-    (global-set-key (kbd "M-x")     'helm-M-x)
-    (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
-    (global-set-key (kbd "C-x C-f") 'helm-find-files)
-    (global-set-key (kbd "C-x C-b") 'undefined)
-    (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-    (helm-mode t))
+    (setq ido-enable-flex-matching t)
+    (setq ido-everywhere t)
+    (ido-mode 1))
+
+;; Narrowing completion engine
+;(use-package helm
+;    :ensure t
+;    :config
+;    (setq helm-recentf-fuzzy-match t
+;        helm-buffers-fuzzy-matching t
+;        helm-locate-fuzzy-match t
+;        helm-M-x-fuzzy-match t
+;        helm-semantic-fuzzy-match t
+;        helm-imenu-fuzzy-match t
+;        helm-apropos-fuzzy-match t
+;        helm-lisp-completion-fuzzy-complete t)
+;    (helm-autoresize-mode 1)
+;    (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
+;    helm-move-to-line-cycle-in-source t) ; move to end or beginning of source when reaching top or bottom of source.
+;    (define-key helm-map (kbd "<tab>") 'helm-next-line)
+;    (define-key helm-map (kbd "<backtab>") 'helm-next-source)
+;    (define-key helm-map (kbd "C-<tab>") 'helm-select-action)
+;    (global-set-key (kbd "M-x")     'undefined)
+;    (global-set-key (kbd "M-x")     'helm-M-x)
+;    (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
+;    (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;    (global-set-key (kbd "C-x C-b") 'undefined)
+;    (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+;    (helm-mode t))
 
 (use-package nlinum-relative
     :config

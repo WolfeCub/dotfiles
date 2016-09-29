@@ -48,13 +48,6 @@
     :config
     (load-theme 'spolsky t)) ; Color theme
 
-
-(use-package recentf
-    :init
-    (recentf-mode 1)
-    (setq recentf-max-menu-items 25)
-    (global-set-key "\C-x\ \C-r" 'recentf-open-files))
-
 ;; Base evil package
 (use-package evil
     :ensure t
@@ -104,6 +97,22 @@
     (setq ido-enable-flex-matching t)
     (setq ido-everywhere t)
     (ido-mode 1))
+
+(use-package smex
+    :ensure t
+    :config
+    (defadvice smex (around space-inserts-hyphen activate compile)
+        (let ((ido-cannot-complete-command 
+                `(lambda ()
+                    (interactive)
+                    (if (string= " " (this-command-keys))
+                        (insert ?-)
+                    (funcall ,ido-cannot-complete-command)))))
+            ad-do-it))
+    (global-set-key (kbd "M-x") 'smex)
+    (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+    (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)) ;; This is your old M-x.
+
 
 (use-package nlinum-relative
     :config
@@ -163,9 +172,19 @@
     (add-to-list 'company-backends 'company-jedi))
     (add-hook 'python-mode-hook 'my/python-mode-hook))
 
+;; Web company backend
+(use-package company-web
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-web-html))
+
 ;; On the fly syntax checking
 (use-package flycheck
-    :ensure t)
+    :ensure t
+    :config
+    (global-flycheck-mode)
+    (with-eval-after-load 'flycheck
+        (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 
 ;; Markdown formatting and preview
 (use-package markdown-mode
@@ -210,12 +229,6 @@
 ;; Vim bindings for org mode
 (use-package evil-org
     :ensure t)
-
-;; Web company backend
-(use-package company-web
-    :ensure t
-    :config
-    (add-to-list 'company-backends 'company-web-html))
 
 (use-package haskell-mode
     :ensure t)

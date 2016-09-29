@@ -69,7 +69,8 @@
     (define-key evil-normal-state-map "\M-l" 'swap-next-char)
     (define-key evil-normal-state-map "\M-h" 'swap-prev-char)
     (setq evil-split-window-below t)
-    (setq evil-vsplit-window-right t))
+    (setq evil-vsplit-window-right t)
+    (define-key evil-ex-map "e " 'ido-find-file))
 
 ;; evil leader key
 (use-package evil-leader
@@ -84,7 +85,7 @@
         "s" 'eval-defun ; s(ource)
         "b" 'mode-line-other-buffer ; b(ack) b(buffer)
         "db" 'kill-buffer ; b(uffer) d(elete)
-        "m" 'helm-mini ; b(uffer) l(ist)
+        "m" 'ido-switch-buffer ; m(ini)
         "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
 
 ;; Tpope's surround
@@ -94,36 +95,15 @@
     (global-evil-surround-mode 1))
 
 (use-package ido
+    :init
+    (defun my-ido-keys ()
+        "Add keybindings for ido"
+        (define-key ido-completion-map [tab] 'ido-next-match))
+    (add-hook 'ido-setup-hook #'my-ido-keys)
     :config
     (setq ido-enable-flex-matching t)
     (setq ido-everywhere t)
     (ido-mode 1))
-
-;; Narrowing completion engine
-;(use-package helm
-;    :ensure t
-;    :config
-;    (setq helm-recentf-fuzzy-match t
-;        helm-buffers-fuzzy-matching t
-;        helm-locate-fuzzy-match t
-;        helm-M-x-fuzzy-match t
-;        helm-semantic-fuzzy-match t
-;        helm-imenu-fuzzy-match t
-;        helm-apropos-fuzzy-match t
-;        helm-lisp-completion-fuzzy-complete t)
-;    (helm-autoresize-mode 1)
-;    (setq helm-split-window-in-side-p  t ; open helm buffer inside current window, not occupy whole other window
-;    helm-move-to-line-cycle-in-source t) ; move to end or beginning of source when reaching top or bottom of source.
-;    (define-key helm-map (kbd "<tab>") 'helm-next-line)
-;    (define-key helm-map (kbd "<backtab>") 'helm-next-source)
-;    (define-key helm-map (kbd "C-<tab>") 'helm-select-action)
-;    (global-set-key (kbd "M-x")     'undefined)
-;    (global-set-key (kbd "M-x")     'helm-M-x)
-;    (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
-;    (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;    (global-set-key (kbd "C-x C-b") 'undefined)
-;    (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-;    (helm-mode t))
 
 (use-package nlinum-relative
     :config

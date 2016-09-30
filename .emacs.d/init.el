@@ -22,6 +22,10 @@
   (normal-top-level-add-subdirs-to-load-path))
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
+;; Autodownload and enable use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 (require 'use-package)
 
 ;; Essential settings.

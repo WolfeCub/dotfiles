@@ -1,0 +1,3 @@
+* Emacs Configuration
+
+Here are all of the files that make up my emacs config.

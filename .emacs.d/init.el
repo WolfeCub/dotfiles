@@ -193,10 +193,10 @@
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
 
-(use-package move-lines
-  :config
-  (define-key evil-normal-state-map "\M-k" 'move-lines-up)
-  (define-key evil-normal-state-map "\M-j" 'move-lines-down))
+;;(use-package move-lines
+;;  :config
+;;  (define-key evil-normal-state-map "\M-k" 'move-lines-up)
+;;  (define-key evil-normal-state-map "\M-j" 'move-lines-down))
 
 ;; NERDtree replacement
 (use-package neotree

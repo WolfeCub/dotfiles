@@ -11,6 +11,8 @@ What it looks like:
     <img src=http://i.imgur.com/KNNikNl.jpg>
 </a>
 
+For more details regarding an individual piece of software visit the README inside of the corresponding subfolder.
+
 Here are my personal dotfiles.
   * [zsh](http://www.zsh.org/) - shell
   * [emacs](https://www.gnu.org/software/emacs/) - text editor of choice on main machines

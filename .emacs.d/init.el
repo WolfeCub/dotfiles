@@ -92,7 +92,9 @@
   :init
   (defun my-ido-keys ()
     "Add keybindings for ido"
-    (define-key ido-completion-map [tab] 'ido-next-match))
+    (define-key ido-completion-map [tab] 'ido-next-match)
+    (define-key ido-completion-map (kbd "C-c C-k") 'ido-kill-buffer-at-head))
+
   (add-hook 'ido-setup-hook #'my-ido-keys)
   :config
   (setq ido-enable-flex-matching t)
@@ -176,7 +178,8 @@
   :config
   (global-flycheck-mode)
   (with-eval-after-load 'flycheck
-    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+  (setq-default flycheck-emacs-lisp-load-path 'inherit))
 
 ;; Markdown formatting and preview
 (use-package markdown-mode
@@ -222,6 +225,8 @@
 ;; Backup options
 (setq backup-by-copying t) ; Stop shinanigans with links
 (setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
+(if (eq nil (file-exists-p "~/.bak.emacs/")) ; Creates auto directory if it doesn't already exist
+    (make-directory "~/.bak.emacs/"))
 (if (eq nil (file-exists-p "~/.bak.emacs/auto")) ; Creates auto directory if it doesn't already exist
     (make-directory "~/.bak.emacs/auto"))
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t))) ; backup in one place. flat, no tree structure

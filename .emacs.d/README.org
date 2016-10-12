@@ -1,4 +1,4 @@
-* Puremacs
+* Emacs Config
 
 Dotfiles for learning emacs without evil mode.
 

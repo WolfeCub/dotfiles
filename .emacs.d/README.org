@@ -108,43 +108,57 @@ Org bullets allows for nicely formatted bullets instead of asteriks' in org mode
 ** Packages
 *** Evil
 
+[[https://www.emacswiki.org/emacs/Evil][Evil mode]] brings all of vim's wonderful modal editing to emacs. My evil configuration
+is fairly straightforward. First I unbint =C-u= so evil can make use of it. Then I
+replace =j= and =k= with their visual line mode equivilants. I have splits open on the
+other side and I have it so that typing =:e<space>= triggers ido.
+
 #+begin_src emacs-lisp :tangle yes 
-;; Base evil package
 (use-package evil
   :init
-  ;; Unbind <C-u> for evil mode's use
   (setq evil-want-C-u-scroll t)
   :config
   (evil-mode t)
-  ;; Move up and down through wrapped lines
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-  (define-key evil-normal-state-map "\M-l" 'swap-next-char)
-  (define-key evil-normal-state-map "\M-h" 'swap-prev-char)
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t)
   (define-key evil-ex-map "e " 'ido-find-file))
+#+end_src
 
-;; evil leader key
+[[https://github.com/cofi/evil-leader][Evil leader]] ports the functionality of leader bindings to emacs. I use space as my
+leader since it's just so easy to hit. I also make sure to enable leader key everywhere
+and I configure some pretty common bindings.
+
+#+begin_src emacs-lisp :tangle yes 
 (use-package evil-leader
   :config
   (evil-leader/set-leader "<SPC>")
   (setq evil-leader/in-all-states 1)
   (global-evil-leader-mode)
   (evil-leader/set-key
-   "w"  'save-buffer ; w(rite)
-   "S" 'eval-buffer ; S(ource)
-   "s" 'eval-defun ; s(ource)
-   "b" 'mode-line-other-buffer ; b(ack) b(buffer)
-   "db" 'kill-buffer ; b(uffer) d(elete)
-   "m" 'ido-switch-buffer ; m(ini)
-   "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
+   "w"  'save-buffer
+   "S" 'eval-buffer 
+   "s" 'eval-defun
+   "b" 'mode-line-other-buffer
+   "db" 'kill-buffer
+   "m" 'ido-switch-buffer
+   "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
+#+end_src
 
-;; Tpope's surround
+[[https://github.com/timcharper/evil-surround][Evil surround]] is a copy of [[https://github.com/tpope/vim-surround][tpope's vim-surround]]. It provides text objects for common
+delimiter operations. Such as wrapping a text object in quotes or brackets.
+
+#+begin_src emacs-lisp :tangle yes 
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))
+#+end_src
 
+[[https://github.com/justbur/evil-magit][Evil magit]] and [[https://github.com/edwtjo/evil-org-mode][evil org mode]] provide some nice vimish bindings in both magit and org mode.
+(More on magit down [[Magit][below]])
+
+#+begin_src emacs-lisp :tangle yes 
 ;; Vim bindings for magit
 (use-package evil-magit)
 

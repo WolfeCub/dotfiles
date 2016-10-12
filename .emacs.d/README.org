@@ -86,6 +86,11 @@ theme's github).
       org-fontify-quote-and-verse-blocks t)
 #+end_src
 
+
+#+begin_src emacs-lisp :tangle yes 
+(use-package ox-twbs)
+#+end_src
+
 *** Org Bullets
 
 [[org-bullets][file:http://i.imgur.com/8w3Qwgd.jpg]]

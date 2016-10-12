@@ -72,6 +72,7 @@ accompanying neotree theme enabled lower down in [[Neotree]].
 
 ** Org Settings
 
+
 I'm still getting into org mode so my settings are very basic. I enable entities so
 I can type =\= followed by something like =alpha= and get the UTF-8 char \alpha. I also
 set src font natively so that I can have syntax highlighting in source blocks. I
@@ -105,8 +106,7 @@ Org bullets allows for nicely formatted bullets instead of asteriks' in org mode
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+end_src
 
-** Packages
-*** Evil
+** Evil
 
 [[https://www.emacswiki.org/emacs/Evil][Evil mode]] brings all of vim's wonderful modal editing to emacs. My evil configuration
 is fairly straightforward. First I unbint =C-u= so evil can make use of it. Then I
@@ -125,6 +125,8 @@ other side and I have it so that typing =:e<space>= triggers ido.
   (setq evil-vsplit-window-right t)
   (define-key evil-ex-map "e " 'ido-find-file))
 #+end_src
+
+*** Evil Leader
 
 [[https://github.com/cofi/evil-leader][Evil leader]] ports the functionality of leader bindings to emacs. I use space as my
 leader since it's just so easy to hit. I also make sure to enable leader key everywhere
@@ -146,6 +148,8 @@ and I configure some pretty common bindings.
    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 #+end_src
 
+*** Evil Surround
+
 [[https://github.com/timcharper/evil-surround][Evil surround]] is a copy of [[https://github.com/tpope/vim-surround][tpope's vim-surround]]. It provides text objects for common
 delimiter operations. Such as wrapping a text object in quotes or brackets.
 
@@ -154,6 +158,8 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
   :config
   (global-evil-surround-mode 1))
 #+end_src
+
+*** Evil Magit & Evil Org
 
 [[https://github.com/justbur/evil-magit][Evil magit]] and [[https://github.com/edwtjo/evil-org-mode][evil org mode]] provide some nice vimish bindings in both magit and org mode.
 (More on magit down [[Magit][below]])
@@ -166,6 +172,7 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
 (use-package evil-org)
 #+end_src
 
+** Packages
 *** Ido
 
 [[ido][file:http://i.imgur.com/VBHYTj8.jpg]]

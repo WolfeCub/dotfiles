@@ -165,10 +165,8 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
 (More on magit down [[Magit][below]])
 
 #+begin_src emacs-lisp :tangle yes 
-;; Vim bindings for magit
 (use-package evil-magit)
 
-;; Vim bindings for org mode
 (use-package evil-org)
 #+end_src
 
@@ -286,7 +284,7 @@ the eye. It also has built in compatability with a large range of additional pac
   :ensure spaceline
   :pin melpa-stable
   :config
-  (spaceline-emacs-theme))
+  (spaceline-spacemacs-theme))
 #+end_src
 
 *** Neotree

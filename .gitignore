@@ -1,3 +1,5 @@
+.emacs.d/lisp/the-lab.el
+.emacs.d/custom.el
 .emacs.d/README.el
 .emacs.d/auto-save-list/
 .emacs.d/elpa/

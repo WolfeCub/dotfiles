@@ -39,7 +39,9 @@ buffer is blank by default. I also set =yes-or-no-p= so that I only have to pres
 stead of typing =yes<RET>= when prompted. Use spaces instead of tabs. If I try and 
 input text with a visual selection it replaces the visual selection. Personally I'm
 partial to Inconsolata (I like Fira as well) here I check if the font group is
-installed before setting the font to stop any errors.
+installed before setting the font to stop any errors. I also hate it when my init
+file gets littered with crap like =custom-set-variables=. So I set a custom file for
+all of this crap to go.
 
 #+begin_src emacs-lisp :tangle yes 
 (setq inhibit-splash-screen t
@@ -56,6 +58,8 @@ installed before setting the font to stop any errors.
 (when (member "Inconsolata" (font-family-list))
   (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
   (set-face-attribute 'default t :font "Inconsolata-13"))
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file 'noerror)
 #+end_src
 
 Currently I'm using [[https://github.com/hlissner/emacs-doom-theme][doom themes]] (I usually swap between doom-one and doom-molokai
@@ -387,3 +391,11 @@ with a flat structure rather rather than folder trees.
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 #+end_src
 
+** Tesing / The Lab
+
+Here is stuff that is either under testing or not meant for the public eye.
+
+#+begin_src emacs-lisp :tangle yes 
+(if (eq t (file-exists-p "~/.emacs.d/lisp/the-lab.el"))
+    (load-file "~/.emacs.d/lisp/the-lab.el"))
+#+end_src 

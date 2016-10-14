@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title></title>
-<!-- 2016-10-12 Wed 22:33 -->
+<!-- 2016-10-14 Fri 13:39 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Org-mode">
@@ -452,18 +452,20 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
 </div><div id="outline-container-sec-1-5-1" class="outline-4">
 <h4 id="sec-1-5-1">Ido</h4>
 <div class="outline-text-4" id="text-1-5-1">
-
-<figure>
-<p><i><img src="http://i.imgur.com/VBHYTj8.jpg" class="img-responsive" alt="VBHYTj8.jpg"></i>
+<p>
+<i><img src="http://i.imgur.com/VBHYTj8.jpg" class="img-responsive" alt="VBHYTj8.jpg"></i>
+(above is normal ido | below is with vertical mode)
+<i><img src="http://imgur.com/NZubpFB.jpg" class="img-responsive" alt="NZubpFB.jpg"></i>
 </p>
-</figure>
 
 <p>
 <a href="https://www.gnu.org/software/emacs/manual/ido.html">ido</a> is my go-to minibuffer completion. It makes it super easy to navigate around the
 minibuffer. I bind tab to cycle through the matches and I have fuzzy matching on as
 well. I use <a href="https://github.com/DarwinAwardWinner/ido-ubiquitous">ido-ubiquitous</a> so that I can use ido everywhere possible. Finally I have
 <a href="https://github.com/doitian/ido-complete-space-or-hyphen">ido-complete-space-or-hyphen</a> which intelligently inserts a space or hyphen based on
-completion candidates.
+completion candidates. <a href="https://github.com/creichert/ido-vertical-mode.el">ido-vertical-mode</a> doesn't affect the functionality in any way
+it just displays the completion candidates in a vertical list. I simply prefer the
+aesthetic.
 </p>
 
 <div class="org-src-container">
@@ -484,6 +486,10 @@ completion candidates.
   (ido-ubiquitous-mode 1))
 
 (use-package ido-complete-space-or-hyphen)
+
+(use-package ido-vertical-mode
+  :config
+  (ido-vertical-mode 1))
 </pre>
 </div>
 </div>
@@ -845,7 +851,7 @@ Here is stuff that is either under testing or not meant for the public eye.
 </div></div></div>
 <footer id="postamble" class="">
 <div><p class="author">Author: Josh Wolfe</p>
-<p class="date">Created: 2016-10-12 Wed 22:33</p>
+<p class="date">Created: 2016-10-14 Fri 13:39</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org-mode</a> 8.2.10)</p>
 </div>
 </footer>

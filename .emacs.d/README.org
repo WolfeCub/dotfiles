@@ -76,7 +76,6 @@ accompanying neotree theme enabled lower down in [[Neotree]].
 
 ** Org Settings
 
-
 I'm still getting into org mode so my settings are very basic. I enable entities so
 I can type =\= followed by something like =alpha= and get the UTF-8 char \alpha. I also
 set src font natively so that I can have syntax highlighting in source blocks. I
@@ -179,11 +178,15 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
 
 [[ido][file:http://i.imgur.com/VBHYTj8.jpg]]
 
+[[vertical][file:http://imgur.com/oJzPPQA.jpg]] (using vertical mode)
+
 [[https://www.gnu.org/software/emacs/manual/ido.html][ido]] is my go-to minibuffer completion. It makes it super easy to navigate around the
 minibuffer. I bind tab to cycle through the matches and I have fuzzy matching on as
 well. I use [[https://github.com/DarwinAwardWinner/ido-ubiquitous][ido-ubiquitous]] so that I can use ido everywhere possible. Finally I have
 [[https://github.com/doitian/ido-complete-space-or-hyphen][ido-complete-space-or-hyphen]] which intelligently inserts a space or hyphen based on
-completion candidates.
+completion candidates. [[https://github.com/creichert/ido-vertical-mode.el][ido-vertical-mode]] doesn't affect the functionality in any way
+it just displays the completion candidates in a vertical list. I simply prefer the
+aesthetic.
 
 #+begin_src emacs-lisp :tangle yes 
 (use-package ido
@@ -202,6 +205,10 @@ completion candidates.
   (ido-ubiquitous-mode 1))
 
 (use-package ido-complete-space-or-hyphen)
+
+(use-package ido-vertical-mode
+  :config
+  (ido-vertical-mode 1))
 #+end_src
 
 *** Smex

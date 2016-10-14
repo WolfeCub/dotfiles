@@ -10,12 +10,12 @@ Here I set up basic package control. I add melpa, melpa-stable and org to my sou
 and then initialize the package.
 
 #+begin_src emacs-lisp :tangle yes
-(require 'package)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-(setq package-enable-at-startup nil)
-(package-initialize)
+  (require 'package)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+  (setq package-enable-at-startup nil)
+  (package-initialize)
 #+end_src
 
 I use [[https://github.com/jwiegley/use-package][use-package]] for my package management. It makes it very simple to automatically 
@@ -23,11 +23,11 @@ install packages on a new system. It also allows packages to fail while still lo
 the remainder of your config file.
 
 #+begin_src emacs-lisp :tangle yes
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
 #+end_src
 
 ** Essential Settings
@@ -44,22 +44,22 @@ file gets littered with crap like =custom-set-variables=. So I set a custom file
 all of this crap to go.
 
 #+begin_src emacs-lisp :tangle yes 
-(setq inhibit-splash-screen t
-      inhibit-startup-message t
-      inhibit-startup-echo-area-message "wolfe")
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(show-paren-mode t)
-(setq initial-scratch-message "")
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq-default indent-tabs-mode nil)
-(delete-selection-mode 1)
-(when (member "Inconsolata" (font-family-list))
-  (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
-  (set-face-attribute 'default t :font "Inconsolata-13"))
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file 'noerror)
+  (setq inhibit-splash-screen t
+        inhibit-startup-message t
+        inhibit-startup-echo-area-message "wolfe")
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1)
+  (show-paren-mode t)
+  (setq initial-scratch-message "")
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq-default indent-tabs-mode nil)
+  (delete-selection-mode 1)
+  (when (member "Inconsolata" (font-family-list))
+    (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
+    (set-face-attribute 'default t :font "Inconsolata-13"))
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load custom-file 'noerror)
 #+end_src
 
 Currently I'm using [[https://github.com/hlissner/emacs-doom-theme][doom themes]] (I usually swap between doom-one and doom-molokai
@@ -68,10 +68,10 @@ If you're planning to swap this theme out for your own make sure to remove the
 accompanying neotree theme enabled lower down in [[Neotree]].
 
 #+begin_src emacs-lisp :tangle yes
-;; Theme
-(use-package doom-themes
-  :config
-  (load-theme 'doom-one t))
+  ;; Theme
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-one t))
 #+end_src
 
 ** Org Settings
@@ -83,16 +83,16 @@ also do some fontify stuff to make my theme look better (as suggested on the doo
 theme's github).
 
 #+begin_src emacs-lisp :tangle yes 
-(setq org-pretty-entities t
-      org-src-fontify-natively t
-      org-fontify-whole-heading-line t
-      org-fontify-done-headline t
-      org-fontify-quote-and-verse-blocks t)
+  (setq org-pretty-entities t
+        org-src-fontify-natively t
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t)
 #+end_src
 
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package ox-twbs)
+  (use-package ox-twbs)
 #+end_src
 
 *** Org Bullets
@@ -117,16 +117,16 @@ replace =j= and =k= with their visual line mode equivilants. I have splits open 
 other side and I have it so that typing =:e<space>= triggers ido.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package evil
-  :init
-  (setq evil-want-C-u-scroll t)
-  :config
-  (evil-mode t)
-  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-  (setq evil-split-window-below t)
-  (setq evil-vsplit-window-right t)
-  (define-key evil-ex-map "e " 'ido-find-file))
+  (use-package evil
+    :init
+    (setq evil-want-C-u-scroll t)
+    :config
+    (evil-mode t)
+    (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+    (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+    (setq evil-split-window-below t)
+    (setq evil-vsplit-window-right t)
+    (define-key evil-ex-map "e " 'ido-find-file))
 #+end_src
 
 *** Evil Leader
@@ -136,19 +136,19 @@ leader since it's just so easy to hit. I also make sure to enable leader key eve
 and I configure some pretty common bindings.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package evil-leader
-  :config
-  (evil-leader/set-leader "<SPC>")
-  (setq evil-leader/in-all-states 1)
-  (global-evil-leader-mode)
-  (evil-leader/set-key
-   "w"  'save-buffer
-   "S" 'eval-buffer 
-   "s" 'eval-defun
-   "b" 'mode-line-other-buffer
-   "db" 'kill-buffer
-   "m" 'ido-switch-buffer
-   "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
+  (use-package evil-leader
+    :config
+    (evil-leader/set-leader "<SPC>")
+    (setq evil-leader/in-all-states 1)
+    (global-evil-leader-mode)
+    (evil-leader/set-key
+     "w" 'save-buffer
+     "S" 'eval-buffer 
+     "s" 'eval-defun
+     "b" 'mode-line-other-buffer
+     "k" 'kill-buffer
+     "m" 'ido-switch-buffer
+     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 #+end_src
 
 *** Evil Surround
@@ -189,26 +189,26 @@ it just displays the completion candidates in a vertical list. I simply prefer t
 aesthetic.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package ido
-    :init
-    (defun my-ido-keys ()
-        "Add keybindings for ido"
-        (define-key ido-completion-map [tab] 'ido-next-match))
-    (add-hook 'ido-setup-hook #'my-ido-keys)
+  (use-package ido
+      :init
+      (defun my-ido-keys ()
+          "Add keybindings for ido"
+          (define-key ido-completion-map [tab] 'ido-next-match))
+      (add-hook 'ido-setup-hook #'my-ido-keys)
+      :config
+      (setq ido-enable-flex-matching t)
+      (setq ido-everywhere t)
+      (ido-mode 1))
+
+  (use-package ido-ubiquitous
     :config
-    (setq ido-enable-flex-matching t)
-    (setq ido-everywhere t)
-    (ido-mode 1))
+    (ido-ubiquitous-mode 1))
 
-(use-package ido-ubiquitous
-  :config
-  (ido-ubiquitous-mode 1))
+  (use-package ido-complete-space-or-hyphen)
 
-(use-package ido-complete-space-or-hyphen)
-
-(use-package ido-vertical-mode
-  :config
-  (ido-vertical-mode 1))
+  (use-package ido-vertical-mode
+    :config
+    (ido-vertical-mode 1))
 #+end_src
 
 *** Smex
@@ -220,21 +220,21 @@ aesthetic.
 completion.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package smex
-  :config
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+  (use-package smex
+    :config
+    (global-set-key (kbd "M-x") 'smex)
+    (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+    (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 #+end_src
 
 *** nLinum Relative
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package nlinum-relative
-  :config
-  (setq nlinum-relative-redisplay-delay 0)
-  (nlinum-relative-setup-evil)
-  (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+  (use-package nlinum-relative
+    :config
+    (setq nlinum-relative-redisplay-delay 0)
+    (nlinum-relative-setup-evil)
+    (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 #+end_src
 
 *** Expand Region
@@ -249,9 +249,9 @@ quotes and the quotes themselves and so on. Pressing =-= at will do the opposite
 shrink the select region.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package expand-region
-  :config
-  (global-set-key (kbd "C-=") 'er/expand-region))
+  (use-package expand-region
+    :config
+    (global-set-key (kbd "C-=") 'er/expand-region))
 #+end_src
 
 *** Magit
@@ -263,9 +263,9 @@ you could do from the git command line from within emacs. It has mneumonic keybi
 displays all the information very nicely. 
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package magit
-  :config
-  (global-set-key "\C-x\g" 'magit-status))
+  (use-package magit
+    :config
+    (global-set-key "\C-x\g" 'magit-status))
 #+end_src
 
 *** Ace Jump Mode
@@ -278,9 +278,9 @@ with a red letter. You can then press one of the letters  to jump to the corresp
 character.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package ace-jump-mode
-  :config
-  (define-key global-map (kbd "C-c C-SPC") 'ace-jump-mode))
+  (use-package ace-jump-mode
+    :config
+    (define-key global-map (kbd "C-c C-SPC") 'ace-jump-mode))
 #+end_src
 
 *** Spaceline
@@ -291,11 +291,11 @@ character.
 the eye. It also has built in compatability with a large range of additional packages.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package spaceline-config
-  :ensure spaceline
-  :pin melpa-stable
-  :config
-  (spaceline-spacemacs-theme))
+  (use-package spaceline-config
+    :ensure spaceline
+    :pin melpa-stable
+    :config
+    (spaceline-spacemacs-theme))
 #+end_src
 
 *** Neotree
@@ -307,15 +307,15 @@ editors and IDEs (such as Sublime, Atom, Eclipse or nerdTREE if you use vim). It
 you to neatly view your file structure at the side of your screen.    
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package neotree
-  :config
-  (global-set-key [f8] 'neotree-toggle)
-  (add-hook 'neotree-mode-hook
-      (lambda ()
-        (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-        (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-        (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-        (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
+  (use-package neotree
+    :config
+    (global-set-key [f8] 'neotree-toggle)
+    (add-hook 'neotree-mode-hook
+        (lambda ()
+          (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+          (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+          (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+          (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
 #+end_src
 
 This comes with my colorscheme so I set =ensure= to =nil= so it doesn't go looking on
@@ -323,10 +323,10 @@ melpa. The file icons all come from the [[https://github.com/domtronn/all-the-ic
 the icons itself.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package doom-neotree
-  :ensure nil
-  :config
-  (setq doom-neotree-enable-file-icons t))
+  (use-package doom-neotree
+    :ensure nil
+    :config
+    (setq doom-neotree-enable-file-icons t))
 #+end_src
 
 ** Company Mode
@@ -346,23 +346,23 @@ The custom faces inherit the colors from your loaded theme and match the company
 down. This allows me to change themes without worrying that company will look terrible.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package company
-  :init
-  (global-company-mode)
-  :config
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1)
-  (setq company-selection-wrap-around t)
-  (define-key company-active-map [tab] 'company-select-next)
+  (use-package company
+    :init
+    (global-company-mode)
+    :config
+    (setq company-idle-delay 0)
+    (setq company-minimum-prefix-length 1)
+    (setq company-selection-wrap-around t)
+    (define-key company-active-map [tab] 'company-select-next)
 
-  (require 'color)
-  (let ((bg (face-attribute 'default :background)))
-    (custom-set-faces
-     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-     `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
+    (require 'color)
+    (let ((bg (face-attribute 'default :background)))
+      (custom-set-faces
+       `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+       `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+       `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+       `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+       `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
 #+end_src
 
 *** Company Quickhelp
@@ -374,9 +374,9 @@ of the currently highlighted completion (after a brief delay). This is quite han
 makes it easy to check the arguments or return type of the function.
 
 #+begin_src emacs-lisp :tangle yes
-(use-package company-quickhelp
-  :config
-  (company-quickhelp-mode 1))
+  (use-package company-quickhelp
+    :config
+    (company-quickhelp-mode 1))
 #+end_src
 
 ** Backup Options
@@ -389,13 +389,13 @@ location to =~/.bak.emacs/auto/= and set it so that the files are are all saved 
 with a flat structure rather rather than folder trees.
 
 #+begin_src emacs-lisp :tangle yes 
-(setq backup-by-copying t)
-(setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
-(if (eq nil (file-exists-p "~/.bak.emacs/"))
-    (make-directory "~/.bak.emacs/"))
-(if (eq nil (file-exists-p "~/.bak.emacs/auto"))
-    (make-directory "~/.bak.emacs/auto"))
-(setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
+  (setq backup-by-copying t)
+  (setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
+  (if (eq nil (file-exists-p "~/.bak.emacs/"))
+      (make-directory "~/.bak.emacs/"))
+  (if (eq nil (file-exists-p "~/.bak.emacs/auto"))
+      (make-directory "~/.bak.emacs/auto"))
+  (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 #+end_src
 
 ** Tesing / The Lab
@@ -403,6 +403,6 @@ with a flat structure rather rather than folder trees.
 Here is stuff that is either under testing or not meant for the public eye.
 
 #+begin_src emacs-lisp :tangle yes 
-(if (eq t (file-exists-p "~/.emacs.d/lisp/the-lab.el"))
-    (load-file "~/.emacs.d/lisp/the-lab.el"))
+  (if (eq t (file-exists-p "~/.emacs.d/lisp/the-lab.el"))
+      (load-file "~/.emacs.d/lisp/the-lab.el"))
 #+end_src 

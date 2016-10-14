@@ -178,7 +178,7 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
 
 [[ido][file:http://i.imgur.com/VBHYTj8.jpg]]
 
-[[vertical][file:http://imgur.com/oJzPPQA.jpg]] (using vertical mode)
+[[vertical][file:http://imgur.com/NZubpFB.jpg]] (using vertical mode)
 
 [[https://www.gnu.org/software/emacs/manual/ido.html][ido]] is my go-to minibuffer completion. It makes it super easy to navigate around the
 minibuffer. I bind tab to cycle through the matches and I have fuzzy matching on as

@@ -62,6 +62,8 @@ all of this crap to go.
   (load custom-file 'noerror)
 #+end_src
 
+*** Doom Theme
+
 Currently I'm using [[https://github.com/hlissner/emacs-doom-theme][doom themes]] (I usually swap between doom-one and doom-molokai
 depending on how I'm feeling that day). I'm also a fan of [[https://github.com/owainlewis/emacs-color-themes][sublime themes]]'s Spolsky.
 If you're planning to swap this theme out for your own make sure to remove the 
@@ -283,21 +285,6 @@ character.
     (define-key global-map (kbd "C-c C-SPC") 'ace-jump-mode))
 #+end_src
 
-*** Spaceline
-
-[[spaceline][file:http://i.imgur.com/uMooKJj.jpg]]
-
-[[https://github.com/TheBB/spaceline][Spaceline]] is a modeline replacement that makes the modeline slightly more appealing to 
-the eye. It also has built in compatability with a large range of additional packages.
-
-#+begin_src emacs-lisp :tangle yes 
-  (use-package spaceline-config
-    :ensure spaceline
-    :pin melpa-stable
-    :config
-    (spaceline-spacemacs-theme))
-#+end_src
-
 *** Neotree
 
 [[neotree][file:http://i.imgur.com/Tcw6QpF.jpg]]
@@ -327,6 +314,20 @@ the icons itself.
     :ensure nil
     :config
     (setq doom-neotree-enable-file-icons t))
+#+end_src
+
+** Powerline
+
+[[powerline][file:http://imgur.com/75um5pK.jpg]]
+
+I use a custom [[https://github.com/milkypostman/powerline][powerline]] theme that makes use of [[https://github.com/raugturi/powerline-evil][powerline-evil]]. You can find that [[https://github.com/WolfeCub/dotfiles/blob/master/.emacs.d/lisp/init-powerline-doom-one.el][here]]. 
+It's fairly basic and uses colors from the [[Doom Theme][doom theme]] that I use. If you want to change 
+the theme you would need to edit the faces to match your theme. If you aren't interested
+in editing or making a custom theme I would recommend 
+
+#+begin_src emacs-lisp :tangle yes 
+  (load-file "~/.emacs.d/lisp/init-powerline-doom-one.el")
+  (require 'init-powerline-doom-one)
 #+end_src
 
 ** Company Mode
@@ -406,3 +407,4 @@ Here is stuff that is either under testing or not meant for the public eye.
   (if (eq t (file-exists-p "~/.emacs.d/lisp/the-lab.el"))
       (load-file "~/.emacs.d/lisp/the-lab.el"))
 #+end_src 
+

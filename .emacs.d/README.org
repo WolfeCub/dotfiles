@@ -197,6 +197,8 @@ aesthetic.
           "Add keybindings for ido"
           (define-key ido-completion-map [tab] 'ido-next-match))
       (add-hook 'ido-setup-hook #'my-ido-keys)
+      (custom-set-faces
+       '(ido-subdir ((t (:foreground "#51AFEF")))))
       :config
       (setq ido-enable-flex-matching t)
       (setq ido-everywhere t)

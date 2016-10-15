@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title></title>
-<!-- 2016-10-14 Fri 13:39 -->
+<!-- 2016-10-14 Fri 22:10 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Org-mode">
@@ -280,12 +280,16 @@ all of this crap to go.
 (load custom-file 'noerror)
 </pre>
 </div>
+</div>
 
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Doom Theme</h4>
+<div class="outline-text-4" id="text-1-2-1">
 <p>
 Currently I'm using <a href="https://github.com/hlissner/emacs-doom-theme">doom themes</a> (I usually swap between doom-one and doom-molokai
 depending on how I'm feeling that day). I'm also a fan of <a href="https://github.com/owainlewis/emacs-color-themes">sublime themes</a>'s Spolsky.
 If you're planning to swap this theme out for your own make sure to remove the 
-accompanying neotree theme enabled lower down in <a href="#sec-1-5-8">Neotree</a>.
+accompanying neotree theme enabled lower down in <a href="#sec-1-5-7">Neotree</a>.
 </p>
 
 <div class="org-src-container">
@@ -295,6 +299,7 @@ accompanying neotree theme enabled lower down in <a href="#sec-1-5-8">Neotree</a
   :config
   (load-theme 'doom-one t))
 </pre>
+</div>
 </div>
 </div>
 </div>
@@ -397,11 +402,11 @@ and I configure some pretty common bindings.
   (setq evil-leader/in-all-states 1)
   (global-evil-leader-mode)
   (evil-leader/set-key
-   "w"  'save-buffer
+   "w" 'save-buffer
    "S" 'eval-buffer 
    "s" 'eval-defun
    "b" 'mode-line-other-buffer
-   "db" 'kill-buffer
+   "k" 'kill-buffer
    "m" 'ido-switch-buffer
    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 </pre>
@@ -615,34 +620,8 @@ character.
 </div>
 
 <div id="outline-container-sec-1-5-7" class="outline-4">
-<h4 id="sec-1-5-7">Spaceline</h4>
+<h4 id="sec-1-5-7">Neotree</h4>
 <div class="outline-text-4" id="text-1-5-7">
-
-<figure>
-<p><i><img src="http://i.imgur.com/uMooKJj.jpg" class="img-responsive" alt="uMooKJj.jpg"></i>
-</p>
-</figure>
-
-<p>
-<a href="https://github.com/TheBB/spaceline">Spaceline</a> is a modeline replacement that makes the modeline slightly more appealing to 
-the eye. It also has built in compatability with a large range of additional packages.
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(use-package spaceline-config
-  :ensure spaceline
-  :pin melpa-stable
-  :config
-  (spaceline-spacemacs-theme))
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-1-5-8" class="outline-4">
-<h4 id="sec-1-5-8">Neotree</h4>
-<div class="outline-text-4" id="text-1-5-8">
 
 <figure>
 <p><i><img src="http://i.imgur.com/Tcw6QpF.jpg" class="img-responsive" alt="Tcw6QpF.jpg"></i>
@@ -688,8 +667,33 @@ the icons itself.
 </div>
 
 <div id="outline-container-sec-1-6" class="outline-3">
-<h3 id="sec-1-6">Company Mode</h3>
+<h3 id="sec-1-6">Powerline</h3>
 <div class="outline-text-3" id="text-1-6">
+
+<figure>
+<p><i><img src="http://imgur.com/75um5pK.jpg" class="img-responsive" alt="75um5pK.jpg"></i>
+</p>
+</figure>
+
+<p>
+I use a custom <a href="https://github.com/milkypostman/powerline">powerline</a> theme that makes use of <a href="https://github.com/raugturi/powerline-evil">powerline-evil</a>. You can find that <a href="https://github.com/WolfeCub/dotfiles/blob/master/.emacs.d/lisp/init-powerline-doom-one.el">here</a>. 
+It's fairly basic and uses colors from the <a href="#sec-1-2-1">doom theme</a> that I use. If you want to change 
+the theme you would need to edit the faces to match your theme. If you aren't interested
+in editing or making a custom theme I would recommend 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(load-file "~/.emacs.d/lisp/init-powerline-doom-one.el")
+(require 'init-powerline-doom-one)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Company Mode</h3>
+<div class="outline-text-3" id="text-1-7">
 
 <figure>
 <p><i><img src="http://i.imgur.com/VHZzzXI.jpg" class="img-responsive" alt="VHZzzXI.jpg"></i>
@@ -737,9 +741,9 @@ down. This allows me to change themes without worrying that company will look te
 </div>
 </div>
 
-<div id="outline-container-sec-1-6-1" class="outline-4">
-<h4 id="sec-1-6-1">Company Quickhelp</h4>
-<div class="outline-text-4" id="text-1-6-1">
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1">Company Quickhelp</h4>
+<div class="outline-text-4" id="text-1-7-1">
 
 <figure>
 <p><i><img src="http://i.imgur.com/7mvXbqe.jpg" class="img-responsive" alt="7mvXbqe.jpg"></i>
@@ -763,9 +767,9 @@ makes it easy to check the arguments or return type of the function.
 </div>
 </div>
 
-<div id="outline-container-sec-1-7" class="outline-3">
-<h3 id="sec-1-7">Backup Options</h3>
-<div class="outline-text-3" id="text-1-7">
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Backup Options</h3>
+<div class="outline-text-3" id="text-1-8">
 <p>
 The default options for filebackups and autosave are terrible and leave files scattered
 all across your file system. First I make all backups copy the files which stops any
@@ -789,9 +793,9 @@ with a flat structure rather rather than folder trees.
 </div>
 </div>
 
-<div id="outline-container-sec-1-8" class="outline-3">
-<h3 id="sec-1-8">Tesing / The Lab</h3>
-<div class="outline-text-3" id="text-1-8">
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Tesing / The Lab</h3>
+<div class="outline-text-3" id="text-1-9">
 <p>
 Here is stuff that is either under testing or not meant for the public eye.
 </p>
@@ -811,7 +815,11 @@ Here is stuff that is either under testing or not meant for the public eye.
 <li><a href="#sec-1">Emacs Config</a>
 <ul class="nav">
 <li><a href="#sec-1-1">Package management</a></li>
-<li><a href="#sec-1-2">Essential Settings</a></li>
+<li><a href="#sec-1-2">Essential Settings</a>
+<ul class="nav">
+<li><a href="#sec-1-2-1">Doom Theme</a></li>
+</ul>
+</li>
 <li><a href="#sec-1-3">Org Settings</a>
 <ul class="nav">
 <li><a href="#sec-1-3-1">Org Bullets</a></li>
@@ -832,17 +840,17 @@ Here is stuff that is either under testing or not meant for the public eye.
 <li><a href="#sec-1-5-4">Expand Region</a></li>
 <li><a href="#sec-1-5-5">Magit</a></li>
 <li><a href="#sec-1-5-6">Ace Jump Mode</a></li>
-<li><a href="#sec-1-5-7">Spaceline</a></li>
-<li><a href="#sec-1-5-8">Neotree</a></li>
+<li><a href="#sec-1-5-7">Neotree</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-6">Company Mode</a>
+<li><a href="#sec-1-6">Powerline</a></li>
+<li><a href="#sec-1-7">Company Mode</a>
 <ul class="nav">
-<li><a href="#sec-1-6-1">Company Quickhelp</a></li>
+<li><a href="#sec-1-7-1">Company Quickhelp</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-7">Backup Options</a></li>
-<li><a href="#sec-1-8">Tesing / The Lab</a></li>
+<li><a href="#sec-1-8">Backup Options</a></li>
+<li><a href="#sec-1-9">Tesing / The Lab</a></li>
 </ul>
 </li>
 </ul>
@@ -851,7 +859,7 @@ Here is stuff that is either under testing or not meant for the public eye.
 </div></div></div>
 <footer id="postamble" class="">
 <div><p class="author">Author: Josh Wolfe</p>
-<p class="date">Created: 2016-10-14 Fri 13:39</p>
+<p class="date">Created: 2016-10-14 Fri 22:10</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org-mode</a> 8.2.10)</p>
 </div>
 </footer>

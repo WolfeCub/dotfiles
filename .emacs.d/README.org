@@ -90,6 +90,14 @@ theme's github).
         org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t)
+
+  (defun open-todo ()
+    (interactive)
+    (when (eq system-type 'gnu/linux)
+      (evil-buffer-new nil "~/Dropbox/org/TODO.org"))
+    (when (eq system-type 'windows-nt)
+      (evil-buffer-new nil "C:\\Users\\Josh\\Dropbox\\org\\TODO.org")))
+      
 #+end_src
 
 
@@ -150,6 +158,7 @@ and I configure some pretty common bindings.
      "b" 'mode-line-other-buffer
      "k" 'kill-buffer
      "m" 'ido-switch-buffer
+     "t" 'open-todo
      "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 #+end_src
 

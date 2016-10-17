@@ -173,15 +173,13 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
   (global-evil-surround-mode 1))
 #+end_src
 
-*** Evil Magit & Evil Org
+*** Evil Magit
 
-[[https://github.com/justbur/evil-magit][Evil magit]] and [[https://github.com/edwtjo/evil-org-mode][evil org mode]] provide some nice vimish bindings in both magit and org mode.
+[[https://github.com/justbur/evil-magit][Evil magit]] and provides some nice vimish bindings in magit.
 (More on magit down [[Magit][below]])
 
 #+begin_src emacs-lisp :tangle yes 
 (use-package evil-magit)
-
-(use-package evil-org)
 #+end_src
 
 ** Packages

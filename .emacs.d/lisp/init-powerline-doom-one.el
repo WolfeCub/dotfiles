@@ -81,7 +81,8 @@
  '(powerline-evil-insert-face ((t (:inherit powerline-evil-base-face :background "#CDB464"))))
  '(powerline-evil-normal-face ((t (:inherit powerline-evil-base-face :background "#404850"))))
  '(powerline-evil-replace-face ((t (:inherit powerline-evil-base-face :background "#da8548"))))
- '(powerline-evil-visual-face ((t (:inherit powerline-evil-base-face :background "#C678DD")))))
+ '(powerline-evil-visual-face ((t (:inherit powerline-evil-base-face :background "#C678DD"))))
+ '(powerline-evil-operator-face ((t (:inherit powerline-evil-operator-face :background "#5699AF")))))
 
 (use-package powerline
   :ensure t

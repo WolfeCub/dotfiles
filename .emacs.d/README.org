@@ -81,25 +81,41 @@ accompanying neotree theme enabled lower down in [[Neotree]].
 I'm still getting into org mode so my settings are very basic. I enable entities so
 I can type =\= followed by something like =alpha= and get the UTF-8 char \alpha. I also
 set src font natively so that I can have syntax highlighting in source blocks. I
-also do some fontify stuff to make my theme look better (as suggested on the doom
-theme's github).
+also do some fontify stuff to make my theme look better.
 
 #+begin_src emacs-lisp :tangle yes 
   (setq org-pretty-entities t
         org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-src-window-setup 'current-window
         org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t)
 
-  (defun wolfe/open-todo ()
+  (defun wolfe/org-open (name)
     (interactive)
     (when (eq system-type 'gnu/linux)
-      (evil-buffer-new nil "~/Dropbox/org/TODO.org"))
+      (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
     (when (eq system-type 'windows-nt)
-      (evil-buffer-new nil "C:\\Users\\Josh\\Dropbox\\org\\TODO.org")))
+      (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\" name ".org"))))
       
+  (defun wolfe/org-dropbox-path ()
+    (interactive)
+    (cond
+     ((eq system-type 'gnu/linux)
+      "~/Dropbox/org/")
+     ((eq system-type 'windows-nt)
+      "C:\\Users\\Josh\\Dropbox\\org\\")
+     (else "")))
 #+end_src
 
+#+begin_src emacs-lisp :tangle yes 
+  (setq org-capture-templates
+        '(("t" "Todo"
+           entry
+           (file (wolfe/org-dropbox-path)
+           "* TODO %?\n"))))
+#+end_src
 
 #+begin_src emacs-lisp :tangle yes 
   (use-package ox-twbs)
@@ -168,7 +184,7 @@ I use [[https://github.com/noctuid/general.el][general]] instead of [[https://gi
      "b" 'mode-line-other-buffer
      "k" 'kill-buffer
      "m" 'ido-switch-buffer
-     "t" 'wolfe/open-todo
+     "os" (lambda() (interactive) (wolfe/org-open "school"))
      "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 #+end_src
 

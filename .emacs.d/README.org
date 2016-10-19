@@ -91,7 +91,7 @@ theme's github).
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t)
 
-  (defun open-todo ()
+  (defun wolfe/open-todo ()
     (interactive)
     (when (eq system-type 'gnu/linux)
       (evil-buffer-new nil "~/Dropbox/org/TODO.org"))
@@ -143,10 +143,11 @@ I use [[https://github.com/noctuid/general.el][general]] instead of [[https://gi
     (setq evil-vsplit-window-right t)
     (define-key evil-ex-map "e " 'ido-find-file)
 
-    (global-unset-key "\M-SPC")
+    (global-unset-key (kbd "M-SPC"))
 
-    (general-create-definer bind-leader
-                            :states '(normal emacs)
+    (general-create-definer wolfe/bind-leader
+                            :keymaps 'global
+                            :states '(normal insert emacs)
                             :prefix "SPC"
                             :non-normal-prefix "M-SPC")
 
@@ -162,7 +163,7 @@ I use [[https://github.com/noctuid/general.el][general]] instead of [[https://gi
              "C-k"  'evil-window-up
              "C-l"  'evil-window-right)
 
-    (bind-leader
+    (wolfe/bind-leader
      "w" 'save-buffer
      "S" 'eval-buffer 
      "s" 'eval-defun

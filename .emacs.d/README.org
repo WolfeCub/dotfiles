@@ -128,11 +128,9 @@ other side and I have it so that typing =:e<space>= triggers ido.
 
 I use [[https://github.com/noctuid/general.el][general]] instead of [[https://github.com/cofi/evil-leader][evil leader]] for my leader key.
 
-#+begin_src emacs-lisp :tangle yes
-(use-package general)
-#+end_src
-
 #+begin_src emacs-lisp :tangle yes 
+  (use-package general)
+
   (use-package evil
     :demand
     :init

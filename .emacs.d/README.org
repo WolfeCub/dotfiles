@@ -168,7 +168,7 @@ I use [[https://github.com/noctuid/general.el][general]] instead of [[https://gi
      "b" 'mode-line-other-buffer
      "k" 'kill-buffer
      "m" 'ido-switch-buffer
-     "t" 'open-todo
+     "t" 'wolfe/open-todo
      "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 #+end_src
 
@@ -210,10 +210,10 @@ aesthetic.
 #+begin_src emacs-lisp :tangle yes 
   (use-package ido
       :init
-      (defun my-ido-keys ()
+      (defun wolfe/ido-set-keys ()
           "Add keybindings for ido"
           (define-key ido-completion-map [tab] 'ido-next-match))
-      (add-hook 'ido-setup-hook #'my-ido-keys)
+      (add-hook 'ido-setup-hook #'wolfe/ido-set-keys)
       (custom-set-faces
        '(ido-subdir ((t (:foreground "#51AFEF")))))
       :config

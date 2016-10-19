@@ -126,32 +126,43 @@ is fairly straightforward. First I unbint =C-u= so evil can make use of it. Then
 replace =j= and =k= with their visual line mode equivilants. I have splits open on the
 other side and I have it so that typing =:e<space>= triggers ido.
 
+I use [[https://github.com/noctuid/general.el][general]] instead of [[https://github.com/cofi/evil-leader][evil leader]] for my leader key.
+
+#+begin_src emacs-lisp :tangle yes
+(use-package general)
+#+end_src
+
 #+begin_src emacs-lisp :tangle yes 
   (use-package evil
+    :demand
     :init
     (setq evil-want-C-u-scroll t)
     :config
     (evil-mode t)
-    (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-    (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
     (setq evil-split-window-below t)
     (setq evil-vsplit-window-right t)
-    (define-key evil-ex-map "e " 'ido-find-file))
-#+end_src
+    (define-key evil-ex-map "e " 'ido-find-file)
 
-*** Evil Leader
+    (global-unset-key "\M-SPC")
 
-[[https://github.com/cofi/evil-leader][Evil leader]] ports the functionality of leader bindings to emacs. I use space as my
-leader since it's just so easy to hit. I also make sure to enable leader key everywhere
-and I configure some pretty common bindings.
+    (general-create-definer bind-leader
+                            :states '(normal emacs)
+                            :prefix "SPC"
+                            :non-normal-prefix "M-SPC")
 
-#+begin_src emacs-lisp :tangle yes 
-  (use-package evil-leader
-    :config
-    (evil-leader/set-leader "<SPC>")
-    (setq evil-leader/in-all-states 1)
-    (global-evil-leader-mode)
-    (evil-leader/set-key
+    :general
+    (:states 'motion
+             "k" 'evil-previous-visual-line
+             "j" 'evil-next-visual-line)
+
+    (:states 'normal
+             "C-S-h" help-map
+             "C-h"  'evil-window-left
+             "C-j"  'evil-window-down
+             "C-k"  'evil-window-up
+             "C-l"  'evil-window-right)
+
+    (bind-leader
      "w" 'save-buffer
      "S" 'eval-buffer 
      "s" 'eval-defun

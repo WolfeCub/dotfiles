@@ -83,6 +83,14 @@ I can type =\= followed by something like =alpha= and get the UTF-8 char \alpha.
 set src font natively so that I can have syntax highlighting in source blocks. I
 also do some fontify stuff to make my theme look better.
 
+Org open simply opens the file with name =name= from the org folder in my dropbox. It
+works on linux and windows. Dropbox return the correct path depending on my system.
+
+Dropbox start and stop are for computers where I dont have the privileges to install
+programs. This makes use of a heavily modified =.emacs.d/dropbox.py= from the official
+dropbox [[https://www.dropbox.com/install-linux][site]]. The modifications include installing and symlinking =~/Dropbox= to 
+=/virtual= to avoid using up disk quota.
+
 #+begin_src emacs-lisp :tangle yes 
   (setq org-pretty-entities t
         org-src-fontify-natively t

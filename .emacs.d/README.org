@@ -107,6 +107,16 @@ also do some fontify stuff to make my theme look better.
      ((eq system-type 'windows-nt)
       "C:\\Users\\Josh\\Dropbox\\org\\")
      (else "")))
+
+  (defun wolfe/dropbox-start ()
+    (interactive)
+    (if (eq nil (file-exists-p "/virtual/wolfejos/dropbox/.dropbox-dist"))
+        (call-process-shell-command "(python ~/.emacs.d/dropbox.py start -i&)")
+      (call-process-shell-command "(python ~/.emacs.d/dropbox.py start&)")))
+
+  (defun wolfe/dropbox-stop ()
+    (interactive)
+    (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes 

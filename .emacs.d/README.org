@@ -120,14 +120,6 @@ also do some fontify stuff to make my theme look better.
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes 
-  (setq org-capture-templates
-        '(("t" "Todo"
-           entry
-           (file (wolfe/org-dropbox-path)
-           "* TODO %?\n"))))
-#+end_src
-
-#+begin_src emacs-lisp :tangle yes 
   (use-package ox-twbs)
 #+end_src
 
@@ -195,6 +187,7 @@ I use [[https://github.com/noctuid/general.el][general]] instead of [[https://gi
      "k" 'kill-buffer
      "m" 'ido-switch-buffer
      "os" (lambda() (interactive) (wolfe/org-open "school"))
+     "ol" (lambda() (interactive) (wolfe/org-open "life"))
      "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 #+end_src
 

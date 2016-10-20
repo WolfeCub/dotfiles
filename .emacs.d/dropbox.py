@@ -42,7 +42,7 @@ import time
 import traceback
 import urllib2
 
-PARENT_DIR = os.path.expanduser("/virtual/mireckie/dropbox")
+PARENT_DIR = os.path.expanduser("/virtual/wolfejos/dropbox")
 DROPBOXD_PATH = "%s/.dropbox-dist/dropboxd" % PARENT_DIR
 DESKTOP_FILE = u"/usr/share/applications/dropbox.desktop"
 

@@ -295,8 +295,8 @@ def download():
     console_print()
 
     # Don't kill me... *hides* Links the dropbox path to your desired location (hax)
-    os.system("mkdir %s/Dropbox" % PARENT_DIR)
-    os.system("ln -s %s/Dropbox ~/Dropbox" % PARENT_DIR)
+    # os.system("mkdir %s/Dropbox" % PARENT_DIR)
+    # os.system("ln -s %s/Dropbox ~/Dropbox" % PARENT_DIR)
 
 class CommandTicker(threading.Thread):
     def __init__(self):

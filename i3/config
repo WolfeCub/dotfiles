@@ -50,6 +50,8 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec rofi -show run -font "snap 10" -o 85
+bindsym $mod+p exec "~/bin/toggle-layout"
+bindsym $mod+c exec chromium
 
 #bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -161,8 +163,8 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
 bindsym $mod+r mode "resize"
 
-exec_always feh --bg-scale ~/Pictures/inception.jpg
+
+exec_always feh --bg-scale ~/Pictures/japan-tokyo-city-wallpaper-2560x1440.jpg
 exec_always --no-startup-id ~/.config/i3/bar.rb | lemonbar -B "#333333" -f "Roboto Mono Medium:size=11" -f "Font Awesome:size=11" | sh

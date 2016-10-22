@@ -220,7 +220,7 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
 (use-package evil-magit)
 #+end_src
 
-** Packages
+** General Packages
 *** Ido
 
 [[ido][file:http://i.imgur.com/VBHYTj8.jpg]]
@@ -363,6 +363,19 @@ the icons itself.
     (setq doom-neotree-enable-file-icons t))
 #+end_src
 
+*** Smooth Scrolling
+
+[[https://github.com/aspiers/smooth-scrolling][Smooth scrolling]] stops emacs from jumping half of a page when you reach the bottom. It
+also starts scrolling a few lines from the bottom so you don't have to scroll past what
+you want.  
+    
+#+begin_src emacs-lisp :tangle yes 
+  (use-package smooth-scrolling
+    :config
+    (smooth-scrolling-mode 1)
+    (setq smooth-scroll-margin 3))
+#+end_src
+    
 ** Powerline
 
 [[powerline][file:http://imgur.com/75um5pK.jpg]]
@@ -377,13 +390,26 @@ in editing or making a custom theme I would recommend
   (require 'init-powerline-doom-one)
 #+end_src
 
+** Language Specific
+*** Latex
+    
+I like using latx for writing papers and taking notes. I use the built in tex mode for
+syntax highlighting and [[Company Math]] (lower in my config under the company heading).
+
+I like being able to see the changes I make in real time so I can adjust my formatting on
+the fly. [[https://github.com/jsinglet/latex-preview-pane][latex preview pane]] is great for this.
+
+#+begin_src emacs-lisp :tangle yes 
+  (use-package latex-preview-pane)
+#+end_src
+
 ** Company Mode
 
 [[company][file:http://i.imgur.com/VHZzzXI.jpg]]
 
 [[http://company-mode.github.io/][Company]] is an autocompletion framwork that supports user written backends. This means
 that the number of languages company (and supporting packages) encompass is very
-impressive.
+impressive. 
 
 I have set the delay that company waits before completing to 0 and I also have it 
 configured so that company begins completing after you type a single character. I also
@@ -425,6 +451,22 @@ makes it easy to check the arguments or return type of the function.
   (use-package company-quickhelp
     :config
     (company-quickhelp-mode 1))
+#+end_src
+
+*** Company Math
+    
+[[https://github.com/vspinu/company-math][Company math]] provides completion for latex as well as all of the latex and UTF-8 symbols.
+
+#+begin_src emacs-lisp :tangle yes
+    (use-package company-math
+      :config
+      (defun wolfe/latex-setup ()
+        (setq-local company-backends
+                    (append '((company-math-symbols-latex company-latex-commands))
+                            company-backends)))
+
+      (add-hook 'tex-mode-hook 'wolfe/latex-setup))
+
 #+end_src
 
 ** Backup Options

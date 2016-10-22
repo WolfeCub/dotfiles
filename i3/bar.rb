@@ -131,7 +131,7 @@ weather = Barr::Blocks::Temperature.new(bgcolor: '#4A072B',
                                         icon: "\uf0c2",
                                         interval: 1500)
 
-hdd = Barr::Blocks::HDD.new bgcolor: '#444444', device: 'sda5', interval: 300
+hdd = Barr::Blocks::HDD.new bgcolor: '#444444', device: 'sda2', interval: 300
 
 local = Barr::Blocks::IP.new device: 'wlp8s0', bgcolor: '#937739', align: :r, icon: "\uf1ce"
 

@@ -4,8 +4,6 @@
 
 *UPDATE COMING SOON*
 
-Dotfiles for learning emacs without evil mode.
-
 [[http://i.imgur.com/97Ax7Vv.jpg][file:http://i.imgur.com/97Ax7Vv.jpg]]
 
 ** Package management

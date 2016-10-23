@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title></title>
-<!-- 2016-10-14 Fri 22:10 -->
+<!-- 2016-10-22 Sat 23:03 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="Org-mode">
@@ -197,6 +197,14 @@ $(function() {
 <h2 id="sec-1">Emacs Config</h2>
 <div class="outline-text-2" id="text-1">
 <p>
+<b>NOTE THE SCREENSHOTS ARE OUT OF DATE AS I HAVE SWITCHED COLOR SCHEMES SINCE THEY WERE TAKEN</b>
+</p>
+
+<p>
+<b>UPDATE COMING SOON</b>
+</p>
+
+<p>
 Dotfiles for learning emacs without evil mode.
 </p>
 
@@ -283,21 +291,19 @@ all of this crap to go.
 </div>
 
 <div id="outline-container-sec-1-2-1" class="outline-4">
-<h4 id="sec-1-2-1">Doom Theme</h4>
+<h4 id="sec-1-2-1">Zerodark Theme</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
-Currently I'm using <a href="https://github.com/hlissner/emacs-doom-theme">doom themes</a> (I usually swap between doom-one and doom-molokai
-depending on how I'm feeling that day). I'm also a fan of <a href="https://github.com/owainlewis/emacs-color-themes">sublime themes</a>'s Spolsky.
-If you're planning to swap this theme out for your own make sure to remove the 
-accompanying neotree theme enabled lower down in <a href="#sec-1-5-7">Neotree</a>.
+Currently I'm using <a href="https://github.com/NicolasPetton/zerodark-theme">zerodark theme</a>. I'm also a fan of <a href="https://github.com/owainlewis/emacs-color-themes">sublime themes</a>'s Spolsky and
+<a href="https://github.com/hlissner/emacs-doom-theme">doom theme</a>. This theme also takes care of my modeline as well (using <a href="https://github.com/milkypostman/powerline">powerline</a>). I use
+doom theme's neotree configuration but zerodark for everything else.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">;; Theme
-(use-package doom-themes
+<pre class="src src-emacs-lisp">(use-package zerodark-theme
   :config
-  (load-theme 'doom-one t))
+  (zerodark-setup-modeline-format))
 </pre>
 </div>
 </div>
@@ -311,20 +317,59 @@ accompanying neotree theme enabled lower down in <a href="#sec-1-5-7">Neotree</a
 I'm still getting into org mode so my settings are very basic. I enable entities so
 I can type <code>\</code> followed by something like <code>alpha</code> and get the UTF-8 char &alpha;. I also
 set src font natively so that I can have syntax highlighting in source blocks. I
-also do some fontify stuff to make my theme look better (as suggested on the doom
-theme's github).
+also do some fontify stuff to make my theme look better.
+</p>
+
+<p>
+Org open simply opens the file with name <code>name</code> from the org folder in my dropbox. It
+works on linux and windows. Dropbox return the correct path depending on my system.
+</p>
+
+<p>
+Dropbox start and stop are for computers where I dont have the privileges to install
+programs. This makes use of a heavily modified <code>.emacs.d/dropbox.py</code> from the official
+dropbox <a href="https://www.dropbox.com/install-linux">site</a>. The modifications include installing and symlinking <code>~/Dropbox</code> to 
+<code>/virtual</code> to avoid using up disk quota.
 </p>
 
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(setq org-pretty-entities t
       org-src-fontify-natively t
+      org-src-tab-acts-natively t
+      org-src-window-setup 'current-window
       org-fontify-whole-heading-line t
       org-fontify-done-headline t
-      org-fontify-quote-and-verse-blocks t)
+      org-fontify-quote-and-verse-blocks t
+      org-ellipsis "⤵") 
+
+(defun wolfe/org-open (name)
+ (interactive)
+  (when (eq system-type 'gnu/linux)
+    (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
+  (when (eq system-type 'windows-nt)
+    (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\" name ".org"))))
+
+(defun wolfe/org-dropbox-path ()
+  (interactive)
+  (cond
+   ((eq system-type 'gnu/linux)
+    "~/Dropbox/org/")
+   ((eq system-type 'windows-nt)
+    "C:\\Users\\Josh\\Dropbox\\org\\")
+   (else "")))
+
+(defun wolfe/dropbox-start ()
+  (interactive)
+  (if (eq nil (file-exists-p "/virtual/wolfejos/dropbox/.dropbox-dist"))
+      (call-process-shell-command "(python ~/.emacs.d/dropbox.py start -i&amp;)")
+    (call-process-shell-command "(python ~/.emacs.d/dropbox.py start&amp;)")))
+
+(defun wolfe/dropbox-stop ()
+  (interactive)
+  (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&amp;"))
 </pre>
 </div>
-
 
 <div class="org-src-container">
 
@@ -369,54 +414,61 @@ replace <code>j</code> and <code>k</code> with their visual line mode equivilant
 other side and I have it so that typing <code>:e&lt;space&gt;</code> triggers ido.
 </p>
 
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(use-package evil
-  :init
-  (setq evil-want-C-u-scroll t)
-  :config
-  (evil-mode t)
-  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-  (setq evil-split-window-below t)
-  (setq evil-vsplit-window-right t)
-  (define-key evil-ex-map "e " 'ido-find-file))
-</pre>
-</div>
-</div>
-
-<div id="outline-container-sec-1-4-1" class="outline-4">
-<h4 id="sec-1-4-1">Evil Leader</h4>
-<div class="outline-text-4" id="text-1-4-1">
 <p>
-<a href="https://github.com/cofi/evil-leader">Evil leader</a> ports the functionality of leader bindings to emacs. I use space as my
-leader since it's just so easy to hit. I also make sure to enable leader key everywhere
-and I configure some pretty common bindings.
+I use <a href="https://github.com/noctuid/general.el">general</a> instead of <a href="https://github.com/cofi/evil-leader">evil leader</a> for my leader key.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(use-package evil-leader
+<pre class="src src-emacs-lisp">(use-package general)
+
+(use-package evil
+  :demand
+  :init
+  (setq evil-want-C-u-scroll t)
   :config
-  (evil-leader/set-leader "&lt;SPC&gt;")
-  (setq evil-leader/in-all-states 1)
-  (global-evil-leader-mode)
-  (evil-leader/set-key
+  (evil-mode t)
+  (setq evil-split-window-below t)
+  (setq evil-vsplit-window-right t)
+  (define-key evil-ex-map "e " 'ido-find-file)
+
+  (global-unset-key (kbd "M-SPC"))
+
+  (general-create-definer wolfe/bind-leader
+                          :keymaps 'global
+                          :states '(normal insert emacs)
+                          :prefix "SPC"
+                          :non-normal-prefix "M-SPC")
+
+  :general
+  (:states 'motion
+           "k" 'evil-previous-visual-line
+           "j" 'evil-next-visual-line)
+
+  (:states 'normal
+           "C-S-h" help-map
+           "C-h"  'evil-window-left
+           "C-j"  'evil-window-down
+           "C-k"  'evil-window-up
+           "C-l"  'evil-window-right)
+
+  (wolfe/bind-leader
    "w" 'save-buffer
    "S" 'eval-buffer 
    "s" 'eval-defun
    "b" 'mode-line-other-buffer
    "k" 'kill-buffer
    "m" 'ido-switch-buffer
+   "os" (lambda() (interactive) (wolfe/org-open "school"))
+   "ol" (lambda() (interactive) (wolfe/org-open "life"))
    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 </pre>
 </div>
 </div>
-</div>
 
-<div id="outline-container-sec-1-4-2" class="outline-4">
-<h4 id="sec-1-4-2">Evil Surround</h4>
-<div class="outline-text-4" id="text-1-4-2">
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Evil Surround</h4>
+<div class="outline-text-4" id="text-1-4-1">
 <p>
 <a href="https://github.com/timcharper/evil-surround">Evil surround</a> is a copy of <a href="https://github.com/tpope/vim-surround">tpope's vim-surround</a>. It provides text objects for common
 delimiter operations. Such as wrapping a text object in quotes or brackets.
@@ -432,19 +484,17 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
 </div>
 </div>
 
-<div id="outline-container-sec-1-4-3" class="outline-4">
-<h4 id="sec-1-4-3">Evil Magit &amp; Evil Org</h4>
-<div class="outline-text-4" id="text-1-4-3">
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">Evil Magit</h4>
+<div class="outline-text-4" id="text-1-4-2">
 <p>
-<a href="https://github.com/justbur/evil-magit">Evil magit</a> and <a href="https://github.com/edwtjo/evil-org-mode">evil org mode</a> provide some nice vimish bindings in both magit and org mode.
+<a href="https://github.com/justbur/evil-magit">Evil magit</a> and provides some nice vimish bindings in magit.
 (More on magit down <a href="#sec-1-5-5">below</a>)
 </p>
 
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(use-package evil-magit)
-
-(use-package evil-org)
 </pre>
 </div>
 </div>
@@ -452,7 +502,7 @@ delimiter operations. Such as wrapping a text object in quotes or brackets.
 </div>
 
 <div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5">Packages</h3>
+<h3 id="sec-1-5">General Packages</h3>
 <div class="outline-text-3" id="text-1-5">
 </div><div id="outline-container-sec-1-5-1" class="outline-4">
 <h4 id="sec-1-5-1">Ido</h4>
@@ -477,10 +527,10 @@ aesthetic.
 
 <pre class="src src-emacs-lisp">(use-package ido
     :init
-    (defun my-ido-keys ()
+    (defun wolfe/ido-set-keys ()
         "Add keybindings for ido"
         (define-key ido-completion-map [tab] 'ido-next-match))
-    (add-hook 'ido-setup-hook #'my-ido-keys)
+    (add-hook 'ido-setup-hook #'wolfe/ido-set-keys)
     :config
     (setq ido-enable-flex-matching t)
     (setq ido-everywhere t)
@@ -492,9 +542,9 @@ aesthetic.
 
 (use-package ido-complete-space-or-hyphen)
 
-(use-package ido-vertical-mode
-  :config
-  (ido-vertical-mode 1))
+;(use-package ido-vertical-mode
+;  :config
+;  (ido-vertical-mode 1))
 </pre>
 </div>
 </div>
@@ -649,17 +699,60 @@ you to neatly view your file structure at the side of your screen.
 </div>
 
 <p>
-This comes with my colorscheme so I set <code>ensure</code> to <code>nil</code> so it doesn't go looking on
-melpa. The file icons all come from the <a href="https://github.com/domtronn/all-the-icons.el">all the icons</a> fonts (it doesn't actually use all
-the icons itself.
+Although I use zerodark for my colorscheme I like the neotree configuration from doom theme
+so I'm using just the neotree theme. The file icons all come from the <a href="https://github.com/domtronn/all-the-icons.el">all the icons</a> fonts 
+(it doesn't actually use the all the icons package).
 </p>
 
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(use-package doom-neotree
-  :ensure nil
+  :ensure doom-themes
   :config
   (setq doom-neotree-enable-file-icons t))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-8" class="outline-4">
+<h4 id="sec-1-5-8">Smooth Scrolling</h4>
+<div class="outline-text-4" id="text-1-5-8">
+<p>
+<a href="https://github.com/aspiers/smooth-scrolling">Smooth scrolling</a> stops emacs from jumping half of a page when you reach the bottom. It
+also starts scrolling a few lines from the bottom so you don't have to scroll past what
+you want.  
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(use-package smooth-scrolling
+  :config
+  (smooth-scrolling-mode 1)
+  (setq smooth-scroll-margin 3))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-9" class="outline-4">
+<h4 id="sec-1-5-9">Git Gutter Fringe</h4>
+<div class="outline-text-4" id="text-1-5-9">
+<p>
+This is a nice little visual indicator for showing what changes you've made to the file.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(use-package git-gutter-fringe
+  :ensure t
+  :diminish git-gutter-mode
+  :config
+  (setq git-gutter-fr:side 'right-fringe)
+  (set-face-foreground 'git-gutter-fr:modified "#63747c")
+  (set-face-foreground 'git-gutter-fr:added    "#63747c")
+  (set-face-foreground 'git-gutter-fr:deleted  "#63747c")
+  (global-git-gutter-mode +1))
 </pre>
 </div>
 </div>
@@ -667,26 +760,26 @@ the icons itself.
 </div>
 
 <div id="outline-container-sec-1-6" class="outline-3">
-<h3 id="sec-1-6">Powerline</h3>
+<h3 id="sec-1-6">Language Specific</h3>
 <div class="outline-text-3" id="text-1-6">
-
-<figure>
-<p><i><img src="http://imgur.com/75um5pK.jpg" class="img-responsive" alt="75um5pK.jpg"></i>
+</div><div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">Latex</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<p>
+I like using latx for writing papers and taking notes. I use the built in tex mode for
+syntax highlighting and <a href="#sec-1-7-2">Company Math</a> (lower in my config under the company heading).
 </p>
-</figure>
 
 <p>
-I use a custom <a href="https://github.com/milkypostman/powerline">powerline</a> theme that makes use of <a href="https://github.com/raugturi/powerline-evil">powerline-evil</a>. You can find that <a href="https://github.com/WolfeCub/dotfiles/blob/master/.emacs.d/lisp/init-powerline-doom-one.el">here</a>. 
-It's fairly basic and uses colors from the <a href="#sec-1-2-1">doom theme</a> that I use. If you want to change 
-the theme you would need to edit the faces to match your theme. If you aren't interested
-in editing or making a custom theme I would recommend 
+I like being able to see the changes I make in real time so I can adjust my formatting on
+the fly. <a href="https://github.com/jsinglet/latex-preview-pane">latex preview pane</a> is great for this.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(load-file "~/.emacs.d/lisp/init-powerline-doom-one.el")
-(require 'init-powerline-doom-one)
+<pre class="src src-emacs-lisp">(use-package latex-preview-pane)
 </pre>
+</div>
 </div>
 </div>
 </div>
@@ -703,7 +796,7 @@ in editing or making a custom theme I would recommend
 <p>
 <a href="http://company-mode.github.io/">Company</a> is an autocompletion framwork that supports user written backends. This means
 that the number of languages company (and supporting packages) encompass is very
-impressive.
+impressive. 
 </p>
 
 <p>
@@ -765,6 +858,28 @@ makes it easy to check the arguments or return type of the function.
 </div>
 </div>
 </div>
+
+<div id="outline-container-sec-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2">Company Math</h4>
+<div class="outline-text-4" id="text-1-7-2">
+<p>
+<a href="https://github.com/vspinu/company-math">Company math</a> provides completion for latex as well as all of the latex and UTF-8 symbols.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(use-package company-math
+  :config
+  (defun wolfe/latex-setup ()
+    (setq-local company-backends
+                (append '((company-math-symbols-latex company-latex-commands))
+                        company-backends)))
+
+  (add-hook 'tex-mode-hook 'wolfe/latex-setup))
+</pre>
+</div>
+</div>
+</div>
 </div>
 
 <div id="outline-container-sec-1-8" class="outline-3">
@@ -817,7 +932,7 @@ Here is stuff that is either under testing or not meant for the public eye.
 <li><a href="#sec-1-1">Package management</a></li>
 <li><a href="#sec-1-2">Essential Settings</a>
 <ul class="nav">
-<li><a href="#sec-1-2-1">Doom Theme</a></li>
+<li><a href="#sec-1-2-1">Zerodark Theme</a></li>
 </ul>
 </li>
 <li><a href="#sec-1-3">Org Settings</a>
@@ -827,12 +942,11 @@ Here is stuff that is either under testing or not meant for the public eye.
 </li>
 <li><a href="#sec-1-4">Evil</a>
 <ul class="nav">
-<li><a href="#sec-1-4-1">Evil Leader</a></li>
-<li><a href="#sec-1-4-2">Evil Surround</a></li>
-<li><a href="#sec-1-4-3">Evil Magit &amp; Evil Org</a></li>
+<li><a href="#sec-1-4-1">Evil Surround</a></li>
+<li><a href="#sec-1-4-2">Evil Magit</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5">Packages</a>
+<li><a href="#sec-1-5">General Packages</a>
 <ul class="nav">
 <li><a href="#sec-1-5-1">Ido</a></li>
 <li><a href="#sec-1-5-2">Smex</a></li>
@@ -841,12 +955,19 @@ Here is stuff that is either under testing or not meant for the public eye.
 <li><a href="#sec-1-5-5">Magit</a></li>
 <li><a href="#sec-1-5-6">Ace Jump Mode</a></li>
 <li><a href="#sec-1-5-7">Neotree</a></li>
+<li><a href="#sec-1-5-8">Smooth Scrolling</a></li>
+<li><a href="#sec-1-5-9">Git Gutter Fringe</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-6">Powerline</a></li>
+<li><a href="#sec-1-6">Language Specific</a>
+<ul class="nav">
+<li><a href="#sec-1-6-1">Latex</a></li>
+</ul>
+</li>
 <li><a href="#sec-1-7">Company Mode</a>
 <ul class="nav">
 <li><a href="#sec-1-7-1">Company Quickhelp</a></li>
+<li><a href="#sec-1-7-2">Company Math</a></li>
 </ul>
 </li>
 <li><a href="#sec-1-8">Backup Options</a></li>
@@ -859,7 +980,7 @@ Here is stuff that is either under testing or not meant for the public eye.
 </div></div></div>
 <footer id="postamble" class="">
 <div><p class="author">Author: Josh Wolfe</p>
-<p class="date">Created: 2016-10-14 Fri 22:10</p>
+<p class="date">Created: 2016-10-22 Sat 23:03</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org-mode</a> 8.2.10)</p>
 </div>
 </footer>

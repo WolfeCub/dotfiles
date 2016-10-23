@@ -255,9 +255,9 @@ aesthetic.
 
   (use-package ido-complete-space-or-hyphen)
 
-  (use-package ido-vertical-mode
-    :config
-    (ido-vertical-mode 1))
+  ;(use-package ido-vertical-mode
+  ;  :config
+  ;  (ido-vertical-mode 1))
 #+end_src
 
 *** Smex
@@ -376,6 +376,21 @@ you want.
     (setq smooth-scroll-margin 3))
 #+end_src
     
+*** Git Gutter Fringe
+    
+This is a nice little visual indicator for showing what changes you've made to the file.
+
+#+begin_src emacs-lisp :tangle yes 
+(use-package git-gutter-fringe
+  :ensure t
+  :diminish git-gutter-mode
+  :config
+  (setq git-gutter-fr:side 'right-fringe)
+  (set-face-foreground 'git-gutter-fr:modified "#63747c")
+  (set-face-foreground 'git-gutter-fr:added    "#63747c")
+  (set-face-foreground 'git-gutter-fr:deleted  "#63747c")
+  (global-git-gutter-mode +1))
+#+end_src
 ** Powerline
 
 [[powerline][file:http://imgur.com/75um5pK.jpg]]

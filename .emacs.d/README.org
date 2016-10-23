@@ -1,5 +1,9 @@
 * Emacs Config
 
+*NOTE THE SCREENSHOTS ARE OUT OF DATE AS I HAVE SWITCHED COLOR SCHEMES SINCE THEY WERE TAKEN**
+
+*UPDATE COMING SOON*
+
 Dotfiles for learning emacs without evil mode.
 
 [[http://i.imgur.com/97Ax7Vv.jpg][file:http://i.imgur.com/97Ax7Vv.jpg]]
@@ -62,18 +66,16 @@ all of this crap to go.
   (load custom-file 'noerror)
 #+end_src
 
-*** Doom Theme
+*** Zerodark Theme
 
-Currently I'm using [[https://github.com/hlissner/emacs-doom-theme][doom themes]] (I usually swap between doom-one and doom-molokai
-depending on how I'm feeling that day). I'm also a fan of [[https://github.com/owainlewis/emacs-color-themes][sublime themes]]'s Spolsky.
-If you're planning to swap this theme out for your own make sure to remove the 
-accompanying neotree theme enabled lower down in [[Neotree]].
+Currently I'm using [[https://github.com/NicolasPetton/zerodark-theme][zerodark theme]]. I'm also a fan of [[https://github.com/owainlewis/emacs-color-themes][sublime themes]]'s Spolsky and
+[[https://github.com/hlissner/emacs-doom-theme][doom theme]]. This theme also takes care of my modeline as well (using [[https://github.com/milkypostman/powerline][powerline]]). I use
+doom theme's neotree configuration but zerodark for everything else.
 
 #+begin_src emacs-lisp :tangle yes
-  ;; Theme
-  (use-package doom-themes
+  (use-package zerodark-theme
     :config
-    (load-theme 'doom-one t))
+    (zerodark-setup-modeline-format))
 #+end_src
 
 ** Org Settings
@@ -242,8 +244,6 @@ aesthetic.
           "Add keybindings for ido"
           (define-key ido-completion-map [tab] 'ido-next-match))
       (add-hook 'ido-setup-hook #'wolfe/ido-set-keys)
-      (custom-set-faces
-       '(ido-subdir ((t (:foreground "#51AFEF")))))
       :config
       (setq ido-enable-flex-matching t)
       (setq ido-everywhere t)
@@ -352,13 +352,13 @@ you to neatly view your file structure at the side of your screen.
           (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
 #+end_src
 
-This comes with my colorscheme so I set =ensure= to =nil= so it doesn't go looking on
-melpa. The file icons all come from the [[https://github.com/domtronn/all-the-icons.el][all the icons]] fonts (it doesn't actually use all
-the icons itself.
+Although I use zerodark for my colorscheme I like the neotree configuration from doom theme
+so I'm using just the neotree theme. The file icons all come from the [[https://github.com/domtronn/all-the-icons.el][all the icons]] fonts 
+(it doesn't actually use the all the icons package).
 
 #+begin_src emacs-lisp :tangle yes 
   (use-package doom-neotree
-    :ensure nil
+    :ensure doom-themes
     :config
     (setq doom-neotree-enable-file-icons t))
 #+end_src
@@ -381,28 +381,15 @@ you want.
 This is a nice little visual indicator for showing what changes you've made to the file.
 
 #+begin_src emacs-lisp :tangle yes 
-(use-package git-gutter-fringe
-  :ensure t
-  :diminish git-gutter-mode
-  :config
-  (setq git-gutter-fr:side 'right-fringe)
-  (set-face-foreground 'git-gutter-fr:modified "#63747c")
-  (set-face-foreground 'git-gutter-fr:added    "#63747c")
-  (set-face-foreground 'git-gutter-fr:deleted  "#63747c")
-  (global-git-gutter-mode +1))
-#+end_src
-** Powerline
-
-[[powerline][file:http://imgur.com/75um5pK.jpg]]
-
-I use a custom [[https://github.com/milkypostman/powerline][powerline]] theme that makes use of [[https://github.com/raugturi/powerline-evil][powerline-evil]]. You can find that [[https://github.com/WolfeCub/dotfiles/blob/master/.emacs.d/lisp/init-powerline-doom-one.el][here]]. 
-It's fairly basic and uses colors from the [[Doom Theme][doom theme]] that I use. If you want to change 
-the theme you would need to edit the faces to match your theme. If you aren't interested
-in editing or making a custom theme I would recommend 
-
-#+begin_src emacs-lisp :tangle yes 
-  (load-file "~/.emacs.d/lisp/init-powerline-doom-one.el")
-  (require 'init-powerline-doom-one)
+  (use-package git-gutter-fringe
+    :ensure t
+    :diminish git-gutter-mode
+    :config
+    (setq git-gutter-fr:side 'right-fringe)
+    (set-face-foreground 'git-gutter-fr:modified "#63747c")
+    (set-face-foreground 'git-gutter-fr:added    "#63747c")
+    (set-face-foreground 'git-gutter-fr:deleted  "#63747c")
+    (global-git-gutter-mode +1))
 #+end_src
 
 ** Language Specific

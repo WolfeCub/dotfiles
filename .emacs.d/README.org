@@ -76,6 +76,16 @@ doom theme's neotree configuration but zerodark for everything else.
     (zerodark-setup-modeline-format))
 #+end_src
 
+** Misc Functions
+   
+These are just some helpful functions for basic tasks.
+
+#+begin_src emacs-lisp :tangle yes
+  (defun wolfe/load-init ()
+    (interactive)
+    (load-file "~/.emacs.d/init.el"))
+#+end_src
+ 
 ** Org Settings
 
 I'm still getting into org mode so my settings are very basic. I enable entities so
@@ -166,6 +176,7 @@ I use [[https://github.com/noctuid/general.el][general]] instead of [[https://gi
     (evil-mode t)
     (setq evil-split-window-below t)
     (setq evil-vsplit-window-right t)
+    (evil-ex-define-cmd "re[load]" 'wolfe/load-init)
     (define-key evil-ex-map "e " 'ido-find-file)
 
     (global-unset-key (kbd "M-SPC"))

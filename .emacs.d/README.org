@@ -71,8 +71,17 @@ Currently I'm using [[https://github.com/NicolasPetton/zerodark-theme][zerodark 
 doom theme's neotree configuration but zerodark for everything else.
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package zerodark-theme
-    :config
+  ;(use-package zerodark-theme
+  ;  :config
+  ;  (zerodark-setup-modeline-format))
+  (setq custom-theme-directory "~/.emacs.d/themes")
+
+  (defun wolfe/theme-init ()
+    (interactive)
+    (use-package s)
+    (use-package powerline)
+    (use-package powerline-evil)
+    (load-theme 'zerodark t)
     (zerodark-setup-modeline-format))
 #+end_src
 
@@ -86,6 +95,82 @@ These are just some helpful functions for basic tasks.
     (load-file "~/.emacs.d/init.el"))
 #+end_src
  
+** Evil
+
+[[https://www.emacswiki.org/emacs/Evil][Evil mode]] brings all of vim's wonderful modal editing to emacs. My evil configuration
+is fairly straightforward. First I unbint =C-u= so evil can make use of it. Then I
+replace =j= and =k= with their visual line mode equivilants. I have splits open on the
+other side and I have it so that typing =:e<space>= triggers ido.
+
+I use [[https://github.com/noctuid/general.el][general]] instead of [[https://github.com/cofi/evil-leader][evil leader]] for my leader key.
+
+#+begin_src emacs-lisp :tangle yes 
+  (use-package general)
+
+  (use-package evil
+    :demand
+    :init
+    (setq evil-want-C-u-scroll t)
+    :config
+    (evil-mode t)
+    (wolfe/theme-init)
+    (setq evil-split-window-below t)
+    (setq evil-vsplit-window-right t)
+    (evil-ex-define-cmd "re[load]" 'wolfe/load-init)
+    (define-key evil-ex-map "e " 'ido-find-file)
+
+    (global-unset-key (kbd "M-SPC"))
+
+    (general-create-definer wolfe/bind-leader
+                            :keymaps 'global
+                            :states '(normal insert emacs)
+                            :prefix "SPC"
+                            :non-normal-prefix "M-SPC")
+
+    :general
+    (:states 'motion
+             "k" 'evil-previous-visual-line
+             "j" 'evil-next-visual-line)
+
+    (:states 'normal
+             "C-S-h" help-map
+             "C-h"  'evil-window-left
+             "C-j"  'evil-window-down
+             "C-k"  'evil-window-up
+             "C-l"  'evil-window-right)
+
+    (wolfe/bind-leader
+     "w" 'save-buffer
+     "S" 'eval-buffer 
+     "s" 'eval-defun
+     "b" 'mode-line-other-buffer
+     "k" 'kill-buffer
+     "m" 'ido-switch-buffer
+     "os" (lambda() (interactive) (wolfe/org-open "school"))
+     "ol" (lambda() (interactive) (wolfe/org-open "life"))
+     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
+#+end_src
+
+*** Evil Surround
+
+[[https://github.com/timcharper/evil-surround][Evil surround]] is a copy of [[https://github.com/tpope/vim-surround][tpope's vim-surround]]. It provides text objects for common
+delimiter operations. Such as wrapping a text object in quotes or brackets.
+
+#+begin_src emacs-lisp :tangle yes 
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
+#+end_src
+
+*** Evil Magit
+
+[[https://github.com/justbur/evil-magit][Evil magit]] and provides some nice vimish bindings in magit.
+(More on magit down [[Magit][below]])
+
+#+begin_src emacs-lisp :tangle yes 
+(use-package evil-magit)
+#+end_src
+
 ** Org Settings
 
 I'm still getting into org mode so my settings are very basic. I enable entities so
@@ -155,82 +240,7 @@ Org bullets allows for nicely formatted bullets instead of asteriks' in org mode
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+end_src
-
-** Evil
-
-[[https://www.emacswiki.org/emacs/Evil][Evil mode]] brings all of vim's wonderful modal editing to emacs. My evil configuration
-is fairly straightforward. First I unbint =C-u= so evil can make use of it. Then I
-replace =j= and =k= with their visual line mode equivilants. I have splits open on the
-other side and I have it so that typing =:e<space>= triggers ido.
-
-I use [[https://github.com/noctuid/general.el][general]] instead of [[https://github.com/cofi/evil-leader][evil leader]] for my leader key.
-
-#+begin_src emacs-lisp :tangle yes 
-  (use-package general)
-
-  (use-package evil
-    :demand
-    :init
-    (setq evil-want-C-u-scroll t)
-    :config
-    (evil-mode t)
-    (setq evil-split-window-below t)
-    (setq evil-vsplit-window-right t)
-    (evil-ex-define-cmd "re[load]" 'wolfe/load-init)
-    (define-key evil-ex-map "e " 'ido-find-file)
-
-    (global-unset-key (kbd "M-SPC"))
-
-    (general-create-definer wolfe/bind-leader
-                            :keymaps 'global
-                            :states '(normal insert emacs)
-                            :prefix "SPC"
-                            :non-normal-prefix "M-SPC")
-
-    :general
-    (:states 'motion
-             "k" 'evil-previous-visual-line
-             "j" 'evil-next-visual-line)
-
-    (:states 'normal
-             "C-S-h" help-map
-             "C-h"  'evil-window-left
-             "C-j"  'evil-window-down
-             "C-k"  'evil-window-up
-             "C-l"  'evil-window-right)
-
-    (wolfe/bind-leader
-     "w" 'save-buffer
-     "S" 'eval-buffer 
-     "s" 'eval-defun
-     "b" 'mode-line-other-buffer
-     "k" 'kill-buffer
-     "m" 'ido-switch-buffer
-     "os" (lambda() (interactive) (wolfe/org-open "school"))
-     "ol" (lambda() (interactive) (wolfe/org-open "life"))
-     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
-#+end_src
-
-*** Evil Surround
-
-[[https://github.com/timcharper/evil-surround][Evil surround]] is a copy of [[https://github.com/tpope/vim-surround][tpope's vim-surround]]. It provides text objects for common
-delimiter operations. Such as wrapping a text object in quotes or brackets.
-
-#+begin_src emacs-lisp :tangle yes 
-(use-package evil-surround
-  :config
-  (global-evil-surround-mode 1))
-#+end_src
-
-*** Evil Magit
-
-[[https://github.com/justbur/evil-magit][Evil magit]] and provides some nice vimish bindings in magit.
-(More on magit down [[Magit][below]])
-
-#+begin_src emacs-lisp :tangle yes 
-(use-package evil-magit)
-#+end_src
-
+ 
 ** General Packages
 *** Ido
 

@@ -2,6 +2,7 @@ exec "xrandr --output eDP1 --mode 1920x1080"
 exec "xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12"
 exec "setxkbmap -option 'caps:ctrl_modifier'"
 exec "xcape -e 'Caps_Lock=Escape'"
+exec --no-startup-id dropbox start
 
 # Disable window borders
 for_window [class="^.*"] border pixel 0

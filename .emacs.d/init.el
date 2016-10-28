@@ -40,19 +40,16 @@
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
 
-;(use-package zerodark-theme
-;  :config
-;  (zerodark-setup-modeline-format))
-(setq custom-theme-directory "~/.emacs.d/themes")
-
 (defun wolfe/theme-init ()
   "Theme setup"
   (interactive)
-  (use-package s)
-  (use-package powerline)
-  (use-package powerline-evil)
-  (load-theme 'zerodark t)
-  (zerodark-setup-modeline-format))
+  (use-package zerodark-theme
+    :init
+    (use-package s)
+    (use-package powerline)
+    (use-package powerline-evil)
+    :config
+    (zerodark-setup-modeline-format)))
 
 (defun wolfe/load-init ()
   "Reloads init file"
@@ -102,7 +99,7 @@
    "m" 'ido-switch-buffer
    "os" (lambda() (interactive) (wolfe/org-open "school"))
    "ol" (lambda() (interactive) (wolfe/org-open "life"))
-   "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
+   "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
 
 ;; Tpope's surround
 (use-package evil-surround

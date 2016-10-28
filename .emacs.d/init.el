@@ -1,4 +1,14 @@
+;; __        __    _  __      _       _       _ _         _
+;; \ \      / /__ | |/ _| ___( )___  (_)_ __ (_) |_   ___| |
+;;  \ \ /\ / / _ \| | |_ / _ \// __| | | '_ \| | __| / _ \ |
+;;   \ V  V / (_) | |  _|  __/ \__ \ | | | | | | |_ |  __/ |
+;;    \_/\_/ \___/|_|_|  \___| |___/ |_|_| |_|_|\__(_)___|_|
 
+;; Temporarily set garbage collect threshold high to improve start time
+(setq gc-cons-threshold most-positive-fixnum)
+(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+
+;; Setup package control
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -6,6 +16,7 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
+;; Have use-package auto download
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -15,19 +26,19 @@
 (setq inhibit-splash-screen t
       inhibit-startup-message t
       inhibit-startup-echo-area-message "wolfe")
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(show-paren-mode t)
-(setq initial-scratch-message "")
-(fset 'yes-or-no-p 'y-or-n-p)
+(tool-bar-mode -1) ; No toolbar
+(scroll-bar-mode -1) ; Hide scrollbars
+(menu-bar-mode -1) ; No menubar
+(show-paren-mode t) ; Highlights matching parens
+(setq initial-scratch-message "") ; No scratch text
+(fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 (setq-default indent-tabs-mode nil)
-(delete-selection-mode 1)
-(when (member "Inconsolata" (font-family-list))
+(delete-selection-mode 1) ; Replace selection on insert
+(when (member "Inconsolata" (font-family-list)) ; Set default font
   (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
   (set-face-attribute 'default t :font "Inconsolata-13"))
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file 'noerror)
+(setq custom-file "~/.emacs.d/custom.el") ; Set custom file
+(load custom-file 'noerror) ; Load custom file
 
 ;(use-package zerodark-theme
 ;  :config
@@ -35,6 +46,7 @@
 (setq custom-theme-directory "~/.emacs.d/themes")
 
 (defun wolfe/theme-init ()
+  "Theme setup"
   (interactive)
   (use-package s)
   (use-package powerline)
@@ -43,24 +55,25 @@
   (zerodark-setup-modeline-format))
 
 (defun wolfe/load-init ()
+  "Reloads init file"
   (interactive)
   (load-file "~/.emacs.d/init.el"))
 
+;; Evil
 (use-package general)
-
 (use-package evil
   :demand
   :init
-  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
   :config
   (evil-mode t)
-  (wolfe/theme-init)
+  (wolfe/theme-init) ; Init theme after evil
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t)
-  (evil-ex-define-cmd "re[load]" 'wolfe/load-init)
-  (define-key evil-ex-map "e " 'ido-find-file)
+  (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
+  (define-key evil-ex-map "e " 'ido-find-file) ; Trigger ido with :e
 
-  (global-unset-key (kbd "M-SPC"))
+  (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
   (general-create-definer wolfe/bind-leader
                           :keymaps 'global
@@ -82,7 +95,7 @@
 
   (wolfe/bind-leader
    "w" 'save-buffer
-   "S" 'eval-buffer 
+   "S" 'eval-buffer
    "s" 'eval-defun
    "b" 'mode-line-other-buffer
    "k" 'kill-buffer
@@ -91,12 +104,14 @@
    "ol" (lambda() (interactive) (wolfe/org-open "life"))
    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
 
+;; Tpope's surround
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))
 
 (use-package evil-magit)
 
+;; Org Settings
 (setq org-pretty-entities t
       org-src-fontify-natively t
       org-src-tab-acts-natively t
@@ -104,9 +119,10 @@
       org-fontify-whole-heading-line t
       org-fontify-done-headline t
       org-fontify-quote-and-verse-blocks t
-      org-ellipsis "⤵") 
+      org-ellipsis "⤵")
 
 (defun wolfe/org-open (name)
+  "Opens the file in the dropbox path"
  (interactive)
   (when (eq system-type 'gnu/linux)
     (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
@@ -114,6 +130,7 @@
     (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\" name ".org"))))
 
 (defun wolfe/org-dropbox-path ()
+  "Returns the dropbox path"
   (interactive)
   (cond
    ((eq system-type 'gnu/linux)
@@ -132,10 +149,12 @@
   (interactive)
   (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
 
+; Fixed tab in terminal
 (add-hook 'org-mode-hook
           (lambda ()
             (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
 
+; Twitter bootstrap exporter
 (use-package ox-twbs)
 
 ;; Better looking org headers
@@ -143,6 +162,7 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+;; Packages
 (use-package ido
     :init
     (defun wolfe/ido-set-keys ()
@@ -159,10 +179,6 @@
   (ido-ubiquitous-mode 1))
 
 (use-package ido-complete-space-or-hyphen)
-
-;(use-package ido-vertical-mode
-;  :config
-;  (ido-vertical-mode 1))
 
 (use-package smex
   :config
@@ -224,11 +240,12 @@
   :init
   (global-company-mode)
   :config
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 0) ; Delay to complete
   (setq company-minimum-prefix-length 1)
-  (setq company-selection-wrap-around t)
-  (define-key company-active-map [tab] 'company-select-next)
+  (setq company-selection-wrap-around t) ; Loops around suggestions
+  (define-key company-active-map [tab] 'company-select-next) ; Tab cycles
 
+  ;; Inherits colors from theme to style autocomplete menu correctly
   (require 'color)
   (let ((bg (face-attribute 'default :background)))
     (custom-set-faces
@@ -251,13 +268,15 @@
 
   (add-hook 'tex-mode-hook 'wolfe/latex-setup))
 
-(setq backup-by-copying t)
+(setq backup-by-copying t) ; Stop shinanigans with links
 (setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
-(if (eq nil (file-exists-p "~/.bak.emacs/"))
+(if (eq nil (file-exists-p "~/.bak.emacs/")) ; Creates directory if it doesn't already exist
     (make-directory "~/.bak.emacs/"))
-(if (eq nil (file-exists-p "~/.bak.emacs/auto"))
+(if (eq nil (file-exists-p "~/.bak.emacs/auto")); Creates auto directory if it doesn't already exist
     (make-directory "~/.bak.emacs/auto"))
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
+; backup in one place. flat, no tree structure
 
+; Load misc private file
 (if (eq t (file-exists-p "~/.emacs.d/lisp/the-lab.el"))
     (load-file "~/.emacs.d/lisp/the-lab.el"))

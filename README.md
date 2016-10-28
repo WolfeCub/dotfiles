@@ -2,7 +2,7 @@
 
 Here are my personal dotfiles.
   * [zsh](http://www.zsh.org/) - shell
-  * [emacs](https://www.gnu.org/software/emacs/) - text editor of choice on main machines ([my config](https://wolfecub.github.io/dotfiles))
+  * [emacs](https://www.gnu.org/software/emacs/) - text editor of choice on main machines
   * [vim](https://github.com/vim/vim)/[neovim](https://github.com/neovim/neovim) - on the go or ssh text editor (depends on system)
   * [i3-gaps](https://github.com/Airblader/i3) - window manager (linux)
     + [lemonbar](https://github.com/krypt-n/bar) - status bar (fork that supports more font formats)

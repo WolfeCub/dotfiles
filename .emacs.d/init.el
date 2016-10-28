@@ -49,7 +49,7 @@
     (use-package powerline)
     (use-package powerline-evil)
     :config
-    (zerodark-setup-modeline-format)))
+    (zerodark-setup-modeline-format-alt)))
 
 (defun wolfe/load-init ()
   "Reloads init file"
@@ -200,21 +200,6 @@
 (use-package ace-jump-mode
   :config
   (define-key global-map (kbd "C-c C-SPC") 'ace-jump-mode))
-
-(use-package neotree
-  :config
-  (global-set-key [f8] 'neotree-toggle)
-  (add-hook 'neotree-mode-hook
-      (lambda ()
-        (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-        (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-        (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-        (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter))))
-
-(use-package doom-neotree
-  :ensure doom-themes
-  :config
-  (setq doom-neotree-enable-file-icons t))
 
 (use-package smooth-scrolling
   :config

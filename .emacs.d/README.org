@@ -187,40 +187,44 @@ dropbox [[https://www.dropbox.com/install-linux][site]]. The modifications inclu
 =/virtual= to avoid using up disk quota.
 
 #+begin_src emacs-lisp :tangle yes 
-   (setq org-pretty-entities t
-         org-src-fontify-natively t
-         org-src-tab-acts-natively t
-         org-src-window-setup 'current-window
-         org-fontify-whole-heading-line t
-         org-fontify-done-headline t
-         org-fontify-quote-and-verse-blocks t
-         org-ellipsis "⤵") 
+  (setq org-pretty-entities t
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-src-window-setup 'current-window
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t
+        org-ellipsis "⤵") 
 
-   (defun wolfe/org-open (name)
+  (defun wolfe/org-open (name)
+   (interactive)
+    (when (eq system-type 'gnu/linux)
+      (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
+    (when (eq system-type 'windows-nt)
+      (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\" name ".org"))))
+
+  (defun wolfe/org-dropbox-path ()
     (interactive)
-     (when (eq system-type 'gnu/linux)
-       (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
-     (when (eq system-type 'windows-nt)
-       (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\" name ".org"))))
+    (cond
+     ((eq system-type 'gnu/linux)
+      "~/Dropbox/org/")
+     ((eq system-type 'windows-nt)
+      "C:\\Users\\Josh\\Dropbox\\org\\")
+     (else "")))
 
-   (defun wolfe/org-dropbox-path ()
-     (interactive)
-     (cond
-      ((eq system-type 'gnu/linux)
-       "~/Dropbox/org/")
-      ((eq system-type 'windows-nt)
-       "C:\\Users\\Josh\\Dropbox\\org\\")
-      (else "")))
+  (defun wolfe/dropbox-start ()
+    (interactive)
+    (if (eq nil (file-exists-p "/virtual/wolfejos/dropbox/.dropbox-dist"))
+        (call-process-shell-command "(python ~/.emacs.d/dropbox.py start -i&)")
+      (call-process-shell-command "(python ~/.emacs.d/dropbox.py start&)")))
 
-   (defun wolfe/dropbox-start ()
-     (interactive)
-     (if (eq nil (file-exists-p "/virtual/wolfejos/dropbox/.dropbox-dist"))
-         (call-process-shell-command "(python ~/.emacs.d/dropbox.py start -i&)")
-       (call-process-shell-command "(python ~/.emacs.d/dropbox.py start&)")))
+  (defun wolfe/dropbox-stop ()
+    (interactive)
+    (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
 
-   (defun wolfe/dropbox-stop ()
-     (interactive)
-     (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes 

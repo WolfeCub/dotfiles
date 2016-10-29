@@ -34,9 +34,10 @@
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 (setq-default indent-tabs-mode nil)
 (delete-selection-mode 1) ; Replace selection on insert
-(when (member "Inconsolata" (font-family-list)) ; Set default font
-  (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
-  (set-face-attribute 'default t :font "Inconsolata-13"))
+(setq vc-follow-symlinks t) ; Always follow symlinks
+ (when (member "Inconsolata" (font-family-list)) ; Set default font
+   (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
+   (set-face-attribute 'default t :font "Inconsolata-13"))
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
 

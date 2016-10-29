@@ -63,6 +63,10 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
 
+alias ed='emacs -nw'
+alias et='emacsclient -t'
+alias ec='emacsclient -c'
+
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 

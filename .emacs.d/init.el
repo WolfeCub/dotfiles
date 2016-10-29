@@ -41,8 +41,8 @@
 (load custom-file 'noerror) ; Load custom file
 
 ; Load theme
-(setq custom-theme-directory "~/.emacs.d/themes")
-(load-theme 'ujelly)
+;(setq custom-theme-directory "~/.emacs.d/themes")
+(use-package zenburn-theme)
 
 (defun wolfe/load-init ()
   "Reloads init file"
@@ -175,10 +175,10 @@
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
-(use-package powerline
+(use-package spaceline-config
+  :ensure spaceline
   :config
-  (use-package airline-themes)
-  (load-theme 'airline-base16-gui-dark))
+  (spaceline-spacemacs-theme))
 
 (use-package nlinum-relative
   :config

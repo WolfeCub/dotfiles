@@ -1,4 +1,4 @@
-;; __        __    _  __      _       _       _ _         _
+; __        __    _  __      _       _       _ _         _
 ;; \ \      / /__ | |/ _| ___( )___  (_)_ __ (_) |_   ___| |
 ;;  \ \ /\ / / _ \| | |_ / _ \// __| | | '_ \| | __| / _ \ |
 ;;   \ V  V / (_) | |  _|  __/ \__ \ | | | | | | |_ |  __/ |
@@ -40,16 +40,9 @@
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
 
-(defun wolfe/theme-init ()
-  "Theme setup"
-  (interactive)
-  (use-package zerodark-theme
-    :init
-    (use-package s)
-    (use-package powerline)
-    (use-package powerline-evil)
-    :config
-    (zerodark-setup-modeline-format-alt)))
+; Load theme
+(setq custom-theme-directory "~/.emacs.d/themes")
+(load-theme 'ujelly)
 
 (defun wolfe/load-init ()
   "Reloads init file"
@@ -64,7 +57,6 @@
   (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
   :config
   (evil-mode t)
-  (wolfe/theme-init) ; Init theme after evil
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t)
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
@@ -182,6 +174,11 @@
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+
+(use-package powerline
+  :config
+  (use-package airline-themes)
+  (load-theme 'airline-base16-gui-dark))
 
 (use-package nlinum-relative
   :config

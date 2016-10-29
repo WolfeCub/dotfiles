@@ -190,6 +190,10 @@
   :config
   (global-set-key (kbd "C-=") 'er/expand-region))
 
+(use-package aggressive-indent
+  :config
+  (global-aggressive-indent-mode))
+
 (use-package magit
   :config
   (global-set-key "\C-x\g" 'magit-status))

@@ -1,4 +1,4 @@
-; __        __    _  __      _       _       _ _         _
+;; __        __    _  __      _       _       _ _         _
 ;; \ \      / /__ | |/ _| ___( )___  (_)_ __ (_) |_   ___| |
 ;;  \ \ /\ / / _ \| | |_ / _ \// __| | | '_ \| | __| / _ \ |
 ;;   \ V  V / (_) | |  _|  __/ \__ \ | | | | | | |_ |  __/ |
@@ -40,10 +40,8 @@
    (set-face-attribute 'default t :font "Inconsolata-13"))
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
-
-; Load theme
-;(setq custom-theme-directory "~/.emacs.d/themes")
-(use-package zenburn-theme)
+(setq custom-theme-directory "~/.emacs.d/themes")
+(load-theme 'ujelly)
 
 (defun wolfe/load-init ()
   "Reloads init file"
@@ -175,11 +173,6 @@
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
-
-(use-package spaceline-config
-  :ensure spaceline
-  :config
-  (spaceline-spacemacs-theme))
 
 (use-package nlinum-relative
   :config

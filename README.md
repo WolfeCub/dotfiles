@@ -4,9 +4,9 @@ Here are my personal dotfiles.
   * [zsh](http://www.zsh.org/) - shell
   * [emacs](https://www.gnu.org/software/emacs/) - text editor of choice on main machines
   * [vim](https://github.com/vim/vim)/[neovim](https://github.com/neovim/neovim) - on the go or ssh text editor (depends on system)
-  * [i3-gaps](https://github.com/Airblader/i3) - window manager (linux)
+  * [bspwm](https://github.com/baskerville/bspwm) - window manager (linux)
+    + I also have configuration for my old i3 setup. They aren't going to be updated
     + [lemonbar](https://github.com/krypt-n/bar) - status bar (fork that supports more font formats)
-    + [barr](https://github.com/OkayDave/barr) - lemonbar generator in ruby
     + [rofi](https://github.com/DaveDavenport/rofi) - demenu replacement
   * [hammerspoon](https://github.com/hammerspoon/hammerspoon) - windom manager (osx)
 

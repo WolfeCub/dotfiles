@@ -10,6 +10,10 @@ super + Return
 super + backslash
   emacs
 
+# chrome
+super + c
+  chromium
+
 # program launcher
 super + space
   rofi -show run -font "snap 10" -o 85

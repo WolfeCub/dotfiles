@@ -41,7 +41,9 @@
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
 (setq custom-theme-directory "~/.emacs.d/themes")
-(load-theme 'ujelly)
+(load-theme 'cyberpunk)
+(when (eq (display-graphic-p) nil)
+  (add-to-list 'default-frame-alist '(background-color . "color-16")))
 
 (defun wolfe/load-init ()
   "Reloads init file"

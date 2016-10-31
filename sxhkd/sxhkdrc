@@ -22,6 +22,22 @@ super + space
 super + Escape
   pkill -USR1 -x sxhkd
 
+# volume keys
+XF86AudioRaiseVolume
+  amixer -D pulse sset Master 2%+
+XF86AudioLowerVolume
+  amixer -D pulse sset Master 2%-
+ctrl+Mod1+Left
+  amixer set Master toggle
+ctrl+Mod1+Right
+  amixer set Master toggle
+
+# brightness keys
+XF86MonBrightnessUp
+  xbacklight -inc 5
+XF86MonBrightnessDown
+  xbacklight -dec 5
+
 #
 # bspwm hotkeys
 #
@@ -31,8 +47,8 @@ super + alt + Escape
   bspc quit
 
 # close and kill
-super + {_,shift + }q
-  bspc node -{c,k}
+super + shift + q
+  bspc node -c
 
 # alternate between the tiled and monocle layout
 super + m

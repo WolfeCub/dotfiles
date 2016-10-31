@@ -20,6 +20,10 @@ while read -r line ; do
       # sound output
       sound="%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG} ${line#?} %{B-}%{F-}"
       ;;
+    V*)
+      # brightness output
+      bright="%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG} ${line#?} %{B-}%{F-}"
+      ;;
     T*)
       # xtitle output
       title="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG} ${line#?} %{B-}%{F-}"
@@ -93,5 +97,5 @@ while read -r line ; do
       done
       ;;
   esac
-  printf "%s\n" "%{l}${wm}%{c}${title}%{r}${sound}${bat}${sys}"
+  printf "%s\n" "%{l}${wm}%{c}${title}%{r}${bright}${sound}${bat}${sys}"
 done

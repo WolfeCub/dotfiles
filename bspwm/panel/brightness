@@ -1,0 +1,11 @@
+#!/bin/sh
+
+Brightness() {
+    BRIGHT=$(printf '%.*f\n' 0 `xbacklight`)
+    echo $BRIGHT
+}
+
+while true; do
+    echo -e "V\uf0eb $(Brightness)%"
+    sleep 1;
+done

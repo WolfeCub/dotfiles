@@ -16,6 +16,7 @@ xtitle -sf 'T%s' > "$PANEL_FIFO" &
 clock -sf 'S%a %H:%M' > "$PANEL_FIFO" &
 ~/.config/bspwm/panel/battery > "$PANEL_FIFO" &
 ~/.config/bspwm/panel/audio > "$PANEL_FIFO" &
+~/.config/bspwm/panel/brightness > "$PANEL_FIFO" &
 
 . panel_colors
 

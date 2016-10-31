@@ -1,72 +1,69 @@
-# load custom executable functions
-for function in ~/.zsh/functions/*; do
-  source $function
-done
+##
+## S E T T I N G S
+##
+# Vi mode
+bindkey -v
 
-# extra files in ~/.zsh/configs/pre , ~/.zsh/configs , and ~/.zsh/configs/post
-# these are loaded first, second, and third, respectively.
-_load_settings() {
-  _dir="$1"
-  if [ -d "$_dir" ]; then
-    if [ -d "$_dir/pre" ]; then
-      for config in "$_dir"/pre/**/*(N-.); do
-        . $config
-      done
+# Enable colors
+autoload -U colors && colors
+
+# enable colored output from ls, etc. on FreeBSD-based systems
+export CLICOLOR=1
+
+# awesome cd movements from zshkit
+setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
+DIRSTACKSIZE=5
+
+# Enable extended globbing
+setopt extendedglob
+
+# Allow [ or ] whereever you want
+unsetopt nomatch
+
+fpath=(~/.zsh/completion/ $fpath)
+autoload -Uz compinit
+compinit
+
+##
+## K E Y B I N D I N G S
+##
+# Use vim cli mode
+bindkey '^P' up-history
+bindkey '^N' down-history
+
+# backspace and ^h working even after
+# returning from command mode
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+
+# ctrl-w removed word backwards
+bindkey '^w' backward-kill-word
+
+# ctrl-r starts searching history backward
+bindkey '^r' history-incremental-search-backward
+
+##
+## P R O M P T
+##
+# modify the prompt to contain git branch name if applicable
+git_prompt_info() {
+    current_branch=$(git current-branch 2> /dev/null)
+    if [[ -n $current_branch ]]; then
+        echo " %{$fg_bold[green]%}$current_branch%{$reset_color%}"
     fi
-
-    for config in "$_dir"/**/*(N-.); do
-      case "$config" in
-        "$_dir"/pre/*)
-          :
-          ;;
-        "$_dir"/post/*)
-          :
-          ;;
-        *)
-          if [ -f $config ]; then
-            . $config
-          fi
-          ;;
-      esac
-    done
-
-    if [ -d "$_dir/post" ]; then
-      for config in "$_dir"/post/**/*(N-.); do
-        . $config
-      done
-    fi
-  fi
 }
-_load_settings "$HOME/.zsh/configs"
+setopt promptsubst
+PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info) $ '
 
-# aliases
-# [[ -f ~/.aliases ]] && source ~/.aliases
-#alias vim='nvim'
-alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES;killall Finder /System/Library/CoreServices/Finder.app'
-alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --app=https://www.google.com&;disown'
-alias py3='python3'
-# List directory contents
-alias lsa='ls -lah --color'
-alias l='ls --color'
-alias ll='ls -lh --color'
-alias la='ls -A --color'
-alias ls='ls --color'
-# Push and pop directories on directory stack
-alias pu='pushd'
-alias po='popd'
-alias md='mkdir -p'
-alias rd=rmdir
-alias d='dirs -v | head -10'
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
+precmd() { RPROMPT="" }
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="%{$fg_bold[yellow]%} [% N]% %{$reset_color%}"
+    RPROMPT='`jobs | sed -E "s;\[([0-9])*\]  (\+|\-| )? (s|r)[a-z]* *(.*); [\1]\3 \2\4;" | tr "\n" "," | sed "s/.$//"` [`date +%H:%M:%S`]${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1'
+    zle reset-prompt
+}
 
-alias ed='emacs -nw'
-alias et='emacsclient -t'
-alias ec='emacsclient -c'
+zle -N zle-line-init
+zle -N zle-keymap-select
 
-# Local config
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
-
+# Delay of 0.1 seconds
+export KEYTIMEOUT=1

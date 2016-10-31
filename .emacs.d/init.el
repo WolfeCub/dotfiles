@@ -56,6 +56,7 @@
   :demand
   :init
   (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
+  (setq evil-want-C-i-jump nil)
   :config
   (evil-mode t)
   (setq evil-split-window-below t)
@@ -139,12 +140,12 @@
   (interactive)
   (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
 
-; Fixed tab in terminal
-(add-hook 'org-mode-hook
-          (lambda ()
-            (define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
+;; Fixed tab in terminal
+;;(add-hook 'org-mode-hook
+;;(lambda ()
+;;(define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
 
-; Twitter bootstrap exporter
+;; Twitter bootstrap exporter
 (use-package ox-twbs)
 
 ;; Better looking org headers
@@ -154,15 +155,15 @@
 
 ;; Packages
 (use-package ido
-    :init
-    (defun wolfe/ido-set-keys ()
-        "Add keybindings for ido"
-        (define-key ido-completion-map [tab] 'ido-next-match))
-    (add-hook 'ido-setup-hook #'wolfe/ido-set-keys)
-    :config
-    (setq ido-enable-flex-matching t)
-    (setq ido-everywhere t)
-    (ido-mode 1))
+  :init
+  (defun wolfe/ido-set-keys ()
+    "Add keybindings for ido"
+    (define-key ido-completion-map (kbd "C-i") 'ido-next-match))
+  (add-hook 'ido-setup-hook #'wolfe/ido-set-keys)
+  :config
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
+  (ido-mode 1))
 
 (use-package ido-ubiquitous
   :config

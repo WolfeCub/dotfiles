@@ -43,7 +43,9 @@
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'cyberpunk)
 (when (eq (display-graphic-p) nil)
-  (add-to-list 'default-frame-alist '(background-color . "color-16")))
+  (add-to-list 'default-frame-alist '(background-color . "color-16"))
+  (custom-set-faces
+   '(linum ((t (:background "color-16" :foreground "#9fc59f"))))))
 
 ;; Evil
 (use-package general)

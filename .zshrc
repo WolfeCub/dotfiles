@@ -9,6 +9,7 @@ autoload -U colors && colors
 
 # enable colored output from ls, etc. on FreeBSD-based systems
 export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
 
 # awesome cd movements from zshkit
 setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
@@ -41,6 +42,28 @@ bindkey '^w' backward-kill-word
 
 # ctrl-r starts searching history backward
 bindkey '^r' history-incremental-search-backward
+
+##
+## A L I A S E S
+##
+# List directory contents
+alias lsa='ls -lah --color'
+alias l='ls --color'
+alias ll='ls -lh --color'
+alias la='ls -A --color'
+alias ls='ls --color'
+# Push and pop directories on directory stack
+alias md='mkdir -p'
+alias rd=rmdir
+alias d='dirs -v | head -10'
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+# Emacs clients
+alias ed='emacs -nw'
+alias et='emacsclient -t'
+alias ec='emacsclient -c'
 
 ##
 ## P R O M P T

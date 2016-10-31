@@ -13,8 +13,12 @@ while read -r line ; do
       sys="%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG} ${line#?} %{B-}%{F-}"
       ;;
     Z*)
-      # clock output
+      # battery output
       bat="%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG} ${line#?} %{B-}%{F-}"
+      ;;
+    X*)
+      # sound output
+      sound="%{F$COLOR_SYS_FG}%{B$COLOR_SYS_BG} ${line#?} %{B-}%{F-}"
       ;;
     T*)
       # xtitle output
@@ -89,5 +93,5 @@ while read -r line ; do
       done
       ;;
   esac
-  printf "%s\n" "%{l}${wm}%{c}${title}%{r}${bat}${sys}"
+  printf "%s\n" "%{l}${wm}%{c}${title}%{r}${sound}${bat}${sys}"
 done

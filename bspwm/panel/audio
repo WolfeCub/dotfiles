@@ -1,0 +1,16 @@
+#!/bin/sh
+
+Sound() {
+    STAT=$(amixer get Master | tail -n 1 | cut -d '[' -f 3 | sed 's/]//g')
+    VOLUME=$(amixer get Master |grep % |awk '{print $5}'|sed 's/[^0-9]//g' |head -1)
+    if [ "$STAT" == "on" ]; then
+        echo $VOLUME"%"
+    else
+        echo "0%"
+    fi
+}
+
+while true; do
+    echo -e "X\uf028 $(Sound)"
+    sleep 1;
+done

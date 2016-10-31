@@ -6,6 +6,6 @@ Battery() {
 }
 
 while true; do
-    echo "Z$(Battery)"
+    echo -e "Z\uf240$(Battery)"
     sleep 1;
 done

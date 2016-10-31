@@ -45,11 +45,6 @@
 (when (eq (display-graphic-p) nil)
   (add-to-list 'default-frame-alist '(background-color . "color-16")))
 
-(defun wolfe/load-init ()
-  "Reloads init file"
-  (interactive)
-  (load-file "~/.emacs.d/init.el"))
-
 ;; Evil
 (use-package general)
 (use-package evil

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+Battery() {
+    BATPERC=$(acpi --battery | cut -d, -f2)" ("$(acpi --battery | cut -d ' ' -f5)") "
+    echo "$BATPERC"
+}
+
+while true; do
+    echo "Z$(Battery)"
+    sleep 1;
+done

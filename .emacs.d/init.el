@@ -213,6 +213,10 @@
 
 (use-package latex-preview-pane)
 
+(global-hl-line-mode 1)
+(custom-set-faces
+ '(hl-line ((t (:weight bold)))))
+
 (use-package company
   :init
   (global-company-mode)

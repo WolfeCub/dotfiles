@@ -5,7 +5,7 @@ Here are my personal dotfiles.
   * [emacs](https://www.gnu.org/software/emacs/) - text editor of choice on main machines
   * [vim](https://github.com/vim/vim)/[neovim](https://github.com/neovim/neovim) - on the go or ssh text editor (depends on system)
   * [bspwm](https://github.com/baskerville/bspwm) - window manager (linux)
-    + I also have configuration for my old i3 setup. They aren't going to be updated
+    + I also have configuration files for my old i3 setup. They aren't going to be updated
     + [lemonbar](https://github.com/krypt-n/bar) - status bar (fork that supports more font formats)
     + [rofi](https://github.com/DaveDavenport/rofi) - demenu replacement
   * [hammerspoon](https://github.com/hammerspoon/hammerspoon) - windom manager (osx)

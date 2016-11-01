@@ -8,7 +8,7 @@ xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12
 setxkbmap -option 'caps:ctrl_modifier'
 xcape -e 'Caps_Lock=Escape'
 dropbox start&
-feh --bg-scale ~/Pictures/japan-tokyo-city-wallpaper-2560x1440.jpg
+feh --bg-scale ~/Pictures/landmark-bridge.jpeg
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 

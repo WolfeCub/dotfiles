@@ -51,6 +51,13 @@ bindkey '^w' backward-kill-word
 # ctrl-r starts searching history backward
 bindkey '^r' history-incremental-search-backward
 
+# VI MODE KEYBINDINGS (ins mode)
+bindkey -M viins '^a'    beginning-of-line
+bindkey -M viins '^e'    end-of-line
+bindkey -M viins '^k'    kill-line
+bindkey -M viins '^w'    backward-kill-word
+bindkey -M viins '^u'    backward-kill-line
+
 ##
 ## A L I A S E S
 ##

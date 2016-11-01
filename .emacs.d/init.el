@@ -41,7 +41,7 @@
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
 (setq custom-theme-directory "~/.emacs.d/themes")
-(load-theme 'cyberpunk)
+(load-theme 'cyberpunk t)
 (when (eq (display-graphic-p) nil)
   (add-to-list 'default-frame-alist '(background-color . "color-16"))
   (custom-set-faces
@@ -73,6 +73,10 @@
   (:states 'motion
            "k" 'evil-previous-visual-line
            "j" 'evil-next-visual-line)
+  (:states 'operator
+           "k" 'evil-previous-line
+           "j" 'evil-next-line)
+  
 
   (:states 'normal
            "C-S-h" help-map

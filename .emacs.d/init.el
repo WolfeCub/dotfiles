@@ -43,6 +43,7 @@
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'cyberpunk)
 (when (eq (display-graphic-p) nil)
+  (setq nlinum-format "%d ")
   (add-to-list 'default-frame-alist '(background-color . "color-16"))
   (custom-set-faces
    '(linum ((t (:background "color-16" :foreground "#9fc59f"))))))
@@ -58,6 +59,7 @@
   (evil-mode t)
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t)
+  (setq-default evil-symbol-word-search t) 
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
   (define-key evil-ex-map "e " 'ido-find-file) ; Trigger ido with :e
 

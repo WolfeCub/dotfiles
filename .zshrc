@@ -54,6 +54,8 @@ bindkey '^r' history-incremental-search-backward
 ##
 ## A L I A S E S
 ##
+# Misc
+alias :q='exit'
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'

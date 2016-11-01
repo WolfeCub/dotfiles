@@ -40,15 +40,59 @@
    (set-face-attribute 'default t :font "Inconsolata-13"))
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
+(global-hl-line-mode 1)
+(custom-set-faces
+ '(hl-line ((t (:weight bold)))))
+
+;; Theme
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'cyberpunk t)
+;; When in terminal
 (when (eq (display-graphic-p) nil)
   (setq nlinum-format "%d ")
   (add-to-list 'default-frame-alist '(background-color . "color-16"))
   (custom-set-faces
    '(linum ((t (:background "color-16" :foreground "#9fc59f"))))))
 
-;; Evil
+;;
+;; F U N C T I O N S
+;;
+(defun wolfe/controlz ()
+  (interactive)
+  (when (eq (display-graphic-p) nil)
+    (suspend-emacs)))
+
+(defun wolfe/org-open (name)
+  "Opens the file in the dropbox path"
+  (interactive)
+  (when (eq system-type 'gnu/linux)
+    (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
+  (when (eq system-type 'windows-nt)
+    (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\" name ".org"))))
+
+(defun wolfe/org-dropbox-path ()
+  "Returns the dropbox path"
+  (interactive)
+  (cond
+   ((eq system-type 'gnu/linux)
+    "~/Dropbox/org/")
+   ((eq system-type 'windows-nt)
+    "C:\\Users\\Josh\\Dropbox\\org\\")
+   (else "")))
+
+(defun wolfe/dropbox-start ()
+  (interactive)
+  (if (eq nil (file-exists-p "/virtual/wolfejos/dropbox/.dropbox-dist"))
+      (call-process-shell-command "(python ~/.emacs.d/dropbox.py start -i&)")
+    (call-process-shell-command "(python ~/.emacs.d/dropbox.py start&)")))
+
+(defun wolfe/dropbox-stop ()
+  (interactive)
+  (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
+
+;;
+;; E V I L
+;;
 (use-package general)
 (use-package evil
   :demand
@@ -85,7 +129,8 @@
            "C-h"  'evil-window-left
            "C-j"  'evil-window-down
            "C-k"  'evil-window-up
-           "C-l"  'evil-window-right)
+           "C-l"  'evil-window-right
+           "C-z"  'wolfe/controlz)
 
   (wolfe/bind-leader
    "w" 'save-buffer
@@ -105,7 +150,9 @@
 
 (use-package evil-magit)
 
-;; Org Settings
+;;
+;; O R G - M O D E
+;;
 (setq org-pretty-entities t
       org-src-fontify-natively t
       org-src-tab-acts-natively t
@@ -115,39 +162,6 @@
       org-fontify-quote-and-verse-blocks t
       org-ellipsis "⤵")
 
-(defun wolfe/org-open (name)
-  "Opens the file in the dropbox path"
- (interactive)
-  (when (eq system-type 'gnu/linux)
-    (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
-  (when (eq system-type 'windows-nt)
-    (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\" name ".org"))))
-
-(defun wolfe/org-dropbox-path ()
-  "Returns the dropbox path"
-  (interactive)
-  (cond
-   ((eq system-type 'gnu/linux)
-    "~/Dropbox/org/")
-   ((eq system-type 'windows-nt)
-    "C:\\Users\\Josh\\Dropbox\\org\\")
-   (else "")))
-
-(defun wolfe/dropbox-start ()
-  (interactive)
-  (if (eq nil (file-exists-p "/virtual/wolfejos/dropbox/.dropbox-dist"))
-      (call-process-shell-command "(python ~/.emacs.d/dropbox.py start -i&)")
-    (call-process-shell-command "(python ~/.emacs.d/dropbox.py start&)")))
-
-(defun wolfe/dropbox-stop ()
-  (interactive)
-  (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
-
-;; Fixed tab in terminal
-;;(add-hook 'org-mode-hook
-;;(lambda ()
-;;(define-key evil-normal-state-map (kbd "TAB") 'org-cycle)))
-
 ;; Twitter bootstrap exporter
 (use-package ox-twbs)
 
@@ -156,7 +170,9 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-;; Packages
+;;
+;; G E N E R A L   P A C K A G E S
+;;
 (use-package ido
   :init
   (defun wolfe/ido-set-keys ()
@@ -218,10 +234,6 @@
   (global-git-gutter-mode +1))
 
 (use-package latex-preview-pane)
-
-(global-hl-line-mode 1)
-(custom-set-faces
- '(hl-line ((t (:weight bold)))))
 
 (use-package company
   :init

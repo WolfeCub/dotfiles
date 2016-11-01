@@ -205,7 +205,7 @@
 (use-package smooth-scrolling
   :config
   (smooth-scrolling-mode 1)
-  (setq smooth-scroll-margin 3))
+  (setq smooth-scroll-margin 10))
 
 (use-package git-gutter-fringe
   :ensure t

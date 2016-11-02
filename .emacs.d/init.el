@@ -23,6 +23,9 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;;
+;; G E N E R A L   S E T T I N G S
+;;
 (setq inhibit-splash-screen t
       inhibit-startup-message t
       inhibit-startup-echo-area-message "wolfe")
@@ -47,8 +50,7 @@
 ;; Theme
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'cyberpunk t)
-;; When in terminal
-(when (eq (display-graphic-p) nil)
+(when (eq (display-graphic-p) nil) ; When in terminal
   (setq nlinum-format "%d ")
   (add-to-list 'default-frame-alist '(background-color . "color-16"))
   (custom-set-faces
@@ -235,6 +237,9 @@
 
 (use-package latex-preview-pane)
 
+;;
+;; C O M P A N Y
+;;
 (use-package company
   :init
   (global-company-mode)
@@ -267,6 +272,9 @@
 
   (add-hook 'tex-mode-hook 'wolfe/latex-setup))
 
+;;
+;; B A C K U P S
+;;
 (setq backup-by-copying t) ; Stop shinanigans with links
 (setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
 (if (eq nil (file-exists-p "~/.bak.emacs/")) ; Creates directory if it doesn't already exist

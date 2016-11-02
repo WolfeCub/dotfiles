@@ -248,7 +248,10 @@
   (setq company-idle-delay 0) ; Delay to complete
   (setq company-minimum-prefix-length 1)
   (setq company-selection-wrap-around t) ; Loops around suggestions
-  (define-key company-active-map [tab] 'company-select-next) ; Tab cycles
+
+  (if (display-graphic-p)
+      (define-key company-active-map [tab] 'company-select-next)
+    (define-key company-active-map (kbd "C-i") 'company-select-next))
 
   ;; Inherits colors from theme to style autocomplete menu correctly
   (require 'color)

@@ -21,9 +21,14 @@ setopt extendedglob
 # Allow [ or ] whereever you want
 unsetopt nomatch
 
+# Setup completion framework
 fpath=(~/.zsh/completion/ $fpath)
 autoload -Uz compinit
 compinit
+
+# Set emacs as default editor
+export EDITOR='emacs -nw'
+export VISUAL='emacs -nw'
 
 ## History
 HISTFILE=$HOME/.zhistory       # enable history saving on shell exit

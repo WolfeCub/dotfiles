@@ -46,11 +46,12 @@
 (global-hl-line-mode 1)
 (custom-set-faces
  '(hl-line ((t (:weight bold)))))
-
-;; Theme
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'cyberpunk t)
-(when (eq (display-graphic-p) nil) ; When in terminal
+
+
+;; When in terminal
+(unless (display-graphic-p) 
   (setq nlinum-format "%d ")
   (add-to-list 'default-frame-alist '(background-color . "color-16"))
   (custom-set-faces

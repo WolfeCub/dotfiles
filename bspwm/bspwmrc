@@ -9,6 +9,8 @@ setxkbmap -option 'caps:ctrl_modifier'
 xcape -e 'Caps_Lock=Escape'
 dropbox start&
 feh --bg-scale ~/Pictures/landmark-bridge.jpeg
+powertop --auto-tune
+tlp start
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 

@@ -38,6 +38,10 @@ XF86MonBrightnessUp
 XF86MonBrightnessDown
   xbacklight -dec 5
 
+# swap keyboard layout
+super + p
+  ~/bin/toggle-layout
+
 #
 # bspwm hotkeys
 #

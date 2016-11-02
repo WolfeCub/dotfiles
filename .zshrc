@@ -9,7 +9,7 @@ autoload -U colors && colors
 
 # enable colored output from ls, etc. on FreeBSD-based systems
 export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
+#export LSCOLORS=GxFxCxDxBxegedabagaced
 
 # awesome cd movements from zshkit
 setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
@@ -21,8 +21,12 @@ setopt extendedglob
 # Allow [ or ] whereever you want
 unsetopt nomatch
 
-# Setup completion framework
-fpath=(~/.zsh/completion/ $fpath)
+# Setup zsh path
+fpath=(
+    ~/.zsh/completion/
+    ~/.zsh/prompt/
+    $fpath)
+
 autoload -Uz compinit
 compinit
 
@@ -91,24 +95,29 @@ alias ec='emacsclient -c'
 ## P R O M P T
 ##
 # modify the prompt to contain git branch name if applicable
-git_prompt_info() {
-    current_branch=$(git current-branch 2> /dev/null)
-    if [[ -n $current_branch ]]; then
-        echo " %{$fg_bold[green]%}$current_branch%{$reset_color%}"
-    fi
-}
-setopt promptsubst
-PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info) $ '
+##git_prompt_info() {
+##    current_branch=$(git current-branch 2> /dev/null)
+##    if [[ -n $current_branch ]]; then
+##        echo " %{$fg_bold[green]%}$current_branch%{$reset_color%}"
+##    fi
+##}
+##setopt promptsubst
+##PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info) $ '
+##
+##precmd() { RPROMPT="" }
+##function zle-line-init zle-keymap-select {
+##    VIM_PROMPT="%{$fg_bold[yellow]%} [% N]% %{$reset_color%}"
+##    RPROMPT='`jobs | sed -E "s;\[([0-9])*\]  (\+|\-| )? (s|r)[a-z]* *(.*); [\1]\3 \2\4;" | tr "\n" "," | sed "s/.$//"` [`date +%H:%M:%S`]${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1'
+##    zle reset-prompt
+##}
+##
+##zle -N zle-line-init
+##zle -N zle-keymap-select
 
-precmd() { RPROMPT="" }
-function zle-line-init zle-keymap-select {
-    VIM_PROMPT="%{$fg_bold[yellow]%} [% N]% %{$reset_color%}"
-    RPROMPT='`jobs | sed -E "s;\[([0-9])*\]  (\+|\-| )? (s|r)[a-z]* *(.*); [\1]\3 \2\4;" | tr "\n" "," | sed "s/.$//"` [`date +%H:%M:%S`]${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1'
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
+autoload -U promptinit; promptinit
+prompt pure
 
 # Delay of 0.1 seconds
 export KEYTIMEOUT=1
+
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 

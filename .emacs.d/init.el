@@ -245,6 +245,30 @@
 (use-package latex-preview-pane)
 
 ;;
+;; L A N G U A G E  S P E C I F I C
+;;
+
+;; Javascript
+(use-package js2-mode)
+(autoload 'js2-mode "js2-mode" nil t)
+(autoload 'js2-jsx-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
+(custom-set-variables '(js2-strict-inconsistent-return-warning nil))
+(custom-set-variables '(js2-strict-missing-semi-warning nil))
+(setq js-indent-level 2)
+(setq js2-indent-level 2)
+(setq js2-basic-offset 2)
+
+(use-package tern
+  :config
+  (add-hook 'js2-mode-hook (lambda () (tern-mode t))))
+
+(use-package company-tern
+  :config
+  (add-to-list 'company-backends 'company-tern))
+
+;;
 ;; C O M P A N Y
 ;;
 (use-package company
@@ -257,21 +281,21 @@
 
   (if (display-graphic-p)
       (define-key company-active-map [tab] 'company-select-next)
-    (define-key company-active-map (kbd "C-i") 'company-select-next))
+    (define-key company-active-map (kbd "C-i") 'company-select-next)))
 
-  ;; Inherits colors from theme to style autocomplete menu correctly
-  (require 'color)
-  (let ((bg (face-attribute 'default :background)))
-    (custom-set-faces
-     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-     `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
+;; Inherits colors from theme to style autocomplete menu correctly
+;;(require 'color)
+;;(let ((bg (face-attribute 'default :background)))
+;;  (custom-set-faces
+;;   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+;;   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+;;   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+;;   `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+;;   `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
 
-(use-package company-quickhelp
-  :config
-  (company-quickhelp-mode 1))
+;;(use-package company-quickhelp
+;;:config
+;;(company-quickhelp-mode 1))
 
 (use-package company-math
   :config

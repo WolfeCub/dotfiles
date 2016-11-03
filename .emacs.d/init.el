@@ -60,6 +60,11 @@
 ;;
 ;; F U N C T I O N S
 ;;
+(defun wolfe/find-tag ()
+  "Jump to the tag at point without prompting"
+  (interactive)
+  (find-tag (find-tag-default)))
+
 (defun wolfe/controlz ()
   (interactive)
   (when (eq (display-graphic-p) nil)
@@ -142,6 +147,7 @@
    "b" 'mode-line-other-buffer
    "k" 'kill-buffer
    "m" 'ido-switch-buffer
+   "t" 'wolfe/find-tag
    "os" (lambda() (interactive) (wolfe/org-open "school"))
    "ol" (lambda() (interactive) (wolfe/org-open "life"))
    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
@@ -275,6 +281,17 @@
                         company-backends)))
 
   (add-hook 'tex-mode-hook 'wolfe/latex-setup))
+
+;;
+;; M I S C
+;;
+(setq
+ ;; use gdb-many-windows by default
+ gdb-many-windows t
+
+ ;; Non-nil means display source file containing the main routine at startup
+ gdb-show-main t
+ )
 
 ;;
 ;; B A C K U P S

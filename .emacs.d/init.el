@@ -49,7 +49,6 @@
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'cyberpunk t)
 
-
 ;; When in terminal
 (unless (display-graphic-p) 
   (setq nlinum-format "%d ")

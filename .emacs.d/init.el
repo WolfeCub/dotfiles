@@ -60,6 +60,21 @@
 ;;
 ;; F U N C T I O N S
 ;;
+(defun wolfe/compile-dot-emacs ()
+  "Byte-compile dotfiles."
+  (interactive)
+  (byte-recompile-directory user-emacs-directory 0)) 
+
+(defun wolfe/remove-elc-on-save ()
+  "If you're saving an elisp file, likely the .elc is no longer valid."
+  (add-hook 'after-save-hook
+            (lambda ()
+              (if (file-exists-p (concat buffer-file-name "c"))
+                  (delete-file (concat buffer-file-name "c"))))
+            nil t))
+
+(add-hook 'emacs-lisp-mode-hook 'wolfe/remove-elc-on-save)
+
 (defun wolfe/find-tag ()
   "Jump to the tag at point without prompting"
   (interactive)
@@ -267,6 +282,8 @@
 (use-package company-tern
   :config
   (add-to-list 'company-backends 'company-tern))
+
+(use-package web-mode)
 
 ;;
 ;; C O M P A N Y

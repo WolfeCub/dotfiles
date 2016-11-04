@@ -1,3 +1,4 @@
+*.elc
 .emacs.d/lisp/the-lab.el
 .emacs.d/custom.el*
 .emacs.d/README.el

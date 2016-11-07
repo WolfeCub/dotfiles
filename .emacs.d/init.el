@@ -82,7 +82,7 @@
 (defun wolfe/controlz ()
   (interactive)
   (when (eq (display-graphic-p) nil)
-    (suspend-emacs)))
+    (suspend-frame)))
 
 (defun wolfe/org-open (name)
   "Opens the file in the dropbox path"

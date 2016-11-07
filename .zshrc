@@ -84,7 +84,6 @@ bindkey '^Z' fancy-ctrl-z
 ##
 ## K E Y B I N D I N G S
 ##
-# Use vim cli mode
 bindkey '^P' up-history
 bindkey '^N' down-history
 

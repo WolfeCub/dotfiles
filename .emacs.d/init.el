@@ -36,7 +36,8 @@
 (setq initial-scratch-message "") ; No scratch text
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 (setq-default indent-tabs-mode nil)
-(delete-selection-mode 1) ; Replace selection on insert
+(column-number-mode t)
+ (delete-selection-mode 1) ; Replace selection on insert
 (setq vc-follow-symlinks t) ; Always follow symlinks
  (when (member "Inconsolata" (font-family-list)) ; Set default font
    (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))

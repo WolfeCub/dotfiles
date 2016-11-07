@@ -27,9 +27,7 @@ XF86AudioRaiseVolume
   amixer -D pulse sset Master 2%+
 XF86AudioLowerVolume
   amixer -D pulse sset Master 2%-
-ctrl + super + Left
-  amixer set Master toggle
-ctrl + super + Right
+XF86AudioMute
   amixer set Master toggle
 
 # brightness keys

@@ -148,7 +148,7 @@
   
 
   (:states 'normal
-           "C-S-h" help-map
+           "C-M-h" help-map
            "C-h"  'evil-window-left
            "C-j"  'evil-window-down
            "C-k"  'evil-window-up

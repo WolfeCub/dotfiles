@@ -1,3 +1,4 @@
+
 ##
 ## S E T T I N G S
 ##
@@ -9,7 +10,6 @@ autoload -U colors && colors
 
 # enable colored output from ls, etc. on FreeBSD-based systems
 export CLICOLOR=1
-#export LSCOLORS=GxFxCxDxBxegedabagaced
 
 # awesome cd movements from zshkit
 setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
@@ -41,6 +41,30 @@ HISTSIZE=1200                  # lines of history to maintain memory
 SAVEHIST=1000                  # lines of history to maintain in history file.
 setopt HIST_EXPIRE_DUPS_FIRST  # allow dups, but expire old ones when I hit HISTSIZE
 setopt EXTENDED_HISTORY        # save timestamp and runtime information
+
+# Adds case insensitivity
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# Color completion folders
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=34}:${(s.:.)LS_COLORS}")';
+# Kill colors
+zstyle ':completion:*:*:kill:*' list-colors '=(#b) #([0-9]#)*( *[a-z])*=34=31=33'
+# Option colors
+zstyle ':completion:*:options' list-colors '=^(-- *)=34'
+# Highlights current option
+zstyle ':completion:*' menu select
+
+# Colorify man
+function man() {
+    env \
+	LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+	LESS_TERMCAP_md=$(printf "\e[1;31m") \
+	LESS_TERMCAP_me=$(printf "\e[0m") \
+	LESS_TERMCAP_se=$(printf "\e[0m") \
+	LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+	LESS_TERMCAP_ue=$(printf "\e[0m") \
+	LESS_TERMCAP_us=$(printf "\e[1;32m") \
+	man "$@"
+}
 
 ##
 ## T W E A K S

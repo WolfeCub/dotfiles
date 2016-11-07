@@ -1,9 +1,9 @@
 #!/bin/sh
 
-ln -s ./.vim ~
-ln -s ./.vimrc ~
-ln -s ./.emacs.d ~
-ln -s ./.tmux.conf ~
-ln -s ./zsh ~
-ln -s ./zshrc ~
-ln -s ./Xmodmap ~
+ln -sd `pwd`/.vim ~
+ln -s `pwd`/.vimrc ~
+ln -sd `pwd`/.emacs.d ~
+ln -s `pwd`/.tmux.conf ~
+ln -sd `pwd`/zsh ~
+ln -s `pwd`/zshrc ~
+ln -s `pwd`/Xmodmap ~

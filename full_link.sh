@@ -1,12 +1,16 @@
 #!/bin/sh
 
-ln -s ./bspwm ~/.config
-ln -s ./.emacs.d ~
-ln -s ./sxhkd ~/.config
-ln -s ./.tmux.conf ~
-ln -s ./.vim ~
-ln -s ./.vimrc ~
-ln -s ./.Xmodmap ~
-ln -s ./.Xresources ~
-ln -s ./.zsh ~
-ln -s ./.zshrc ~
+mkdir -p ~/.config
+mkdir -p ~/.config
+
+ln -sd `pwd`/bspwm ~/.config
+ln -sd `pwd`/sxhkd ~/.config
+ln -s `pwd`/.Xresources ~
+
+ln -sd `pwd`/.vim ~
+ln -s `pwd`/.vimrc ~
+ln -sd `pwd`/.emacs.d ~
+ln -s `pwd`/.tmux.conf ~
+ln -sd `pwd`/zsh ~
+ln -s `pwd`/zshrc ~
+ln -s `pwd`/Xmodmap ~

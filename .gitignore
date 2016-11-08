@@ -8,6 +8,7 @@
 .emacs.d/recentf
 .emacs.d/smex-items
 .emacs.d/tramp
+.emacs.d/projectile-bookmarks.eld
 .vim/.netrwhist
 .vim/plugged/
 .emacs.d/ido.last*

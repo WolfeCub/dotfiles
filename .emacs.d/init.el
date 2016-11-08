@@ -220,6 +220,16 @@
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
+(use-package flx-ido
+  :config
+  (flx-ido-mode 1)
+  (setq ido-enable-flex-matching t)
+  (setq ido-use-faces nil))
+
+(use-package projectile
+  :config
+  (projectile-global-mode))
+
 (use-package nlinum-relative
   :config
   (setq nlinum-relative-redisplay-delay 0)
@@ -235,7 +245,8 @@
   (smooth-scrolling-mode 1)
   (setq smooth-scroll-margin 10))
 
-(use-package latex-preview-pane)
+(use-package latex-preview-pane
+  :defer t)
 
 ;;
 ;; L A N G U A G E  S P E C I F I C
@@ -254,6 +265,7 @@
 (setq js2-basic-offset 2)
 
 (use-package tern
+  :defer t
   :config
   (add-hook 'js2-mode-hook (lambda () (tern-mode t))))
 
@@ -278,7 +290,7 @@
       (define-key company-active-map [tab] 'company-select-next)
     (define-key company-active-map (kbd "C-i") 'company-select-next))
 
-  Inherits colors from theme to style autocomplete menu correctly
+  ;;Inherits colors from theme to style autocomplete menu correctly
   (require 'color)
   (let ((bg (face-attribute 'default :background)))
     (custom-set-faces

@@ -226,36 +226,14 @@
   (nlinum-relative-setup-evil)
   (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
-(use-package expand-region
-  :config
-  (global-set-key (kbd "C-=") 'er/expand-region))
-
-(use-package aggressive-indent
-  :config
-  (global-aggressive-indent-mode))
-
 (use-package magit
   :config
   (global-set-key "\C-x\g" 'magit-status))
-
-(use-package ace-jump-mode
-  :config
-  (define-key global-map (kbd "C-c C-SPC") 'ace-jump-mode))
 
 (use-package smooth-scrolling
   :config
   (smooth-scrolling-mode 1)
   (setq smooth-scroll-margin 10))
-
-(use-package git-gutter-fringe
-  :ensure t
-  :diminish git-gutter-mode
-  :config
-  (setq git-gutter-fr:side 'right-fringe)
-  (set-face-foreground 'git-gutter-fr:modified "#63747c")
-  (set-face-foreground 'git-gutter-fr:added    "#63747c")
-  (set-face-foreground 'git-gutter-fr:deleted  "#63747c")
-  (global-git-gutter-mode +1))
 
 (use-package latex-preview-pane)
 
@@ -298,21 +276,21 @@
 
   (if (display-graphic-p)
       (define-key company-active-map [tab] 'company-select-next)
-    (define-key company-active-map (kbd "C-i") 'company-select-next)))
+    (define-key company-active-map (kbd "C-i") 'company-select-next))
 
-;; Inherits colors from theme to style autocomplete menu correctly
-;;(require 'color)
-;;(let ((bg (face-attribute 'default :background)))
-;;  (custom-set-faces
-;;   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-;;   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-;;   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-;;   `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-;;   `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
+  Inherits colors from theme to style autocomplete menu correctly
+  (require 'color)
+  (let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
 
-;;(use-package company-quickhelp
-;;:config
-;;(company-quickhelp-mode 1))
+(use-package company-quickhelp
+  :config
+  (company-quickhelp-mode 1))
 
 (use-package company-math
   :config

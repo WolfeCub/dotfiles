@@ -288,21 +288,17 @@
 
   (if (display-graphic-p)
       (define-key company-active-map [tab] 'company-select-next)
-    (define-key company-active-map (kbd "C-i") 'company-select-next))
+    (define-key company-active-map (kbd "C-i") 'company-select-next)))
 
   ;;Inherits colors from theme to style autocomplete menu correctly
-  (require 'color)
-  (let ((bg (face-attribute 'default :background)))
-    (custom-set-faces
-     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-     `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
-
-(use-package company-quickhelp
-  :config
-  (company-quickhelp-mode 1))
+  ;;(require 'color)
+  ;;(let ((bg (face-attribute 'default :background)))
+  ;;  (custom-set-faces
+  ;;   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+  ;;   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+  ;;   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+  ;;   `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+  ;;   `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
 
 (use-package company-math
   :config

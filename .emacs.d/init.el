@@ -226,10 +226,9 @@
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
 
-(when (eq (getenv "TMUX") nil)
-  (use-package relative-line-numbers
-    :config
-    (add-hook 'prog-mode-hook 'relative-line-numbers-mode)))
+(use-package relative-line-numbers
+  :config
+  (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
 
 (use-package magit
   :config

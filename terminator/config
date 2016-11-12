@@ -14,6 +14,7 @@
 [profiles]
   [[default]]
     background_image = None
+    cursor_blink = False
     cursor_color = "#e4e4e4"
     custom_command = env TERM=xterm-256color zsh
     font = Inconsolata 12

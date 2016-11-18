@@ -168,6 +168,7 @@
    "k" 'kill-buffer
    "m" 'ido-switch-buffer
    "t" 'wolfe/find-tag
+   "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
    "os" (lambda() (interactive) (wolfe/org-open "school"))
    "ol" (lambda() (interactive) (wolfe/org-open "life"))
    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))

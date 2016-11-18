@@ -17,7 +17,7 @@
     cursor_blink = False
     cursor_color = "#e4e4e4"
     custom_command = env TERM=xterm-256color zsh
-    font = Inconsolata 12
+    font = Inconsolata 15
     foreground_color = "#ffffff"
     palette = "#000000:#fc4346:#50fb7c:#f0fb8c:#49baff:#fc4cb4:#8be9fe:#ededec:#555555:#fc4346:#50fb7c:#f0fb8c:#49baff:#fc4cb4:#8be9fe:#ededec"
     scrollback_infinite = True

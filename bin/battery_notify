@@ -1,10 +1,13 @@
 #!/bin/sh
 
 while true; do
-    battery_level=`acpi -b | grep -P -o '[0-9]+(?=%)'`
-    if [ $battery_level -le 10 ]
-    then
-        notify-send "Battery low" "Battery level is ${battery_level}%!"
+    acpi | grep Discharging
+    if [ "$?" -eq 0 ]; then
+        battery_level=`acpi -b | grep -P -o '[0-9]+(?=%)'`
+        if [ $battery_level -le 5 ]; then
+            notify-send "Battery low" "Battery level is ${battery_level}%!"
+            sleep 300
+        fi
     fi
     sleep 60
 done

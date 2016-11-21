@@ -227,7 +227,7 @@
 (use-package nlinum-relative
   :config
   (nlinum-relative-setup-evil)
-  (setq nlinum-relative-redisplay-delay 0) 
+  (setq nlinum-relative-redisplay-delay 0.25) 
   (setq nlinum-relative-current-symbol "")
   (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 

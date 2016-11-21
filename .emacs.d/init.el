@@ -37,18 +37,18 @@
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
 (setq-default indent-tabs-mode nil)
 (column-number-mode t)
- (delete-selection-mode 1) ; Replace selection on insert
+(delete-selection-mode 1) ; Replace selection on insert
 (setq vc-follow-symlinks t) ; Always follow symlinks
- (when (member "Inconsolata" (font-family-list)) ; Set default font
-   (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
-   (set-face-attribute 'default t :font "Inconsolata-13"))
+(when (member "Inconsolata" (font-family-list)) ; Set default font
+  (add-to-list 'default-frame-alist '(font . "Inconsolata-13" ))
+  (set-face-attribute 'default t :font "Inconsolata-13"))
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
 (setq redisplay-dont-pause t
-  scroll-margin 10
-  scroll-step 1
-  scroll-conservatively 10000
-  scroll-preserve-screen-position 1)
+      scroll-margin 10
+      scroll-step 1
+      scroll-conservatively 10000
+      scroll-preserve-screen-position 1)
 (global-hl-line-mode 1)
 (custom-set-faces
  '(hl-line ((t (:weight bold)))))
@@ -60,7 +60,7 @@
   (setq nlinum-format "%d ")
   (add-to-list 'default-frame-alist '(background-color . "color-16"))
   (custom-set-faces
-   '(linum ((t (:background "color-16" :foreground "#9fc59f"))))))
+   '(linum ((t (:background "color-16" :foreground "#ffffff"))))))
 
 ;;
 ;; F U N C T I O N S
@@ -224,10 +224,12 @@
   (global-set-key (kbd "M-X") 'smex-major-mode-commands)
   (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 
-
-(use-package relative-line-numbers
+(use-package nlinum-relative
   :config
-  (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
+  (nlinum-relative-setup-evil)
+  (setq nlinum-relative-redisplay-delay 0) 
+  (setq nlinum-relative-current-symbol "")
+  (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 (use-package magit
   :config
@@ -299,8 +301,8 @@
 (if (eq nil (file-exists-p "~/.bak.emacs/auto")); Creates auto directory if it doesn't already exist
     (make-directory "~/.bak.emacs/auto"))
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
-; backup in one place. flat, no tree structure
+                                        ; backup in one place. flat, no tree structure
 
-; Load misc private file
+                                        ; Load misc private file
 (if (eq t (file-exists-p "~/.emacs.d/lisp/the-lab.el"))
     (load-file "~/.emacs.d/lisp/the-lab.el"))

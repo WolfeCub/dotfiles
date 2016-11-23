@@ -168,6 +168,7 @@
    "k" 'kill-buffer
    "m" 'ido-switch-buffer
    "t" 'wolfe/find-tag
+   "c" 'iedit-mode
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
    "os" (lambda() (interactive) (wolfe/org-open "school"))
@@ -244,6 +245,10 @@
     (highlight-symbol-mode 1))
   (add-hook 'prog-mode-hook 'wolfe/highlight-symbol-init))
 
+(use-package iedit
+  :config
+  (setq iedit-toggle-key-default nil))
+
 ;;
 ;; L A N G U A G E  S P E C I F I C
 ;;
@@ -266,17 +271,17 @@
 
   (if (display-graphic-p)
       (define-key company-active-map [tab] 'company-select-next)
-    (define-key company-active-map (kbd "C-i") 'company-select-next))
+    (define-key company-active-map (kbd "C-i") 'company-select-next)))
 
   ;;Inherits colors from theme to style autocomplete menu correctly
-  (require 'color)
-  (let ((bg (face-attribute 'default :background)))
-    (custom-set-faces
-     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-     `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
+  ;;(require 'color)
+  ;;(let ((bg (face-attribute 'default :background)))
+  ;;  (custom-set-faces
+  ;;   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+  ;;   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+  ;;   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+  ;;   `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+  ;;   `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
 
 
 

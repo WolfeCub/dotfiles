@@ -139,7 +139,7 @@
 
   (general-create-definer wolfe/bind-leader
                           :keymaps 'global
-                          :states '(normal insert emacs)
+                          :states '(normal insert visual emacs)
                           :prefix "SPC"
                           :non-normal-prefix "M-SPC")
 

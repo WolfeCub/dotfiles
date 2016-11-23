@@ -235,14 +235,23 @@
   :config
   (global-set-key "\C-x\g" 'magit-status))
 
-(use-package latex-preview-pane
-  :defer t)
+(use-package highlight-symbol
+  :config
+  (setq highlight-symbol-highlight-single-occurrence nil)
+  (setq highlight-symbol-idle-delay 1)
+  (defun wolfe/highlight-symbol-init ()
+    (interactive)
+    (highlight-symbol-mode 1))
+  (add-hook 'prog-mode-hook 'wolfe/highlight-symbol-init))
 
 ;;
 ;; L A N G U A G E  S P E C I F I C
 ;;
 
 (use-package web-mode)
+
+(use-package latex-preview-pane
+  :defer t)
 
 ;;
 ;; C O M P A N Y

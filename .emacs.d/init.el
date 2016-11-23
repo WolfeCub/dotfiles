@@ -133,7 +133,7 @@
   (setq evil-vsplit-window-right t)
   (setq-default evil-symbol-word-search t) 
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
-  (define-key evil-ex-map "e " 'ido-find-file) ; Trigger ido with :e
+  (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger ido with :e
 
   (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
@@ -201,29 +201,14 @@
 
 ;;
 ;; G E N E R A L   P A C K A G E S
-;;
-(use-package ido
-  :init
-  (defun wolfe/ido-set-keys ()
-    "Add keybindings for ido"
-    (define-key ido-completion-map (kbd "C-i") 'ido-next-match))
-  (add-hook 'ido-setup-hook #'wolfe/ido-set-keys)
+(use-package ivy
   :config
-  (setq ido-enable-flex-matching t)
-  (setq ido-everywhere t)
-  (ido-mode 1))
-
-(use-package ido-ubiquitous
-  :config
-  (ido-ubiquitous-mode 1))
-
-(use-package ido-complete-space-or-hyphen)
-
-(use-package smex
-  :config
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (use-package counsel))
+  
+(use-package swiper
+  :bind (("C-s" . swiper)))
 
 (use-package nlinum-relative
   :config
@@ -247,7 +232,9 @@
 
 (use-package iedit
   :config
-  (setq iedit-toggle-key-default nil))
+  (setq iedit-toggle-key-default nil)
+  (custom-set-faces
+   '(iedit-occurrence ((t (:background "color-124"))))))
 
 ;;
 ;; L A N G U A G E  S P E C I F I C
@@ -273,15 +260,15 @@
       (define-key company-active-map [tab] 'company-select-next)
     (define-key company-active-map (kbd "C-i") 'company-select-next)))
 
-  ;;Inherits colors from theme to style autocomplete menu correctly
-  ;;(require 'color)
-  ;;(let ((bg (face-attribute 'default :background)))
-  ;;  (custom-set-faces
-  ;;   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-  ;;   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-  ;;   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-  ;;   `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-  ;;   `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
+;;Inherits colors from theme to style autocomplete menu correctly
+;;(require 'color)
+;;(let ((bg (face-attribute 'default :background)))
+;;  (custom-set-faces
+;;   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+;;   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+;;   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+;;   `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+;;   `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
 
 
 

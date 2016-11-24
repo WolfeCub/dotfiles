@@ -44,6 +44,7 @@
   (set-face-attribute 'default t :font "Inconsolata-13"))
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
+(setq tags-revert-without-query t) ; Don't ask to reload TAGS file
 (setq redisplay-dont-pause t
       scroll-margin 10
       scroll-step 1
@@ -94,7 +95,6 @@ Insert .* between each char."
               (if (file-exists-p (concat buffer-file-name "c"))
                   (delete-file (concat buffer-file-name "c"))))
             nil t))
-
 (add-hook 'emacs-lisp-mode-hook 'wolfe/remove-elc-on-save)
 
 (defun wolfe/find-tag ()

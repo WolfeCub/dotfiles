@@ -65,6 +65,21 @@
 ;;
 ;; F U N C T I O N S
 ;;
+(defun wolfe/ivy--regex-fuzzy (str)
+  "Build a regex sequence from STR.
+Insert .* between each char."
+  (if (string-match "\\`\\(\\^?\\)\\(.*?\\)\\(\\$?\\)\\'" str)
+      (prog1
+          (concat (match-string 1 str)
+                  (mapconcat
+                   (lambda (x)
+                     (format "\\(%c\\)" x))
+                   (delq 32 (string-to-list (match-string 2 str)))
+                   ".*?")
+                  (match-string 3 str))
+        (setq ivy--subexps (length (match-string 2 str))))
+    str))
+
 (defun wolfe/compile-dot-emacs ()
   "Byte-compile dotfiles."
   (interactive)
@@ -118,6 +133,32 @@
   (interactive)
   (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
 
+(defun narrow-or-widen-dwim (p)
+  "Widen if buffer is narrowed, narrow-dwim otherwise.
+Dwim means: region, org-src-block, org-subtree, or
+defun, whichever applies first. Narrowing to
+org-src-block actually calls `org-edit-src-code'.
+
+With prefix P, don't widen, just narrow even if buffer
+is already narrowed."
+  (interactive "P")
+  (declare (interactive-only))
+  (cond ((and (buffer-narrowed-p) (not p)) (widen))
+        ((region-active-p)
+         (narrow-to-region (region-beginning)
+                           (region-end)))
+        ((derived-mode-p 'org-mode)
+         ;; `org-edit-src-code' is not a real narrowing
+         ;; command. Remove this first conditional if
+         ;; you don't want it.
+         (cond ((ignore-errors (org-edit-src-code) t)
+                (delete-other-windows))
+               ((ignore-errors (org-narrow-to-block) t))
+               (t (org-narrow-to-subtree))))
+        ((derived-mode-p 'latex-mode)
+         (LaTeX-narrow-to-environment))
+        (t (narrow-to-defun))))
+
 ;;
 ;; E V I L
 ;;
@@ -133,7 +174,7 @@
   (setq evil-vsplit-window-right t)
   (setq-default evil-symbol-word-search t) 
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
-  (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger ido with :e
+  (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
 
   (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
@@ -169,6 +210,7 @@
    "m" 'ido-switch-buffer
    "t" 'wolfe/find-tag
    "c" 'iedit-mode
+   "n" 'narrow-or-widen-dwim
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
    "os" (lambda() (interactive) (wolfe/org-open "school"))
@@ -201,12 +243,21 @@
 
 ;;
 ;; G E N E R A L   P A C K A G E S
+;;(use-package flx)
+
 (use-package ivy
   :config
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-fuzzy)))
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (use-package counsel))
   
+  (use-package counsel
+    :demand
+    :bind (:map ivy-mode-map
+                ("M-j" . ivy-next-line)
+                ("M-k" . ivy-previous-line))))
+
 (use-package swiper
   :bind (("C-s" . swiper)))
 
@@ -232,6 +283,8 @@
 
 (use-package iedit
   :config
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-fuzzy)))
   (setq iedit-toggle-key-default nil)
   (custom-set-faces
    '(iedit-occurrence ((t (:background "color-124"))))))

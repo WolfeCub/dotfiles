@@ -256,7 +256,7 @@ is already narrowed."
   (use-package counsel
     :demand
     :bind (:map ivy-minibuffer-map
-                ("tab" . ivy-next-line)
+                ("TAB" . ivy-next-line)
                 ("RET" . ivy-alt-done))))
 
 (use-package swiper

@@ -1,6 +1,7 @@
 [global_config]
   inactive_color_offset = 1.0
 [keybindings]
+  help = <Primary><Shift><Alt>n
   layout_launcher = KP_Subtract
 [layouts]
   [[default]]

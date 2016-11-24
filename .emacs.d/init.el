@@ -256,18 +256,20 @@ is already narrowed."
 ;;
 ;; G E N E R A L   P A C K A G E S
 (use-package ivy
+  :demand
+  :bind (("M-x" . counsel-M-x)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-next-line)
+         ("RET" . ivy-alt-done))
+  :init
+  (require 'counsel)
+  (use-package smex)
   :config
   (setq ivy-re-builders-alist
-        '((t . ivy--regex-fuzzy)))
+        '((t . wolfe/ivy--regex-fuzzy)))
   (setq ivy-wrap t)
   (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  
-  (use-package counsel
-    :demand
-    :bind (:map ivy-minibuffer-map
-                ("TAB" . ivy-next-line)
-                ("RET" . ivy-alt-done))))
+  (setq ivy-use-virtual-buffers t))
 
 (use-package swiper
   :bind (("C-s" . swiper)))

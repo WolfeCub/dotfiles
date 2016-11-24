@@ -223,6 +223,7 @@ is already narrowed."
    "t" 'wolfe/find-tag
    "c" 'iedit-mode
    "n" 'narrow-or-widen-dwim
+   "p" 'counsel-git
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
    "os" (lambda() (interactive) (wolfe/org-open "school"))

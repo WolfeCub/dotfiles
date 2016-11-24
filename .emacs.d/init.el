@@ -258,6 +258,7 @@ is already narrowed."
 (use-package ivy
   :demand
   :bind (("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
          :map ivy-minibuffer-map
          ("TAB" . ivy-next-line)
          ("RET" . ivy-alt-done))
@@ -296,8 +297,6 @@ is already narrowed."
 
 (use-package iedit
   :config
-  (setq ivy-re-builders-alist
-        '((t . ivy--regex-fuzzy)))
   (setq iedit-toggle-key-default nil)
   (custom-set-faces
    '(iedit-occurrence ((t (:background "color-124"))))))

@@ -207,7 +207,7 @@ is already narrowed."
    "s" 'eval-defun
    "b" 'mode-line-other-buffer
    "k" 'kill-buffer
-   "m" 'ido-switch-buffer
+   "m" 'ivy-switch-buffer
    "t" 'wolfe/find-tag
    "c" 'iedit-mode
    "n" 'narrow-or-widen-dwim
@@ -243,8 +243,6 @@ is already narrowed."
 
 ;;
 ;; G E N E R A L   P A C K A G E S
-;;(use-package flx)
-
 (use-package ivy
   :config
   (setq ivy-re-builders-alist

@@ -361,13 +361,11 @@ is already narrowed."
 ;;
 (setq backup-by-copying t) ; Stop shinanigans with links
 (setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
-(if (eq nil (file-exists-p "~/.bak.emacs/")) ; Creates directory if it doesn't already exist
+;; Creates directory if it doesn't already exist
+(if (eq nil (file-exists-p "~/.bak.emacs/")) 
     (make-directory "~/.bak.emacs/"))
-(if (eq nil (file-exists-p "~/.bak.emacs/auto")); Creates auto directory if it doesn't already exist
+;; Creates auto directory if it doesn't already exist
+(if (eq nil (file-exists-p "~/.bak.emacs/auto"))
     (make-directory "~/.bak.emacs/auto"))
+;; backup in one place. flat, no tree structure
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
-                                        ; backup in one place. flat, no tree structure
-
-                                        ; Load misc private file
-(if (eq t (file-exists-p "~/.emacs.d/lisp/the-lab.el"))
-    (load-file "~/.emacs.d/lisp/the-lab.el"))

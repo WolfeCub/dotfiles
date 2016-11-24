@@ -54,7 +54,7 @@
  '(hl-line ((t (:weight bold)))))
 (global-hl-line-mode 1)
 (load-file "~/.emacs.d/lisp/column-marker.el")
-(add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 80)))
+(add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'cyberpunk t)
 

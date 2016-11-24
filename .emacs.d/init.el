@@ -49,9 +49,12 @@
       scroll-step 1
       scroll-conservatively 10000
       scroll-preserve-screen-position 1)
-(global-hl-line-mode 1)
 (custom-set-faces
+ '(column-marker-1 ((t (:background "color-88"))))
  '(hl-line ((t (:weight bold)))))
+(global-hl-line-mode 1)
+(load-file "~/.emacs.d/lisp/column-marker.el")
+(add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 80)))
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'cyberpunk t)
 

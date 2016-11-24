@@ -249,14 +249,15 @@ is already narrowed."
   :config
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))
+  (setq ivy-wrap t)
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   
   (use-package counsel
     :demand
     :bind (:map ivy-minibuffer-map
-                ("TAB" . ivy-next-line)
-                ("RET" . ivy-partial-or-done))))
+                ("tab" . ivy-next-line)
+                ("RET" . ivy-alt-done))))
 
 (use-package swiper
   :bind (("C-s" . swiper)))

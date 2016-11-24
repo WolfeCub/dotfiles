@@ -255,8 +255,8 @@ is already narrowed."
   (use-package counsel
     :demand
     :bind (:map ivy-mode-map
-                ("M-j" . ivy-next-line)
-                ("M-k" . ivy-previous-line))))
+                ("TAB" . ivy-next-line)
+                ("RET" . ivy-partial-or-done))))
 
 (use-package swiper
   :bind (("C-s" . swiper)))

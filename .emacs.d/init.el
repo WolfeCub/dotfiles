@@ -64,14 +64,6 @@
 
 ;;
 ;; F U N C T I O N S
-;;
-(defun wolfe/retag ()
-  (interactive)
-  (when (and (file-exists-p "TAGS") (not (file-exists-p ".tags.tmp")))
-    (save-window-excursion (async-shell-command "etags -o .tags.tmp -R * && mv .tags.tmp TAGS"))
-    ))
-(add-hook 'after-save-hook 'wolfe/retag)
-
 (defun wolfe/ivy--regex-fuzzy (str)
   "Build a regex sequence from STR.
 Insert .* between each char."
@@ -106,6 +98,16 @@ Insert .* between each char."
   "Jump to the tag at point without prompting"
   (interactive)
   (find-tag (find-tag-default)))
+
+(defadvice find-tag (around refresh-etags activate)
+  "Rerun etags and reload tags if tag not found and redo find-tag.              
+   If buffer is modified, ask about save before running etags."
+  (condition-case err
+      ad-do-it
+    (error (and (buffer-modified-p) (not (ding))
+                (save-buffer))
+           (save-window-excursion (shell-command "etags -R *"))
+           ad-do-it)))
 
 (defun wolfe/controlz ()
   (interactive)

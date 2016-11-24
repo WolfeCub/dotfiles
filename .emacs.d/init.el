@@ -254,7 +254,7 @@ is already narrowed."
   
   (use-package counsel
     :demand
-    :bind (:map ivy-mode-map
+    :bind (:map ivy-minibuffer-map
                 ("TAB" . ivy-next-line)
                 ("RET" . ivy-partial-or-done))))
 

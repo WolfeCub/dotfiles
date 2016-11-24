@@ -65,6 +65,13 @@
 ;;
 ;; F U N C T I O N S
 ;;
+(defun wolfe/retag ()
+  (interactive)
+  (when (and (file-exists-p "TAGS") (not (file-exists-p ".tags.tmp")))
+    (save-window-excursion (async-shell-command "etags -o .tags.tmp -R * && mv .tags.tmp TAGS"))
+    ))
+(add-hook 'after-save-hook 'wolfe/retag)
+
 (defun wolfe/ivy--regex-fuzzy (str)
   "Build a regex sequence from STR.
 Insert .* between each char."

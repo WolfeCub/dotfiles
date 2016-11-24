@@ -249,8 +249,8 @@ is already narrowed."
          ("TAB" . ivy-next-line)
          ("RET" . ivy-alt-done))
   :init
-  (require 'counsel)
   (use-package smex)
+  (use-package counsel)
   :config
   (setq ivy-re-builders-alist
         '((t . ivy--regex-fuzzy)))

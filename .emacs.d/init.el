@@ -68,6 +68,7 @@
 
 ;;
 ;; F U N C T I O N S
+;;
 (defun wolfe/compile-dot-emacs ()
   "Byte-compile dotfiles."
   (interactive)
@@ -241,6 +242,7 @@ is already narrowed."
 
 ;;
 ;; G E N E R A L   P A C K A G E S
+;;
 (use-package ivy
   :demand
   :bind (("M-x" . counsel-M-x)

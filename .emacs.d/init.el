@@ -69,6 +69,21 @@
 ;;
 ;; F U N C T I O N S
 ;;
+(defun wolfe/ivy--regex-fuzzy (str)
+  "Build a regex sequence from STR.
+ Insert .* between each char."
+  (if (string-match "\\`\\(\\^?\\)\\(.*?\\)\\(\\$?\\)\\'" str)
+      (prog1
+          (concat (match-string 1 str)
+                  (mapconcat
+                   (lambda (x)
+                     (format "\\(%c\\)" x))
+                   (delq 32 (string-to-list (match-string 2 str)))
+                   ".*?")
+                  (match-string 3 str))
+        (setq ivy--subexps (length (match-string 2 str))))
+    str))
+
 (defun wolfe/compile-dot-emacs ()
   "Byte-compile dotfiles."
   (interactive)
@@ -255,7 +270,7 @@ is already narrowed."
   (use-package counsel)
   :config
   (setq ivy-re-builders-alist
-        '((t . ivy--regex-fuzzy)))
+        '((t . wolfe/ivy--regex-fuzzy)))
   (setq ivy-wrap t)
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t))

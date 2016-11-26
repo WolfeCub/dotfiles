@@ -10,9 +10,10 @@
 
 ;; Setup package control
 (require 'package)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives
+             '(("org" . "http://orgmode.org/elpa/")
+               ("melpa" . "http://melpa.org/packages/")
+               ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (setq package-enable-at-startup nil)
 (package-initialize)
 
@@ -124,7 +125,8 @@
   (when (eq system-type 'gnu/linux)
     (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
   (when (eq system-type 'windows-nt)
-    (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\" name ".org"))))
+    (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\"
+                                 name ".org"))))
 
 (defun wolfe/org-dropbox-path ()
   "Returns the dropbox path"
@@ -357,13 +359,10 @@ is already narrowed."
 ;;
 ;; M I S C
 ;;
-(setq
- ;; use gdb-many-windows by default
- gdb-many-windows t
-
- ;; Non-nil means display source file containing the main routine at startup
- gdb-show-main t
- )
+(setq gdb-many-windows t ;; use gdb-many-windows by default
+      gdb-show-main t
+      ;; Non-nil means display source file containing the main routine at startup
+ ) 
 
 ;;
 ;; B A C K U P S

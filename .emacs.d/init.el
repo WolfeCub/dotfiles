@@ -172,6 +172,11 @@ is already narrowed."
          (LaTeX-narrow-to-environment))
         (t (narrow-to-defun))))
 
+(defun wolfe/man ()
+  (if (executable-find "man")
+      (man (word-at-point))
+    (woman)))
+
 ;;
 ;; E V I L
 ;;
@@ -186,9 +191,9 @@ is already narrowed."
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t)
   (setq-default evil-symbol-word-search t) 
+  (setq evil-lookup-func #'wolfe/man)
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
   (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
-
   (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
   (general-create-definer wolfe/bind-leader

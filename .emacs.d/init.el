@@ -10,10 +10,9 @@
 
 ;; Setup package control
 (require 'package)
-(add-to-list 'package-archives
-             '(("org" . "http://orgmode.org/elpa/")
-               ("melpa" . "http://melpa.org/packages/")
-               ("melpa-stable" . "http://stable.melpa.org/packages/")))
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                     ("marmalade" . "http://marmalade-repo.org/packages/")
+                     ("melpa" . "http://melpa.org/packages/")))
 (setq package-enable-at-startup nil)
 (package-initialize)
 
@@ -248,6 +247,13 @@ is already narrowed."
 ;;
 ;; O R G - M O D E
 ;;
+(use-package ox-reveal
+  :ensure nil
+  :config
+  (setq org-reveal-root "file:///home/wolfe/emacs-workshop/reveal.js")
+  (use-package htmlize
+    :ensure nil))
+
 (setq org-pretty-entities t
       org-src-fontify-natively t
       org-src-tab-acts-natively t
@@ -362,7 +368,7 @@ is already narrowed."
 (setq gdb-many-windows t ;; use gdb-many-windows by default
       gdb-show-main t
       ;; Non-nil means display source file containing the main routine at startup
- ) 
+      ) 
 
 ;;
 ;; B A C K U P S

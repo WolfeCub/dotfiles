@@ -228,7 +228,8 @@ is already narrowed."
    "k" 'kill-buffer
    "m" 'ivy-switch-buffer
    "t" 'wolfe/find-tag
-   "c" 'iedit-mode
+   "e" 'iedit-mode
+   "c" 'compile
    "n" 'narrow-or-widen-dwim
    "p" 'counsel-git
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))

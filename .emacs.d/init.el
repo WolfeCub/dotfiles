@@ -11,8 +11,8 @@
 ;; Setup package control
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                     ("marmalade" . "http://marmalade-repo.org/packages/")
-                     ("melpa" . "http://melpa.org/packages/")))
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.org/packages/")))
 (setq package-enable-at-startup nil)
 (package-initialize)
 
@@ -69,6 +69,11 @@
 ;;
 ;; F U N C T I O N S
 ;;
+(defun wolfe/compile-no-prompt ()
+  (interactive)
+  (let ((compilation-read-command nil))
+    (compile (eval compile-command))))
+
 (defun wolfe/ivy--regex-fuzzy (str)
   "Build a regex sequence from STR.
  Insert .* between each char."
@@ -229,7 +234,7 @@ is already narrowed."
    "m" 'ivy-switch-buffer
    "t" 'wolfe/find-tag
    "e" 'iedit-mode
-   "c" 'compile
+   "c" 'wolfe/compile-no-prompt
    "n" 'narrow-or-widen-dwim
    "p" 'counsel-git
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))

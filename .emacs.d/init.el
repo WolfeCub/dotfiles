@@ -152,6 +152,11 @@
   (interactive)
   (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
 
+(defun wolfe/load-init ()
+  "Reloads init file"
+  (interactive)
+  (load-file "~/.emacs.d/init.el"))
+
 (defun narrow-or-widen-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
 Dwim means: region, org-src-block, org-subtree, or

@@ -350,7 +350,10 @@ is already narrowed."
 
   (if (display-graphic-p)
       (define-key company-active-map [tab] 'company-select-next)
-    (define-key company-active-map (kbd "C-i") 'company-select-next)))
+    (define-key company-active-map (kbd "C-i") 'company-select-next))
+
+  ;; C / C++
+  (setq company-clang-insert-arguments nil))
 
 ;;Inherits colors from theme to style autocomplete menu correctly
 ;;(require 'color)

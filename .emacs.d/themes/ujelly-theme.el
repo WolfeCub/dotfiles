@@ -88,7 +88,7 @@
        `(font-lock-doc-face ((,class (:foreground ,ujelly-green-0))))
        `(font-lock-function-name-face ((,class (:foreground ,ujelly-yellow-0))))
        `(font-lock-keyword-face ((,class (:foreground ,ujelly-purple-0))))
-       `(font-lock-preprocessor-face ((,class (:foreground ,ujelly-fg))))
+       `(font-lock-preprocessor-face ((,class (:foreground ,ujelly-blue-0)))) ;; HERE
        `(font-lock-string-face ((,class (:foreground ,ujelly-green-0))))
        `(font-lock-type-face ((,class (:foreground ,ujelly-orange-0))))
        `(font-lock-variable-name-face ((,class (:foreground ,ujelly-red-0))))

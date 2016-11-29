@@ -52,12 +52,12 @@
       scroll-preserve-screen-position 1)
 (custom-set-faces
  '(column-marker-1 ((t (:background "color-88"))))
- '(hl-line ((t (:weight bold)))))
+ '(hl-line ((t (:weight bold :background "color-16")))))
 (global-hl-line-mode 1)
 (load-file "~/.emacs.d/lisp/column-marker.el")
 (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
 (setq custom-theme-directory "~/.emacs.d/themes")
-(load-theme 'cyberpunk t)
+(load-theme 'ujelly t)
 
 ;; When in terminal
 (unless (display-graphic-p) 
@@ -69,6 +69,12 @@
 ;;
 ;; F U N C T I O N S
 ;;
+(defun what-face (pos)
+  (interactive "d")
+  (let ((face (or (get-char-property (point) 'read-face-name)
+                  (get-char-property (point) 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
 (defun wolfe/compile-no-prompt ()
   (interactive)
   (let ((compilation-read-command nil))

@@ -118,7 +118,6 @@
        `(helm-swoop-target-line-face ((,class (:foreground ,ujelly-fg :background ,ujelly-grey-4))))
        `(helm-swoop-target-word-face ((,class (:foreground ,ujelly-red-1))))
        `(highlight ((,class (:background ,ujelly-grey-4))))
-       `(hl-line ((,class (:background ,ujelly-grey-4))))
        `(iedit-occurrence ((,class (:foreground ,ujelly-red-1))))
        `(isearch ((,class (:foreground ,ujelly-fg :background ,ujelly-red-1))))
        `(isearch-fail ((,class (:background ,ujelly-red-1))))

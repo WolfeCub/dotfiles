@@ -52,7 +52,7 @@
       scroll-preserve-screen-position 1)
 (custom-set-faces
  '(column-marker-1 ((t (:background "color-88"))))
- '(hl-line ((t (:weight bold :background "color-16")))))
+ '(hl-line ((t (:weight bold)))))
 (global-hl-line-mode 1)
 (load-file "~/.emacs.d/lisp/column-marker.el")
 (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
@@ -332,7 +332,7 @@ is already narrowed."
   :config
   (setq iedit-toggle-key-default nil)
   (custom-set-faces
-   '(iedit-occurrence ((t (:background "color-124"))))))
+   '(iedit-occurrence ((t (:background "color-255"))))))
 
 ;;
 ;; L A N G U A G E  S P E C I F I C

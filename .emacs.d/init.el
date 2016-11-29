@@ -319,20 +319,11 @@ is already narrowed."
   :config
   (global-set-key "\C-x\g" 'magit-status))
 
-(use-package highlight-symbol
-  :config
-  (setq highlight-symbol-highlight-single-occurrence nil)
-  (setq highlight-symbol-idle-delay 1)
-  (defun wolfe/highlight-symbol-init ()
-    (interactive)
-    (highlight-symbol-mode 1))
-  (add-hook 'prog-mode-hook 'wolfe/highlight-symbol-init))
-
 (use-package iedit
   :config
   (setq iedit-toggle-key-default nil)
   (custom-set-faces
-   '(iedit-occurrence ((t (:background "color-255"))))))
+   '(iedit-occurrence ((t (:background "color-93"))))))
 
 ;;
 ;; L A N G U A G E  S P E C I F I C

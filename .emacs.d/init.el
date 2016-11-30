@@ -100,6 +100,10 @@
   (interactive)
   (byte-recompile-directory user-emacs-directory 0)) 
 
+(defun wolfe/clear-all-elc ()
+  (interactive)
+  (shell-command "find ~/.emacs.d/ -name \"*.elc\" -type f -delete"))
+
 (defun wolfe/remove-elc-on-save ()
   "If you're saving an elisp file, likely the .elc is no longer valid."
   (add-hook 'after-save-hook

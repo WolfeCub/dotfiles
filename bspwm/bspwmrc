@@ -12,6 +12,7 @@ xcape -e 'Caps_Lock=Escape'
 feh --bg-scale ~/Pictures/nongnuwallpaper.png 
 powertop --auto-tune
 tlp start
+xset r rate 225 30
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 

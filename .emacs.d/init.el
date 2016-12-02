@@ -292,6 +292,21 @@ is already narrowed."
 ;;
 ;; G E N E R A L   P A C K A G E S
 ;;
+(use-package delight
+  :config
+  (delight '((emacs-lisp-mode "ξ" :major)
+             (lisp-interaction-mode "λ" :major)
+             (python-mode "π" :major)
+             (c-mode "𝐂 " :major)
+             (org-mode "Ø" :major)
+             (rust-mode "ℜ " :major)
+             (company-mode " α" company)
+             (racer-mode " ρ" racer)
+             (ivy-mode " ι" ivy)
+             (eldoc-mode " ε" eldoc)
+             (undo-tree-mode "" undo-tree)
+             (auto-revert-mode "" autorevert))))
+
 (use-package ivy
   :demand
   :bind (("M-x" . counsel-M-x)
@@ -337,6 +352,13 @@ is already narrowed."
 
 (use-package latex-preview-pane
   :defer t)
+
+(use-package rust-mode)
+(use-package racer
+  :config
+  (setq racer-rust-src-path "~/Projects/rustsrc")
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode))
 
 ;;
 ;; C O M P A N Y

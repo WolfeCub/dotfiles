@@ -39,6 +39,9 @@ XF86MonBrightnessDown
 # swap keyboard layout
 super + p
   ~/bin/toggle-layout
+# swap keyboard layout
+super + r
+  ~/bin/toggle-russian
 
 #
 # bspwm hotkeys

@@ -348,7 +348,10 @@ is already narrowed."
 ;; L A N G U A G E  S P E C I F I C
 ;;
 
-(use-package web-mode)
+(use-package web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode)))
 
 (use-package latex-preview-pane
   :defer t)

@@ -45,8 +45,7 @@
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
 (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
-(setq redisplay-dont-pause t
-      scroll-margin 10
+(setq scroll-margin 10
       scroll-step 1
       scroll-conservatively 10000
       scroll-preserve-screen-position 1)
@@ -346,7 +345,10 @@ is already narrowed."
 
 (use-package flycheck
   :config
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  
+  (with-eval-after-load 'flycheck
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 
 ;;
 ;; L A N G U A G E  S P E C I F I C
@@ -427,3 +429,7 @@ is already narrowed."
     (make-directory "~/.bak.emacs/auto"))
 ;; backup in one place. flat, no tree structure
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars)
+;; End:

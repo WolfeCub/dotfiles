@@ -344,6 +344,10 @@ is already narrowed."
   (custom-set-faces
    '(iedit-occurrence ((t (:background "color-93"))))))
 
+(use-package flycheck
+  :config
+  (global-flycheck-mode))
+
 ;;
 ;; L A N G U A G E  S P E C I F I C
 ;;

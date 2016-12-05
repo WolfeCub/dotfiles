@@ -270,7 +270,6 @@ is already narrowed."
 (use-package ox-reveal
   :ensure nil
   :config
-  (setq org-reveal-root "file:///home/wolfe/emacs-workshop/reveal.js")
   (use-package htmlize
     :ensure nil))
 
@@ -298,7 +297,6 @@ is already narrowed."
              (python-mode "π" :major)
              (c-mode "𝐂 " :major)
              (org-mode "Ø" :major)
-             (rust-mode "ℜ " :major)
              (company-mode " α" company)
              (racer-mode " ρ" racer)
              (ivy-mode " ι" ivy)
@@ -361,13 +359,6 @@ is already narrowed."
 
 (use-package latex-preview-pane
   :defer t)
-
-(use-package rust-mode)
-(use-package racer
-  :config
-  (setq racer-rust-src-path "~/Projects/rustsrc")
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode))
 
 ;;
 ;; C O M P A N Y

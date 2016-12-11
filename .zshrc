@@ -137,6 +137,10 @@ alias ed='emacs -nw'
 alias et='emacsclient -t'
 alias ec='emacsclient -c'
 
+if command -v nvim > /dev/null; then
+    alias vim='nvim'
+fi
+
 ##
 ## P R O M P T
 ##

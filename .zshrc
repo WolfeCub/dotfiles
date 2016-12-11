@@ -136,6 +136,7 @@ alias -g ......='../../../../..'
 alias ed='emacs -nw'
 alias et='emacsclient -t'
 alias ec='emacsclient -c'
+alias magit='ed -eval "(progn (magit-status)(delete-other-windows))"'
 
 if command -v nvim > /dev/null; then
     alias vim='nvim'

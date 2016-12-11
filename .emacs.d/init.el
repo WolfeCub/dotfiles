@@ -115,9 +115,9 @@
 (defun wolfe/find-tag ()
   "Jump to the tag at point without prompting"
   (interactive)
-  (find-tag (find-tag-default)))
+  (xref-find-definitions (find-tag-default)))
 
-(defadvice find-tag (around refresh-etags activate)
+(defadvice xref-find-definitions (around refresh-etags activate)
   "Rerun etags and reload tags if tag not found and redo find-tag.              
    If buffer is modified, ask about save before running etags."
   (condition-case err
@@ -298,7 +298,6 @@ is already narrowed."
              (c-mode "𝐂 " :major)
              (org-mode "Ø" :major)
              (company-mode " α" company)
-             (racer-mode " ρ" racer)
              (ivy-mode " ι" ivy)
              (eldoc-mode " ε" eldoc)
              (undo-tree-mode "" undo-tree)
@@ -344,7 +343,7 @@ is already narrowed."
 (use-package flycheck
   :config
   (global-flycheck-mode)
-  
+  (add-hook 'haskell-mode-hook (lambda() (flycheck-select-checker 'haskell-ghc)))
   (with-eval-after-load 'flycheck
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 
@@ -356,6 +355,12 @@ is already narrowed."
   :config
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode)))
+
+(use-package haskell-mode)
+
+(use-package company-ghc
+  :config
+  (add-to-list 'company-backends 'company-ghc))
 
 (use-package latex-preview-pane
   :defer t)

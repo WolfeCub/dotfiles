@@ -81,6 +81,9 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+# Runs ed with a : for prompt
+edd() { command ed -p: "$@" ; }
+
 ##
 ## K E Y B I N D I N G S
 ##

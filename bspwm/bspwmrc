@@ -7,7 +7,6 @@ xsetroot -cursor_name left_ptr
 xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12
 setxkbmap -option 'caps:ctrl_modifier'
 xcape -e 'Caps_Lock=Escape'
-#dropbox start&
 ~/bin/battery_notify&
 feh --bg-scale ~/Pictures/star_wars_wallpaper.jpg 
 powertop --auto-tune
@@ -30,4 +29,4 @@ bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 
-panel &
+polybar wolfe

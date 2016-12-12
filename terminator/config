@@ -17,21 +17,10 @@
     background_image = None
     cursor_blink = False
     cursor_color = "#e4e4e4"
-    custom_command = env TERM=xterm-256color zsh
+    custom_command = env TERM=xterm-256color fish
     font = Inconsolata 15
     foreground_color = "#ffffff"
     palette = "#000000:#fc4346:#50fb7c:#f0fb8c:#49baff:#fc4cb4:#8be9fe:#ededec:#555555:#fc4346:#50fb7c:#f0fb8c:#49baff:#fc4cb4:#8be9fe:#ededec"
-    scrollback_infinite = True
-    scrollbar_position = hidden
-    show_titlebar = False
-    use_custom_command = True
-    use_system_font = False
-  [[olddef]]
-    background_color = "#ffffff"
-    background_image = None
-    custom_command = env TERM=xterm-256color zsh
-    font = Inconsolata 12
-    foreground_color = "#000000"
     scrollback_infinite = True
     scrollbar_position = hidden
     show_titlebar = False

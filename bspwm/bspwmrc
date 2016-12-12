@@ -9,7 +9,7 @@ setxkbmap -option 'caps:ctrl_modifier'
 xcape -e 'Caps_Lock=Escape'
 #dropbox start&
 ~/bin/battery_notify&
-feh --bg-scale ~/Pictures/nongnuwallpaper.png 
+feh --bg-scale ~/Pictures/star_wars_wallpaper.jpg 
 powertop --auto-tune
 tlp start
 xset r rate 225 30

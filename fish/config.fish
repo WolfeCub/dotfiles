@@ -108,7 +108,7 @@ function fish_prompt --description 'Write out the prompt'
     end
 
     # PWD
-    set_color $color_cwd
+    set_color --bold blue #$color_cwd
     echo -n (echo $PWD | sed -e "s|^$HOME|~|")
     set_color normal
 

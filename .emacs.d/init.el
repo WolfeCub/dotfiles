@@ -79,21 +79,6 @@
   (let ((compilation-read-command nil))
     (compile (eval compile-command))))
 
-(defun wolfe/ivy--regex-fuzzy (str)
-  "Build a regex sequence from STR.
- Insert .* between each char."
-  (if (string-match "\\`\\(\\^?\\)\\(.*?\\)\\(\\$?\\)\\'" str)
-      (prog1
-          (concat (match-string 1 str)
-                  (mapconcat
-                   (lambda (x)
-                     (format "\\(%c\\)" x))
-                   (delq 32 (string-to-list (match-string 2 str)))
-                   ".*?")
-                  (match-string 3 str))
-        (setq ivy--subexps (length (match-string 2 str))))
-    str))
-
 (defun wolfe/compile-dot-emacs ()
   "Byte-compile dotfiles."
   (interactive)
@@ -213,7 +198,7 @@ is already narrowed."
   (setq-default evil-symbol-word-search t) 
   (setq evil-lookup-func #'wolfe/man)
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
-  (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
+  (define-key evil-ex-map "e " 'helm-find-files) ; Trigger file completion :e
   (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
   (general-create-definer wolfe/bind-leader
@@ -232,11 +217,7 @@ is already narrowed."
   
 
   (:states 'normal
-           "C-M-h" help-map
-           "C-h"  'evil-window-left
-           "C-j"  'evil-window-down
-           "C-k"  'evil-window-up
-           "C-l"  'evil-window-right
+           "C-h" help-map
            "C-z"  'wolfe/controlz)
 
   (wolfe/bind-leader
@@ -245,12 +226,12 @@ is already narrowed."
    "s" 'eval-defun
    "b" 'mode-line-other-buffer
    "k" 'kill-buffer
-   "m" 'ivy-switch-buffer
+   "m" 'helm-buffers-list
    "t" 'wolfe/find-tag
    "e" 'iedit-mode
    "c" 'wolfe/compile-no-prompt
    "n" 'narrow-or-widen-dwim
-   "p" 'counsel-git
+   "p" 'helm-ff-git-grep
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
    "os" (lambda() (interactive) (wolfe/org-open "school"))
@@ -290,38 +271,28 @@ is already narrowed."
 ;;
 ;; G E N E R A L   P A C K A G E S
 ;;
-(use-package delight
+(use-package helm
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)
+         ("C-x b" . helm-buffers-list)
+         :map helm-find-files-map
+         ("<RET>" . wolfe/helm-return-find-file))
   :config
-  (delight '((emacs-lisp-mode "ξ" :major)
-             (lisp-interaction-mode "λ" :major)
-             (python-mode "π" :major)
-             (c-mode "𝐂 " :major)
-             (org-mode "Ø" :major)
-             (company-mode " α" company)
-             (ivy-mode " ι" ivy)
-             (eldoc-mode " ε" eldoc)
-             (undo-tree-mode "" undo-tree)
-             (auto-revert-mode "" autorevert))))
+  (setq helm-split-window-in-side-p t
+        helm-move-to-line-cycle-in-source t
+        helm-ff-search-library-in-sexp t
+        helm-scroll-amount 8
+        helm-mode-fuzzy-match t
+        helm-completion-in-region-fuzzy-match t)
+  (helm-autoresize-mode 1)
 
-(use-package ivy
-  :demand
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-next-line)
-         ("RET" . ivy-alt-done))
-  :init
-  (use-package smex)
-  (use-package counsel)
-  :config
-  (setq ivy-re-builders-alist
-        '((t . wolfe/ivy--regex-fuzzy)))
-  (setq ivy-wrap t)
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t))
+  (defun wolfe/helm-return-find-file ()
+    (interactive)
+    (if (file-directory-p (helm-get-selection))
+        (helm-execute-persistent-action)
+      (helm-maybe-exit-minibuffer)))
 
-(use-package swiper
-  :bind (("C-s" . swiper)))
+  (helm-mode 1))
 
 (use-package nlinum-relative
   :config

@@ -59,7 +59,7 @@
 (load-theme 'ujelly t)
 
 ;; When in terminal
-(unless (display-graphic-p) 
+(unless (display-graphic-p)
   (setq nlinum-format "%d ")
   (add-to-list 'default-frame-alist '(background-color . "color-16"))
   (custom-set-faces
@@ -82,7 +82,7 @@
 (defun wolfe/compile-dot-emacs ()
   "Byte-compile dotfiles."
   (interactive)
-  (byte-recompile-directory user-emacs-directory 0)) 
+  (byte-recompile-directory user-emacs-directory 0))
 
 (defun wolfe/clear-all-elc ()
   (interactive)
@@ -103,7 +103,7 @@
   (xref-find-definitions (find-tag-default)))
 
 (defadvice xref-find-definitions (around refresh-etags activate)
-  "Rerun etags and reload tags if tag not found and redo find-tag.              
+  "Rerun etags and reload tags if tag not found and redo find-tag.
    If buffer is modified, ask about save before running etags."
   (condition-case err
       ad-do-it
@@ -195,7 +195,7 @@ is already narrowed."
   (evil-mode t)
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t)
-  (setq-default evil-symbol-word-search t) 
+  (setq-default evil-symbol-word-search t)
   (setq evil-lookup-func #'wolfe/man)
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
   (define-key evil-ex-map "e " 'helm-find-files) ; Trigger file completion :e
@@ -214,7 +214,7 @@ is already narrowed."
   (:states 'operator
            "k" 'evil-previous-line
            "j" 'evil-next-line)
-  
+
 
   (:states 'normal
            "C-h" help-map
@@ -275,6 +275,8 @@ is already narrowed."
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
+         :map helm-map
+         ("C-i" . helm-next-line)
          :map helm-find-files-map
          ("<RET>" . wolfe/helm-return-find-file))
   :config
@@ -297,7 +299,7 @@ is already narrowed."
 (use-package nlinum-relative
   :config
   (nlinum-relative-setup-evil)
-  (setq nlinum-relative-redisplay-delay 0.25) 
+  (setq nlinum-relative-redisplay-delay 0.25)
   (setq nlinum-relative-current-symbol "")
   (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
@@ -369,7 +371,7 @@ is already narrowed."
 (setq gdb-many-windows t ;; use gdb-many-windows by default
       gdb-show-main t
       ;; Non-nil means display source file containing the main routine at startup
-      ) 
+      )
 
 ;;
 ;; B A C K U P S
@@ -377,7 +379,7 @@ is already narrowed."
 (setq backup-by-copying t) ; Stop shinanigans with links
 (setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
 ;; Creates directory if it doesn't already exist
-(if (eq nil (file-exists-p "~/.bak.emacs/")) 
+(if (eq nil (file-exists-p "~/.bak.emacs/"))
     (make-directory "~/.bak.emacs/"))
 ;; Creates auto directory if it doesn't already exist
 (if (eq nil (file-exists-p "~/.bak.emacs/auto"))

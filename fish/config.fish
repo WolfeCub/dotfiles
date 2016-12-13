@@ -1,3 +1,6 @@
+##
+## B I N D I N G S
+##
 function hybrid_bindings --description "Vi-style bindings that inherit emacs-style bindings in all modes"
     for mode in default insert visual
         fish_default_key_bindings -M $mode
@@ -6,6 +9,23 @@ function hybrid_bindings --description "Vi-style bindings that inherit emacs-sty
 end
 set -g fish_key_bindings hybrid_bindings
 
+##
+## S E T T I N G S
+##
+
+# Colors
+set -gx CLICOLOR 1
+set -gx TERM xterm-256color
+
+# Colored man pages
+set -x LESS_TERMCAP_mb (printf "\033[01;31m")  
+set -x LESS_TERMCAP_md (printf "\033[01;31m")  
+set -x LESS_TERMCAP_me (printf "\033[0m")  
+set -x LESS_TERMCAP_se (printf "\033[0m")  
+set -x LESS_TERMCAP_so (printf "\033[01;44;33m")  
+set -x LESS_TERMCAP_ue (printf "\033[0m")  
+set -x LESS_TERMCAP_us (printf "\033[01;32m")  
+
 ##                                                                   
 ## A L I A S E S                                                     
 ##                                                                   
@@ -13,6 +33,7 @@ set -g fish_key_bindings hybrid_bindings
 alias :q 'exit'                                                      
 alias less 'less -R'                                                 
 alias grep 'grep --color=always'                                     
+alias edd '/usr/bin/ed -p:'
 # List directory contents                                            
 alias lsa 'ls -lah --color'                                          
 alias l 'ls --color'                                                 
@@ -29,7 +50,9 @@ alias et 'emacsclient -t'
 alias ec 'emacsclient -c'                                            
 alias magit 'ed -eval "(progn (magit-status)(delete-other-windows))"'
 
-
+##
+## P R O M P T
+##
 function fish_prompt --description 'Write out the prompt'
     if not set -q __fish_git_prompt_show_informative_status
         set -g __fish_git_prompt_show_informative_status 1

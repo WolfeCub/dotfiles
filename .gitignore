@@ -10,6 +10,7 @@
 .emacs.d/tramp
 .emacs.d/projectile-bookmarks.eld
 .emacs.d/network-security.data
+.emacs.d/oauth2.plstore
 .vim/.netrwhist
 .vim/plugged/
 .emacs.d/ido.last*

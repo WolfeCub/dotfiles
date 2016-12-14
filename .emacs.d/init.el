@@ -271,6 +271,19 @@ is already narrowed."
 ;;
 ;; G E N E R A L   P A C K A G E S
 ;;
+(use-package delight
+  :config
+  (delight '((emacs-lisp-mode "ξ" :major)
+             (lisp-interaction-mode "λ" :major)
+             (python-mode "π" :major)
+             (c-mode "𝐂 " :major)
+             (org-mode "Ø" :major)
+             (company-mode " α" company)
+             (ivy-mode " ι" ivy)
+             (eldoc-mode " ε" eldoc)
+             (undo-tree-mode "" undo-tree)
+             (auto-revert-mode "" autorevert))))
+
 (use-package helm
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
@@ -319,6 +332,14 @@ is already narrowed."
   (add-hook 'haskell-mode-hook (lambda() (flycheck-select-checker 'haskell-ghc)))
   (with-eval-after-load 'flycheck
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
+
+
+(when (executable-find "spotify")
+(add-to-list 'load-path "~/.emacs.d/spotify.el")
+(require 'spotify)
+(setq spotify-mode-line-refresh-interval 1)
+(setq spotify-mode-line-truncate-length 25) ; default: 15
+(global-spotify-remote-mode 1))
 
 ;;
 ;; L A N G U A G E  S P E C I F I C

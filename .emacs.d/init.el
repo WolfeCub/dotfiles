@@ -285,6 +285,7 @@ is already narrowed."
              (auto-revert-mode "" autorevert))))
 
 (use-package helm
+  :demand
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
@@ -335,11 +336,12 @@ is already narrowed."
 
 
 (when (executable-find "spotify")
-(add-to-list 'load-path "~/.emacs.d/spotify.el")
-(require 'spotify)
-(setq spotify-mode-line-refresh-interval 1)
-(setq spotify-mode-line-truncate-length 25) ; default: 15
-(global-spotify-remote-mode 1))
+  (load-file "~/Documents/spotify-secret-id.el")
+  (add-to-list 'load-path "~/.emacs.d/spotify.el")
+  (require 'spotify)
+  (setq spotify-mode-line-refresh-interval 1)
+  (setq spotify-mode-line-format "%t - %a")
+  (global-spotify-remote-mode 1))
 
 ;;
 ;; L A N G U A G E  S P E C I F I C

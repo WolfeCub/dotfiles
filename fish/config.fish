@@ -145,3 +145,8 @@ function fish_prompt --description 'Write out the prompt'
 
     set_color normal
 end
+
+function fish_right_prompt -d "Write out the right prompt"
+    echo (jobs -c 2> /dev/null | head -1) "["(date +%H:%M:%S)"]"
+end
+

@@ -33,7 +33,9 @@ set -x LESS_TERMCAP_us (printf "\033[01;32m")
 alias :q 'exit'                                                      
 alias less 'less -R'                                                 
 alias grep 'grep --color=always'                                     
-alias edd '/usr/bin/ed -p:'
+alias ed '/usr/bin/ed -p:'
+alias f 'fg'
+alias j 'jobs'
 # List directory contents                                            
 alias lsa 'ls -lah --color'                                          
 alias l 'ls --color'                                                 
@@ -45,7 +47,7 @@ alias md 'mkdir -p'
 alias rd rmdir                                                       
 alias d 'dirs -v | head -10'                                         
 # Emacs clients                                                      
-alias ed 'emacs -nw'                                                 
+alias e 'emacs -nw'                                                 
 alias et 'emacsclient -t'                                            
 alias ec 'emacsclient -c'                                            
 alias magit 'ed -eval "(progn (magit-status)(delete-other-windows))"'
@@ -147,6 +149,6 @@ function fish_prompt --description 'Write out the prompt'
 end
 
 function fish_right_prompt -d "Write out the right prompt"
-    echo (jobs -c 2> /dev/null | head -1) "["(date +%H:%M:%S)"]"
+    echo (jobs -c ^ /dev/null | head -1) "["(date +%H:%M:%S)"]"
 end
 

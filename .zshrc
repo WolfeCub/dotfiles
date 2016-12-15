@@ -82,7 +82,7 @@ zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
 # Runs ed with a : for prompt
-edd() { command ed -p: "$@" ; }
+ed() { command ed -p: "$@" ; }
 
 ##
 ## K E Y B I N D I N G S
@@ -121,6 +121,8 @@ bindkey -M viins '^u'    backward-kill-line
 alias :q='exit'
 alias less='less -R'
 alias grep='grep --color=always'
+alias f=fg
+alias j=jobs
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'
@@ -136,7 +138,7 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
 # Emacs clients
-alias ed='emacs -nw'
+alias e='emacs -nw'
 alias et='emacsclient -t'
 alias ec='emacsclient -c'
 alias magit='ed -eval "(progn (magit-status)(delete-other-windows))"'

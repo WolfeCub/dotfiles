@@ -1,6 +1,15 @@
 [global_config]
   inactive_color_offset = 1.0
 [keybindings]
+  broadcast_all = <Primary><Shift><Alt>parenright
+  broadcast_group = <Primary><Shift><Alt>parenleft
+  broadcast_off = <Primary><Shift><Alt>asterisk
+  edit_window_title = <Primary><Shift><Alt>asterisk
+  go_down = <Primary><Shift><Alt>ampersand
+  go_right = <Primary><Shift><Alt>asciicircum
+  go_up = <Primary><Shift><Alt>asciicircum
+  group_all = <Primary><Shift><Alt>percent
+  group_tab = <Primary><Shift><Alt>percent
   help = <Primary><Shift><Alt>n
   layout_launcher = KP_Subtract
 [layouts]

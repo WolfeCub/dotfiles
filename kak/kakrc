@@ -1,4 +1,6 @@
-############# HOOKS ########################
+#########
+# HOOKS #
+#########
 
 # add lines numbers
 hook global WinCreate .* %{addhl number_lines}
@@ -22,8 +24,11 @@ hook -group TrailingWhitespaces global WinCreate .* %{
     addhl regex '\h+$' 0:default,red
 }
 
-#################################
+####################
+# GENERAL SETTINGS #
+####################
 
+colorscheme mydefault
 set global tabstop 4
 
 map global user n ':eval %{buffernext}<ret>'

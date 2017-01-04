@@ -36,10 +36,11 @@ alias grep 'grep --color=always'
 alias ed '/usr/bin/ed -p:'
 alias f 'fg'
 alias j 'jobs'
+alias vim 'nvim'
 # List directory contents                                            
 alias lsa 'ls -lah --color'                                          
 alias l 'ls --color'                                                 
-alias ll 'ls -lh --color'                                            
+alias ll 'ls++'                                            
 alias la 'ls -A --color'                                             
 alias ls 'ls --color'                                                
 # Push and pop directories on directory stack                        

@@ -36,7 +36,6 @@ alias grep 'grep --color=always'
 alias ed '/usr/bin/ed -p:'
 alias f 'fg'
 alias j 'jobs'
-alias vim 'nvim'
 # List directory contents                                            
 alias lsa 'ls -lah --color'                                          
 alias l 'ls --color'                                                 

@@ -17,11 +17,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
-Plug 'terryma/vim-expand-region'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-markdown', { 'for': ['md', 'markdown'] }
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
-Plug 'ervandew/supertab'
 
 call plug#end()
 
@@ -185,10 +181,6 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
-
-" NERDtree Options
-nnoremap <C-n> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " }}}
 

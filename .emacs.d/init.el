@@ -358,8 +358,18 @@ is already narrowed."
   :config
   (add-to-list 'company-backends 'company-ghc))
 
+(use-package eclim
+  :ensure f
+  :config
+  (use-package company-emacs-eclim
+    :ensure f
+    :config
+    (company-emacs-eclim-setup))
+  (setq eclimd-autostart t)
+  (global-eclim-mode))
+
 (use-package latex-preview-pane
-  :defer t)
+  :ensure f)
 
 ;;
 ;; C O M P A N Y

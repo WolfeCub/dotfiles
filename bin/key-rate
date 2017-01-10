@@ -1,0 +1,2 @@
+#!/bin/sh
+xset r rate 225 30

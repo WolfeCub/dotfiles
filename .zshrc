@@ -81,9 +81,6 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-# Runs ed with a : for prompt
-ed() { command ed -p: "$@" ; }
-
 ##
 ## K E Y B I N D I N G S
 ##
@@ -121,8 +118,6 @@ bindkey -M viins '^u'    backward-kill-line
 alias :q='exit'
 alias less='less -R'
 alias grep='grep --color=always'
-alias f=fg
-alias j=jobs
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'
@@ -141,11 +136,6 @@ alias -g ......='../../../../..'
 alias e='emacs -nw'
 alias et='emacsclient -t'
 alias ec='emacsclient -c'
-alias magit='ed -eval "(progn (magit-status)(delete-other-windows))"'
-
-if command -v nvim > /dev/null; then
-    alias vim='nvim'
-fi
 
 ##
 ## P R O M P T
@@ -158,7 +148,7 @@ git_prompt_info() {
     fi
 }
 setopt promptsubst
-PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info) $ '
+PS1='${"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info) $ '
 
 precmd() { RPROMPT="" }
 function zle-line-init zle-keymap-select {

@@ -336,7 +336,8 @@ is already narrowed."
 
 
 (when (executable-find "spotify")
-  (load-file "~/Documents/spotify-secret-id.el")
+  (when (file-exists-p "~/Documents/spotify-secret-id.el")
+       (load-file "~/Documents/spotify-secret-id.el"))
   (add-to-list 'load-path "~/.emacs.d/spotify.el")
   (require 'spotify)
   (setq spotify-mode-line-refresh-interval 1)

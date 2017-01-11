@@ -12,6 +12,7 @@ feh --bg-scale ~/Pictures/star_wars_wallpaper.jpg
 powertop --auto-tune
 tlp start
 xset r rate 225 30
+dropbox&
 
 bspc config border_width         2
 bspc config window_gap           7

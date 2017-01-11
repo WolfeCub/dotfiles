@@ -232,6 +232,7 @@ is already narrowed."
    "c" 'wolfe/compile-no-prompt
    "n" 'narrow-or-widen-dwim
    "p" 'helm-ff-git-grep
+   "a" 'org-agenda
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
    "o" (lambda() (interactive) (wolfe/org-open "everything"))

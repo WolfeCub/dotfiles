@@ -256,7 +256,7 @@ is already narrowed."
     :ensure nil))
 
 (setq org-agenda-prefix-format
-      '((agenda . " %i %-12t% s")
+      '((agenda . " %i %-12t% s %-9(car (org-get-outline-path))")
         (timeline . "  % s")
         (todo . " %i %-12:c")
         (tags . " %i %-12:c")

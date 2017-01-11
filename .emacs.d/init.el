@@ -248,15 +248,25 @@ is already narrowed."
 ;;
 ;; O R G - M O D E
 ;;
+(require 'org-agenda)
 (use-package ox-reveal
   :ensure nil
   :config
   (use-package htmlize
     :ensure nil))
 
+(setq org-agenda-prefix-format
+      '((agenda . " %i %?-12t% s")
+        (timeline . "  % s")
+        (todo . " %i %-12:c")
+        (tags . " %i %-12:c")
+        (search . " %i %-12:c")))
+
 (setq org-agenda-files '("~/Dropbox/org/everything.org"))
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
+(define-key org-agenda-mode-map "j" 'org-agenda-next-item)
+(define-key org-agenda-mode-map "k" 'org-agenda-previous-item)
 
 (setq org-pretty-entities t
       org-src-fontify-natively t
@@ -266,6 +276,7 @@ is already narrowed."
       org-fontify-done-headline t
       org-fontify-quote-and-verse-blocks t
       org-log-done 'time
+      org-agenda-use-time-grid nil
       org-ellipsis "⤵")
 
 ;; Better looking org headers
@@ -342,7 +353,7 @@ is already narrowed."
 
 (when (executable-find "spotify")
   (when (file-exists-p "~/Documents/spotify-secret-id.el")
-       (load-file "~/Documents/spotify-secret-id.el"))
+    (load-file "~/Documents/spotify-secret-id.el"))
   (add-to-list 'load-path "~/.emacs.d/spotify.el")
   (require 'spotify)
   (setq spotify-mode-line-refresh-interval 1)

@@ -49,25 +49,38 @@
       scroll-step 1
       scroll-conservatively 10000
       scroll-preserve-screen-position 1)
-(custom-set-faces
- '(column-marker-1 ((t (:background "color-88"))))
- '(hl-line ((t (:weight bold)))))
-(global-hl-line-mode 1)
 (load-file "~/.emacs.d/lisp/column-marker.el")
 (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
+(custom-set-faces '(column-marker-1 ((t (:background "#ff0000"))))
+                  '(isearch ((t (:foreground "#ff0000"))))
+                  '(lazy-highlight ((t (:foreground "#ff0000")))))
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'ujelly t)
-
-;; When in terminal
-(unless (display-graphic-p)
-  (setq nlinum-format "%d ")
-  (add-to-list 'default-frame-alist '(background-color . "color-16"))
-  (custom-set-faces
-   '(linum ((t (:background "color-16" :foreground "#ffffff"))))))
 
 ;;
 ;; F U N C T I O N S
 ;;
+(defun wolfe/term-setup ()
+  (setq nlinum-format "%d ")
+  (add-to-list 'default-frame-alist '(background-color . "color-16"))
+  (custom-set-faces
+   '(linum ((t (:background "color-16" :foreground "#ffffff"))))
+   '(iedit-occurrence ((t (:background "color-93"))))
+   '(column-marker-1 ((t (:background "color-88"))))
+   '(hl-line ((t (:weight bold)))))
+  (global-hl-line-mode 1))
+
+(defun wolfe/gui-setup ()
+  (custom-set-faces '(column-marker-1 ((t (:background "#ff0000"))))
+                    '(iedit-occurrence ((t (:background "#00bfff"))))
+                    '(isearch ((t (:foreground "#ff0000"))))
+                    '(lazy-highlight ((t (:foreground "#ff0000"))))))
+
+;; Not a function but it needs to be after the 2 setup functions
+(if (display-graphic-p)
+    (wolfe/gui-setup)
+  (wolfe/term-setup))
+
 (defun what-face (pos)
   (interactive "d")
   (let ((face (or (get-char-property (point) 'read-face-name)
@@ -339,9 +352,7 @@ is already narrowed."
 
 (use-package iedit
   :config
-  (setq iedit-toggle-key-default nil)
-  (custom-set-faces
-   '(iedit-occurrence ((t (:background "color-93"))))))
+  (setq iedit-toggle-key-default nil))
 
 (use-package flycheck
   :config

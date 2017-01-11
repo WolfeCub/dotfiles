@@ -51,9 +51,6 @@
       scroll-preserve-screen-position 1)
 (load-file "~/.emacs.d/lisp/column-marker.el")
 (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
-(custom-set-faces '(column-marker-1 ((t (:background "#ff0000"))))
-                  '(isearch ((t (:foreground "#ff0000"))))
-                  '(lazy-highlight ((t (:foreground "#ff0000")))))
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'ujelly t)
 
@@ -74,7 +71,11 @@
   (custom-set-faces '(column-marker-1 ((t (:background "#ff0000"))))
                     '(iedit-occurrence ((t (:background "#00bfff"))))
                     '(isearch ((t (:foreground "#ff0000"))))
-                    '(lazy-highlight ((t (:foreground "#ff0000"))))))
+                    '(lazy-highlight ((t (:foreground "#ff0000"))))
+                    '(column-marker-1 ((t (:background "#ff0000"))))
+                    '(isearch ((t (:foreground "#ff0000"))))
+                    '(lazy-highlight ((t (:foreground "#ff0000"))))
+                    '(linum ((t (:foreground "#ffffff"))))))
 
 ;; Not a function but it needs to be after the 2 setup functions
 (if (display-graphic-p)
@@ -267,6 +268,11 @@ is already narrowed."
   :config
   (use-package htmlize
     :ensure nil))
+
+(use-package calfw
+  :config
+  (require 'calfw-org))
+
 
 (setq org-agenda-prefix-format
       '((agenda . " %i %-12t% s %-9(car (last (org-get-outline-path)))")

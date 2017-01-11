@@ -234,8 +234,7 @@ is already narrowed."
    "p" 'helm-ff-git-grep
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
-   "os" (lambda() (interactive) (wolfe/org-open "school"))
-   "ol" (lambda() (interactive) (wolfe/org-open "life"))
+   "o" (lambda() (interactive) (wolfe/org-open "everything"))
    "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/init.el"))))
 
 ;; Tpope's surround
@@ -254,6 +253,10 @@ is already narrowed."
   (use-package htmlize
     :ensure nil))
 
+(setq org-agenda-files '("~/Dropbox/org/everything.org"))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+
 (setq org-pretty-entities t
       org-src-fontify-natively t
       org-src-tab-acts-natively t
@@ -261,6 +264,7 @@ is already narrowed."
       org-fontify-whole-heading-line t
       org-fontify-done-headline t
       org-fontify-quote-and-verse-blocks t
+      org-log-done 'time
       org-ellipsis "⤵")
 
 ;; Better looking org headers

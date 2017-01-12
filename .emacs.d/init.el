@@ -253,6 +253,7 @@ is already narrowed."
    "n" 'narrow-or-widen-dwim
    "p" 'helm-ff-git-grep
    "a" 'org-agenda
+   "g" 'magit-status
    ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
    "o" (lambda() (interactive) (wolfe/org-open "everything"))
@@ -288,7 +289,7 @@ is already narrowed."
         (search . " %i %-12:c")))
 
 ;; Sets location of org files
-(setq org-agenda-files '("~/Dropbox/org/"))
+(setq org-agenda-files '("~/Dropbox/org/everything.org"))
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (define-key org-agenda-mode-map "j" 'org-agenda-next-item)

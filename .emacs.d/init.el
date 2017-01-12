@@ -54,30 +54,32 @@
 (setq explicit-shell-file-name
       (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
 (setq custom-theme-directory "~/.emacs.d/themes")
-(load-theme 'ujelly t)
 
 ;;
 ;; F U N C T I O N S
 ;;
 (defun wolfe/term-setup ()
+  (load-theme 'ujelly t)
   (setq nlinum-format "%d ")
+  (global-hl-line-mode 1)
   (add-to-list 'default-frame-alist '(background-color . "color-16"))
   (custom-set-faces
    '(linum ((t (:background "color-16" :foreground "#ffffff"))))
    '(iedit-occurrence ((t (:background "color-93"))))
    '(column-marker-1 ((t (:background "color-88"))))
-   '(hl-line ((t (:weight bold)))))
-  (global-hl-line-mode 1))
+   '(hl-line ((t (:weight bold))))))
 
 (defun wolfe/gui-setup ()
-  (custom-set-faces '(column-marker-1 ((t (:background "#ff0000"))))
-                    '(iedit-occurrence ((t (:background "#00bfff"))))
-                    '(isearch ((t (:foreground "#ff0000"))))
-                    '(lazy-highlight ((t (:foreground "#ff0000"))))
-                    '(column-marker-1 ((t (:background "#ff0000"))))
-                    '(isearch ((t (:foreground "#ff0000"))))
-                    '(lazy-highlight ((t (:foreground "#ff0000"))))
-                    '(linum ((t (:foreground "#ffffff"))))))
+  (use-package jazz-theme
+    :config
+    (load-theme 'jazz t))
+  (set-frame-size (selected-frame) 90 40)
+  (custom-set-faces
+   '(column-marker-1 ((t (:background "#ff0000"))))
+   '(iedit-occurrence ((t (:background "#00bfff"))))
+   '(isearch ((t (:foreground "#ff0000"))))
+   '(lazy-highlight ((t (:foreground "#ff0000" :background nil))))
+   '(linum ((t (:foreground "#ffffff"))))))
 
 ;; Not a function but it needs to be after the 2 setup functions
 (if (display-graphic-p)

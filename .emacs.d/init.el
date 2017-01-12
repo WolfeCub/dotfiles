@@ -75,6 +75,8 @@
     (load-theme 'jazz t))
   (set-frame-size (selected-frame) 90 40)
   (custom-set-faces
+   '(org-todo ((t (:box (:line-width 1 :color "#953331")))))
+   '(org-done ((t (:box (:line-width 1 :color "#7e9960")))))
    '(column-marker-1 ((t (:background "#ff0000"))))
    '(iedit-occurrence ((t (:background "#00bfff"))))
    '(isearch ((t (:foreground "#ff0000"))))

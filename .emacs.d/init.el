@@ -51,6 +51,8 @@
       scroll-preserve-screen-position 1)
 (load-file "~/.emacs.d/lisp/column-marker.el")
 (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
+(setq explicit-shell-file-name
+      (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
 (setq custom-theme-directory "~/.emacs.d/themes")
 (load-theme 'ujelly t)
 
@@ -273,7 +275,7 @@ is already narrowed."
   :config
   (require 'calfw-org))
 
-
+;; Formats the agenda into nice columns
 (setq org-agenda-prefix-format
       '((agenda . " %i %-12t% s %-9(car (last (org-get-outline-path)))")
         (timeline . "  % s")
@@ -281,7 +283,8 @@ is already narrowed."
         (tags . " %i %-12:c")
         (search . " %i %-12:c")))
 
-(setq org-agenda-files '("~/Dropbox/org/everything.org"))
+;; Sets location of org files
+(setq org-agenda-files '("~/Dropbox/org/"))
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (define-key org-agenda-mode-map "j" 'org-agenda-next-item)

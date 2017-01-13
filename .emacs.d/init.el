@@ -382,6 +382,8 @@ is already narrowed."
   (with-eval-after-load 'flycheck
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 
+(load-file "~/.emacs.d/symon/symon.el")
+(symon-mode)
 
 (when (executable-find "spotify")
   (when (file-exists-p "~/Documents/spotify-secret-id.el")

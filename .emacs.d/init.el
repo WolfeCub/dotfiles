@@ -290,8 +290,15 @@ is already narrowed."
 
 ;; Sets location of org files
 (setq org-agenda-files '("~/Dropbox/org/everything.org"))
+(setq browse-url-browser-function 'browse-url-chromium)
+(add-hook 'org-mode-hook
+      '(lambda ()
+             (setq org-file-apps
+                   (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps ))))
+
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
+(global-set-key (kbd "C-M-y") 'yank)
 (define-key org-agenda-mode-map "j" 'org-agenda-next-item)
 (define-key org-agenda-mode-map "k" 'org-agenda-previous-item)
 

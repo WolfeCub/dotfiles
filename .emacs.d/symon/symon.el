@@ -75,7 +75,8 @@ smaller. *set this option BEFORE enabling `symon-mode'.*"
          '(symon-linux-memory-monitor
            symon-linux-cpu-monitor
            symon-linux-network-rx-monitor
-           symon-linux-network-tx-monitor))
+           symon-linux-network-tx-monitor
+           symon-linux-battery-monitor))
         ((memq system-type '(darwin))
          '(symon-darwin-memory-monitor
            symon-darwin-cpu-monitor

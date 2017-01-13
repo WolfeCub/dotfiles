@@ -292,7 +292,7 @@ is already narrowed."
 (setq org-agenda-files '("~/Dropbox/org/everything.org"))
 (setq browse-url-browser-function 'browse-url-chromium)
 (add-hook 'org-mode-hook
-      '(lambda ()
+          '(lambda ()
              (setq org-file-apps
                    (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps ))))
 
@@ -408,16 +408,6 @@ is already narrowed."
 (use-package company-ghc
   :config
   (add-to-list 'company-backends 'company-ghc))
-
-(use-package eclim
-  :ensure f
-  :config
-  (use-package company-emacs-eclim
-    :ensure f
-    :config
-    (company-emacs-eclim-setup))
-  (setq eclimd-autostart t)
-  (global-eclim-mode))
 
 (use-package latex-preview-pane
   :ensure f)

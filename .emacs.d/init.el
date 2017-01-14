@@ -311,6 +311,8 @@ is already narrowed."
       org-fontify-quote-and-verse-blocks t
       org-log-done 'time
       org-agenda-use-time-grid nil
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
       org-ellipsis "⤵")
 
 ;; Better looking org headers

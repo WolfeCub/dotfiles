@@ -75,6 +75,8 @@
     (load-theme 'jazz t))
   (set-frame-size (selected-frame) 90 40)
   (custom-set-faces
+   '(helm-ff-directory ((t (:background nil :foreground "DarkRed"))))
+   '(helm-ff-file ((t :foreground "#ffffff")))
    '(org-todo ((t (:box (:line-width 1 :color "#953331")))))
    '(org-done ((t (:box (:line-width 1 :color "#7e9960")))))
    '(column-marker-1 ((t (:background "#ff0000"))))

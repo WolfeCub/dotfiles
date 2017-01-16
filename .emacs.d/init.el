@@ -441,6 +441,7 @@ is already narrowed."
                 (append '((company-math-symbols-latex company-latex-commands))
                         company-backends)))
 
+  (add-hook 'org-mode-hook 'wolfe/latex-setup)
   (add-hook 'tex-mode-hook 'wolfe/latex-setup))
 
 ;;

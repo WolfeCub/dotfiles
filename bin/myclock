@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo -en "\e]2;TTYCLOCK\a"
+sleep 0.1
+i3-msg '[title="TTYCLOCK"] floating enable'
+i3-msg '[title="TTYCLOCK"] resize shrink width 10000px; resize grow width 300px; resize shrink height 10000px; resize grow height 120px'
+tty-clock -c -b -t

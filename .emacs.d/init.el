@@ -416,6 +416,30 @@ is already narrowed."
 (use-package latex-preview-pane
   :ensure f)
 
+(require 'ox-latex)
+:config
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+(setq org-latex-pdf-process
+      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(use-package matlab-mode
+  :init
+  (use-package fill-column-indicator
+    :config
+    (setq fill-column 79)
+    (add-hook 'matlab-mode-hook 'fci-mode))
+  :config
+  (load-library "matlab-load")
+  (autoload 'matlab-mode "matlab" "Matlab Editing Mode" t)
+  (add-to-list
+   'auto-mode-alist
+   '("\\.m$" . matlab-mode))
+  (setq matlab-indent-function t)
+  (setq matlab-shell-command "matlab")
+  ;; elisp setup for matlab-mode:
+  (setq matlab-shell-command-switches (list "-nodesktop")))
+
 ;;
 ;; C O M P A N Y
 ;;

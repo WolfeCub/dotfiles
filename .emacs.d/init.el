@@ -304,6 +304,10 @@ is already narrowed."
 (define-key org-agenda-mode-map "j" 'org-agenda-next-item)
 (define-key org-agenda-mode-map "k" 'org-agenda-previous-item)
 
+;; ispell ignores SRC blocks
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_LATEX" . "#\\+END_LATEX"))
+
 (setq org-pretty-entities t
       org-src-fontify-natively t
       org-src-tab-acts-natively t
@@ -341,6 +345,7 @@ is already narrowed."
 (use-package helm
   :demand
   :bind (("M-x" . helm-M-x)
+         ("<menu>" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
          :map helm-map
@@ -399,6 +404,75 @@ is already narrowed."
   (global-spotify-remote-mode 1))
 
 ;;
+;; E M A I L
+;;
+(require 'mu4e)
+(setq
+ ;; set mu4e as default mail client
+ mail-user-agent 'mu4e-user-agent
+ ;; root mail directory - can't be switched
+ ;; with context, can only be set once
+ mu4e-maildir "~/.mail"
+ mu4e-attachments-dir "~/Downloads/Attachments"
+ ;; update command
+ mu4e-get-mail-command "mbsync -q -a"
+ ;; update database every seven minutes
+ mu4e-update-interval (* 60 7)
+ ;; use smtpmail (bundled with emacs) for sending
+ message-send-mail-function 'smtpmail-send-it
+ ;; optionally log smtp output to a buffer
+ smtpmail-debug-info t
+ ;; close sent message buffers
+ message-kill-buffer-on-exit t
+ ;; customize list columns
+ mu4e-headers-fields '((:flags . 4)
+                       (:from . 20)
+                       (:human-date . 10)
+                       (:subject))
+ ;; for mbsync
+ mu4e-change-filenames-when-moving t
+ ;; pick first context automatically on launch
+ mu4e-context-policy               'pick-first
+ ;; use current context for new mail
+ mu4e-compose-context-policy       nil
+ mu4e-confirm-quit                 nil)
+
+(global-set-key (kbd "<f12>") 'mu4e)
+
+(setq mu4e-contexts
+      `(,(make-mu4e-context
+          :name "gmail"
+          :match-func (lambda(msg)
+                        (when msg
+                          (mu4e-message-contact-field-matches msg :to "@gmail.com")))
+          :vars '(
+                  ;; local directories, relative to mail root
+                  (mu4e-sent-folder . "/gmail/[Gmail]/.Sent Mail")
+                  (mu4e-drafts-folder . "/gmail/[Gmail]/.Drafts")
+                  (mu4e-trash-folder . "/gmail/[Gmail]/.Trash")
+                  (mu4e-refile-folder . "/gmail/[Gmail]/.All Mail")
+                  ;; account details
+                  (user-mail-address . "@gmail.com")
+                  (user-full-name . "")
+                  (mu4e-user-mail-address-list . ( "@gmail.com" ))
+                  ;; gmail saves every outgoing message automatically
+                  (mu4e-sent-messages-behavior . delete)
+                  (mu4e-maildir-shortcuts . (("/gmail/INBOX" . ?j)
+                                             ("/gmail/[Gmail]/.All Mail" . ?a)
+                                             ("/gmail/[Gmail]/.Trash" . ?t)
+                                             ("/gmail/[Gmail]/.Drafts" . ?d)))
+                  ;; outbound mail server
+                  (smtpmail-smtp-server . "smtp.gmail.com")
+                  ;; outbound mail port
+                  (smtpmail-smtp-service . 465)
+                  ;; use ssl
+                  (smtpmail-stream-type . ssl)
+                  ;; the All Mail folder has a copy of every other folder's contents,
+                  ;; and duplicates search results, which is confusing
+                  (mue4e-headers-skip-duplicates . t)))))
+
+
+;;
 ;; L A N G U A G E  S P E C I F I C
 ;;
 
@@ -417,7 +491,6 @@ is already narrowed."
   :ensure f)
 
 (require 'ox-latex)
-:config
 (add-to-list 'org-latex-packages-alist '("" "minted"))
 (setq org-latex-listings 'minted)
 (setq org-latex-pdf-process

@@ -271,6 +271,14 @@ is already narrowed."
 ;;
 ;; O R G - M O D E
 ;;
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
 (require 'org-agenda)
 (use-package ox-reveal
   :ensure nil
@@ -438,6 +446,7 @@ is already narrowed."
  mu4e-confirm-quit                 nil)
 
 (global-set-key (kbd "<f12>") 'mu4e)
+(global-set-key (kbd "<C-f12>") 'mu4e-update-mail-and-index)
 
 (setq mu4e-contexts
       `(,(make-mu4e-context
@@ -471,6 +480,7 @@ is already narrowed."
                   ;; and duplicates search results, which is confusing
                   (mue4e-headers-skip-duplicates . t)))))
 
+(use-package evil-mu4e)
 
 ;;
 ;; L A N G U A G E  S P E C I F I C
@@ -489,12 +499,6 @@ is already narrowed."
 
 (use-package latex-preview-pane
   :ensure f)
-
-(require 'ox-latex)
-(add-to-list 'org-latex-packages-alist '("" "minted"))
-(setq org-latex-listings 'minted)
-(setq org-latex-pdf-process
-      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
 (use-package matlab-mode
   :init

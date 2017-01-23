@@ -180,5 +180,13 @@ bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 
+bar {
+    status_command i3status
+    position top
+    mode hide
+    hidden_state hide
+    modifier $mod
+}
+
 exec_always feh --bg-scale ~/Pictures/calvin-and-hobbes-night-sky-wallpaper.jpg
 #exec --no-startup-id polybar wolfe

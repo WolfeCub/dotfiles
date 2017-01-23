@@ -474,8 +474,8 @@ Have use-package auto download
                     (mu4e-trash-folder . "/gmail/[Gmail]/.Trash")
                     (mu4e-refile-folder . "/gmail/[Gmail]/.All Mail")
                     ;; account details
-                    (user-mail-address . "@gmail.com")
-                    (user-full-name . "")
+                    (user-mail-address . "joshuafwolfe@gmail.com")
+                    (user-full-name . "Josh Wolfe")
                     (mu4e-user-mail-address-list . ( "@gmail.com" ))
                     ;; gmail saves every outgoing message automatically
                     (mu4e-sent-messages-behavior . delete)

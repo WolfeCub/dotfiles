@@ -1,0 +1,581 @@
+* Garbage Collection
+
+Temporarily set garbage collect threshold high to improve start time
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq gc-cons-threshold most-positive-fixnum)
+  (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+#+END_SRC
+
+* Package Control
+
+Setup package control
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq package--init-file-ensured t) ; So (package-initialize) doesn't show up
+  (require 'package)
+  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                           ("marmalade" . "http://marmalade-repo.org/packages/")
+                           ("melpa" . "http://melpa.org/packages/")))
+  (setq package-enable-at-startup nil)
+  (package-initialize)
+#+END_SRC
+
+Have use-package auto download
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+END_SRC
+
+* General Settings
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq inhibit-splash-screen t
+        inhibit-startup-message t
+        inhibit-startup-echo-area-message "wolfe")
+  (tool-bar-mode -1) ; No toolbar
+  (scroll-bar-mode -1) ; Hide scrollbars
+  (menu-bar-mode -1) ; No menubar
+  (show-paren-mode t) ; Highlights matching parens
+  (setq initial-scratch-message "") ; No scratch text
+  (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
+  (setq-default indent-tabs-mode nil)
+  (column-number-mode t)
+  (delete-selection-mode 1) ; Replace selection on insert
+  (setq vc-follow-symlinks t) ; Always follow symlinks
+  (when (member "Inconsolata" (font-family-list)) ; Set default font
+    (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
+    (set-face-attribute 'default t :font "Inconsolata-15"))
+  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
+  (load custom-file 'noerror) ; Load custom file
+  (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
+  (setq scroll-margin 10
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1)
+  (load-file "~/.emacs.d/lisp/column-marker.el")
+  (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
+  (setq explicit-shell-file-name
+        (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
+  (setq custom-theme-directory "~/.emacs.d/themes")
+#+END_SRC
+  
+* Functions
+  
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/term-setup ()
+    (load-theme 'ujelly t)
+    (setq nlinum-format "%d ")
+    (global-hl-line-mode 1)
+    (add-to-list 'default-frame-alist '(background-color . "color-16"))
+    (custom-set-faces
+     '(linum ((t (:background "color-16" :foreground "#ffffff"))))
+     '(iedit-occurrence ((t (:background "color-93"))))
+     '(column-marker-1 ((t (:background "color-88"))))
+     '(hl-line ((t (:weight bold))))))
+
+  (defun wolfe/gui-setup ()
+    (use-package jazz-theme
+      :config
+      (load-theme 'jazz t))
+    (set-frame-size (selected-frame) 90 40)
+    (custom-set-faces
+     '(helm-ff-directory ((t (:background nil :foreground "DarkRed"))))
+     '(helm-ff-file ((t :foreground "#ffffff")))
+     '(org-todo ((t (:box (:line-width 1 :color "#953331")))))
+     '(org-done ((t (:box (:line-width 1 :color "#7e9960")))))
+     '(column-marker-1 ((t (:background "#ff0000"))))
+     '(iedit-occurrence ((t (:background "#00bfff"))))
+     '(isearch ((t (:foreground "#ff0000"))))
+     '(lazy-highlight ((t (:foreground "#ff0000" :background nil))))
+     '(linum ((t (:foreground "#ffffff"))))))
+
+  ;; Not a function but it needs to be after the 2 setup functions
+  (if (display-graphic-p)
+      (wolfe/gui-setup)
+    (wolfe/term-setup))
+
+  (defun what-face (pos)
+    (interactive "d")
+    (let ((face (or (get-char-property (point) 'read-face-name)
+                    (get-char-property (point) 'face))))
+      (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
+  (defun wolfe/compile-no-prompt ()
+    (interactive)
+    (let ((compilation-read-command nil))
+      (compile (eval compile-command))))
+
+  (defun wolfe/compile-dot-emacs ()
+    "Byte-compile dotfiles."
+    (interactive)
+    (byte-recompile-directory user-emacs-directory 0))
+
+  (defun wolfe/clear-all-elc ()
+    (interactive)
+    (shell-command "find ~/.emacs.d/ -name \"*.elc\" -type f -delete"))
+
+  (defun wolfe/remove-elc-on-save ()
+    "If you're saving an emacs-lisp file, likely the .elc is no longer valid."
+    (add-hook 'after-save-hook
+              (lambda ()
+                (if (file-exists-p (concat buffer-file-name "c"))
+                    (delete-file (concat buffer-file-name "c"))))
+              nil t))
+  (add-hook 'emacs-lisp-mode-hook 'wolfe/remove-elc-on-save)
+
+  (defun wolfe/find-tag ()
+    "Jump to the tag at point without prompting"
+    (interactive)
+    (xref-find-definitions (find-tag-default)))
+
+  (defadvice xref-find-definitions (around refresh-etags activate)
+    "Rerun etags and reload tags if tag not found and redo find-tag.
+     If buffer is modified, ask about save before running etags."
+    (condition-case err
+        ad-do-it
+      (error (and (buffer-modified-p) (not (ding))
+                  (save-buffer))
+             (save-window-excursion (shell-command "etags -R *"))
+             ad-do-it)))
+
+  (defun wolfe/controlz ()
+    (interactive)
+    (when (eq (display-graphic-p) nil)
+      (suspend-frame)))
+
+  (defun wolfe/org-open (name)
+    "Opens the file in the dropbox path"
+    (interactive)
+    (when (eq system-type 'gnu/linux)
+      (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
+    (when (eq system-type 'windows-nt)
+      (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\"
+                                   name ".org"))))
+
+  (defun wolfe/org-dropbox-path ()
+    "Returns the dropbox path"
+    (interactive)
+    (cond
+     ((eq system-type 'gnu/linux)
+      "~/Dropbox/org/")
+     ((eq system-type 'windows-nt)
+      "C:\\Users\\Josh\\Dropbox\\org\\")
+     (else "")))
+
+  (defun wolfe/dropbox-start ()
+    (interactive)
+    (if (eq nil (file-exists-p "/virtual/wolfejos/dropbox/.dropbox-dist"))
+        (call-process-shell-command "(python ~/.emacs.d/dropbox.py start -i&)")
+      (call-process-shell-command "(python ~/.emacs.d/dropbox.py start&)")))
+
+  (defun wolfe/dropbox-stop ()
+    (interactive)
+    (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
+
+  (defun wolfe/load-init ()
+    "Reloads init file"
+    (interactive)
+    (load-file "~/.emacs.d/init.el"))
+
+  (defun narrow-or-widen-dwim (p)
+    "Widen if buffer is narrowed, narrow-dwim otherwise.
+  Dwim means: region, org-src-block, org-subtree, or
+  defun, whichever applies first. Narrowing to
+  org-src-block actually calls `org-edit-src-code'.
+
+  With prefix P, don't widen, just narrow even if buffer
+  is already narrowed."
+    (interactive "P")
+    (declare (interactive-only))
+    (cond ((and (buffer-narrowed-p) (not p)) (widen))
+          ((region-active-p)
+           (narrow-to-region (region-beginning)
+                             (region-end)))
+          ((derived-mode-p 'org-mode)
+           ;; `org-edit-src-code' is not a real narrowing
+           ;; command. Remove this first conditional if
+           ;; you don't want it.
+           (cond ((ignore-errors (org-edit-src-code) t)
+                  (delete-other-windows))
+                 ((ignore-errors (org-narrow-to-block) t))
+                 (t (org-narrow-to-subtree))))
+          ((derived-mode-p 'latex-mode)
+           (LaTeX-narrow-to-environment))
+          (t (narrow-to-defun))))
+
+  (defun wolfe/man ()
+    (if (executable-find "man")
+        (man (word-at-point))
+      (woman)))
+#+END_SRC
+
+* Evil & General
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package general)
+  (use-package evil
+    :demand
+    :init
+    (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
+    (setq evil-want-C-i-jump nil)
+    :config
+    (evil-mode t)
+    (setq evil-split-window-below t)
+    (setq evil-vsplit-window-right t)
+    (setq-default evil-symbol-word-search t)
+    (setq evil-lookup-func #'wolfe/man)
+    (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
+    (define-key evil-ex-map "e " 'helm-find-files) ; Trigger file completion :e
+    (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
+
+    (general-create-definer wolfe/bind-leader
+                            :keymaps 'global
+                            :states '(normal insert visual emacs)
+                            :prefix "SPC"
+                            :non-normal-prefix "M-SPC")
+
+    :general
+    (:states 'motion
+             "k" 'evil-previous-visual-line
+             "j" 'evil-next-visual-line)
+    (:states 'operator
+             "k" 'evil-previous-line
+             "j" 'evil-next-line)
+
+
+    (:states 'normal
+             "C-h" help-map
+             "C-z"  'wolfe/controlz)
+
+    (wolfe/bind-leader
+     "w" 'save-buffer
+     "S" 'eval-buffer
+     "s" 'eval-defun
+     "b" 'mode-line-other-buffer
+     "k" 'kill-buffer
+     "m" 'helm-buffers-list
+     "t" 'wolfe/find-tag
+     "e" 'iedit-mode
+     "c" 'wolfe/compile-no-prompt
+     "n" 'narrow-or-widen-dwim
+     "p" 'helm-ff-git-grep
+     "a" 'org-agenda
+     "g" 'magit-status
+     "''" 'org-edit-src-exit
+     ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
+     "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
+     "o" (lambda() (interactive) (wolfe/org-open "everything"))
+     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
+
+  ;; Tpope's surround
+  (use-package evil-surround
+    :config
+    (global-evil-surround-mode 1))
+
+  (use-package evil-magit)
+#+END_SRC
+
+* Org Mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (require 'ox-latex)
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  (require 'org-agenda)
+  (use-package ox-reveal
+    :ensure nil
+    :config
+    (use-package htmlize
+      :ensure nil))
+
+  (use-package calfw
+    :config
+    (require 'calfw-org))
+
+  ;; Formats the agenda into nice columns
+  (setq org-agenda-prefix-format
+        '((agenda . " %i %-12t% s %-9(car (last (org-get-outline-path)))")
+          (timeline . "  % s")
+          (todo . " %i %-12:c")
+          (tags . " %i %-12:c")
+          (search . " %i %-12:c")))
+
+  ;; Sets location of org files
+  (setq org-agenda-files '("~/Dropbox/org/everything.org"))
+  (setq browse-url-browser-function 'browse-url-chromium)
+  (add-hook 'org-mode-hook
+            '(lambda ()
+               (setq org-file-apps
+                     (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps ))))
+
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key (kbd "C-M-y") 'yank)
+  (define-key org-agenda-mode-map "j" 'org-agenda-next-item)
+  (define-key org-agenda-mode-map "k" 'org-agenda-previous-item)
+
+  ;; ispell ignores SRC blocks
+  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_LATEX" . "#\\+END_LATEX"))
+
+  (setq org-pretty-entities t
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-src-window-setup 'current-window
+        org-fontify-whole-heading-line t
+        org-fontify-done-headline t
+        org-fontify-quote-and-verse-blocks t
+        org-log-done 'time
+        org-agenda-use-time-grid nil
+        org-agenda-skip-deadline-if-done t
+        org-agenda-skip-scheduled-if-done t
+        org-ellipsis "⤵")
+
+  ;; Better looking org headers
+  (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+END_SRC
+* Packages
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package delight
+    :config
+    (delight '((emacs-lisp-mode "ξ" :major)
+               (lisp-interaction-mode "λ" :major)
+               (python-mode "π" :major)
+               (c-mode "𝐂 " :major)
+               (org-mode "Ø" :major)
+               (company-mode " α" company)
+               (ivy-mode " ι" ivy)
+               (eldoc-mode " ε" eldoc)
+               (undo-tree-mode "" undo-tree)
+               (auto-revert-mode "" autorevert))))
+
+  (use-package helm
+    :demand
+    :bind (("M-x" . helm-M-x)
+           ("<menu>" . helm-M-x)
+           ("C-x C-f" . helm-find-files)
+           ("C-x b" . helm-buffers-list)
+           :map helm-map
+           ("C-i" . helm-next-line)
+           :map helm-find-files-map
+           ("<RET>" . wolfe/helm-return-find-file))
+    :config
+    (setq helm-split-window-in-side-p t
+          helm-move-to-line-cycle-in-source t
+          helm-ff-search-library-in-sexp t
+          helm-scroll-amount 8
+          helm-mode-fuzzy-match t
+          helm-completion-in-region-fuzzy-match t)
+    (helm-autoresize-mode 1)
+
+    (defun wolfe/helm-return-find-file ()
+      (interactive)
+      (if (file-directory-p (helm-get-selection))
+          (helm-execute-persistent-action)
+        (helm-maybe-exit-minibuffer)))
+
+    (helm-mode 1))
+
+  (use-package nlinum-relative
+    :config
+    (nlinum-relative-setup-evil)
+    (setq nlinum-relative-redisplay-delay 0.25)
+    (setq nlinum-relative-current-symbol "")
+    (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+
+  (use-package magit
+    :config
+    (global-set-key "\C-x\g" 'magit-status))
+
+  (use-package iedit
+    :config
+    (setq iedit-toggle-key-default nil))
+
+  (use-package flycheck
+    :config
+    (global-flycheck-mode)
+    (add-hook 'haskell-mode-hook (lambda() (flycheck-select-checker 'haskell-ghc)))
+    (with-eval-after-load 'flycheck
+      (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
+
+  (load-file "~/.emacs.d/symon/symon.el")
+  (symon-mode)
+
+  (when (executable-find "spotify")
+    (when (file-exists-p "~/Documents/spotify-secret-id.el")
+      (load-file "~/Documents/spotify-secret-id.el"))
+    (add-to-list 'load-path "~/.emacs.d/spotify.el")
+    (require 'spotify)
+    (setq spotify-mode-line-refresh-interval 1)
+    (setq spotify-mode-line-format "%t - %a")
+    (global-spotify-remote-mode 1))
+#+END_SRC
+
+* Email
+  
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (require 'mu4e)
+  (setq
+   ;; set mu4e as default mail client
+   mail-user-agent 'mu4e-user-agent
+   ;; root mail directory - can't be switched
+   ;; with context, can only be set once
+   mu4e-maildir "~/.mail"
+   mu4e-attachments-dir "~/Downloads/Attachments"
+   ;; update command
+   mu4e-get-mail-command "mbsync -q -a"
+   ;; update database every seven minutes
+   mu4e-update-interval (* 60 7)
+   ;; use smtpmail (bundled with emacs) for sending
+   message-send-mail-function 'smtpmail-send-it
+   ;; optionally log smtp output to a buffer
+   smtpmail-debug-info t
+   ;; close sent message buffers
+   message-kill-buffer-on-exit t
+   ;; customize list columns
+   mu4e-headers-fields '((:flags . 4)
+                         (:from . 20)
+                         (:human-date . 10)
+                         (:subject))
+   ;; for mbsync
+   mu4e-change-filenames-when-moving t
+   ;; pick first context automatically on launch
+   mu4e-context-policy               'pick-first
+   ;; use current context for new mail
+   mu4e-compose-context-policy       nil
+   mu4e-confirm-quit                 nil)
+
+  (global-set-key (kbd "<f12>") 'mu4e)
+  (global-set-key (kbd "<C-f12>") 'mu4e-update-mail-and-index)
+
+  (setq mu4e-contexts
+        `(,(make-mu4e-context
+            :name "gmail"
+            :match-func (lambda(msg)
+                          (when msg
+                            (mu4e-message-contact-field-matches msg :to "@gmail.com")))
+            :vars '(
+                    ;; local directories, relative to mail root
+                    (mu4e-sent-folder . "/gmail/[Gmail]/.Sent Mail")
+                    (mu4e-drafts-folder . "/gmail/[Gmail]/.Drafts")
+                    (mu4e-trash-folder . "/gmail/[Gmail]/.Trash")
+                    (mu4e-refile-folder . "/gmail/[Gmail]/.All Mail")
+                    ;; account details
+                    (user-mail-address . "@gmail.com")
+                    (user-full-name . "")
+                    (mu4e-user-mail-address-list . ( "@gmail.com" ))
+                    ;; gmail saves every outgoing message automatically
+                    (mu4e-sent-messages-behavior . delete)
+                    (mu4e-maildir-shortcuts . (("/gmail/INBOX" . ?j)
+                                               ("/gmail/[Gmail]/.All Mail" . ?a)
+                                               ("/gmail/[Gmail]/.Trash" . ?t)
+                                               ("/gmail/[Gmail]/.Drafts" . ?d)))
+                    ;; outbound mail server
+                    (smtpmail-smtp-server . "smtp.gmail.com")
+                    ;; outbound mail port
+                    (smtpmail-smtp-service . 465)
+                    ;; use ssl
+                    (smtpmail-stream-type . ssl)
+                    ;; the All Mail folder has a copy of every other folder's contents,
+                    ;; and duplicates search results, which is confusing
+                    (mue4e-headers-skip-duplicates . t)))))
+
+  (use-package evil-mu4e)
+#+END_SRC
+* Language Specific
+  
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package web-mode
+    :config
+    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode)))
+
+  (use-package haskell-mode)
+
+  (use-package company-ghc
+    :config
+    (add-to-list 'company-backends 'company-ghc))
+
+  (use-package latex-preview-pane
+    :ensure f)
+
+  (use-package matlab-mode
+    :init
+    (use-package fill-column-indicator
+      :config
+      (setq fill-column 79)
+      (add-hook 'matlab-mode-hook 'fci-mode))
+    :config
+    (load-library "matlab-load")
+    (autoload 'matlab-mode "matlab" "Matlab Editing Mode" t)
+    (add-to-list
+     'auto-mode-alist
+     '("\\.m$" . matlab-mode))
+    (setq matlab-indent-function t)
+    (setq matlab-shell-command "matlab")
+    ;; emacs-lisp setup for matlab-mode:
+    (setq matlab-shell-command-switches (list "-nodesktop")))
+#+END_SRC
+* Company
+  
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company
+    :init
+    (global-company-mode)
+    :config
+    (setq company-idle-delay 0) ; Delay to complete
+    (setq company-minimum-prefix-length 1)
+    (setq company-selection-wrap-around t) ; Loops around suggestions
+
+    (if (display-graphic-p)
+        (define-key company-active-map [tab] 'company-select-next)
+      (define-key company-active-map (kbd "C-i") 'company-select-next))
+
+    ;; C / C++
+    (setq company-clang-insert-arguments nil))
+
+  (use-package company-math
+    :config
+    (defun wolfe/latex-setup ()
+      (setq-local company-backends
+                  (append '((company-math-symbols-latex company-latex-commands))
+                          company-backends)))
+
+    (add-hook 'org-mode-hook 'wolfe/latex-setup)
+    (add-hook 'tex-mode-hook 'wolfe/latex-setup))
+#+END_SRC
+* Misc
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq gdb-many-windows t ;; use gdb-many-windows by default
+        gdb-show-main t
+        ;; Non-nil means display source file containing the main routine at startup
+        )
+#+END_SRC
+* Backups
+  
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq backup-by-copying t) ; Stop shinanigans with links
+  (setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
+  ;; Creates directory if it doesn't already exist
+  (if (eq nil (file-exists-p "~/.bak.emacs/"))
+      (make-directory "~/.bak.emacs/"))
+  ;; Creates auto directory if it doesn't already exist
+  (if (eq nil (file-exists-p "~/.bak.emacs/auto"))
+      (make-directory "~/.bak.emacs/auto"))
+  ;; backup in one place. flat, no tree structure
+  (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
+#+END_SRC

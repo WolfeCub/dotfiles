@@ -22,8 +22,7 @@ smart_gaps on
 # volume keys
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%-
-bindsym ctrl+Mod1+Left exec amixer set Master toggle
-bindsym ctrl+Mod1+Right exec amixer set Master toggle
+bindsym XF86AudioMute exec amixer set Master toggle
 
 # brightness keys
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 

@@ -5,4 +5,3 @@
 ;;    \_/\_/ \___/|_|_|  \___| |___/ |_|_| |_|_|\__(_)___|_|
 
 (org-babel-load-file "~/.emacs.d/README.org")
-(put 'narrow-to-defun 'disabled t)

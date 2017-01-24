@@ -480,7 +480,11 @@ Have use-package auto download
     (add-hook 'haskell-mode-hook (lambda() (flycheck-select-checker 'haskell-ghc)))
     (with-eval-after-load 'flycheck
       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
+#+END_SRC
+   
+** Symon
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (load-file "~/.emacs.d/symon/symon.el")
   (symon-mode)
 #+END_SRC

@@ -65,7 +65,8 @@ Have use-package auto download
 #+END_SRC
   
 * Functions
-  
+** Startup
+ 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/term-setup ()
     (load-theme 'ujelly t)
@@ -77,7 +78,9 @@ Have use-package auto download
      '(iedit-occurrence ((t (:background "color-93"))))
      '(column-marker-1 ((t (:background "color-88"))))
      '(hl-line ((t (:weight bold))))))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/gui-setup ()
     (use-package jazz-theme
       :config
@@ -98,27 +101,43 @@ Have use-package auto download
   (if (display-graphic-p)
       (wolfe/gui-setup)
     (wolfe/term-setup))
+#+END_SRC
+   
+** Face Under Point
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun what-face (pos)
     (interactive "d")
     (let ((face (or (get-char-property (point) 'read-face-name)
                     (get-char-property (point) 'face))))
       (if face (message "Face: %s" face) (message "No face at %d" pos))))
+#+END_SRC
+   
+** Compile Project
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/compile-no-prompt ()
     (interactive)
     (let ((compilation-read-command nil))
       (compile (eval compile-command))))
+#+END_SRC
+   
+** Compile Dotfiles
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/compile-dot-emacs ()
     "Byte-compile dotfiles."
     (interactive)
     (byte-recompile-directory user-emacs-directory 0))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/clear-all-elc ()
     (interactive)
     (shell-command "find ~/.emacs.d/ -name \"*.elc\" -type f -delete"))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/remove-elc-on-save ()
     "If you're saving an emacs-lisp file, likely the .elc is no longer valid."
     (add-hook 'after-save-hook
@@ -127,12 +146,18 @@ Have use-package auto download
                     (delete-file (concat buffer-file-name "c"))))
               nil t))
   (add-hook 'emacs-lisp-mode-hook 'wolfe/remove-elc-on-save)
+#+END_SRC
+   
+** Find Tags
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/find-tag ()
     "Jump to the tag at point without prompting"
     (interactive)
     (xref-find-definitions (find-tag-default)))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defadvice xref-find-definitions (around refresh-etags activate)
     "Rerun etags and reload tags if tag not found and redo find-tag.
      If buffer is modified, ask about save before running etags."
@@ -142,12 +167,20 @@ Have use-package auto download
                   (save-buffer))
              (save-window-excursion (shell-command "etags -R *"))
              ad-do-it)))
+#+END_SRC
+   
+** Terminal Background
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/controlz ()
     (interactive)
     (when (eq (display-graphic-p) nil)
       (suspend-frame)))
+#+END_SRC
+   
+** Dropbox
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/org-open (name)
     "Opens the file in the dropbox path"
     (interactive)
@@ -156,7 +189,9 @@ Have use-package auto download
     (when (eq system-type 'windows-nt)
       (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\"
                                    name ".org"))))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/org-dropbox-path ()
     "Returns the dropbox path"
     (interactive)
@@ -166,22 +201,34 @@ Have use-package auto download
      ((eq system-type 'windows-nt)
       "C:\\Users\\Josh\\Dropbox\\org\\")
      (else "")))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/dropbox-start ()
     (interactive)
     (if (eq nil (file-exists-p "/virtual/wolfejos/dropbox/.dropbox-dist"))
         (call-process-shell-command "(python ~/.emacs.d/dropbox.py start -i&)")
       (call-process-shell-command "(python ~/.emacs.d/dropbox.py start&)")))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/dropbox-stop ()
     (interactive)
     (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
+#+END_SRC
+   
+** Reload
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/load-init ()
     "Reloads init file"
     (interactive)
     (load-file "~/.emacs.d/init.el"))
+#+END_SRC
+   
+** Narrowing
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun narrow-or-widen-dwim (p)
     "Widen if buffer is narrowed, narrow-dwim otherwise.
   Dwim means: region, org-src-block, org-subtree, or
@@ -346,7 +393,9 @@ Have use-package auto download
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
+
 * Packages
+** Delight
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package delight
@@ -361,7 +410,11 @@ Have use-package auto download
                (eldoc-mode " ε" eldoc)
                (undo-tree-mode "" undo-tree)
                (auto-revert-mode "" autorevert))))
+#+END_SRC
 
+** Helm
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package helm
     :demand
     :bind (("M-x" . helm-M-x)
@@ -388,7 +441,11 @@ Have use-package auto download
         (helm-maybe-exit-minibuffer)))
 
     (helm-mode 1))
+#+END_SRC
+   
+** Nlinum
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package nlinum-relative
     :config
     (nlinum-relative-setup-evil)
@@ -396,14 +453,27 @@ Have use-package auto download
     (setq nlinum-relative-current-symbol "")
     (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
+#+END_SRC
+   
+** Magit
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
     :config
     (global-set-key "\C-x\g" 'magit-status))
+#+END_SRC
+   
+** Iedit
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package iedit
     :config
     (setq iedit-toggle-key-default nil))
+#+END_SRC
+   
+** Flycheck
 
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package flycheck
     :config
     (global-flycheck-mode)
@@ -413,7 +483,11 @@ Have use-package auto download
 
   (load-file "~/.emacs.d/symon/symon.el")
   (symon-mode)
+#+END_SRC
 
+** Spotify
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (when (executable-find "spotify")
     (when (file-exists-p "~/Documents/spotify-secret-id.el")
       (load-file "~/Documents/spotify-secret-id.el"))
@@ -496,28 +570,35 @@ Have use-package auto download
   (use-package evil-mu4e)
 #+END_SRC
 * Language Specific
-  
+** Web 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package web-mode
     :config
     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode)))
+#+END_SRC
 
+** Haskell
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package haskell-mode)
 
   (use-package company-ghc
     :config
     (add-to-list 'company-backends 'company-ghc))
+#+END_SRC
 
+** Latex
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package latex-preview-pane
     :ensure f)
+#+END_SRC
 
+** Matlab   
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package matlab-mode
-    :init
-    (use-package fill-column-indicator
-      :config
-      (setq fill-column 79)
-      (add-hook 'matlab-mode-hook 'fci-mode))
     :config
     (load-library "matlab-load")
     (autoload 'matlab-mode "matlab" "Matlab Editing Mode" t)
@@ -529,6 +610,7 @@ Have use-package auto download
     ;; emacs-lisp setup for matlab-mode:
     (setq matlab-shell-command-switches (list "-nodesktop")))
 #+END_SRC
+
 * Company
   
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -557,6 +639,7 @@ Have use-package auto download
     (add-hook 'org-mode-hook 'wolfe/latex-setup)
     (add-hook 'tex-mode-hook 'wolfe/latex-setup))
 #+END_SRC
+
 * Misc
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -565,6 +648,7 @@ Have use-package auto download
         ;; Non-nil means display source file containing the main routine at startup
         )
 #+END_SRC
+
 * Backups
   
 #+BEGIN_SRC emacs-lisp :tangle yes

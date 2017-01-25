@@ -34,6 +34,7 @@ Have use-package auto download
 * General Settings
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (pdf-tools-install)
   (setq inhibit-splash-screen t
         inhibit-startup-message t
         inhibit-startup-echo-area-message "wolfe")
@@ -351,7 +352,7 @@ Have use-package auto download
 
   ;; Formats the agenda into nice columns
   (setq org-agenda-prefix-format
-        '((agenda . " %i %-12t% s %-9(car (last (org-get-outline-path)))")
+        '((agenda . " %i %-12t% s %-12(car (last (org-get-outline-path)))")
           (timeline . "  % s")
           (todo . " %i %-12:c")
           (tags . " %i %-12:c")
@@ -502,6 +503,7 @@ Have use-package auto download
   
 #+BEGIN_SRC emacs-lisp :tangle yes
   (require 'mu4e)
+  (setq mu4e-msg2pdf "/usr/bin/msg2pdf")
   (setq
    ;; set mu4e as default mail client
    mail-user-agent 'mu4e-user-agent
@@ -569,6 +571,7 @@ Have use-package auto download
 
   (use-package evil-mu4e)
 #+END_SRC
+
 * Language Specific
 ** Web 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -663,3 +666,4 @@ Have use-package auto download
   ;; backup in one place. flat, no tree structure
   (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 #+END_SRC
+

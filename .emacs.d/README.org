@@ -67,6 +67,8 @@ Have use-package auto download
   
 * Functions
 ** Startup
+   
+Runs a different function on startup depending on display mode.
  
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/term-setup ()
@@ -105,6 +107,8 @@ Have use-package auto download
 #+END_SRC
    
 ** Face Under Point
+   
+Returns the font lock face that's under the cursor.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun what-face (pos)
@@ -115,6 +119,8 @@ Have use-package auto download
 #+END_SRC
    
 ** Compile Project
+   
+Compiles the project without a prompt.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/compile-no-prompt ()
@@ -124,6 +130,8 @@ Have use-package auto download
 #+END_SRC
    
 ** Compile Dotfiles
+   
+Compiles all el files in the =~/.emacs.d= directory.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/compile-dot-emacs ()
@@ -150,6 +158,8 @@ Have use-package auto download
 #+END_SRC
    
 ** Find Tags
+   
+Looks up tag under point.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/find-tag ()
@@ -170,7 +180,9 @@ Have use-package auto download
              ad-do-it)))
 #+END_SRC
    
-** Terminal Background
+** Terminal Suspend
+
+Fixes =C-z= in terminal.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/controlz ()
@@ -180,7 +192,9 @@ Have use-package auto download
 #+END_SRC
    
 ** Dropbox
-
+   
+Utility functions for finding Dropbox directories/files.
+   
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/org-open (name)
     "Opens the file in the dropbox path"
@@ -219,6 +233,8 @@ Have use-package auto download
 #+END_SRC
    
 ** Reload
+   
+For reloading =init.el= file without restarting.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/load-init ()
@@ -228,6 +244,8 @@ Have use-package auto download
 #+END_SRC
    
 ** Narrowing
+   
+Better narrowing.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun narrow-or-widen-dwim (p)

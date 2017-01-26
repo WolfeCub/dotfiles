@@ -140,25 +140,23 @@ alias ec='emacsclient -c'
 ##
 ## P R O M P T
 ##
-# modify the prompt to contain git branch name if applicable
-git_prompt_info() {
-    current_branch=$(git current-branch 2> /dev/null)
-    if [[ -n $current_branch ]]; then
-        echo " %{$fg_bold[green]%}$current_branch%{$reset_color%}"
-    fi
+PROMPT_STATUS="\`$SMILE\`"
+_newline=$'\n'
+_lineup=$'\e[1A'
+_linedown=$'\e[1B'
+
+function preexec() {
+	echo
 }
+function precmd() {
+	echo -e "$txtpur"
+	jobs
+	echo -ne "$txtrst"
+}
+
+PROMPT="%F{red}%n%F{white}@%F{green}%m %F{blue}%~ ${_newline}%F{white}$ "
+RPROMPT=%{${_lineup}%}%F{red}%(?..%? )%F{white}[`date +%H:%M:%S`]%{${_linedown}%}
 setopt promptsubst
-PS1='${"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info) $ '
-
-precmd() { RPROMPT="" }
-function zle-line-init zle-keymap-select {
-    VIM_PROMPT="%{$fg_bold[yellow]%} [% N]% %{$reset_color%}"
-    RPROMPT='`jobs %% 2> /dev/null | cut -d " " -f6` [`date +%H:%M:%S`]${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1'
-    zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
 
 # Delay of 0.1 seconds
 export KEYTIMEOUT=1

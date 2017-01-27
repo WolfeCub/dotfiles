@@ -145,17 +145,24 @@ _newline=$'\n'
 _lineup=$'\e[1A'
 _linedown=$'\e[1B'
 
+#* There are uncommitted changes.
+#? There are files git doesn't know about.
+#➚ There are commits that haven't been pushed yet.
+#☰ There are stashed files.
+#⌥ There are branches other than master.
+#® There are remote repositories other than origin configured.
+source ~/.zsh/git-prompt.zsh 
+
 function preexec() {
-	echo
+    echo
 }
 function precmd() {
-	echo -e "$txtpur"
-	jobs
-	echo -ne "$txtrst"
+    echo
+    PSVAR=`git_prompt_precmd`
 }
 
 PROMPT="%F{red}%n%F{white}@%F{green}%m %F{blue}%~ ${_newline}%F{white}$ "
-RPROMPT=%{${_lineup}%}%F{red}%(?..%? )%F{white}[`date +%H:%M:%S`]%{${_linedown}%}
+RPROMPT=%{${_lineup}%}%F{red}%(?..%? )%F{yellow}%v%F{white}[`date +%H:%M:%S`]%{${_linedown}%}
 setopt promptsubst
 
 # Delay of 0.1 seconds

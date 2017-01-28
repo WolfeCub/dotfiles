@@ -3,6 +3,7 @@ exec "setxkbmap -option 'caps:ctrl_modifier'"
 exec "xcape -e 'Caps_Lock=Escape'"
 exec "xsetroot -cursor_name left_ptr"
 exec --no-startup-id dropbox start
+exec --no-startup-id nm-applet
 exec --no-startup-id ~/bin/battery_notify
 exec --no-startup-id powertop --auto-tune
 exec --no-startup-id tlp start

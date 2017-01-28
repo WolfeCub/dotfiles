@@ -145,12 +145,12 @@ _newline=$'\n'
 _lineup=$'\e[1A'
 _linedown=$'\e[1B'
 
-#* There are uncommitted changes.
-#? There are files git doesn't know about.
-#➚ There are commits that haven't been pushed yet.
-#☰ There are stashed files.
-#⌥ There are branches other than master.
-#® There are remote repositories other than origin configured.
+# * There are uncommitted changes.
+# ? There are files git doesn't know about.
+# ➚ There are commits that haven't been pushed yet.
+# ☰ There are stashed files.
+# ⌥ There are branches other than master.
+# ® There are remote repositories other than origin configured.
 source ~/.zsh/git-prompt.zsh 
 
 function preexec() {

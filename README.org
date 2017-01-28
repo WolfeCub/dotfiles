@@ -1,0 +1,13 @@
+* dotfiles
+
+Here are my personal dotfiles.
+  * [[http://www.zsh.org/][zsh]] - shell
+  * [[https://www.gnu.org/software/emacs/][emacs]] - text editor of choice
+  * [[https://github.com/vim/vim][vim]]/[[https://github.com/neovim/neovim][neovim]] - when emacs isn't available
+  * [[https://github.com/baskerville/bspwm][bspwm]] - window manager (linux)
+    + I also have configuration files for my old i3 setup. They aren't going to be updated
+    + [[https://github.com/krypt-n/bar][lemonbar]] - status bar (fork that supports more font formats)
+    + [[https://github.com/DaveDavenport/rofi][rofi]] - demenu replacement
+  * [[https://github.com/hammerspoon/hammerspoon][hammerspoon]] - window manager when I happen to be on osx
+
+Everything here is in a constant state of flux. If you like something be sure to copy it as theres no gauruntee it will be here the next time you come looking.

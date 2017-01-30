@@ -162,7 +162,7 @@ function precmd() {
 }
 
 PROMPT="%F{red}%n%F{white}@%F{green}%m %F{blue}%~ ${_newline}%F{white}$ "
-RPROMPT=%{${_lineup}%}%F{red}%(?..%? )%F{yellow}%v%F{white}[`date +%H:%M:%S`]%{${_linedown}%}
+RPROMPT='%{${_lineup}%}%F{red}%(?..%? )%F{yellow}%v%F{white}`jobs %% 2> /dev/null | cut -d " " -f6` [`date +%H:%M:%S`]%{${_linedown}%}'
 setopt promptsubst
 
 # Delay of 0.1 seconds

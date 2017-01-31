@@ -34,6 +34,10 @@ Have use-package auto download
 * Startup
    
 Runs a different function on startup depending on display mode.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq custom-theme-directory "~/.emacs.d/themes")
+#+END_SRC
  
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/term-setup ()
@@ -50,20 +54,21 @@ Runs a different function on startup depending on display mode.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/gui-setup ()
-    (use-package jazz-theme
+    (use-package solarized-theme
       :config
-      (load-theme 'jazz t))
+      (load-theme 'solarized-dark t))
     (set-frame-size (selected-frame) 90 40)
-    (custom-set-faces
-     '(helm-ff-directory ((t (:background nil :foreground "DarkRed"))))
-     '(helm-ff-file ((t :foreground "#ffffff")))
-     '(org-todo ((t (:box (:line-width 1 :color "#953331")))))
-     '(org-done ((t (:box (:line-width 1 :color "#7e9960")))))
-     '(column-marker-1 ((t (:background "#ff0000"))))
-     '(iedit-occurrence ((t (:background "#00bfff"))))
-     '(isearch ((t (:foreground "#ff0000"))))
-     '(lazy-highlight ((t (:foreground "#ff0000" :background nil))))
-     '(linum ((t (:foreground "#ffffff"))))))
+    ;;(custom-set-faces
+    ;; '(helm-ff-directory ((t (:background nil :foreground "DarkRed"))))
+    ;; '(helm-ff-file ((t :foreground "#ffffff")))
+    ;; '(org-todo ((t (:box (:line-width 1 :color "#953331")))))
+    ;; '(org-done ((t (:box (:line-width 1 :color "#7e9960")))))
+    ;; '(column-marker-1 ((t (:background "#ff0000"))))
+    ;; '(iedit-occurrence ((t (:background "#00bfff"))))
+    ;; '(isearch ((t (:foreground "#ff0000"))))
+    ;; '(lazy-highlight ((t (:foreground "#ff0000" :background nil))))
+    ;; '(linum ((t (:foreground "#ffffff")))))
+)
 
   ;; Not a function but it needs to be after the 2 setup functions
   (if (display-graphic-p)
@@ -102,7 +107,6 @@ Runs a different function on startup depending on display mode.
   (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
   (setq explicit-shell-file-name
         (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
-  (setq custom-theme-directory "~/.emacs.d/themes")
 #+END_SRC
   
 * Functions

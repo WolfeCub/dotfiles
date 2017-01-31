@@ -31,42 +31,7 @@ Have use-package auto download
   (setq use-package-always-ensure t)
 #+END_SRC
 
-* General Settings
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (pdf-tools-install)
-  (setq inhibit-splash-screen t
-        inhibit-startup-message t
-        inhibit-startup-echo-area-message "wolfe")
-  (tool-bar-mode -1) ; No toolbar
-  (scroll-bar-mode -1) ; Hide scrollbars
-  (menu-bar-mode -1) ; No menubar
-  (show-paren-mode t) ; Highlights matching parens
-  (setq initial-scratch-message "") ; No scratch text
-  (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
-  (setq-default indent-tabs-mode nil)
-  (column-number-mode t)
-  (delete-selection-mode 1) ; Replace selection on insert
-  (setq vc-follow-symlinks t) ; Always follow symlinks
-  (when (member "Inconsolata" (font-family-list)) ; Set default font
-    (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
-    (set-face-attribute 'default t :font "Inconsolata-15"))
-  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
-  (load custom-file 'noerror) ; Load custom file
-  (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
-  (setq scroll-margin 10
-        scroll-step 1
-        scroll-conservatively 10000
-        scroll-preserve-screen-position 1)
-  (load-file "~/.emacs.d/lisp/column-marker.el")
-  (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
-  (setq explicit-shell-file-name
-        (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
-  (setq custom-theme-directory "~/.emacs.d/themes")
-#+END_SRC
-  
-* Functions
-** Startup
+* Startup
    
 Runs a different function on startup depending on display mode.
  
@@ -106,6 +71,41 @@ Runs a different function on startup depending on display mode.
     (wolfe/term-setup))
 #+END_SRC
    
+* General Settings
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;;(pdf-tools-install)
+  (setq inhibit-splash-screen t
+        inhibit-startup-message t
+        inhibit-startup-echo-area-message "wolfe")
+  (tool-bar-mode -1) ; No toolbar
+  (scroll-bar-mode -1) ; Hide scrollbars
+  (menu-bar-mode -1) ; No menubar
+  (show-paren-mode t) ; Highlights matching parens
+  (setq initial-scratch-message "") ; No scratch text
+  (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
+  (setq-default indent-tabs-mode nil)
+  (column-number-mode t)
+  (delete-selection-mode 1) ; Replace selection on insert
+  (setq vc-follow-symlinks t) ; Always follow symlinks
+  (when (member "Inconsolata" (font-family-list)) ; Set default font
+    (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
+    (set-face-attribute 'default t :font "Inconsolata-15"))
+  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
+  (load custom-file 'noerror) ; Load custom file
+  (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
+  (setq scroll-margin 10
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1)
+  (load-file "~/.emacs.d/lisp/column-marker.el")
+  (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
+  (setq explicit-shell-file-name
+        (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
+  (setq custom-theme-directory "~/.emacs.d/themes")
+#+END_SRC
+  
+* Functions
 ** Face Under Point
    
 Returns the font lock face that's under the cursor.
@@ -530,81 +530,80 @@ Better narrowing.
     (add-to-list 'load-path "~/.emacs.d/spotify.el")
     (require 'spotify)
     (setq spotify-mode-line-refresh-interval 1)
-    (setq spotify-mode-line-format "%t - %a")
-    (global-spotify-remote-mode 1))
+    (setq spotify-mode-line-format "%t - %a"))
 #+END_SRC
 
 * Email
   
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (require 'mu4e)
-  (setq mu4e-msg2pdf "/usr/bin/msg2pdf")
-  (setq
-   ;; set mu4e as default mail client
-   mail-user-agent 'mu4e-user-agent
-   ;; root mail directory - can't be switched
-   ;; with context, can only be set once
-   mu4e-maildir "~/.mail"
-   mu4e-attachments-dir "~/Downloads/Attachments"
-   ;; update command
-   mu4e-get-mail-command "mbsync -q -a"
-   ;; update database every seven minutes
-   mu4e-update-interval (* 60 7)
-   ;; use smtpmail (bundled with emacs) for sending
-   message-send-mail-function 'smtpmail-send-it
-   ;; optionally log smtp output to a buffer
-   smtpmail-debug-info t
-   ;; close sent message buffers
-   message-kill-buffer-on-exit t
-   ;; customize list columns
-   mu4e-headers-fields '((:flags . 4)
-                         (:from . 20)
-                         (:human-date . 10)
-                         (:subject))
-   ;; for mbsync
-   mu4e-change-filenames-when-moving t
-   ;; pick first context automatically on launch
-   mu4e-context-policy               'pick-first
-   ;; use current context for new mail
-   mu4e-compose-context-policy       nil
-   mu4e-confirm-quit                 nil)
+  (when (require 'mu4e nil 'noerror)
+    (setq mu4e-msg2pdf "/usr/bin/msg2pdf")
+    (setq
+     ;; set mu4e as default mail client
+     mail-user-agent 'mu4e-user-agent
+     ;; root mail directory - can't be switched
+     ;; with context, can only be set once
+     mu4e-maildir "~/.mail"
+     mu4e-attachments-dir "~/Downloads/Attachments"
+     ;; update command
+     mu4e-get-mail-command "mbsync -q -a"
+     ;; update database every seven minutes
+     mu4e-update-interval (* 60 7)
+     ;; use smtpmail (bundled with emacs) for sending
+     message-send-mail-function 'smtpmail-send-it
+     ;; optionally log smtp output to a buffer
+     smtpmail-debug-info t
+     ;; close sent message buffers
+     message-kill-buffer-on-exit t
+     ;; customize list columns
+     mu4e-headers-fields '((:flags . 4)
+                           (:from . 20)
+                           (:human-date . 10)
+                           (:subject))
+     ;; for mbsync
+     mu4e-change-filenames-when-moving t
+     ;; pick first context automatically on launch
+     mu4e-context-policy               'pick-first
+     ;; use current context for new mail
+     mu4e-compose-context-policy       nil
+     mu4e-confirm-quit                 nil)
 
-  (global-set-key (kbd "<f12>") 'mu4e)
-  (global-set-key (kbd "<C-f12>") 'mu4e-update-mail-and-index)
+    (global-set-key (kbd "<f12>") 'mu4e)
+    (global-set-key (kbd "<C-f12>") 'mu4e-update-mail-and-index)
 
-  (setq mu4e-contexts
-        `(,(make-mu4e-context
-            :name "gmail"
-            :match-func (lambda(msg)
-                          (when msg
-                            (mu4e-message-contact-field-matches msg :to "@gmail.com")))
-            :vars '(
-                    ;; local directories, relative to mail root
-                    (mu4e-sent-folder . "/gmail/[Gmail]/.Sent Mail")
-                    (mu4e-drafts-folder . "/gmail/[Gmail]/.Drafts")
-                    (mu4e-trash-folder . "/gmail/[Gmail]/.Trash")
-                    (mu4e-refile-folder . "/gmail/[Gmail]/.All Mail")
-                    ;; account details
-                    (user-mail-address . "joshuafwolfe@gmail.com")
-                    (user-full-name . "Josh Wolfe")
-                    (mu4e-user-mail-address-list . ( "@gmail.com" ))
-                    ;; gmail saves every outgoing message automatically
-                    (mu4e-sent-messages-behavior . delete)
-                    (mu4e-maildir-shortcuts . (("/gmail/INBOX" . ?j)
-                                               ("/gmail/[Gmail]/.All Mail" . ?a)
-                                               ("/gmail/[Gmail]/.Trash" . ?t)
-                                               ("/gmail/[Gmail]/.Drafts" . ?d)))
-                    ;; outbound mail server
-                    (smtpmail-smtp-server . "smtp.gmail.com")
-                    ;; outbound mail port
-                    (smtpmail-smtp-service . 465)
-                    ;; use ssl
-                    (smtpmail-stream-type . ssl)
-                    ;; the All Mail folder has a copy of every other folder's contents,
-                    ;; and duplicates search results, which is confusing
-                    (mue4e-headers-skip-duplicates . t)))))
+    (setq mu4e-contexts
+          `(,(make-mu4e-context
+              :name "gmail"
+              :match-func (lambda(msg)
+                            (when msg
+                              (mu4e-message-contact-field-matches msg :to "@gmail.com")))
+              :vars '(
+                      ;; local directories, relative to mail root
+                      (mu4e-sent-folder . "/gmail/[Gmail]/.Sent Mail")
+                      (mu4e-drafts-folder . "/gmail/[Gmail]/.Drafts")
+                      (mu4e-trash-folder . "/gmail/[Gmail]/.Trash")
+                      (mu4e-refile-folder . "/gmail/[Gmail]/.All Mail")
+                      ;; account details
+                      (user-mail-address . "joshuafwolfe@gmail.com")
+                      (user-full-name . "Josh Wolfe")
+                      (mu4e-user-mail-address-list . ( "@gmail.com" ))
+                      ;; gmail saves every outgoing message automatically
+                      (mu4e-sent-messages-behavior . delete)
+                      (mu4e-maildir-shortcuts . (("/gmail/INBOX" . ?j)
+                                                 ("/gmail/[Gmail]/.All Mail" . ?a)
+                                                 ("/gmail/[Gmail]/.Trash" . ?t)
+                                                 ("/gmail/[Gmail]/.Drafts" . ?d)))
+                      ;; outbound mail server
+                      (smtpmail-smtp-server . "smtp.gmail.com")
+                      ;; outbound mail port
+                      (smtpmail-smtp-service . 465)
+                      ;; use ssl
+                      (smtpmail-stream-type . ssl)
+                      ;; the All Mail folder has a copy of every other folder's contents,
+                      ;; and duplicates search results, which is confusing
+                      (mue4e-headers-skip-duplicates . t)))))
 
-  (use-package evil-mu4e)
+    (use-package evil-mu4e))
 #+END_SRC
 
 * Language Specific

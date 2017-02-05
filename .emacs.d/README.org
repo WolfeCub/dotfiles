@@ -357,13 +357,13 @@ Better narrowing.
 * Org Mode
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;;(require 'ox-latex)
-  ;;(add-to-list 'org-latex-packages-alist '("" "minted"))
-  ;;(setq org-latex-listings 'minted)
-  ;;(setq org-latex-pdf-process
-  ;;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-  ;;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-  ;;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (require 'ox-latex)
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
   (require 'org-agenda)
   (use-package ox-reveal

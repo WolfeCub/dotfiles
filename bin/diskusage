@@ -1,0 +1,3 @@
+#!/bin/sh
+
+du --max-depth=1 2> /dev/null | sort -n -r | head -n20

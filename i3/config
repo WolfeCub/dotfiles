@@ -60,6 +60,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+space exec rofi -show run -font "snap 10" -o 85
 bindsym $mod+p exec "~/bin/toggle-layout"
 bindsym $mod+c exec chromium
+bindsym $mod+n exec "~/bin/lock.sh"
 
 # change focus
 bindsym $mod+h focus left

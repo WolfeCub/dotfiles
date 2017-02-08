@@ -168,4 +168,5 @@ setopt promptsubst
 # Delay of 0.1 seconds
 export KEYTIMEOUT=1
 
+eval $(thefuck --alias)
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 

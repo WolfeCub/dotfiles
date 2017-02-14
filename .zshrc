@@ -1,4 +1,3 @@
-
 ##
 ## S E T T I N G S
 ##
@@ -30,9 +29,9 @@ fpath=(
 autoload -Uz compinit
 compinit
 
-# Set emacs as default editor
-export EDITOR='emacs -nw'
-export VISUAL='emacs -nw'
+# Set vim as default editor
+export EDITOR='vim'
+export VISUAL='vim'
 
 ## History
 HISTFILE=$HOME/.zhistory       # enable history saving on shell exit
@@ -168,5 +167,7 @@ setopt promptsubst
 # Delay of 0.1 seconds
 export KEYTIMEOUT=1
 
-eval $(thefuck --alias)
+if type fuck >/dev/null; then
+    eval $(thefuck --alias)
+fi
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 

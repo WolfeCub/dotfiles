@@ -32,7 +32,7 @@ Have use-package auto download
 #+END_SRC
 
 * Startup
-   
+  
 Runs a different function on startup depending on display mode.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -53,31 +53,51 @@ Runs a different function on startup depending on display mode.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (defun wolfe/gui-setup ()
-      (use-package solarized-theme
-        :config
-        (load-theme 'solarized-dark t))
-      (set-frame-size (selected-frame) 90 40)
-      
-      (custom-set-faces
-       '(org-todo ((t (:box (:line-width 1)))))
-       '(org-done ((t (:box (:line-width 1))))))
-      
-      ;; For old jazz theme
-      ;;(custom-set-faces
-      ;; '(helm-ff-directory ((t (:background nil :foreground "DarkRed"))))
-      ;; '(helm-ff-file ((t :foreground "#ffffff")))
-      ;; '(column-marker-1 ((t (:background "#ff0000"))))
-      ;; '(iedit-occurrence ((t (:background "#00bfff"))))
-      ;; '(isearch ((t (:foreground "#ff0000"))))
-      ;; '(lazy-highlight ((t (:foreground "#ff0000" :background nil))))
-      ;; '(linum ((t (:foreground "#ffffff")))))
-  )
+  (defun wolfe/gui-setup ()
+    ;;(use-package solarized-theme
+    ;;  :config
+    ;;  (load-theme 'solarized-dark t))
+    ;;(set-frame-size (selected-frame) 90 40)
 
-    ;; Not a function but it needs to be after the 2 setup functions
-    (if (display-graphic-p)
-        (wolfe/gui-setup)
-      (wolfe/term-setup))
+    (load-theme 'prassee t)
+    (use-package spaceline  
+      :init
+      (progn
+        (require 'spaceline-config)
+        (setq powerline-default-separator 'slant)
+        (setq spaceline-workspace-numbers-unicode t)
+        (setq spaceline-separator-dir-left '(left . left))
+        (setq spaceline-separator-dir-right '(right . right))
+        (setq powerline-height 27)
+        (spaceline-toggle-window-number-on)
+        (spaceline-toggle-buffer-modified-on)
+        (spaceline-toggle-major-mode-on)
+        (spaceline-toggle-battery-on)
+        (spaceline-toggle-hud-on)
+        (spaceline-toggle-projectile-root-on)
+        (spaceline-emacs-theme)))
+    
+    (custom-set-faces
+     '(org-todo ((t (:box (:line-width 1)))))
+     '(org-done ((t (:box (:line-width 1)))))
+     '(org-level-1 ((t (:background "#23272e" :foreground "#51afef" :height 1.4))))
+     '(org-todo ((t (:foreground "#ECBE7B" :box 1 :weight bold :height 1.15)))))
+    
+    ;; For old jazz theme
+    ;;(custom-set-faces
+    ;; '(helm-ff-directory ((t (:background nil :foreground "DarkRed"))))
+    ;; '(helm-ff-file ((t :foreground "#ffffff")))
+    ;; '(column-marker-1 ((t (:background "#ff0000"))))
+    ;; '(iedit-occurrence ((t (:background "#00bfff"))))
+    ;; '(isearch ((t (:foreground "#ff0000"))))
+    ;; '(lazy-highlight ((t (:foreground "#ff0000" :background nil))))
+    ;; '(linum ((t (:foreground "#ffffff")))))
+    )
+
+  ;; Not a function but it needs to be after the 2 setup functions
+  (if (display-graphic-p)
+      (wolfe/gui-setup)
+    (wolfe/term-setup))
 #+END_SRC
    
 * General Settings

@@ -117,6 +117,7 @@ bindkey -M viins '^u'    backward-kill-line
 alias :q='exit'
 alias less='less -R'
 alias grep='grep --color=always'
+alias open='xdg-open'
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'

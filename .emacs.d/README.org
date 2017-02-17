@@ -308,6 +308,25 @@ Better narrowing.
       (woman)))
 #+END_SRC
 
+** Ivy Completion
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/ivy--regex-fuzzy (str)
+    "Build a regex sequence from STR.
+   Insert .* between each char."
+    (if (string-match "\\`\\(\\^?\\)\\(.*?\\)\\(\\$?\\)\\'" str)
+        (prog1
+            (concat (match-string 1 str)
+                    (mapconcat
+                     (lambda (x)
+                       (format "\\(%c\\)" x))
+                     (delq 32 (string-to-list (match-string 2 str)))
+                     ".*?")
+                    (match-string 3 str))
+          (setq ivy--subexps (length (match-string 2 str))))))
+
+#+END_SRC
+
 * Evil & General
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -324,7 +343,7 @@ Better narrowing.
     (setq-default evil-symbol-word-search t)
     (setq evil-lookup-func #'wolfe/man)
     (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
-    (define-key evil-ex-map "e " 'helm-find-files) ; Trigger file completion :e
+    (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
     (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
     (general-create-definer wolfe/bind-leader
@@ -352,12 +371,12 @@ Better narrowing.
      "s" 'eval-defun
      "b" 'mode-line-other-buffer
      "k" 'kill-buffer
-     "m" 'helm-buffers-list
+     "m" 'ivy-switch-buffer
      "t" 'wolfe/find-tag
      "e" 'iedit-mode
      "c" 'wolfe/compile-no-prompt
      "n" 'narrow-or-widen-dwim
-     "p" 'helm-ff-git-grep
+     "p" 'counsel-git
      "a" 'org-agenda
      "g" 'magit-status
      "''" 'org-edit-src-exit
@@ -478,38 +497,34 @@ Better narrowing.
                (undo-tree-mode "" undo-tree)
                (auto-revert-mode "" autorevert))))
 #+END_SRC
-
-** Helm
+   
+** Ivy, Counsel and Swiper
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package helm
+  (use-package ivy
     :demand
-    :bind (("M-x" . helm-M-x)
-           ("<menu>" . helm-M-x)
-           ("C-x C-f" . helm-find-files)
-           ("C-x b" . helm-buffers-list)
-           :map helm-map
-           ("C-i" . helm-next-line)
-           :map helm-find-files-map
-           ("<RET>" . wolfe/helm-return-find-file))
+    :bind (("M-x" . counsel-M-x)
+           ("C-x C-f" . counsel-find-file)
+           :map ivy-minibuffer-map
+           ("TAB" . ivy-next-line)
+           ("RET" . ivy-alt-done))
+    :init
+    (use-package smex)
+    (use-package counsel)
     :config
-    (setq helm-split-window-in-side-p t
-          helm-move-to-line-cycle-in-source t
-          helm-ff-search-library-in-sexp t
-          helm-scroll-amount 8
-          helm-mode-fuzzy-match t
-          helm-completion-in-region-fuzzy-match t)
-    (helm-autoresize-mode 1)
+    (setq ivy-re-builders-alist
+          '((t . wolfe/ivy--regex-fuzzy)))
+    (setq ivy-wrap t)
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t))
 
-    (defun wolfe/helm-return-find-file ()
-      (interactive)
-      (if (file-directory-p (helm-get-selection))
-          (helm-execute-persistent-action)
-        (helm-maybe-exit-minibuffer)))
-
-    (helm-mode 1))
-#+END_SRC
+#+END_SRC   
    
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package swiper
+  :bind (("C-s" . swiper)))
+#+END_SRC
+
 ** Nlinum
 
 #+BEGIN_SRC emacs-lisp :tangle yes

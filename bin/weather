@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ "$#" -eq 0 ]; then
+    curl -s "http://wttr.in/mississauga" | head -n -2
+elif [ "$#" -eq 1 ]; then
+    curl -s "http://wttr.in/"$1 | head -n -2
+else
+echo "Error"
+fi
+

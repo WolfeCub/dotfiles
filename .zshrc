@@ -118,6 +118,7 @@ alias :q='exit'
 alias less='less -R'
 alias grep='grep --color=always'
 alias open='xdg-open'
+alias wttr='~/bin/weather'
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'

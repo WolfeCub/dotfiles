@@ -24,6 +24,7 @@ smart_gaps on
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%-
 bindsym XF86AudioMute exec amixer set Master toggle
+bindsym --release Print exec ~/bin/shot_upload
 
 # brightness keys
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5 

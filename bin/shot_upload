@@ -1,0 +1,8 @@
+#!/bin/bash
+
+scrot -q 100 -s ~/Pictures/pic_for_upload.png
+scp ~/Pictures/pic_for_upload.png vps:~
+
+R=`~/bin/anumgen 8`
+echo emacs.guru/image/$R.png | xclip -selection clipboard
+echo $R | ssh vps "cat > ~/upload_string && ~/process_photo"

@@ -16,7 +16,14 @@ Everything here is in a constant state of flux. If you like something be sure to
 
    My dotfiles are managed using [[https://www.gnu.org/software/stow/][GNU Stow]]. This makes it easy to add and remove modules
    (and their symbolic links).
- 
+
+*** One Liner
+    This one line will clone my dotfiles and begin the installer.
+
+#+BEGIN_SRC bash
+curl https://raw.githubusercontent.com/WolfeCub/dotfiles/master/install.sh | bash -s -- -g <& 1
+#+END_SRC
+  
 *** Usage
 
 #+BEGIN_SRC bash

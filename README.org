@@ -11,3 +11,20 @@ Here are my personal dotfiles.
   * [[https://github.com/hammerspoon/hammerspoon][hammerspoon]] - window manager when I happen to be on osx
 
 Everything here is in a constant state of flux. If you like something be sure to copy it as theres no gauruntee it will be here the next time you come looking.
+
+** Installing
+
+   My dotfiles are managed using [[https://www.gnu.org/software/stow/][GNU Stow]]. This makes it easy to add and remove modules
+   (and their symbolic links).
+ 
+*** Usage
+
+#+BEGIN_SRC bash
+cd dotfiles
+git submodules init && git submodules update
+stow zsh
+stow emacs
+...
+#+END_SRC
+
+    This allows you to only use the modules that you want.

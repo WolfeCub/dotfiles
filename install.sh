@@ -19,7 +19,7 @@ echo -e $ARESET
 if [[ $1 = "-g" ]] || [[ $1 = "--git" ]]; then
     git clone https://github.com/WolfeCub/dotfiles.git
     cd dotfiles
-    ./intstall.sh
+    ./install.sh
 elif [[ $1 = "-u" ]] || [[ $1 = "--uninstall" ]]; then
     for ITEM in `ls -d */`;
     do

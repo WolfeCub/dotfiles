@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DEST=`cat ~/upload_string`
+mv ~/pic_for_upload.png ~/uploaded_images/$DEST.png
+rm upload_string

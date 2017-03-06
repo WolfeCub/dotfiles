@@ -1,4 +1,32 @@
-;; Inspired from Doom-theme with some customization
+;;; prassee-theme.el --- A high contrast color theme
+
+;; Copyright (c) 2017 Prassee
+
+;; Author: Prassee  <prassee.sathian@gmail.com>
+;; Keywords: faces
+;; URL: https://github.com/prassee/prassee-emacs-theme
+;; Package-Requires: ((emacs "24"))
+;; Version: 1.2
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; A variant of the Doom theme Zenburn for Emacs 24, built on top
+;; of the new built-in theme support in Emacs 24.
+
+;;; Code:
 
 (deftheme prassee
   "A dark theme inspired by Doom One theme")
@@ -24,10 +52,11 @@
       (blue-d         "#1f5582")
       (green          "#98be65"))
 
-  (let* ((bg             "#2b303b")
-         (bg-d           "#2b303b")
+  (let* ((bg             "#002b36")
+         (bg-d           "#002b36")
          (fg             "#bbc2cf")
-         (highlight      blue)
+         (highlight      grey-c)
+         (chighlight     grey-c)
          (vertical-bar   black)
          (current-line   (if window-system "#23272e" "#262626"))
          (selection      highlight)
@@ -43,12 +72,15 @@
          (variables      white)
          (numbers        orange)
          (region         "#3d4451")
+
          ;; tabs
          (tab-unfocused-bg "#353a42")
          (tab-unfocused-fg "#1e2022")
+
          ;; main search regions
          (search-bg      blue)
          (search-fg      black)
+
          ;; other search regions
          (search-rest-bg grey-d)
          (search-rest-fg blue)
@@ -68,12 +100,12 @@
 
     (custom-theme-set-faces
      'prassee
-     
+
      ;; Global
      `(default                ((,c (:background ,bg-d :foreground ,fg))))
      `(fringe                 ((,c (:inherit default :foreground ,comments))))
      `(region                 ((,c (:background ,region))))
-     `(highlight              ((,c (:background ,blue :foreground ,black))))
+     `(highlight              ((,c (:background ,teal :foreground ,black))))
      `(hl-line                ((,c (:background ,bg))))
      `(cursor                 ((,c (:background ,blue))))
      `(shadow                 ((,c (:foreground ,grey))))
@@ -86,7 +118,7 @@
      `(lazy-highlight         ((,c (:background ,blue-d :foreground ,white))))
      `(match                  ((,c (:foreground ,green :background ,black ))))
      `(trailing-whitespace    ((,c (:background ,comments))))
-     `(vertical-border        ((,c (:foreground ,vertical-bar :background ,vertical-bar))))
+     `(vertical-border        ((,c (:foreground ,teal :background ,white))))
      `(show-paren-match       ((,c (:foreground ,red :background ,black ))))
      `(show-paren-mismatch    ((,c (:foreground ,black :background ,red ))))
      `(linum
@@ -111,12 +143,11 @@
      `(font-lock-regexp-grouping-backslash   ((,c (:foreground ,operators ))))
      `(font-lock-regexp-grouping-construct   ((,c (:foreground ,operators ))))
 
-     
      ;; Modeline
      `(mode-line                   ((,c (:foreground ,black
-                                         :background ,teal))))
+                                                     :background ,teal))))
      `(mode-line-inactive          ((,c (:foreground ,green
-                                         :background ,green-c))))
+                                                     :background ,green-c))))
      `(header-line                 ((,c (:inherit mode-line))))
 
      ;; Powerline/Spaceline
@@ -141,7 +172,6 @@
      `(window-divider-first-pixel  ((,c (:foreground ,vertical-bar))))
      `(window-divider-last-pixel   ((,c (:foreground ,vertical-bar))))
 
-     
      ;;
      ;; Plugins
      ;;
@@ -169,14 +199,14 @@
      `(diff-hl-change              ((,c (:foreground ,vc-modified))))
      `(diff-hl-delete              ((,c (:foreground ,vc-deleted))))
      `(diff-hl-insert              ((,c (:foreground ,vc-added))))
-   
+
      ;; elscreen
      `(elscreen-tab-background-face     ((,c (:background ,bg-d))))
      `(elscreen-tab-control-face        ((,c (:background ,bg-d :foreground ,bg-d))))
      `(elscreen-tab-current-screen-face ((,c (:background ,bg :foreground ,fg))))
      `(elscreen-tab-other-screen-face   ((,c (:background ,tab-unfocused-bg :foreground ,tab-unfocused-fg))))
-    
-    
+
+
      ;; flycheck
      `(flycheck-error     ((,c (:underline (:style wave :color ,red)))))
      `(flycheck-warning   ((,c (:underline (:style wave :color ,yellow)))))
@@ -197,7 +227,7 @@
      ;; Helm
      `(helm-selection              ((,c (:background ,teal :foreground ,black))))
      `(helm-match                  ((,c (:foreground ,blue :underline t))))
-     `(helm-source-header          ((,c (:background ,highlight :foreground ,black ))))
+     `(helm-source-header          ((,c (:background ,orange :foreground ,black :weight bold ))))
      `(helm-swoop-target-line-face ((,c (:foreground ,highlight :inverse-video t))))
      `(helm-ff-file                ((,c (:foreground ,fg))))
      `(helm-ff-prefix              ((,c (:foreground ,magenta))))
@@ -266,27 +296,21 @@
      ;; Language-specific
      ;;
 
-     ;; ensime , Scala & SBT 
-     `(scala-font-lock:var-face ((t (:foreground ,fg :underline (:style wave :color "yellow") :inherit 'font-lock-variable-name-face))))
-     `(sbt:error ((t (:inherit 'default :foreground ,red))))
-     `(ensime-warnline-highlight ((t (:inherit 'font-lock-warning-face))))
-     `(ensime-compile-infoline ((t (:foreground ,fg ))))
-     
-     ;;; (css|scss)-mode
+     ;; (css|scss)-mode
      `(css-proprietary-property ((,c (:foreground ,orange))))
      `(css-property             ((,c (:foreground ,green))))
      `(css-selector             ((,c (:foreground ,blue))))
 
-     ;;; js2-mode
+     ;; js2-mode
      `(js2-function-param  ((,c (:foreground ,variables))))
      `(js2-function-call   ((,c (:foreground ,functions))))
      `(js2-object-property ((,c (:foreground ,violet))))
      `(js2-jsdoc-tag       ((,c (:foreground ,comments))))
 
-     ;;; makefile-*-mode
+     ;; makefile-*-mode
      `(makefile-targets     ((,c (:foreground ,blue))))
 
-     ;;; markdown-mode
+     ;; markdown-mode
      `(markdown-header-face           ((,c (:foreground ,red :bold t))))
      `(markdown-header-delimiter-face ((,c (:inherit markdown-header-face))))
      `(markdown-metadata-key-face     ((,c (:foreground ,red))))
@@ -349,18 +373,29 @@
      `(org-list-bullet           ((,c (:foreground ,cyan))))  ; custom
      `(message-header-name       ((,c (:foreground ,green)))) ; custom
 
-
-          ;;; typescript-mode
+     ;; typescript-mode
      `(ts-object-property  ((,c (:inherit js2-object-property))))
-     ;;; web-mode
+
+     ;; web-mode
      `(web-mode-doctype-face           ((,c (:foreground ,comments))))
      `(web-mode-html-tag-face          ((,c (:foreground ,methods))))
      `(web-mode-html-tag-bracket-face  ((,c (:foreground ,methods))))
      `(web-mode-html-attr-name-face    ((,c (:foreground ,type))))
      `(web-mode-html-entity-face       ((,c (:foreground ,cyan ))))
      `(web-mode-block-control-face     ((,c (:foreground ,orange))))
-     ;;`(web-mode-html-tag-bracket-face  ((,c (:foreground ,operators))))
      )))
+
+;;;###autoload
+(when load-file-name
+  (add-to-list 'custom-theme-load-path
+               (file-name-as-directory (file-name-directory load-file-name))))
+
+;;; Footer
 
 (provide-theme 'prassee)
 
+;; Local Variables:
+;; no-byte-compile: t
+;; indent-tabs-mode: nil
+;; End:
+;;; prassee-theme.el ends here

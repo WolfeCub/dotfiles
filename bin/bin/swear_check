@@ -1,0 +1,1 @@
+git grep -Ei '(cancer|fuck|shit|cunt|cuck|whore|bastard|bitch|damn|dick|skunk|shrimp|r\.i\.p|/rip/)' $(git rev-list --all) | cut -d ':' -f 3 | sort | uniq | grep -Ei '(cancer|fuck|shit|cunt|cuck|whore|bastard|bitch|damn|dick|skunk|shrimp|r\.i\.p|/rip/)'

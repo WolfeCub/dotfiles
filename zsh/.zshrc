@@ -22,7 +22,6 @@ unsetopt nomatch
 
 # Setup zsh path
 fpath=(
-    ~/.zsh/completion/
     ~/.zsh/prompt/
     $fpath)
 

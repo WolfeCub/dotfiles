@@ -54,35 +54,20 @@ Runs a different function on startup depending on display mode.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/gui-setup ()
-    ;;(use-package solarized-theme
-    ;;  :config
-    ;;  (load-theme 'solarized-dark t))
-    ;;(set-frame-size (selected-frame) 90 40)
+    ;;  (use-package solarized-theme
+    ;;    :config
+    ;;    (load-theme 'solarized-dark t))
+    ;;  (set-frame-size (selected-frame) 90 40)
 
-    (load-theme 'prassee t)
-    (use-package spaceline  
-      :init
-      (progn
-        (require 'spaceline-config)
-        (setq powerline-default-separator 'slant)
-        (setq spaceline-workspace-numbers-unicode t)
-        (setq spaceline-separator-dir-left '(left . left))
-        (setq spaceline-separator-dir-right '(right . right))
-        (setq powerline-height 27)
-        (spaceline-toggle-window-number-on)
-        (spaceline-toggle-buffer-modified-on)
-        (spaceline-toggle-major-mode-on)
-        (spaceline-toggle-battery-on)
-        (spaceline-toggle-hud-on)
-        (spaceline-toggle-projectile-root-on)
-        (spaceline-emacs-theme)))
-    
-    (custom-set-faces
-     '(org-todo ((t (:box (:line-width 1)))))
-     '(org-done ((t (:box (:line-width 1)))))
-     '(org-level-1 ((t (:background "#23272e" :foreground "#51afef" :height 1.4))))
-     '(org-todo ((t (:foreground "#ECBE7B" :box 1 :weight bold :height 1.15)))))
-    
+    (use-package sublime-themes
+      :config
+      (load-theme 'spolsky t))
+
+    (custom-set-faces 
+     '(org-done ((t (:foreground "PaleGreen" :box (:line-width 1 :color "PaleGreen") :weight bold))))
+     '(org-level-1 ((t (:inherit outline-1 :height 1.4))))
+     '(org-todo ((t (:foreground "Pink" :box (:line-width 1 :color "Pink") :weight bold)))))
+
     ;; For old jazz theme
     ;;(custom-set-faces
     ;; '(helm-ff-directory ((t (:background nil :foreground "DarkRed"))))
@@ -707,7 +692,17 @@ Better narrowing.
       (define-key company-active-map (kbd "C-i") 'company-select-next))
 
     ;; C / C++
-    (setq company-clang-insert-arguments nil))
+    (setq company-clang-insert-arguments nil)
+
+  (require 'color)
+  
+  (let ((bg (face-attribute 'default :background)))
+    (custom-set-faces
+     `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+     `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+     `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+     `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+     `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
 
   (use-package company-math
     :config

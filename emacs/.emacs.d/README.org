@@ -64,7 +64,7 @@ Runs a different function on startup depending on display mode.
       (load-theme 'spolsky t))
 
    (load-file "~/.emacs.d/lisp/init-powerline.el")
-   (setq powerline-height 30)
+   (setq powerline-height 24)
 
     (custom-set-faces 
      '(org-done ((t (:foreground "PaleGreen" :box (:line-width 1 :color "PaleGreen") :weight bold))))

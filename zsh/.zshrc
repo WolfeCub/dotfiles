@@ -41,15 +41,22 @@ setopt HIST_EXPIRE_DUPS_FIRST  # allow dups, but expire old ones when I hit HIST
 setopt EXTENDED_HISTORY        # save timestamp and runtime information
 
 # Adds case insensitivity
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
+      '+l:|?=** r:|?=**'
 # Color completion folders
 zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=34}:${(s.:.)LS_COLORS}")';
 # Kill colors
-zstyle ':completion:*:*:kill:*' list-colors '=(#b) #([0-9]#)*( *[a-z])*=34=31=33'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # Option colors
 zstyle ':completion:*:options' list-colors '=^(-- *)=34'
 # Highlights current option
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu select=long
+
+# Nice auto correct prompt
+setopt correct
+autoload -U colors && colors
+export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r?$reset_color (Yes, No, Abort, Edit) "
 
 # Colorify man
 function man() {

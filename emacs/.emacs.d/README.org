@@ -63,13 +63,14 @@ Runs a different function on startup depending on display mode.
       :config
       (load-theme 'spolsky t))
 
-   (load-file "~/.emacs.d/lisp/init-powerline.el")
-   (setq powerline-height 24)
+    (load-file "~/.emacs.d/lisp/init-powerline.el")
+    (setq powerline-height 24)
 
     (custom-set-faces 
      '(org-done ((t (:foreground "PaleGreen" :box (:line-width 1 :color "PaleGreen") :weight bold))))
      '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
-     '(org-todo ((t (:foreground "Pink" :box (:line-width 1 :color "Pink") :weight bold)))))
+     '(org-todo ((t (:foreground "Pink" :box (:line-width 1 :color "Pink") :weight bold))))
+     '(powerline-evil-normal-face ((t (:inherit powerline-evil-base-face :background "forest green")))))
 
     ;; For old jazz theme
     ;;(custom-set-faces

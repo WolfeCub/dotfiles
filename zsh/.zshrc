@@ -25,9 +25,6 @@ fpath=(
     ~/.zsh/prompt/
     $fpath)
 
-autoload -Uz compinit
-compinit
-
 # Set vim as default editor
 export EDITOR='vim'
 export VISUAL='vim'
@@ -41,8 +38,8 @@ setopt HIST_EXPIRE_DUPS_FIRST  # allow dups, but expire old ones when I hit HIST
 setopt EXTENDED_HISTORY        # save timestamp and runtime information
 
 # Adds case insensitivity
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' \
-      '+l:|?=** r:|?=**'
+zstyle ':completion:*' completer _complete
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
 # Color completion folders
 zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=34}:${(s.:.)LS_COLORS}")';
 # Kill colors
@@ -51,7 +48,10 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # Option colors
 zstyle ':completion:*:options' list-colors '=^(-- *)=34'
 # Highlights current option
-zstyle ':completion:*' menu select=long
+zstyle ':completion:*' menu select
+
+autoload -Uz compinit
+compinit
 
 # Nice auto correct prompt
 setopt correct

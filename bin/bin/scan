@@ -1,0 +1,45 @@
+#!/bin/bash
+
+ARESET="\e[0m"
+ABOLD="\e[1m"
+AGREEN="\e[32m"
+ARED="\e[91m"
+
+# Default timeout of 0.25
+if [ "$#" -gt 1 ]; then
+    echo "Usage: $0 [timeout]"
+    exit 1
+elif [ "$#" -eq 0 ]; then
+    TO=0.5
+else
+    TO=$1
+fi
+
+echo -e $ABOLD"DH2020"$ARESET
+for i in $(seq -w 0 30); do
+    if timeout --preserve-status $TO nmap -p22 dh2020pc$i.utm.utoronto.ca -oG - | grep -q 22/open; then
+        echo -en "$AGREEN""dh2020pc$i""\t"
+    else
+        echo -en "$ARED""dh2020pc$i""\t"
+    fi
+
+    if [ $((10#$((10#$i+1)) % 3)) == 0 ]; then
+        echo ""
+    fi
+done
+
+echo -e $ARESET
+echo -e "\n"$ABOLD"DH2026"$ARESET
+for i in $(seq -w 0 30); do
+    if timeout --preserve-status $TO nmap -p22 dh2026pc$i.utm.utoronto.ca -oG - | grep -q 22/open; then
+        echo -en "$AGREEN""dh2026pc$i""\t"
+    else
+        echo -en "$ARED""dh2026pc$i""\t"
+    fi
+
+    if [ $((10#$((10#$i+1)) % 3)) == 0 ]; then
+        echo ""
+    fi
+done
+
+echo -e $ARESET

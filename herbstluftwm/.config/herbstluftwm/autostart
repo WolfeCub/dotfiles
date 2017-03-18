@@ -25,6 +25,7 @@ hc keybind $Mod-Return spawn terminator
 
 # My bindings
 hc set default_frame_layout 1
+hc keybind $Mod-space spawn rofi -show combi
 hc keybind $Mod-backslash spawn emacs
 hc keybind $Mod-c spawn chromium
 hc keybind XF86AudioRaiseVolume spawn amixer -D pulse sset Master 2%+
@@ -98,7 +99,7 @@ hc keybind $Mod-p pseudotile toggle
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
-hc keybind $Mod-space                                                           \
+hc keybind $Mod-Shift-space                                                           \
             or , and . compare tags.focus.curframe_wcount = 2                   \
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1

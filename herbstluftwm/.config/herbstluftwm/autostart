@@ -18,12 +18,13 @@ hc keyunbind --all
 #Mod=Mod1    # Use alt as the main modifier
 Mod=Mod4   # Use the super key as the main modifier
 
-hc keybind $Mod-Shift-q quit
+hc keybind $Mod-Shift-Escape quit
 hc keybind $Mod-Shift-r reload
-hc keybind $Mod-Shift-c close
+hc keybind $Mod-Shift-q close
 hc keybind $Mod-Return spawn terminator
 
 # My bindings
+hc set default_frame_layout 1
 hc keybind $Mod-backslash spawn emacs
 hc keybind $Mod-c spawn chromium
 hc keybind XF86AudioRaiseVolume spawn amixer -D pulse sset Master 2%+
@@ -82,13 +83,14 @@ for i in ${!tag_names[@]} ; do
         hc keybind "$Mod-Shift-$key" move_index "$i"
     fi
 done
+# Since default wasn't setting properly for WS 1
+herbstclient load ${TAG_NAMES[0]} '(clients horizontal:1)'
 
 # cycle through tags
 hc keybind $Mod-period use_index +1 --skip-visible
 hc keybind $Mod-comma  use_index -1 --skip-visible
 
 # layouting
-hc set default_frame_layout 1
 hc keybind $Mod-r remove
 hc keybind $Mod-s floating toggle
 hc keybind $Mod-f fullscreen toggle
@@ -106,6 +108,7 @@ hc mouseunbind --all
 hc mousebind $Mod-Button1 move
 hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
+hc set focus_follows_mouse 1
 
 # focus
 hc keybind $Mod-BackSpace   cycle_monitor

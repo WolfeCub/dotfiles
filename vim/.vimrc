@@ -5,9 +5,6 @@
 "    \  /\  / (_) | | ||  __/ \__ \  \ V /| | | | | | | | | (__
 "     \/  \/ \___/|_|_| \___| |___/ (_)_/ |_|_| |_| |_|_|  \___|
 
-if has('nvim') == 0
-    set nocompatible          " be iMproved, required
-endif
 
 " Vim Plug {{{
 
@@ -15,7 +12,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 
@@ -25,6 +23,7 @@ call plug#end()
 
 " Basic Configuration {{{
 
+set nocompatible   " be iMproved, required
 set tabstop=4      " Show existing tab with 4 spaces width
 set shiftwidth=4   " When indenting with '>', use 4 spaces width
 set expandtab      " Basic tab options
@@ -61,19 +60,12 @@ end
 
 set relativenumber
 set number
-set lcs=trail:█
-set list
 set background=dark
 colorscheme jellybeans
 syntax enable
 set t_Co=256
 filetype on
 set showmatch
-
-if $TERM_PROGRAM =~ "iTerm" && has('nvim') == 0
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
-endif
 
 " }}}
 
@@ -106,11 +98,8 @@ vnoremap <leader>S y:execute @@<cr>
 " Remove search highlights
 nnoremap <leader>n :set hlsearch! hlsearch?<cr>
 " Buffer navigation keybinds
-nnoremap <leader>bb :b#<cr>
-nnoremap <leader>bn :bn<cr>
-nnoremap <leader>bp :bp<cr>
-nnoremap <leader>bd :bd<cr>
-nnoremap <leader>bl :CtrlPBuffer<cr>
+nnoremap <leader>b :b#<cr>
+nnoremap <leader>k :bd<cr>
 
 " }}}
 
@@ -171,16 +160,12 @@ vnoremap <leader>li :<C-u>MakeLink v<cr>
 let g:airline_powerline_fonts = 1 " Sets the powerline font to work properly
 let g:airline#extensions#tabline#enabled = 1
 
-" Change default ctrlp binding
-let g:ctrlp_map = '<C-p>'
-let g:ctrlp_clear_cache_on_exit = 1
-" Ignores
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+nnoremap <leader>p :FZF<cr>
+" Insert mode completion
+inoremap <c-x><c-k> <Plug>(fzf-complete-word)
+inoremap <c-x><c-f> <Plug>(fzf-complete-path)
+inoremap <c-x><c-j> <Plug>(fzf-complete-file-ag)
+inoremap <c-x><c-l> <Plug>(fzf-complete-line)
 
 " }}}
 
@@ -199,21 +184,6 @@ function! GetSyntax()
     exec "hi ".synIDattr(GetSyntaxParentID(), 'name')
 endfunction
 
-" }}}
-
-" Neovim Only {{{
-if has('nvim') == 1
-
-    "Enable full color support
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
-    " Change cursor shape based on current mode
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-
-    " Maps Esc to actually exit insert mode for terminal
-    tnoremap <Esc> <C-\><C-n>
-
-endif
 " }}}
 
 " Modeline {{{

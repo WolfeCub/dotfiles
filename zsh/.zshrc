@@ -20,6 +20,9 @@ setopt extendedglob
 # Allow [ or ] whereever you want
 unsetopt nomatch
 
+# Allow bash style comments
+setopt interactivecomments
+
 # Setup zsh path
 fpath=(
     ~/.zsh/prompt/

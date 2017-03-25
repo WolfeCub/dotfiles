@@ -195,6 +195,10 @@ bar {
     hidden_state hide
     modifier $mod
     font pango:Inconsolata 12
+
+    colors {
+        focused_workspace #b25242 #b25242 #ffffff
+    }
 }
 
 exec_always feh --bg-scale ~/Pictures/viuxks.png

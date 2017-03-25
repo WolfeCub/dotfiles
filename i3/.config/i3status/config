@@ -9,6 +9,9 @@
 general {
         colors = true
         interval = 5
+        color_good = "#63b07a"
+        color_bad = "#b25242"
+        color_degraded = "#b28a42"
 }
 
 order += "volume master"
@@ -22,8 +25,9 @@ order += "cpu_usage"
 order += "tztime local"
 
 wireless _first_ {
-        format_up = "(%quality at %essid) %ip"
-        format_down = "W: down"
+        format_up = " %quality at %essid"
+        #format_up = "(%quality at %essid) %ip"
+        format_down = " W: down"
 }
 
 battery 0 {
@@ -39,11 +43,11 @@ run_watch VPN {
 }
 
 tztime local {
-        format = "%Y-%m-%d %H:%M:%S"
+        format = " %Y-%m-%d  %H:%M:%S"
 }
 
 cpu_usage {
-        format = "%usage"
+        format = " %usage"
 }
 
 load {
@@ -51,7 +55,7 @@ load {
 }
 
 disk "/" {
-        format = "%avail"
+        format = " %avail"
 }
 
 volume master {

@@ -10,15 +10,19 @@ exec --no-startup-id tlp start
 exec --no-startup-id xset r rate 225 30
 
 # Disable window borders
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 1
+hide_edge_borders smart
+
+# class        border  backgr. text    indicator child_border
+client.focused #b25242 #b25242 #b25242 #b25242   #b25242
 
 # Matrix Labritory
 for_window [title="^Figure \d+$"] floating enable
 
 # Adds gaps
-gaps inner 12
-gaps outer 0
-smart_gaps on
+# gaps inner 12
+# gaps outer 0
+# smart_gaps on
 
 # volume keys
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+
@@ -27,8 +31,10 @@ bindsym XF86AudioMute exec amixer set Master toggle
 bindsym --release Print exec ~/bin/shot_upload
 
 # brightness keys
-bindsym XF86MonBrightnessUp exec xbacklight -inc 5 
-bindsym XF86MonBrightnessDown exec xbacklight -dec 5
+bindsym XF86MonBrightnessUp exec xbacklight -inc 1
+bindsym XF86MonBrightnessDown exec xbacklight -dec 1
+bindsym XF86KbdBrightnessUp exec "~/bin/kbdbacklight 1"
+bindsym XF86KbdBrightnessDown exec "~/bin/kbdbacklight -1"
 
 set $mod Mod4
 
@@ -58,9 +64,9 @@ bindsym $mod+backslash exec emacs
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec rofi -show run -font "snap 10" -o 85
+bindsym $mod+space exec rofi -show combi
 bindsym $mod+p exec "~/bin/toggle-layout"
-bindsym $mod+c exec chromium
+bindsym $mod+c exec google-chrome-stable
 bindsym $mod+n exec "~/bin/lock.sh"
 
 # change focus
@@ -188,7 +194,8 @@ bar {
     mode hide
     hidden_state hide
     modifier $mod
+    font pango:Inconsolata 12
 }
 
-exec_always feh --bg-scale ~/Pictures/calvin-and-hobbes-night-sky-wallpaper.jpg
+exec_always feh --bg-scale ~/Pictures/viuxks.png
 #exec --no-startup-id polybar wolfe

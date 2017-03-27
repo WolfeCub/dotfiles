@@ -13,5 +13,6 @@ emacs/.emacs.d/network-security.data
 emacs/.emacs.d/oauth2.plstore
 emacs/.emacs.d/ido.last*
 emacs/.emacs.d/#init.el#
+emacs/.emacs.d/srecode-map.el
 vim/.vim/.netrwhist
 vim/.vim/plugged/

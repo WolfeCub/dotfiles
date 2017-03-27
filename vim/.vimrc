@@ -15,6 +15,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
+Plug 'Shougo/neocomplete.vim'
+Plug 'vim-scripts/matchit.zip'
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 
 call plug#end()
@@ -31,8 +33,6 @@ set hlsearch       " Highlights search options
 set laststatus=2   " Displays statusline by default
 set backspace=2    " Allows for free backspacing
 set incsearch      " Incremental search
-set wildchar=<TAB> " Start wild expansion in the command line using <TAB>
-set wildmenu       " Wild char completion menu
 set ignorecase     " Case insensitive matching
 set smartcase      " Smartcase matching
 set showmatch      " Show matching brackets when text indicator is over them
@@ -50,9 +50,19 @@ set foldlevel=999  " Make it really high, so they're not displayed by default
 set hidden         " Allow buffers with pending changes to be sent to background
 set timeoutlen=500 ttimeoutlen=0
 
-if has('macunix')
-    set clipboard=exclude:.*  " Improve startup time by ignoring x server clipboard
-end
+" Completion options
+set wildmode=list:longest
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
 
 " }}}
 
@@ -66,6 +76,8 @@ syntax enable
 set t_Co=256
 filetype on
 set showmatch
+set cursorline
+hi CursorLine cterm=bold ctermbg=NONE
 
 " }}}
 
@@ -74,7 +86,7 @@ set showmatch
 nnoremap <Space> <nop>
 let g:mapleader = "\<Space>"
 
-nnoremap <leader>vimrc :vs ~/.vimrc<cr><C-w>r
+nnoremap <leader>init :e ~/.vimrc<cr>
 
 " Make j and k behave like they should for wrapped lines
 nnoremap j gj
@@ -95,11 +107,18 @@ nnoremap <leader>so :source %<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>
 " Source visual selection
 vnoremap <leader>S y:execute @@<cr>
-" Remove search highlights
-nnoremap <leader>n :set hlsearch! hlsearch?<cr>
 " Buffer navigation keybinds
 nnoremap <leader>b :b#<cr>
 nnoremap <leader>k :bd<cr>
+" Don't lose visual selection with < >
+xnoremap < <gv
+xnoremap > >gv
+" Better redraw. Clears search and fixes syntax
+nnoremap <c-l> :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+" Quickly edit macros
+nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+
+
 
 " }}}
 
@@ -160,12 +179,85 @@ vnoremap <leader>li :<C-u>MakeLink v<cr>
 let g:airline_powerline_fonts = 1 " Sets the powerline font to work properly
 let g:airline#extensions#tabline#enabled = 1
 
+" FZF Configuration
 nnoremap <leader>p :FZF<cr>
 " Insert mode completion
 inoremap <c-x><c-k> <Plug>(fzf-complete-word)
 inoremap <c-x><c-f> <Plug>(fzf-complete-path)
 inoremap <c-x><c-j> <Plug>(fzf-complete-file-ag)
 inoremap <c-x><c-l> <Plug>(fzf-complete-line)
+
+if has("lua")
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+    " Define dictionary.
+    let g:neocomplete#sources#dictionary#dictionaries = {
+                \ 'default' : '',
+                \ 'vimshell' : $HOME.'/.vimshell_hist',
+                \ 'scheme' : $HOME.'/.gosh_completions'
+                \ }
+
+    " Define keyword.
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+    " Plugin key-mappings.
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+        "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+        " For no inserting <CR> key.
+        return pumvisible() ? "\<C-y>" : "\<CR>"
+    endfunction
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    " Close popup by <Space>.
+    "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+    " AutoComplPop like behavior.
+    "let g:neocomplete#enable_auto_select = 1
+
+    " Shell like behavior(not recommended).
+    "set completeopt+=longest
+    "let g:neocomplete#enable_auto_select = 1
+    "let g:neocomplete#disable_auto_complete = 1
+    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+    " Enable omni completion.
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+        let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+    "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+    "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+    " For perlomni.vim setting.
+    " https://github.com/c9s/perlomni.vim
+    let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+endif
 
 " }}}
 

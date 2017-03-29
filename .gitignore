@@ -14,5 +14,6 @@ emacs/.emacs.d/oauth2.plstore
 emacs/.emacs.d/ido.last*
 emacs/.emacs.d/#init.el#
 emacs/.emacs.d/srecode-map.el
+emacs/.emacs.d/irony
 vim/.vim/.netrwhist
 vim/.vim/plugged/

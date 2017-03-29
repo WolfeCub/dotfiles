@@ -14,7 +14,7 @@ for_window [class="^.*"] border pixel 1
 hide_edge_borders smart
 
 # class        border  backgr. text    indicator child_border
-client.focused #b25242 #b25242 #b25242 #b25242   #b25242
+client.focused #b25242 #b25242 #ffffff #b25242   #b25242
 
 # Matrix Labritory
 for_window [title="^Figure \d+$"] floating enable

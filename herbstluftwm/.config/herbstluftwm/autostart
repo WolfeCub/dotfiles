@@ -21,13 +21,13 @@ Mod=Mod4   # Use the super key as the main modifier
 hc keybind $Mod-Shift-Escape quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-q close
-hc keybind $Mod-Return spawn terminator
+hc keybind $Mod-Return spawn konsole
 
 # My bindings
 hc set default_frame_layout 1
 hc keybind $Mod-space spawn rofi -show combi
 hc keybind $Mod-backslash spawn emacs
-hc keybind $Mod-c spawn chromium
+hc keybind $Mod-c spawn google-chrome-stable
 hc keybind XF86AudioRaiseVolume spawn amixer -D pulse sset Master 2%+
 hc keybind XF86AudioLowerVolume spawn amixer -D pulse sset Master 2%-
 hc keybind XF86AudioMute spawn amixer set Master toggle
@@ -188,3 +188,5 @@ for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
     # start it on each monitor
     "$panel" $monitor &
 done
+
+feh --bg-center ~/Pictures/calvin-and-hobbes/bench.png

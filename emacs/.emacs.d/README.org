@@ -351,7 +351,6 @@ Better narrowing.
 
 
     (:states 'normal
-             "C-h" help-map
              "C-z"  'wolfe/controlz)
 
     (wolfe/bind-leader
@@ -664,7 +663,7 @@ Better narrowing.
     :ensure f)
 #+END_SRC
 
-** Matlab   
+** Matlab
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package matlab-mode
@@ -673,7 +672,7 @@ Better narrowing.
     (autoload 'matlab-mode "matlab" "Matlab Editing Mode" t)
     (add-to-list
      'auto-mode-alist
-     '("\\.m$" . matlab-mode))
+     '("\\.m$" . octave-mode))
     (setq matlab-indent-function t)
     (setq matlab-shell-command "matlab")
     ;; emacs-lisp setup for matlab-mode:

@@ -1,3 +1,0 @@
-#!/bin/sh
-LEVEL=$(cat /sys/class/leds/asus::kbd_backlight/brightness)
-echo -n $(($LEVEL + $1)) > /sys/class/leds/asus::kbd_backlight/brightness

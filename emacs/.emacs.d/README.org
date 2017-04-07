@@ -643,7 +643,16 @@ Better narrowing.
   (use-package web-mode
     :config
     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode)))
+    (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+
+    ;; Jump between opening and closing tags
+    (evil-declare-key 'normal web-mode-map (kbd "%") 'web-mode-navigate)
+    (evil-declare-key 'visual web-mode-map (kbd "%") 'web-mode-navigate)
+
+    (setq web-mode-enable-auto-closing t)
+    (setq web-mode-enable-auto-opening t)
+    (setq web-mode-enable-auto-indentation t))
+
 #+END_SRC
 
 ** Haskell

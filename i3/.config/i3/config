@@ -33,8 +33,8 @@ bindsym --release Print exec ~/bin/shot_upload
 # brightness keys
 bindsym XF86MonBrightnessUp exec xbacklight -inc 1
 bindsym XF86MonBrightnessDown exec xbacklight -dec 1
-bindsym XF86KbdBrightnessUp exec "~/bin/kbdbacklight 1"
-bindsym XF86KbdBrightnessDown exec "~/bin/kbdbacklight -1"
+bindsym XF86KbdBrightnessUp exec "asus-kbd-backlight up"
+bindsym XF86KbdBrightnessDown exec "asus-kbd-backlight down"
 
 set $mod Mod4
 

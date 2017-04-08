@@ -65,9 +65,9 @@ URxvt.font: xft:Inconsolata\-dz:style=dz:size=16,xft:Inconsolata for Powerline:s
 ! ------------------------------------------------------------------------------
 ! ROFI Color theme
 ! ------------------------------------------------------------------------------
-rofi.color-enabled: true
-rofi.color-window: #040404, #b25242, #b25242
-rofi.color-normal: #040404, #b25242, #040404, #b25242, #bcddc6
-rofi.color-active: #040404, #ffffff, #040404, #b25242, #ffffff
-rofi.color-urgent: #040404, #b25242, #040404, #b25242, #bcddc6
-
+! State:           'bg',    'fg',    'bgalt', 'hlbg',  'hlfg'
+rofi.color-normal: #181818, #f8f8f8, #181818, #ab4642, #181818
+rofi.color-urgent: #181818, #ab4642, #181818, #ab4642, #181818
+rofi.color-active: #181818, #7cafc2, #181818, #7cafc2, #181818
+!                  'bg',    'border'
+rofi.color-window: #181818, #f8f8f8

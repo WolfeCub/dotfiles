@@ -10,19 +10,38 @@ exec --no-startup-id tlp start
 exec --no-startup-id xset r rate 225 30
 
 # Disable window borders
-for_window [class="^.*"] border pixel 1
+for_window [class="^.*"] border pixel 2
 hide_edge_borders smart
 
-# class        border  backgr. text    indicator child_border
-client.focused #b25242 #b25242 #ffffff #b25242   #b25242
+# Base 16 Config
+set $base00 #181818
+set $base01 #282828
+set $base02 #383838
+set $base03 #585858
+set $base04 #b8b8b8
+set $base05 #d8d8d8
+set $base06 #e8e8e8
+set $base07 #f8f8f8
+set $base08 #ab4642
+set $base09 #dc9656
+set $base0A #f7ca88
+set $base0B #a1b56c
+set $base0C #86c1b9
+set $base0D #7cafc2
+set $base0E #ba8baf
+set $base0F #a16946
+client.focused $base0D $base0D $base00 $base01
+client.focused_inactive $base02 $base02 $base03 $base01
+client.unfocused $base01 $base01 $base03 $base01
+client.urgent $base02 $base08 $base07 $base08
 
 # Matrix Labritory
 for_window [title="^Figure \d+$"] floating enable
 
 # Adds gaps
-# gaps inner 12
-# gaps outer 0
-# smart_gaps on
+gaps inner 12
+gaps outer 0
+smart_gaps on
 
 # volume keys
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+
@@ -57,7 +76,7 @@ font pango:monospace 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
 bindsym $mod+backslash exec emacs
 
 # kill focused window
@@ -127,7 +146,7 @@ bindsym $mod+bracketleft workspace 2
 bindsym $mod+braceleft workspace 3
 bindsym $mod+braceright workspace 4
 bindsym $mod+parenleft workspace 5
-bindsym $mod+asterisk workspace 6
+bindsym $mod+equal workspace 6
 bindsym $mod+astericks workspace 7
 bindsym $mod+parenright workspace 8
 bindsym $mod+plus workspace 9
@@ -138,7 +157,7 @@ bindsym $mod+Shift+bracketleft  move container to workspace 2
 bindsym $mod+Shift+braceleft    move container to workspace 3
 bindsym $mod+Shift+braceright   move container to workspace 4
 bindsym $mod+Shift+parenleft    move container to workspace 5
-bindsym $mod+Shift+asterisk     move container to workspace 6
+bindsym $mod+Shift+equal        move container to workspace 6
 bindsym $mod+Shift+astericks    move container to workspace 7
 bindsym $mod+Shift+parenright   move container to workspace 8
 bindsym $mod+Shift+plus         move container to workspace 9
@@ -197,9 +216,15 @@ bar {
     font pango:Inconsolata 12
 
     colors {
-        focused_workspace #b25242 #b25242 #ffffff
+        separator $base03
+        background $base01
+        statusline $base05
+        focused_workspace $base0C $base0D $base00
+        active_workspace $base02 $base02 $base07
+        inactive_workspace $base01 $base01 $base03
+        urgent_workspace $base08 $base08 $base07
     }
 }
 
-exec_always feh --bg-scale ~/Pictures/viuxks.png
+exec_always feh --bg-scale ~/Pictures/gnuslashlinux.png
 #exec --no-startup-id polybar wolfe

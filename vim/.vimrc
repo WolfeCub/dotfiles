@@ -10,6 +10,7 @@
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -72,7 +73,8 @@ set wildignore+=*.png,*.jpg,*.gif
 set relativenumber
 set number
 set background=dark
-colorscheme jellybeans
+let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme base16-default-dark
 syntax enable
 set t_Co=256
 filetype on

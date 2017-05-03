@@ -28,8 +28,6 @@ fpath=(
     ~/.zsh/prompt/
     $fpath)
 
-source "/home/wolfe/.cache/wal/colors.sh"
-
 # Set vim as default editor
 export EDITOR='vim'
 export VISUAL='vim'

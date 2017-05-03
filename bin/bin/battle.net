@@ -1,0 +1,4 @@
+#!/bin/sh
+
+wine /opt/Battle.net/Blizzard\ App/Battle.net\ Launcher.exe
+exit

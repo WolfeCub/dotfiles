@@ -4,8 +4,11 @@
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.scrollBar_floating: false
-
 URxvt.font: xft:Inconsolata\-dz:style=dz:size=16,xft:Inconsolata for Powerline:size=16
+URxvt.perl-ext-common: font-size
+URxvt.keysym.C-plus:     font-size:increase
+URxvt.keysym.C-minus:   font-size:decrease
+URxvt.keysym.C-equal:  font-size:reset
 
 ! ------------------------------------------------------------------------------
 ! Base16 Default Dark

@@ -41,15 +41,16 @@ Runs a different function on startup depending on display mode.
  
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/term-setup ()
-    (load-theme 'ujelly t)
-    (setq nlinum-format "%d ")
-    (global-hl-line-mode 1)
-    (add-to-list 'default-frame-alist '(background-color . "color-16"))
-    (custom-set-faces
-     '(linum ((t (:background "color-16" :foreground "#ffffff"))))
-     '(iedit-occurrence ((t (:background "color-93"))))
-     '(column-marker-1 ((t (:background "color-88"))))
-     '(hl-line ((t (:weight bold))))))
+    (load-file "~/.emacs.d/lisp/init-powerline-doom-one.el")
+    (load-theme 'base16-default-dark t))
+    ;;(setq nlinum-format "%d ")
+    ;;(global-hl-line-mode 1)
+    ;;(add-to-list 'default-frame-alist '(background-color . "color-16"))
+    ;;(custom-set-faces
+    ;; '(linum ((t (:background "color-16" :foreground "#ffffff"))))
+    ;; '(iedit-occurrence ((t (:background "color-93"))))
+    ;; '(column-marker-1 ((t (:background "color-88"))))
+    ;; '(hl-line ((t (:weight bold))))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -127,6 +128,7 @@ Runs a different function on startup depending on display mode.
   (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
   (setq explicit-shell-file-name
         (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
+  (setq source-directory "~/Projects/emacs/")
 #+END_SRC
   
 * Functions

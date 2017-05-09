@@ -103,7 +103,8 @@ Runs a different function on startup depending on display mode.
   ;;(pdf-tools-install)
   (setq inhibit-splash-screen t
         inhibit-startup-message t
-        inhibit-startup-echo-area-message "wolfe")
+        inhibit-startup-echo-area-message "wolfe"
+        initial-major-mode 'org-mode)
   (tool-bar-mode -1) ; No toolbar
   (scroll-bar-mode -1) ; Hide scrollbars
   (menu-bar-mode -1) ; No menubar
@@ -354,10 +355,22 @@ Better narrowing.
     (:states 'motion
              "k" 'evil-previous-visual-line
              "j" 'evil-next-visual-line)
+
     (:states 'operator
              "k" 'evil-previous-line
              "j" 'evil-next-line)
 
+    (:states 'visual
+             "<" (lambda ()
+                     (interactive)
+                     (evil-shift-left (region-beginning) (region-end))
+                     (evil-normal-state)
+                     (evil-visual-restore))
+             ">" (lambda ()
+                     (interactive)
+                     (evil-shift-right (region-beginning) (region-end))
+                     (evil-normal-state)
+                     (evil-visual-restore)))
 
     (:states 'normal
              "C-z"  'wolfe/controlz)

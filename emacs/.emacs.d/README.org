@@ -55,11 +55,6 @@ Runs a different function on startup depending on display mode.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/gui-setup ()
-    ;;  (use-package solarized-theme
-    ;;    :config
-    ;;    (load-theme 'solarized-dark t))
-    ;;  (set-frame-size (selected-frame) 90 40)
-
     (use-package base16-theme
       :config
       (load-theme 'base16-default-dark t)
@@ -78,18 +73,7 @@ Runs a different function on startup depending on display mode.
     (custom-set-faces 
      '(org-done ((t (:box (:line-width 1) :weight bold))))
      '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
-     '(org-todo ((t (:box (:line-width 1) :weight bold)))))
-
-    ;; For old jazz theme
-    ;;(custom-set-faces
-    ;; '(helm-ff-directory ((t (:background nil :foreground "DarkRed"))))
-    ;; '(helm-ff-file ((t :foreground "#ffffff")))
-    ;; '(column-marker-1 ((t (:background "#ff0000"))))
-    ;; '(iedit-occurrence ((t (:background "#00bfff"))))
-    ;; '(isearch ((t (:foreground "#ff0000"))))
-    ;; '(lazy-highlight ((t (:foreground "#ff0000" :background nil))))
-    ;; '(linum ((t (:foreground "#ffffff")))))
-    )
+     '(org-todo ((t (:box (:line-width 1) :weight bold))))))
 
   ;; Not a function but it needs to be after the 2 setup functions
   (if (display-graphic-p)
@@ -100,7 +84,6 @@ Runs a different function on startup depending on display mode.
 * General Settings
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;;(pdf-tools-install)
   (setq inhibit-splash-screen t
         inhibit-startup-message t
         inhibit-startup-echo-area-message "wolfe"

@@ -1,3 +1,12 @@
 #!/bin/sh
 
-du --max-depth=1 2> /dev/null | sort -n -r | head -n20
+if [ "$#" -eq 0 ]; then
+    DIR=`pwd`
+elif [ "$#" -eq 1 ]; then
+    DIR=$1
+else 
+    echo "Usage: $0 <path>"
+    exit 1
+fi
+
+du --max-depth=1 $DIR 2> /dev/null | sort -n -r | head -n20

@@ -16,6 +16,11 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-scriptease'
+Plug 'tpope/vim-afterimage'
 Plug 'Shougo/neocomplete.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'vim-scripts/matchit.zip'
@@ -98,30 +103,28 @@ nnoremap k gk
 nnoremap <leader>w :<C-u>update<cr>
 " Spellcheck
 noremap <leader>ss :setlocal spell!<cr>
-" Ctrl+A goes to the beginning of the command line
-cnoremap <C-A>	<Home>
-" Ctrl+E goes to the end of the command line
-cnoremap <C-E>	<End>
 " Toggle folds
 nnoremap <silent> <Tab> :call Foldtoggle()<cr>
 " Source current file
-nnoremap <leader>so :source %<cr>
-" Source current line
-nnoremap <leader>S ^vg_y:execute @@<cr>
+nnoremap <leader>S :source %<cr>
 " Source visual selection
 vnoremap <leader>S y:execute @@<cr>
 " Buffer navigation keybinds
 nnoremap <leader>b :b#<cr>
 nnoremap <leader>k :bd<cr>
+nnoremap <leader>m :Buffers<cr>
 " Don't lose visual selection with < >
 xnoremap < <gv
 xnoremap > >gv
 " Better redraw. Clears search and fixes syntax
 nnoremap <c-l> :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 " Quickly edit macros
-nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
-
-
+nnoremap <leader>@  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+" FZF ag search
+nnoremap <leader>f :Ag<cr>
+" FZF search tags file
+nnoremap <leader>t :Tags<cr>
+nnoremap <leader>T :call fzf#vim#tags(expand('<cword>'))<cr>
 
 " }}}
 
@@ -182,16 +185,15 @@ vnoremap <leader>li :<C-u>MakeLink v<cr>
 let g:airline_powerline_fonts = 1 " Sets the powerline font to work properly
 let g:airline#extensions#tabline#enabled = 1
 
-" FZF Configuration
-nnoremap <leader>p :FZF<cr>
 " Insert mode completion
 inoremap <c-x><c-k> <Plug>(fzf-complete-word)
 inoremap <c-x><c-f> <Plug>(fzf-complete-path)
 inoremap <c-x><c-j> <Plug>(fzf-complete-file-ag)
 inoremap <c-x><c-l> <Plug>(fzf-complete-line)
 
+" Neocomplete Settings
 if has("lua")
-    "Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+    " Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
     " Use neocomplete.
@@ -261,6 +263,9 @@ if has("lua")
     let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 endif
 
+" FZF Settings
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
 
 " }}}
 

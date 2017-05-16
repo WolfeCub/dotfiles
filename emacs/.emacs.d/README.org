@@ -40,17 +40,22 @@ Runs a different function on startup depending on display mode.
 #+END_SRC
  
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/term-setup ()
-    (load-file "~/.emacs.d/lisp/init-powerline-doom-one.el")
-    (load-theme 'base16-default-dark t))
-    ;;(setq nlinum-format "%d ")
-    ;;(global-hl-line-mode 1)
-    ;;(add-to-list 'default-frame-alist '(background-color . "color-16"))
-    ;;(custom-set-faces
-    ;; '(linum ((t (:background "color-16" :foreground "#ffffff"))))
-    ;; '(iedit-occurrence ((t (:background "color-93"))))
-    ;; '(column-marker-1 ((t (:background "color-88"))))
-    ;; '(hl-line ((t (:weight bold))))))
+   (defun wolfe/term-setup ()
+     (load-theme 'base16-default-dark t)
+     (setq nlinum-format "%d ")
+     ;;(global-hl-line-mode 1)
+     ;;(add-to-list 'default-frame-alist '(background-color . "color-16"))
+     (custom-set-faces
+      '(linum ((t (:background "color-18"))))
+      '(region ((t :background "color-19")))
+      '(mode-line ((t (:background "color-19" :foreground "brightblue" :box nil))))
+      '(mode-line-inactive
+        ((t (:background "color-18" :foreground "color-244")))))
+
+      ;;'(iedit-occurrence ((t (:background "color-93"))))
+      ;;'(column-marker-1 ((t (:background "color-88"))))
+      ;;'(hl-line ((t (:weight bold))))))
+   )
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -82,6 +87,8 @@ Runs a different function on startup depending on display mode.
 #+END_SRC
    
 * General Settings
+  
+Basic settings I can't really live without.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq inhibit-splash-screen t
@@ -108,6 +115,7 @@ Runs a different function on startup depending on display mode.
         scroll-step 1
         scroll-conservatively 10000
         scroll-preserve-screen-position 1)
+  (setq-default truncate-lines t)
   (load-file "~/.emacs.d/lisp/column-marker.el")
   (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
   (setq explicit-shell-file-name
@@ -176,6 +184,13 @@ Looks up tag under point.
     "Jump to the tag at point without prompting"
     (interactive)
     (find-tag (find-tag-default)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/create-tags ()
+    "Create the tags table"
+    (interactive)
+    (save-window-excursion (shell-command "etags -R -o ETAGS *")))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -384,6 +399,11 @@ Better narrowing.
     (global-evil-surround-mode 1))
 
   (use-package evil-magit)
+
+  (use-package evil-matchit
+    :config
+    (global-evil-matchit-mode 1))
+
 #+END_SRC
 
 * Org Mode
@@ -650,10 +670,6 @@ Better narrowing.
     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 
-    ;; Jump between opening and closing tags
-    (evil-declare-key 'normal web-mode-map (kbd "%") 'web-mode-navigate)
-    (evil-declare-key 'visual web-mode-map (kbd "%") 'web-mode-navigate)
-
     (setq web-mode-enable-auto-closing t)
     (setq web-mode-enable-auto-opening t)
     (setq web-mode-enable-auto-indentation t))
@@ -694,6 +710,8 @@ Better narrowing.
 #+END_SRC
 
 * Company
+  
+Autocomplete engine
   
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company
@@ -740,6 +758,8 @@ Better narrowing.
 #+END_SRC
 
 * Backups
+
+Stores all backups and temp files in =~/.bak.emacs/=
   
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq backup-by-copying t) ; Stop shinanigans with links

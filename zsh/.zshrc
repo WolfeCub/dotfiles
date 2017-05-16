@@ -54,7 +54,7 @@ zstyle ':completion:*:options' list-colors '=^(-- *)=34'
 zstyle ':completion:*' menu select
 
 autoload -Uz compinit
-compinit
+compinit -i
 
 # Nice auto correct prompt
 setopt correct

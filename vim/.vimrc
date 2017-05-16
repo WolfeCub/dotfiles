@@ -10,20 +10,31 @@
 
 call plug#begin('~/.vim/plugged')
 
+" Visual
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" Fuzzy Finding
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+
+" Utils
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-afterimage'
-Plug 'Shougo/neocomplete.vim'
-Plug 'davidhalter/jedi-vim'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'vim-scripts/matchit.zip'
+
+" Completion
+Plug 'ervandew/supertab'
+Plug 'Rip-Rip/clang_complete'
+Plug 'davidhalter/jedi-vim'
+
+" Misc
 Plug 'WolfeCub/vim-markdown-format', { 'for': ['md', 'markdown'] }
 
 call plug#end()
@@ -94,11 +105,11 @@ hi CursorLine cterm=bold ctermbg=NONE
 nnoremap <Space> <nop>
 let g:mapleader = "\<Space>"
 
-nnoremap <leader>init :e ~/.vimrc<cr>
-
 " Make j and k behave like they should for wrapped lines
 nnoremap j gj
 nnoremap k gk
+" Quick access to vimrc file
+nnoremap <leader>init :e ~/.vimrc<cr>
 " Fast saving
 nnoremap <leader>w :<C-u>update<cr>
 " Spellcheck
@@ -168,6 +179,29 @@ endfunction
 
 " Plugin Configs {{{
 
+let g:airline_powerline_fonts = 1 " Sets the powerline font to work properly
+let g:airline#extensions#tabline#enabled = 1
+
+" FZF Settings
+" Insert mode completion
+inoremap <c-x><c-k> <Plug>(fzf-complete-word)
+inoremap <c-x><c-f> <Plug>(fzf-complete-path)
+inoremap <c-x><c-j> <Plug>(fzf-complete-file-ag)
+inoremap <c-x><c-l> <Plug>(fzf-complete-line)
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+
+" Supertab
+let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+" If you prefer the Omni-Completion tip window to close when a selection is
+" made, these lines close it on movement in insert mode or when leaving
+" insert mode
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" Set clang path for completion
+let g:clang_library_path='/usr/lib64/libclang.so.3.9'
+
 " Keybinds for Markdown Format
 nnoremap <leader>h1 :MakeHeader 1<cr>
 nnoremap <leader>h2 :MakeHeader 2<cr>
@@ -182,90 +216,6 @@ vnoremap <leader>bq :<C-u>BlockQuote<cr>
 nnoremap <leader>li :MakeLink n<cr>
 vnoremap <leader>li :<C-u>MakeLink v<cr>
 
-let g:airline_powerline_fonts = 1 " Sets the powerline font to work properly
-let g:airline#extensions#tabline#enabled = 1
-
-" Insert mode completion
-inoremap <c-x><c-k> <Plug>(fzf-complete-word)
-inoremap <c-x><c-f> <Plug>(fzf-complete-path)
-inoremap <c-x><c-j> <Plug>(fzf-complete-file-ag)
-inoremap <c-x><c-l> <Plug>(fzf-complete-line)
-
-" Neocomplete Settings
-if has("lua")
-    " Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-    " Disable AutoComplPop.
-    let g:acp_enableAtStartup = 0
-    " Use neocomplete.
-    let g:neocomplete#enable_at_startup = 1
-    " Use smartcase.
-    let g:neocomplete#enable_smart_case = 1
-    " Set minimum syntax keyword length.
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-    let g:neocomplete#enable_auto_select = 1
-
-    " Define dictionary.
-    let g:neocomplete#sources#dictionary#dictionaries = {
-                \ 'default' : '',
-                \ 'vimshell' : $HOME.'/.vimshell_hist',
-                \ 'scheme' : $HOME.'/.gosh_completions'
-                \ }
-
-    " Define keyword.
-    if !exists('g:neocomplete#keyword_patterns')
-        let g:neocomplete#keyword_patterns = {}
-    endif
-    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-    " Plugin key-mappings.
-    inoremap <expr><C-g>     neocomplete#undo_completion()
-    inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-    " Recommended key-mappings.
-    " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-        "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-        " For no inserting <CR> key.
-        return pumvisible() ? "\<C-y>" : "\<CR>"
-    endfunction
-    " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-    " Close popup by <Space>.
-    "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-    autocmd FileType python setlocal omnifunc=jedi#completions
-    let g:jedi#completions_enabled = 0
-    let g:jedi#auto_vim_configuration = 0
-    let g:jedi#force_py_version=3
-
-    " Enable heavy omni completion.
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-        let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-    let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-    let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-    let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-    let g:neocomplete#sources#omni#input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-    " For perlomni.vim setting.
-    " https://github.com/c9s/perlomni.vim
-    let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-endif
-
-" FZF Settings
-" [Tags] Command to generate tags file
-let g:fzf_tags_command = 'ctags -R'
 
 " }}}
 

@@ -26,8 +26,10 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-scriptease'
 Plug 'tpope/vim-afterimage'
-Plug 'christoomey/vim-tmux-navigator'
+
+Plug 'haya14busa/incsearch.vim'
 Plug 'vim-scripts/matchit.zip'
+Plug 'junegunn/vim-easy-align'
 
 " Completion
 Plug 'ervandew/supertab'
@@ -104,6 +106,7 @@ hi CursorLine cterm=bold ctermbg=NONE
 
 nnoremap <Space> <nop>
 let g:mapleader = "\<Space>"
+let g:maplocalleader = "\\"
 
 " Make j and k behave like they should for wrapped lines
 nnoremap j gj
@@ -136,6 +139,8 @@ nnoremap <leader>f :Ag<cr>
 " FZF search tags file
 nnoremap <leader>t :Tags<cr>
 nnoremap <leader>T :call fzf#vim#tags(expand('<cword>'))<cr>
+
+nnoremap <localleader><localleader> :b#<cr>
 
 " }}}
 
@@ -190,6 +195,17 @@ inoremap <c-x><c-j> <Plug>(fzf-complete-file-ag)
 inoremap <c-x><c-l> <Plug>(fzf-complete-line)
 " [Tags] Command to generate tags file
 let g:fzf_tags_command = 'ctags -R'
+
+" incsearch
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+" Easy Align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "<C-X><C-O>"

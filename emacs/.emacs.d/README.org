@@ -15,7 +15,7 @@ Setup package control
   (setq package--init-file-ensured t) ; So (package-initialize) doesn't show up
   (require 'package)
   (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                           ("marmalade" . "http://marmalade-repo.org/packages/")
+                           ("marmalade" . "https://marmalade-repo.org/packages/")
                            ("melpa" . "http://melpa.org/packages/")))
   (setq package-enable-at-startup nil)
   (package-initialize)
@@ -105,9 +105,9 @@ Basic settings I can't really live without.
   (column-number-mode t)
   (delete-selection-mode 1) ; Replace selection on insert
   (setq vc-follow-symlinks t) ; Always follow symlinks
-  (when (member "Inconsolata" (font-family-list)) ; Set default font
-    (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
-    (set-face-attribute 'default t :font "Inconsolata-15"))
+  (when (member "Fira Code" (font-family-list)) ; Set default font
+    (add-to-list 'default-frame-alist '(font . "Fira Code-13" ))
+    (set-face-attribute 'default t :font "Fira Code-13"))
   (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
   (load custom-file 'noerror) ; Load custom file
   (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
@@ -324,6 +324,126 @@ Better narrowing.
 
 #+END_SRC
 
+** Open C# Project File
+   
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/project-path ()
+    (cond
+     ((eq system-type 'gnu/linux)
+      "~/Projects")
+     ((eq system-type 'windows-nt)
+      "C:/dev/")
+     (else nil)))
+
+  (defun wolfe/csharp-project ()
+    (interactive)
+    (setq path (read-file-name "File: " (wolfe/project-path)))
+    (setq split-path (split-string path "/"))
+    (if (member "src" split-path)
+        (catch 'loop
+          (dolist (item (reverse split-path))
+            (if (string-equal item "src")
+                (throw 'loop nil)
+              (delete item split-path)))
+          (message "src directory not found")))
+
+    (if (or (equal '("c:") split-path) (equal '() split-path))
+        (message "Could not find src directory for specified project")
+      (progn 
+        (omnisharp-start-omnisharp-server (mapconcat 'identity split-path "/"))
+        (find-file path))))
+#+END_SRC
+
+** Hot Expand
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun hot-expand (str)
+    "Expand org template."
+    (insert str)
+    (org-try-structure-completion))
+#+END_SRC
+
+* Hydra
+  
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package hydra)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq wolfe/hydra-projectile
+        (defhydra hydra-projectile (:color blue :columns 3)
+          "Projectile"
+          ("f" projectile-find-file              "Find File")
+          ("o" projectile-multi-occur            "Multi Occur")
+          ("z" projectile-add-known-project      "Add Known Project")
+
+          ("r" projectile-recentf                "Recent Files")
+          ("b" projectile-switch-to-buffer       "Switch to Buffer")
+          ("x" projectile-remove-known-project   "Remove Known Project")
+
+          ("d" projectile-find-dir               "Find Directory")
+          ("c" projectile-invalidate-cache       "Clear Cache")
+          ("X" projectile-cleanup-known-projects "Cleanup Known Projects")
+
+          ("s" projectile-switch-project         "Switch Project")
+          ("k" projectile-kill-buffers           "Kill Buffers")
+          ("q" nil "Cancel" :color blue)
+          ))
+
+  (setq wolfe/hydra-csharp
+        (defhydra hydra-csharp (:color blue)
+          "Omnisharp"
+          ("d" omnisharp-go-to-definition              "Goto definition")
+          ("D" omnisharp-go-to-definition-other-window "Pop-open definition")
+          ("r" omnisharp-rename                        "Rename symbol")
+          ("R" omnisharp-reload-solution               "Reload solution")
+          ("i" omnisharp-code-format-region            "Indent region")
+          ("I" omnisharp-code-format-entire-file       "Indent entire file")
+          ))
+
+  (setq wolfe/hydra-org-expand
+        (defhydra hydra-org-template (:color blue :hint nil)
+          "
+      _c_enter  _q_uote    _L_aTeX:
+      _l_atex   _e_xample  _i_ndex:
+      _a_scii   _v_erse    _I_NCLUDE:
+      _s_rc     ^ ^        _H_TML:
+      _h_tml    ^ ^        _A_SCII:
+      "
+          ("s" (hot-expand "<s"))
+          ("e" (hot-expand "<e"))
+          ("q" (hot-expand "<q"))
+          ("v" (hot-expand "<v"))
+          ("c" (hot-expand "<c"))
+          ("l" (hot-expand "<l"))
+          ("h" (hot-expand "<h"))
+          ("a" (hot-expand "<a"))
+          ("L" (hot-expand "<L"))
+          ("i" (hot-expand "<i"))
+          ("I" (hot-expand "<I"))
+          ("H" (hot-expand "<H"))
+          ("A" (hot-expand "<A"))))
+
+  (setq wolfe/hydra-org
+        (defhydra hydra-org (:color blue)
+          "Org Mode"
+          ("t" (funcall wolfe/hydra-org-expand) "Expand template")))
+
+  (setq wolfe/hydra-default
+        (defhydra hydra-default (:color blue)
+          "Default"
+          ("o" (funcall wolfe/hydra-org) "Org Mode")
+          ("#" (funcall wolfe/hydra-csharp) "C# Mode")))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/hydra-selector ()
+    (cond
+     ((derived-mode-p 'csharp-mode) wolfe/hydra-csharp)
+     ((derived-mode-p 'org-mode) wolfe/hydra-org)
+     (:else wolfe/hydra-default)))
+#+END_SRC
+   
 * Evil & General
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -374,24 +494,28 @@ Better narrowing.
              "C-z"  'wolfe/controlz)
 
     (wolfe/bind-leader
-     "w" 'save-buffer
-     "S" 'eval-buffer
-     "s" 'eval-defun
-     "b" 'mode-line-other-buffer
-     "k" 'kill-buffer
-     "m" 'ivy-switch-buffer
-     "t" 'wolfe/find-tag
-     "e" 'iedit-mode
-     "c" 'wolfe/compile-no-prompt
-     "n" 'narrow-or-widen-dwim
-     "p" 'counsel-git
-     "a" 'org-agenda
-     "g" 'magit-status
+     "w"  'save-buffer
+     "S"  'eval-buffer
+     "s"  'eval-defun
+     "b"  'mode-line-other-buffer
+     "k"  'kill-buffer
+     "m"  'ivy-switch-buffer
+     "t"  'wolfe/find-tag
+     "e"  'iedit-mode
+     "c"  'wolfe/compile-no-prompt
+     "n"  'narrow-or-widen-dwim
+     "a"  'org-agenda
+     "g"  'magit-status
      "''" 'org-edit-src-exit
+     "#" 'wolfe/csharp-project
+     "p" (lambda() (interactive) (funcall wolfe/hydra-projectile))
      ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
      "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
-     "o" (lambda() (interactive) (wolfe/org-open "everything"))
-     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
+     "o"   (lambda() (interactive) (wolfe/org-open "everything"))
+     "SPC" (lambda() (interactive) (funcall (wolfe/hydra-selector)))
+     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))
+     )
+    )
 
   ;; Tpope's surround
   (use-package evil-surround
@@ -510,6 +634,34 @@ Better narrowing.
                (undo-tree-mode "" undo-tree)
                (auto-revert-mode "" autorevert))))
 #+END_SRC
+
+** Nlinum
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package nlinum-relative
+    :config
+    (nlinum-relative-setup-evil)
+    (setq nlinum-relative-redisplay-delay 0.25)
+    (setq nlinum-relative-current-symbol "")
+    (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+
+#+END_SRC
+   
+** Iedit
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package iedit
+    :config
+    (setq iedit-toggle-key-default nil))
+#+END_SRC
+   
+** Magit
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package magit
+    :config
+    (global-set-key "\C-x\g" 'magit-status))
+#+END_SRC
    
 ** Ivy, Counsel and Swiper
 
@@ -537,34 +689,6 @@ Better narrowing.
 (use-package swiper
   :bind (("C-s" . swiper)))
 #+END_SRC
-
-** Nlinum
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package nlinum-relative
-    :config
-    (nlinum-relative-setup-evil)
-    (setq nlinum-relative-redisplay-delay 0.25)
-    (setq nlinum-relative-current-symbol "")
-    (add-hook 'prog-mode-hook 'nlinum-relative-mode))
-
-#+END_SRC
-   
-** Magit
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package magit
-    :config
-    (global-set-key "\C-x\g" 'magit-status))
-#+END_SRC
-   
-** Iedit
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package iedit
-    :config
-    (setq iedit-toggle-key-default nil))
-#+END_SRC
    
 ** Flycheck
 
@@ -577,17 +701,19 @@ Better narrowing.
       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 #+END_SRC
    
-** Spotify
+** Projectile
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (executable-find "spotify")
-    (when (file-exists-p "~/Documents/spotify-secret-id.el")
-      (load-file "~/Documents/spotify-secret-id.el"))
-    (add-to-list 'load-path "~/.emacs.d/spotify.el")
-    (require 'spotify)
-    (setq spotify-mode-line-refresh-interval 1)
-    (setq spotify-mode-line-format "%t - %a"))
-#+END_SRC
+  (use-package projectile
+    :config
+    (use-package counsel-projectile
+      :config
+      (counsel-projectile-on))
+    (setq projectile-enable-caching t)
+    (setq projectile-indexing-method 'alien)
+    (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe"))
+    (projectile-global-mode))
+#+END_SRC   
 
 * Email
   
@@ -674,6 +800,7 @@ Better narrowing.
     (setq web-mode-enable-auto-opening t)
     (setq web-mode-enable-auto-indentation t))
 
+  (use-package json-mode)
 #+END_SRC
 
 ** Haskell
@@ -736,6 +863,14 @@ Autocomplete engine
       (eval-after-load 'company
         '(add-to-list 'company-backends 'company-irony)))
 
+    ;; C#
+    (use-package omnisharp
+      :config
+      (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe")
+      (add-hook 'csharp-mode-hook 'omnisharp-mode)
+      (eval-after-load 'company
+        '(add-to-list 'company-backends 'company-omnisharp)))
+
     (ignore-errors
       (require 'color)
       (let ((bg (face-attribute 'default :background)))
@@ -755,6 +890,7 @@ Autocomplete engine
         gdb-show-main t
         ;; Non-nil means display source file containing the main routine at startup
         )
+  (use-package help-fns+)
 #+END_SRC
 
 * Backups

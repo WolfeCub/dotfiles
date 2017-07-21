@@ -457,6 +457,8 @@ Better narrowing.
 
 * Hydra
   
+Customizable popup menus
+  
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package hydra)
 #+END_SRC
@@ -647,6 +649,8 @@ Better narrowing.
 #+END_SRC
    
 * Helm
+  
+All encompassing completion at point replacement
    
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package helm
@@ -686,8 +690,10 @@ Better narrowing.
     (helm-mode 1))
 
 #+END_SRC
-   
+  
 * Projectile
+  
+Project management
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package projectile
@@ -702,6 +708,8 @@ Better narrowing.
 #+END_SRC   
    
 * Magit
+  
+Magic git interface from within emacs
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
@@ -710,6 +718,8 @@ Better narrowing.
 #+END_SRC
 
 * Nlinum
+  
+Vim-like relative line numbering
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package nlinum-relative
@@ -722,6 +732,8 @@ Better narrowing.
 #+END_SRC
    
 * Iedit
+  
+Edit all instances of a string
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package iedit
@@ -730,15 +742,24 @@ Better narrowing.
 #+END_SRC
    
 * Flycheck
+  
+On the fly syntax checking
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package flycheck
     :config
     (global-flycheck-mode)
-    (add-hook 'haskell-mode-hook (lambda() (flycheck-select-checker 'haskell-ghc)))
     (with-eval-after-load 'flycheck
       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 #+END_SRC
+
+* Restclient
+  
+Postman inside of emacs.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package restclient)
+#+END_SRC  
 
 * Delight
 
@@ -834,6 +855,11 @@ Autocomplete engine
       (add-hook 'csharp-mode-hook 'omnisharp-mode)
       (eval-after-load 'company
         '(add-to-list 'company-backends 'company-omnisharp)))
+
+    ;; Restclient
+    (use-package company-restclient
+      :config
+      (add-to-list 'company-backends 'company-restclient))
 
     (ignore-errors
       (require 'color)

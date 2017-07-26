@@ -37,6 +37,7 @@ client.urgent $base02 $base08 $base07 $base08
 
 # Matrix Labritory
 for_window [title="^Figure \d+$"] floating enable
+for_window [title="^QEMU$"] floating enable
 
 # Adds gaps
 #gaps inner 12

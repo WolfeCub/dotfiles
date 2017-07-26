@@ -148,6 +148,10 @@ alias e='emacs -nw'
 alias et='emacsclient -t'
 alias ec='emacsclient -c'
 
+qemu () {
+    $(which qemu-system-x86_64) "$@" 2>&1 | grep -v "Gtk-WARNING"
+}
+
 ##
 ## P R O M P T
 ##

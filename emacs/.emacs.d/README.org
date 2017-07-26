@@ -72,12 +72,6 @@ Runs a different function on startup depending on display mode.
             evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
       (set-face-attribute 'fringe nil :background nil))
 
-    (use-package smart-mode-line
-      :init
-      (setq sml/no-confirm-load-theme t)
-      (setq sml/theme 'respectful)
-      (sml/setup))
-
     (custom-set-faces 
      '(org-done ((t (:box (:line-width 1) :weight bold))))
      '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
@@ -128,6 +122,74 @@ Basic settings I can't really live without.
   (setq source-directory "~/Projects/emacs/")
 #+END_SRC
   
+* Mode Line
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+    (if (display-graphic-p)
+        (use-package powerline
+          :init
+          (defadvice powerline-major-mode (around delight-powerline-major-mode activate)
+            (let ((inhibit-mode-name-delight nil))
+              ad-do-it))
+
+          :config
+          (setq powerline-arrow-shape 'curve
+                powerline-display-buffer-size nil
+                powerline-display-mule-info nil)
+          (powerline-default-theme)
+          (remove-hook 'focus-out-hook 'powerline-unset-selected-window))
+
+      (setq-default mode-line-format
+       (list
+        " "
+        ;; is this buffer read-only?
+        '(:eval (when buffer-read-only
+                  (propertize "RO"
+                              'face 'font-lock-type-face
+                              'help-echo "Buffer is read-only")))
+
+        ;; was this buffer modified since the last save?
+        '(:eval (when (buffer-modified-p)
+                  (propertize "M"
+                              'face 'font-lock-warning-face
+                              'help-echo "Buffer has been modified")))
+
+        " "
+        ;; the buffer name; the file name as a tool tip
+        '(:eval (propertize "%b " 'face 'font-lock-keyword-face
+                            'help-echo (buffer-file-name)))
+
+
+        ;; the current major mode for the buffer.
+        "["
+
+        '(:eval (propertize (format-mode-line mode-name) 'face '(:family "Arial")
+                            'help-echo buffer-file-coding-system))
+        '(:eval (propertize (format-mode-line minor-mode-alist)
+                            'face '(:family "Arial")))
+        "]             "
+
+        ;; line and column
+        "(" ;; '%02' to set to 2 chars at least; prevents flickering
+        (propertize "%02l" 'face 'font-lock-type-face) ","
+        (propertize "%02c" 'face 'font-lock-type-face) 
+        ") "
+
+        ;; relative position, size of file
+        "["
+        (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
+        "/"
+        (propertize "%I" 'face 'font-lock-constant-face) ;; size
+        "] "
+
+        ;; add the time, with the date and the emacs uptime in the tooltip
+        '(:eval (propertize (format-time-string "%H:%M")
+                            'help-echo
+                            (concat (format-time-string "%c; ")
+                                    (emacs-uptime "Uptime:%hh"))))
+        )))
+#+END_SRC
+
 * Functions
 ** Face Under Point
    
@@ -310,27 +372,10 @@ Better narrowing.
       (woman)))
 #+END_SRC
 
-** Ivy Completion
+** Projects Folder
 
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/ivy--regex-fuzzy (str)
-    "Build a regex sequence from STR.
-   Insert .* between each char."
-    (if (string-match "\\`\\(\\^?\\)\\(.*?\\)\\(\\$?\\)\\'" str)
-        (prog1
-            (concat (match-string 1 str)
-                    (mapconcat
-                     (lambda (x)
-                       (format "\\(%c\\)" x))
-                     (delq 32 (string-to-list (match-string 2 str)))
-                     ".*?")
-                    (match-string 3 str))
-          (setq ivy--subexps (length (match-string 2 str))))))
+This function returns the path to my projects folder depending on OS
 
-#+END_SRC
-
-** Open C# Project File
-   
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/project-path ()
     (cond
@@ -339,7 +384,15 @@ Better narrowing.
      ((eq system-type 'windows-nt)
       "C:/dev/")
      (else nil)))
+#+END_SRC
 
+** Open C# Project File
+   
+This function prompts for a file. It then opens that file and looks for a src/
+directory above it. The dir can be any number of levels higher. In that folder 
+it looks for a C# .sln file and starts the an omnisharp server for that project.
+   
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/csharp-project ()
     (interactive)
     (setq path (read-file-name "File: " (wolfe/project-path)))
@@ -350,7 +403,7 @@ Better narrowing.
             (if (string-equal item "src")
                 (throw 'loop nil)
               (delete item split-path)))
-          (message "src directory not found")))
+          (message "src/ directory not found")))
 
     (if (or (equal '("c:") split-path) (equal '() split-path))
         (message "Could not find src directory for specified project")
@@ -360,6 +413,8 @@ Better narrowing.
 #+END_SRC
 
 ** Hot Expand
+
+Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting org-templates.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun hot-expand (str)
@@ -456,8 +511,8 @@ Better narrowing.
 #+END_SRC
 
 * Hydra
-  
-Customizable popup menus
+
+Customizable popup menus.
   
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package hydra)
@@ -706,7 +761,7 @@ Project management
     (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe"))
     (projectile-global-mode))
 #+END_SRC   
-   
+
 * Magit
   
 Magic git interface from within emacs
@@ -766,16 +821,13 @@ Postman inside of emacs.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package delight
     :config
-    (custom-set-faces
-     '(sml/minor-modes ((t (:inherit sml/global :family "Arial")))))
-
     (delight '((emacs-lisp-mode       "ξ" :major)
                (lisp-interaction-mode "λ" :major)
                (python-mode           "π" :major)
-               (c-mode                "c" :major)
+               (c-mode                "cc" :major)
                (org-mode              "Ø" :major)
-               (company-mode          " Ȼ" company)
-               (helm-mode             " Ｈ" helm)
+               (company-mode          " C" company)
+               (helm-mode             " h" helm)
                (projectile-mode       " ρ" projectile)
                (eldoc-mode            " ε" eldoc)
                (flycheck-mode         " ƒ" flycheck)
@@ -783,13 +835,13 @@ Postman inside of emacs.
                (auto-revert-mode      ""   autorevert))))
 #+END_SRC
 
-* Language Specific
-** Web 
+* Web
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package web-mode
     :config
     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 
     (setq web-mode-enable-auto-closing t)
     (setq web-mode-enable-auto-opening t)
@@ -798,27 +850,11 @@ Postman inside of emacs.
   (use-package json-mode)
 #+END_SRC
 
-** Latex
+* Latex
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package latex-preview-pane
     :ensure f)
-#+END_SRC
-
-** Matlab
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package matlab-mode
-    :config
-    (load-library "matlab-load")
-    (autoload 'matlab-mode "matlab" "Matlab Editing Mode" t)
-    (add-to-list
-     'auto-mode-alist
-     '("\\.m$" . octave-mode))
-    (setq matlab-indent-function t)
-    (setq matlab-shell-command "matlab")
-    ;; emacs-lisp setup for matlab-mode:
-    (setq matlab-shell-command-switches (list "-nodesktop")))
 #+END_SRC
 
 * Company
@@ -853,8 +889,13 @@ Autocomplete engine
       :config
       (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe")
       (add-hook 'csharp-mode-hook 'omnisharp-mode)
-      (eval-after-load 'company
-        '(add-to-list 'company-backends 'company-omnisharp)))
+      (add-to-list 'company-backends 'company-omnisharp))
+
+    ;; Javascript
+    (use-package company-tern
+      :config
+      (add-to-list 'company-backends 'company-tern)
+      (add-hook 'web-mode-hook 'tern-mode))
 
     ;; Restclient
     (use-package company-restclient

@@ -32,13 +32,13 @@ Have use-package auto download
 #+END_SRC
 
 * Startup
-  
+
 Runs a different function on startup depending on display mode.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory "~/.emacs.d/themes")
 #+END_SRC
- 
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/term-setup ()
     (load-theme 'base16-default-dark t)
@@ -72,7 +72,7 @@ Runs a different function on startup depending on display mode.
             evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
       (set-face-attribute 'fringe nil :background nil))
 
-    (custom-set-faces 
+    (custom-set-faces
      '(org-done ((t (:box (:line-width 1) :weight bold))))
      '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
      '(org-todo ((t (:box (:line-width 1) :weight bold))))))
@@ -84,9 +84,9 @@ Runs a different function on startup depending on display mode.
       (wolfe/gui-setup)
     (wolfe/term-setup))
 #+END_SRC
-   
+
 * General Settings
-  
+
 Basic settings I can't really live without.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -121,7 +121,7 @@ Basic settings I can't really live without.
         (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
   (setq source-directory "~/Projects/emacs/")
 #+END_SRC
-  
+
 * Mode Line
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -172,7 +172,7 @@ Basic settings I can't really live without.
         ;; line and column
         "(" ;; '%02' to set to 2 chars at least; prevents flickering
         (propertize "%02l" 'face 'font-lock-type-face) ","
-        (propertize "%02c" 'face 'font-lock-type-face) 
+        (propertize "%02c" 'face 'font-lock-type-face)
         ") "
 
         ;; relative position, size of file
@@ -192,7 +192,7 @@ Basic settings I can't really live without.
 
 * Functions
 ** Face Under Point
-   
+
 Returns the font lock face that's under the cursor.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -202,9 +202,9 @@ Returns the font lock face that's under the cursor.
                     (get-char-property (point) 'face))))
       (if face (message "Face: %s" face) (message "No face at %d" pos))))
 #+END_SRC
-   
+
 ** Compile Project
-   
+
 Compiles the project without a prompt.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -213,9 +213,9 @@ Compiles the project without a prompt.
     (let ((compilation-read-command nil))
       (compile (eval compile-command))))
 #+END_SRC
-   
+
 ** Compile Dotfiles
-   
+
 Compiles all el files in the =~/.emacs.d= directory.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -241,9 +241,9 @@ Compiles all el files in the =~/.emacs.d= directory.
               nil t))
   (add-hook 'emacs-lisp-mode-hook 'wolfe/remove-elc-on-save)
 #+END_SRC
-   
+
 ** Find Tags
-   
+
 Looks up tag under point.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -271,7 +271,7 @@ Looks up tag under point.
              (save-window-excursion (shell-command "etags -R *"))
              ad-do-it)))
 #+END_SRC
-   
+
 ** Terminal Suspend
 
 Fixes =C-z= in terminal.
@@ -282,11 +282,11 @@ Fixes =C-z= in terminal.
     (when (eq (display-graphic-p) nil)
       (suspend-frame)))
 #+END_SRC
-   
+
 ** Dropbox
-   
+
 Utility functions for finding Dropbox directories/files.
-   
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/org-open (name)
     "Opens the file in the dropbox path"
@@ -323,9 +323,9 @@ Utility functions for finding Dropbox directories/files.
     (interactive)
     (call-process-shell-command "python ~/.emacs.d/dropbox.py stop&"))
 #+END_SRC
-   
+
 ** Reload
-   
+
 For reloading =init.el= file without restarting.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -334,9 +334,9 @@ For reloading =init.el= file without restarting.
     (interactive)
     (load-file "~/.emacs.d/init.el"))
 #+END_SRC
-   
+
 ** Narrowing
-   
+
 Better narrowing.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -387,11 +387,11 @@ This function returns the path to my projects folder depending on OS
 #+END_SRC
 
 ** Open C# Project File
-   
+
 This function prompts for a file. It then opens that file and looks for a src/
-directory above it. The dir can be any number of levels higher. In that folder 
+directory above it. The dir can be any number of levels higher. In that folder
 it looks for a C# .sln file and starts the an omnisharp server for that project.
-   
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/csharp-project ()
     (interactive)
@@ -407,7 +407,7 @@ it looks for a C# .sln file and starts the an omnisharp server for that project.
 
     (if (or (equal '("c:") split-path) (equal '() split-path))
         (message "Could not find src directory for specified project")
-      (progn 
+      (progn
         (omnisharp-start-omnisharp-server (mapconcat 'identity split-path "/"))
         (find-file path))))
 #+END_SRC
@@ -441,30 +441,6 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
     (use-package htmlize
       :ensure nil))
 
-  (use-package calfw
-    :config
-    (use-package calfw-org)
-    (custom-set-faces
-     '(cfw:face-title ((t (:foreground "#f0dfaf" :weight bold :height 2.0 :inherit variable-pitch))))
-     '(cfw:face-header ((t (:foreground "#d0bf8f" :weight bold))))
-     '(cfw:face-sunday ((t :foreground "#cc9393" :background "grey10" :weight bold)))
-     '(cfw:face-saturday ((t :foreground "#8cd0d3" :background "grey10" :weight bold)))
-     '(cfw:face-holiday ((t :background "grey10" :foreground "#8c5353" :weight bold)))
-     '(cfw:face-grid ((t :foreground "DarkGrey")))
-     '(cfw:face-default-content ((t :foreground "#bfebbf")))
-     '(cfw:face-periods ((t :foreground "cyan")))
-     '(cfw:face-day-title ((t :background "grey10")))
-     '(cfw:face-default-day ((t :weight bold :inherit cfw:face-day-title)))
-     '(cfw:face-annotation ((t :foreground "RosyBrown" :inherit cfw:face-day-title)))
-     '(cfw:face-disable ((t :foreground "DarkGray" :inherit cfw:face-day-title)))
-     '(cfw:face-today-title ((t :background "#7f9f7f" :weight bold)))
-     '(cfw:face-today ((t :background: "grey10" :weight bold)))
-     '(cfw:face-select ((t :background "#2f2f2f")))
-     '(cfw:face-toolbar ((t :foreground "Steelblue4" :background "Steelblue4")))
-     '(cfw:face-toolbar-button-off ((t :foreground "Gray10" :weight bold)))
-     '(cfw:face-toolbar-button-on ((t :foreground "Gray50" :weight bold)))))
-
-
   ;; Formats the agenda into nice columns
   (setq org-agenda-prefix-format
         '((agenda . " %i %-12t% s %-12(car (last (org-get-outline-path)))")
@@ -491,6 +467,9 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
   (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
   (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_LATEX" . "#\\+END_LATEX"))
 
+  (when (display-graphic-p)
+    (setq org-hide-emphasis-markers t))
+
   (setq org-pretty-entities t
         org-src-fontify-natively t
         org-src-tab-acts-natively t
@@ -513,7 +492,7 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
 * Hydra
 
 Customizable popup menus.
-  
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package hydra)
 #+END_SRC
@@ -522,21 +501,21 @@ Customizable popup menus.
   (setq wolfe/hydra-projectile
         (defhydra hydra-projectile (:color blue :columns 3)
           "Projectile"
-          ("f" helm-projectile                   "Super Find")
-          ("o" projectile-multi-occur            "Multi Occur")
-          ("z" projectile-add-known-project      "Add Known Project")
+          ("f" counsel-projectile-find-file        "Find File")
+          ("o" projectile-multi-occur              "Multi Occur")
+          ("z" projectile-add-known-project        "Add Known Project")
 
-          ("F" helm-projectile-find-file         "Find File")
-          ("b" helm-projectile-switch-to-buffer  "Switch to Buffer")
-          ("x" projectile-remove-known-project   "Remove Known Project")
+          ("r" projectile-recentf                  "Recent Files")
+          ("b" counsel-projectile-switch-to-buffer "Switch to Buffer")
+          ("x" projectile-remove-known-project     "Remove Known Project")
 
-          ("r" helm-projectile-recentf           "Recent Files")
-          ("s" helm-projectile-switch-project    "Switch Project")
-          ("X" projectile-cleanup-known-projects "Cleanup Known Projects")
+          ("d" counsel-projectile-find-dir         "Find Directory")
+          ("c" projectile-invalidate-cache         "Clear Cache")
+          ("X" projectile-cleanup-known-projects   "Cleanup Known Projects")
 
-          ("d" helm-projectile-find-dir          "Find Directory")
-          ("c" projectile-invalidate-cache       "Clear Cache")
-          ("k" projectile-kill-buffers           "Kill Buffers")
+          ("s" counsel-projectile-switch-project   "Switch Project")
+          ("k" projectile-kill-buffers             "Kill Buffers")
+          ("q" nil "Cancel" :color blue)
           ))
 
   (setq wolfe/hydra-jira
@@ -576,12 +555,12 @@ Customizable popup menus.
   (setq wolfe/hydra-org-expand
         (defhydra hydra-org-template (:color blue :hint nil)
           "
-        _c_enter  _q_uote    _L_aTeX:
-        _l_atex   _e_xample  _i_ndex:
-        _a_scii   _v_erse    _I_NCLUDE:
-        _s_rc     ^ ^        _H_TML:
-        _h_tml    ^ ^        _A_SCII:
-        "
+          _c_enter  _q_uote    _L_aTeX:
+          _l_atex   _e_xample  _i_ndex:
+          _a_scii   _v_erse    _I_NCLUDE:
+          _s_rc     ^ ^        _H_TML:
+          _h_tml    ^ ^        _A_SCII:
+          "
           ("s" (hot-expand "<s"))
           ("e" (hot-expand "<e"))
           ("q" (hot-expand "<q"))
@@ -616,7 +595,7 @@ Customizable popup menus.
      ((derived-mode-p 'org-mode) wolfe/hydra-org)
      (:else wolfe/hydra-default)))
 #+END_SRC
-   
+
 * Evil & General
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -633,7 +612,7 @@ Customizable popup menus.
     (setq-default evil-symbol-word-search t)
     (setq evil-lookup-func #'wolfe/man)
     (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
-    (define-key evil-ex-map "e " 'helm-find-files) ; Trigger file completion :e
+    (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
     (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
     (general-create-definer wolfe/bind-leader
@@ -672,7 +651,7 @@ Customizable popup menus.
      "s"  'eval-defun
      "b"  'mode-line-other-buffer
      "k"  'kill-buffer
-     "m"  'helm-mini
+     "m"  'ivy-switch-buffer
      "t"  'wolfe/find-tag
      "e"  'iedit-mode
      "c"  'wolfe/compile-no-prompt
@@ -702,68 +681,52 @@ Customizable popup menus.
     (global-evil-matchit-mode 1))
 
 #+END_SRC
-   
-* Helm
-  
-All encompassing completion at point replacement
-   
+
+* Ivy, Counsel and Swiper
+
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package helm
-    :bind
-    (("M-x" . helm-M-x)
-     ("M-y" . helm-show-kill-ring))
+  (use-package ivy
+    :demand
+    :bind (("M-x" . counsel-M-x)
+           ("C-x C-f" . counsel-find-file)
+           :map ivy-minibuffer-map
+           ("TAB" . ivy-next-line)
+           ("RET" . ivy-alt-done))
+    :init
+    (use-package smex)
+    (use-package counsel)
     :config
-    (require 'helm-config)
-
-    ;; Misc settings
-    (setq helm-split-window-in-side-p t 
-          helm-move-to-line-cycle-in-source t 
-          helm-ff-search-library-in-sexp t 
-          helm-scroll-amount 8 
-          helm-ff-file-name-history-use-recentf t)
-
-    ;; Fuzzyness 
-    (setq helm-recentf-fuzzy-match t
-          helm-locate-fuzzy-match nil ;; locate fuzzy is worthless
-          helm-M-x-fuzzy-match t
-          helm-buffers-fuzzy-matching t
-          helm-semantic-fuzzy-match t
-          helm-apropos-fuzzy-match t
-          helm-imenu-fuzzy-match t
-          helm-lisp-fuzzy-completion t
-          helm-completion-in-region-fuzzy-match t)
-
-    (helm-autoresize-mode 1)
-
-    (use-package helm-ext
-      :config
-      (helm-ext-ff-enable-skipping-dots t)
-      (helm-ext-minibuffer-enable-header-line-maybe t))
-
-
-    
-    (helm-mode 1))
+    (setq ivy-re-builders-alist
+          '((t . ivy--regex-ignore-order)))
+    (setq ivy-wrap t)
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t))
 
 #+END_SRC
-  
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package swiper
+  :bind (("C-s" . swiper)))
+#+END_SRC
+
 * Projectile
-  
+
 Project management
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package projectile
     :config
-    (use-package helm-projectile
+    (use-package counsel-projectile
       :config
-      (helm-projectile-on))
+      (counsel-projectile-on))
     (setq projectile-enable-caching t)
     (setq projectile-indexing-method 'alien)
     (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe"))
     (projectile-global-mode))
-#+END_SRC   
+#+END_SRC
 
 * Magit
-  
+
 Magic git interface from within emacs
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -773,7 +736,7 @@ Magic git interface from within emacs
 #+END_SRC
 
 * Nlinum
-  
+
 Vim-like relative line numbering
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -785,9 +748,9 @@ Vim-like relative line numbering
     (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 #+END_SRC
-   
+
 * Iedit
-  
+
 Edit all instances of a string
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -795,9 +758,9 @@ Edit all instances of a string
     :config
     (setq iedit-toggle-key-default nil))
 #+END_SRC
-   
+
 * Flycheck
-  
+
 On the fly syntax checking
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -809,12 +772,12 @@ On the fly syntax checking
 #+END_SRC
 
 * Restclient
-  
+
 Postman inside of emacs.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package restclient)
-#+END_SRC  
+#+END_SRC
 
 * Delight
 
@@ -827,7 +790,7 @@ Postman inside of emacs.
                (c-mode                "cc" :major)
                (org-mode              "Ø" :major)
                (company-mode          " C" company)
-               (helm-mode             " h" helm)
+               (ivy-mode              " ι" ivy)
                (projectile-mode       " ρ" projectile)
                (eldoc-mode            " ε" eldoc)
                (flycheck-mode         " ƒ" flycheck)
@@ -858,9 +821,9 @@ Postman inside of emacs.
 #+END_SRC
 
 * Company
-  
+
 Autocomplete engine
-  
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company
     :init
@@ -915,7 +878,7 @@ Autocomplete engine
 #+END_SRC
 
 * Email
-  
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when (require 'mu4e nil 'noerror)
     (setq mu4e-msg2pdf "/usr/bin/msg2pdf")
@@ -1005,7 +968,7 @@ Autocomplete engine
 * Backups
 
 Stores all backups and temp files in =~/.bak.emacs/=
-  
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq backup-by-copying t) ; Stop shinanigans with links
   (setq backup-directory-alist '((".*" . "~/.bak.emacs/backup/")))
@@ -1018,4 +981,3 @@ Stores all backups and temp files in =~/.bak.emacs/=
   ;; backup in one place. flat, no tree structure
   (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 #+END_SRC
-

@@ -59,23 +59,24 @@ Runs a different function on startup depending on display mode.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/gui-setup ()
-    (use-package base16-theme
-      :config
-      (load-theme 'base16-default-dark t)
-      (defvar my/base16-colors base16-default-dark-colors)
-      (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
-            evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
-            evil-motion-state-cursor  `(,(plist-get my/base16-colors :base0E) box)
-            evil-normal-state-cursor  `(,(plist-get my/base16-colors :base07) box)
-            evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
-            evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
-      (set-face-attribute 'fringe nil :background nil))
+   (defun wolfe/gui-setup ()
+     (use-package base16-theme
+       :config
+       (load-theme 'base16-default-dark t)
+       (defvar my/base16-colors base16-default-dark-colors)
+       (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
+             evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
+             evil-motion-state-cursor  `(,(plist-get my/base16-colors :base0E) box)
+             evil-normal-state-cursor  `(,(plist-get my/base16-colors :base07) box)
+             evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
+             evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
+       (set-face-attribute 'fringe nil :background nil))
 
-    (custom-set-faces
-     '(org-done ((t (:box (:line-width 1) :weight bold))))
-     '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
-     '(org-todo ((t (:box (:line-width 1) :weight bold))))))
+     (custom-set-faces
+      '(region ((t (:background "gray19"))))
+      '(org-done ((t (:box (:line-width 1) :weight bold))))
+      '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
+      '(org-todo ((t (:box (:line-width 1) :weight bold))))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -104,9 +105,9 @@ Basic settings I can't really live without.
   (column-number-mode t)
   (delete-selection-mode 1) ; Replace selection on insert
   (setq vc-follow-symlinks t) ; Always follow symlinks
-  (when (member "Fira Code" (font-family-list)) ; Set default font
-    (add-to-list 'default-frame-alist '(font . "Fira Code-13" ))
-    (set-face-attribute 'default t :font "Fira Code-13"))
+  (when (member "Inconsolata" (font-family-list)) ; Set default font
+    (add-to-list 'default-frame-alist '(font . "Inconsolata-16" ))
+    (set-face-attribute 'default t :font "Inconsolata-16"))
   (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
   (load custom-file 'noerror) ; Load custom file
   (setq tags-revert-without-query t) ; Don't ask to reload TAGS file

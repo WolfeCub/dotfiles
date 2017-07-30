@@ -17,12 +17,7 @@ Runs a different function on startup depending on display mode.
      '(region ((t :background "color-19")))
      '(mode-line ((t (:background "color-19" :foreground "brightblue" :box nil))))
      '(mode-line-inactive
-       ((t (:background "color-18" :foreground "color-244")))))
-
-     ;;'(iedit-occurrence ((t (:background "color-93"))))
-     ;;'(column-marker-1 ((t (:background "color-88"))))
-     ;;'(hl-line ((t (:weight bold))))))
-  )
+       ((t (:background "color-18" :foreground "color-244"))))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes

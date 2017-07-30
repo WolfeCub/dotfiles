@@ -1,36 +1,3 @@
-* Garbage Collection
-
-Temporarily set garbage collect threshold high to improve start time
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq gc-cons-threshold most-positive-fixnum)
-  (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
-#+END_SRC
-
-* Package Control
-
-Setup package control
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq package--init-file-ensured t) ; So (package-initialize) doesn't show up
-  (require 'package)
-  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                           ("marmalade" . "https://marmalade-repo.org/packages/")
-                           ("melpa" . "http://melpa.org/packages/")))
-  (setq package-enable-at-startup nil)
-  (package-initialize)
-#+END_SRC
-
-Have use-package auto download
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-  (require 'use-package)
-  (setq use-package-always-ensure t)
-#+END_SRC
-
 * Startup
 
 Runs a different function on startup depending on display mode.
@@ -427,6 +394,10 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
 * Org Mode
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package org
+    :pin org
+    :ensure org-plus-contrib)
+
   (require 'ox-latex)
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (setq org-latex-listings 'minted)

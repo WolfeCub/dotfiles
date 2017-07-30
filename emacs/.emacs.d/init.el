@@ -4,4 +4,27 @@
 ;;   \ V  V / (_) | |  _|  __/ \__ \ | | | | | | |_ |  __/ |
 ;;    \_/\_/ \___/|_|_|  \___| |___/ |_|_| |_|_|\__(_)___|_|
 
-(org-babel-load-file "~/.emacs.d/README.org")
+;; Set garbage collect high to speed up startup
+(let ((gc-cons-threshold most-positive-fixnum))
+  ;; Setup package sources
+  (require 'package)
+  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                           ("marmalade" . "https://marmalade-repo.org/packages/")
+                           ("melpa" . "http://melpa.org/packages/")
+                           ("org" . "http://orgmode.org/elpa/")))
+  (setq package-enable-at-startup nil)
+  (package-initialize)
+
+  ;; Bootstrap use-package
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+
+  ;; Use latest org before calling babel
+  (use-package org
+    :pin org
+    :ensure org-plus-contrib)
+
+  (org-babel-load-file "~/.emacs.d/README.org"))

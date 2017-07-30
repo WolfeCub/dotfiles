@@ -435,9 +435,6 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
   (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
   (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_LATEX" . "#\\+END_LATEX"))
 
-  (when (display-graphic-p)
-    (setq org-hide-emphasis-markers t))
-
   (setq org-pretty-entities t
         org-src-fontify-natively t
         org-src-tab-acts-natively t

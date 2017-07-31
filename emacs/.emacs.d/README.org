@@ -56,8 +56,7 @@ Basic settings I can't really live without.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq inhibit-splash-screen t
         inhibit-startup-message t
-        inhibit-startup-echo-area-message "wolfe"
-        initial-major-mode 'org-mode)
+        inhibit-startup-echo-area-message "wolfe")
   (tool-bar-mode -1) ; No toolbar
   (scroll-bar-mode -1) ; Hide scrollbars
   (menu-bar-mode -1) ; No menubar
@@ -69,8 +68,8 @@ Basic settings I can't really live without.
   (delete-selection-mode 1) ; Replace selection on insert
   (setq vc-follow-symlinks t) ; Always follow symlinks
   (when (member "Inconsolata" (font-family-list)) ; Set default font
-    (add-to-list 'default-frame-alist '(font . "Inconsolata-16" ))
-    (set-face-attribute 'default t :font "Inconsolata-16"))
+    (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
+    (set-face-attribute 'default t :font "Inconsolata-15"))
   (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
   (load custom-file 'noerror) ; Load custom file
   (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
@@ -84,74 +83,77 @@ Basic settings I can't really live without.
   (setq explicit-shell-file-name
         (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
   (setq source-directory "~/Projects/emacs/")
+  (when (eq system-type 'windows-nt)
+    (setq explicit-shell-file-name "cmdproxy.exe"))
 #+END_SRC
 
 * Mode Line
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (if (display-graphic-p)
-        (use-package powerline
-          :init
-          (defadvice powerline-major-mode (around delight-powerline-major-mode activate)
-            (let ((inhibit-mode-name-delight nil))
-              ad-do-it))
+      (if (display-graphic-p)
+          (use-package powerline
+            :init
+            (defadvice powerline-major-mode (around delight-powerline-major-mode activate)
+              (let ((inhibit-mode-name-delight nil))
+                ad-do-it))
 
-          :config
-          (setq powerline-arrow-shape 'curve
-                powerline-display-buffer-size nil
-                powerline-display-mule-info nil)
-          (powerline-default-theme)
-          (remove-hook 'focus-out-hook 'powerline-unset-selected-window))
+            :config
+            (setq powerline-arrow-shape 'curve
+                  powerline-display-buffer-size nil
+                  powerline-display-mule-info nil)
+            (powerline-default-theme)
+            (remove-hook 'focus-out-hook 'powerline-unset-selected-window)
+            (setq powerline-height 24))
 
-      (setq-default mode-line-format
-       (list
-        " "
-        ;; is this buffer read-only?
-        '(:eval (when buffer-read-only
-                  (propertize "RO"
-                              'face 'font-lock-type-face
-                              'help-echo "Buffer is read-only")))
+        (setq-default mode-line-format
+         (list
+          " "
+          ;; is this buffer read-only?
+          '(:eval (when buffer-read-only
+                    (propertize "RO"
+                                'face 'font-lock-type-face
+                                'help-echo "Buffer is read-only")))
 
-        ;; was this buffer modified since the last save?
-        '(:eval (when (buffer-modified-p)
-                  (propertize "M"
-                              'face 'font-lock-warning-face
-                              'help-echo "Buffer has been modified")))
+          ;; was this buffer modified since the last save?
+          '(:eval (when (buffer-modified-p)
+                    (propertize "M"
+                                'face 'font-lock-warning-face
+                                'help-echo "Buffer has been modified")))
 
-        " "
-        ;; the buffer name; the file name as a tool tip
-        '(:eval (propertize "%b " 'face 'font-lock-keyword-face
-                            'help-echo (buffer-file-name)))
+          " "
+          ;; the buffer name; the file name as a tool tip
+          '(:eval (propertize "%b " 'face 'font-lock-keyword-face
+                              'help-echo (buffer-file-name)))
 
 
-        ;; the current major mode for the buffer.
-        "["
+          ;; the current major mode for the buffer.
+          "["
 
-        '(:eval (propertize (format-mode-line mode-name) 'face '(:family "Arial")
-                            'help-echo buffer-file-coding-system))
-        '(:eval (propertize (format-mode-line minor-mode-alist)
-                            'face '(:family "Arial")))
-        "]             "
+          '(:eval (propertize (format-mode-line mode-name) 'face '(:family "Arial")
+                              'help-echo buffer-file-coding-system))
+          '(:eval (propertize (format-mode-line minor-mode-alist)
+                              'face '(:family "Arial")))
+          "]             "
 
-        ;; line and column
-        "(" ;; '%02' to set to 2 chars at least; prevents flickering
-        (propertize "%02l" 'face 'font-lock-type-face) ","
-        (propertize "%02c" 'face 'font-lock-type-face)
-        ") "
+          ;; line and column
+          "(" ;; '%02' to set to 2 chars at least; prevents flickering
+          (propertize "%02l" 'face 'font-lock-type-face) ","
+          (propertize "%02c" 'face 'font-lock-type-face)
+          ") "
 
-        ;; relative position, size of file
-        "["
-        (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
-        "/"
-        (propertize "%I" 'face 'font-lock-constant-face) ;; size
-        "] "
+          ;; relative position, size of file
+          "["
+          (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
+          "/"
+          (propertize "%I" 'face 'font-lock-constant-face) ;; size
+          "] "
 
-        ;; add the time, with the date and the emacs uptime in the tooltip
-        '(:eval (propertize (format-time-string "%H:%M")
-                            'help-echo
-                            (concat (format-time-string "%c; ")
-                                    (emacs-uptime "Uptime:%hh"))))
-        )))
+          ;; add the time, with the date and the emacs uptime in the tooltip
+          '(:eval (propertize (format-time-string "%H:%M")
+                              'help-echo
+                              (concat (format-time-string "%c; ")
+                                      (emacs-uptime "Uptime:%hh"))))
+          )))
 #+END_SRC
 
 * Functions
@@ -645,23 +647,23 @@ Customizable popup menus.
 * Ivy, Counsel and Swiper
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package ivy
-    :demand
-    :bind (("M-x" . counsel-M-x)
-           ("C-x C-f" . counsel-find-file)
-           :map ivy-minibuffer-map
-           ("TAB" . ivy-next-line)
-           ("RET" . ivy-alt-done))
-    :init
-    (use-package smex)
-    (use-package counsel)
-    :config
-    (setq ivy-re-builders-alist
-          '((t . ivy--regex-ignore-order)))
-    (setq ivy-wrap t)
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t))
-
+    (use-package ivy
+      :demand
+      :bind (("M-x" . counsel-M-x)
+             ("C-x C-f" . counsel-find-file)
+             :map ivy-minibuffer-map
+             ("TAB" . ivy-next-line)
+             ("RET" . ivy-alt-done))
+      :init
+      (use-package smex)
+      (use-package counsel)
+      :config
+      (setq ivy-re-builders-alist
+            '((t . ivy--regex-ignore-order)))
+      (setq ivy-wrap t)
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (eval-after-load "hydra" (use-package ivy-hydra)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes

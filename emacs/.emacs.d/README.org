@@ -394,6 +394,11 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
     :pin org
     :ensure org-plus-contrib)
 
+  ;; Better looking org headers
+  (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
   (require 'ox-latex)
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (setq org-latex-listings 'minted)
@@ -403,12 +408,6 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
   (require 'org-agenda)
-  (use-package ox-reveal
-    :ensure nil
-    :config
-    (use-package htmlize
-      :ensure nil))
-
   ;; Formats the agenda into nice columns
   (setq org-agenda-prefix-format
         '((agenda . " %i %-12t% s %-12(car (last (org-get-outline-path)))")
@@ -448,10 +447,6 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
         org-agenda-skip-scheduled-if-done t
         org-ellipsis "⤵")
 
-  ;; Better looking org headers
-  (use-package org-bullets
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC
 
 * Hydra
@@ -794,7 +789,7 @@ Autocomplete engine
     :init
     (global-company-mode)
     :config
-    (setq company-idle-delay 0.5) ; Delay to complete
+    (setq company-idle-delay 0) ; Delay to complete
     (setq company-minimum-prefix-length 1)
     (setq company-selection-wrap-around t) ; Loops around suggestions
 
@@ -818,6 +813,10 @@ Autocomplete engine
       (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe")
       (add-hook 'csharp-mode-hook 'omnisharp-mode)
       (add-to-list 'company-backends 'company-omnisharp))
+
+    (use-package company-jedi
+      :config
+      (add-to-list 'company-backends 'company-jedi))
 
     ;; Javascript
     (use-package company-tern

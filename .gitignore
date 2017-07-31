@@ -16,5 +16,6 @@ emacs/.emacs.d/#init.el#
 emacs/.emacs.d/srecode-map.el
 emacs/.emacs.d/irony
 emacs/.emacs.d/projectile.cache
+emacs/.emacs.d/.python-environments
 vim/.vim/.netrwhist
 vim/.vim/plugged/

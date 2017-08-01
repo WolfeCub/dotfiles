@@ -1,0 +1,19 @@
+* Notable configs to look into
+  [[https://github.com/angrybacon/dotemacs][angrybacon/dotemacs]]
+  [[https://github.com/abo-abo/oremacs][abo-abo/oremacs]]
+  [[https://github.com/wasamasa/dotemacs][wasamasa/dotemacs]]
+  [[https://github.com/IvanMalison/dotfiles][IvanMalison/dotfiles]]
+  [[https://github.com/joedicastro/dotfiles][joedicastro/dotfiles]]
+
+* TODO Find a suitable shell setup inside emacs
+  Currently I use =urxvt= as an external terminal. Ideally I would like to run
+  my shell from within emacs but as of present I haven't found an experience
+  smooth enough to use full time. One possibility is using eshell and doing
+  all of the configuration in elisp. The other (and more likely option) is using
+  =shell=, =term= or =ansi-term= with packages like [[https://github.com/killdash9/better-shell][=better-shell=]].
+
+* TODO Write a package that integrates =org-mode= into projects
+  The general idea of this package would be to have a org file that integrates
+  with either projectile or git projects that can link directly to =TODO:='s in 
+  code. In addition it should be able remove the TODO from the code once the org
+  item has been completed.

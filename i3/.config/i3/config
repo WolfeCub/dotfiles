@@ -85,7 +85,6 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+space exec rofi -show combi
-bindsym $mod+p exec "~/bin/toggle-layout"
 bindsym $mod+c exec google-chrome-stable
 bindsym $mod+n exec "~/bin/lock.sh"
 
@@ -95,23 +94,11 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+g split h
@@ -124,22 +111,14 @@ bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
+bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-#bindsym $mod+space focus mode_toggle
-
-# focus the parent container
-bindsym $mod+a focus parent
-
-bindsym $mod+t exec "terminator -e '~/bin/myclock'"
-
-# focus the child container
-#bindsym $mod+d focus child
+bindsym Mod1+space focus mode_toggle
 
 # switch to workspace
 bindsym $mod+percent workspace 1
@@ -152,7 +131,7 @@ bindsym $mod+astericks workspace 7
 bindsym $mod+parenright workspace 8
 bindsym $mod+plus workspace 9
 bindsym $mod+bracketright workspace 10
- 
+
 bindsym $mod+Shift+percent      move container to workspace 1
 bindsym $mod+Shift+bracketleft  move container to workspace 2
 bindsym $mod+Shift+braceleft    move container to workspace 3
@@ -163,18 +142,6 @@ bindsym $mod+Shift+astericks    move container to workspace 7
 bindsym $mod+Shift+parenright   move container to workspace 8
 bindsym $mod+Shift+plus         move container to workspace 9
 bindsym $mod+Shift+bracketright move container to workspace 10
-
-# move focused container to workspace
-#bindsym $mod+Shift+1 move container to workspace 1
-#bindsym $mod+Shift+2 move container to workspace 2
-#bindsym $mod+Shift+3 move container to workspace 3
-#bindsym $mod+Shift+4 move container to workspace 4
-#bindsym $mod+Shift+5 move container to workspace 5
-#bindsym $mod+Shift+6 move container to workspace 6
-#bindsym $mod+Shift+7 move container to workspace 7
-#bindsym $mod+Shift+8 move container to workspace 8
-#bindsym $mod+Shift+9 move container to workspace 9
-#bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -195,12 +162,6 @@ bindsym h resize shrink width 5 px or 5 ppt
 bindsym j resize grow height 5 px or 5 ppt
 bindsym k resize shrink height 5 px or 5 ppt
 bindsym l resize grow width 5 px or 5 ppt
-
-# same bindings, but for the arrow keys
-bindsym Left resize shrink width 5 px or 5 ppt
-bindsym Down resize grow height 5 px or 5 ppt
-bindsym Up resize shrink height 5 px or 5 ppt
-bindsym Right resize grow width 5 px or 5 ppt
 
 # back to normal: Enter or Escape
 bindsym Return mode "default"
@@ -228,4 +189,3 @@ bar {
 }
 
 exec_always feh --bg-scale ~/Pictures/gnuslashlinux.png
-#exec --no-startup-id polybar wolfe

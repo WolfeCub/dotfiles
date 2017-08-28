@@ -574,6 +574,7 @@ Customizable popup menus.
     (setq-default evil-symbol-word-search t)
     (setq evil-lookup-func #'wolfe/man)
     (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
+    (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
     (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
     (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
@@ -702,12 +703,17 @@ Magic git interface from within emacs
 Vim-like relative line numbering
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package nlinum-relative
-    :config
-    (nlinum-relative-setup-evil)
-    (setq nlinum-relative-redisplay-delay 0.25)
-    (setq nlinum-relative-current-symbol "")
-    (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+  (if (fboundp 'display-line-numbers-mode)
+      (progn
+        (setq display-line-numbers 'relative)
+        (add-hook 'prog-mode-hook 'display-line-numbers-mode))
+    (progn
+      (use-package nlinum-relative
+        :config
+        (nlinum-relative-setup-evil)
+        (setq nlinum-relative-redisplay-delay 0.25)
+        (setq nlinum-relative-current-symbol "")
+        (add-hook 'prog-mode-hook 'nlinum-relative-mode))))
 
 #+END_SRC
 
@@ -749,7 +755,6 @@ Postman inside of emacs.
     (delight '((emacs-lisp-mode       "ξ" :major)
                (lisp-interaction-mode "λ" :major)
                (python-mode           "π" :major)
-               (c-mode                "cc" :major)
                (org-mode              "Ø" :major)
                (company-mode          " C" company)
                (ivy-mode              " ι" ivy)
@@ -788,6 +793,9 @@ Autocomplete engine
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company
+    :bind (:map company-active-map
+                ("C-n" . company-select-next)
+                ("C-p" . company-select-previous))
     :init
     (global-company-mode)
     :config

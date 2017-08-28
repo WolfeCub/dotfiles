@@ -15,7 +15,8 @@ emacs/.emacs.d/ido.last*
 emacs/.emacs.d/#init.el#
 emacs/.emacs.d/srecode-map.el
 emacs/.emacs.d/irony
-emacs/.emacs.d/projectile.cache
+emacs/.emacs.d/*.cache
 emacs/.emacs.d/.python-environments
+emacs/.emacs.d/#README.org#
 vim/.vim/.netrwhist
 vim/.vim/plugged/

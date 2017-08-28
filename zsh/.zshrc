@@ -195,3 +195,6 @@ if [ -f ~/.fzf.zsh ] && which tree > /dev/null 2>&1; then
     export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 fi
 
+
+# added by travis gem
+[ -f /home/wolfe/.travis/travis.sh ] && source /home/wolfe/.travis/travis.sh

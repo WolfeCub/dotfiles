@@ -1,6 +1,7 @@
 * dotfiles
-  
-[[Borrow your laptop][file:https://imgs.xkcd.com/comics/borrow_your_laptop.png]]
+  #+BEGIN_CENTER
+  [[Borrow your laptop][file:https://imgs.xkcd.com/comics/borrow_your_laptop.png]]
+  #+END_CENTER
 
   Here are my personal dotfiles.
   * [[http://www.zsh.org/][zsh]] - shell

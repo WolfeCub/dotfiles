@@ -1,16 +1,17 @@
 * dotfiles
+  
+[[Borrow your laptop][file:https://imgs.xkcd.com/comics/borrow_your_laptop.png]]
 
-Here are my personal dotfiles.
+  Here are my personal dotfiles.
   * [[http://www.zsh.org/][zsh]] - shell
-  * [[https://www.gnu.org/software/emacs/][emacs]] - text editor of choice
-  * [[https://github.com/vim/vim][vim]]/[[https://github.com/neovim/neovim][neovim]] - when emacs isn't available
-  * [[https://github.com/baskerville/bspwm][bspwm]] - window manager (linux)
-    + I also have configuration files for my old i3 setup. They aren't going to be updated
+  * [[https://www.gnu.org/software/emacs/][emacs]] - text editor of choice (literate config can be found [[https://github.com/WolfeCub/dotfiles/tree/master/emacs/.emacs.d][here]])
+  * [[https://github.com/vim/vim][vim]]/[[https://github.com/neovim/neovim][neovim]] - when SSHed or on a different computer
+  * [[https://github.com/i3/i3][i3]]- window manager (linux)
+    + I also have configuration files for a few other window managers I've experimented
+      with. They probably won't be updated unless I switch off of i3.
     + [[https://github.com/krypt-n/bar][lemonbar]] - status bar (fork that supports more font formats)
     + [[https://github.com/DaveDavenport/rofi][rofi]] - demenu replacement
-  * [[https://github.com/hammerspoon/hammerspoon][hammerspoon]] - window manager when I happen to be on osx
-
-Everything here is in a constant state of flux. If you like something be sure to copy it as theres no gauruntee it will be here the next time you come looking.
+  * [[https://github.com/hammerspoon/hammerspoon][hammerspoon]] - window manager when I happen to be on osx (which is very very rare these days)
 
 ** Installing
 
@@ -20,18 +21,20 @@ Everything here is in a constant state of flux. If you like something be sure to
 *** One Liner
     This one line will clone my dotfiles and begin the installer.
 
-#+BEGIN_SRC bash
-curl https://raw.githubusercontent.com/WolfeCub/dotfiles/master/install.sh | bash -s -- -g <& 1
-#+END_SRC
+    #+BEGIN_SRC bash
+      curl https://raw.githubusercontent.com/WolfeCub/dotfiles/master/install.sh | bash -s -- -g <& 1
+    #+END_SRC
   
-*** Usage
-
-#+BEGIN_SRC bash
-cd dotfiles
-git submodules init && git submodules update
-stow zsh
-stow emacs
-...
-#+END_SRC
-
+*** Manual Installation
+    If you don't want to use the one liner or the install script. 
+    You can install each module individually using =stow [name]= as shown below.
     This allows you to only use the modules that you want.
+
+    #+BEGIN_SRC bash
+      git clone https://github.com/WolfeCub/dotfiles.git
+      cd dotfiles
+      git submodules init && git submodules update
+      stow zsh
+      stow emacs
+      ...
+    #+END_SRC

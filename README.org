@@ -1,7 +1,6 @@
 * dotfiles
-  #+BEGIN_CENTER
+  #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
   [[Borrow your laptop][file:https://imgs.xkcd.com/comics/borrow_your_laptop.png]]
-  #+END_CENTER
 
   Here are my personal dotfiles.
   * [[http://www.zsh.org/][zsh]] - shell

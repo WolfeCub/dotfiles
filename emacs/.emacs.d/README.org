@@ -389,6 +389,24 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
     (org-try-structure-completion))
 #+END_SRC
 
+** Ag Project If In Project
+   
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/ag-try-project ()
+    (interactive)
+    (if (projectile-project-p)
+        (call-interactively 'projectile-ag)
+      (call-interactively 'ag)))
+#+END_SRC
+
+** Projectile Invalidate From List
+   
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/projectile-invalidate-list ()
+    (interactive)
+    (projectile-invalidate-cache t))
+#+END_SRC
+
 * Org Mode
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -461,23 +479,17 @@ Customizable popup menus.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-projectile
-        (defhydra hydra-projectile (:color blue :columns 3)
+        (defhydra hydra-projectile (:color blue :columns 4)
           "Projectile"
           ("f" counsel-projectile-find-file        "Find File")
-          ("o" projectile-multi-occur              "Multi Occur")
-          ("z" projectile-add-known-project        "Add Known Project")
-
-          ("r" projectile-recentf                  "Recent Files")
-          ("b" counsel-projectile-switch-to-buffer "Switch to Buffer")
-          ("x" projectile-remove-known-project     "Remove Known Project")
-
-          ("d" counsel-projectile-find-dir         "Find Directory")
-          ("c" projectile-invalidate-cache         "Clear Cache")
-          ("X" projectile-cleanup-known-projects   "Cleanup Known Projects")
-
           ("s" counsel-projectile-switch-project   "Switch Project")
           ("k" projectile-kill-buffers             "Kill Buffers")
-          ("q" nil "Cancel" :color blue)
+          ("c" projectile-invalidate-cache         "Clear Cache")
+
+          ("d" counsel-projectile-find-dir         "Find Directory")
+          ("o" projectile-multi-occur              "Multi Occur")
+          ("P" projectile-clear-known-projects      "Clear Projects")
+          ("C" wolfe/projectile-invalidate-list    "Clear A Cache")
           ))
 
   (setq wolfe/hydra-jira
@@ -561,115 +573,123 @@ Customizable popup menus.
 * Evil & General
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package general)
-  (use-package evil
-    :demand
-    :init
-    (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
-    (setq evil-want-C-i-jump nil)
-    :config
-    (evil-mode t)
-    (setq evil-split-window-below t)
-    (setq evil-vsplit-window-right t)
-    (setq-default evil-symbol-word-search t)
-    (setq evil-lookup-func #'wolfe/man)
-    (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
-    (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
-    (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
-    (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
+    (use-package general)
+    (use-package evil
+      :demand
+      :init
+      (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
+      (setq evil-want-C-i-jump nil)
+      :config
+      (evil-mode t)
+      (setq evil-split-window-below t)
+      (setq evil-vsplit-window-right t)
+      (setq-default evil-symbol-word-search t)
+      (setq evil-lookup-func #'wolfe/man)
+      (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
+      (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
+      (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
+      (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
-    (general-create-definer wolfe/bind-leader
-                            :keymaps 'global
-                            :states '(normal insert visual emacs)
-                            :prefix "SPC"
-                            :non-normal-prefix "M-SPC")
+      (general-create-definer wolfe/bind-leader
+                              :keymaps 'global
+                              :states '(normal insert visual emacs)
+                              :prefix "SPC"
+                              :non-normal-prefix "M-SPC")
 
-    :general
-    (:states 'motion
-             "k" 'evil-previous-visual-line
-             "j" 'evil-next-visual-line)
+      :general
+      (:states 'motion
+               "k" 'evil-previous-visual-line
+               "j" 'evil-next-visual-line)
 
-    (:states 'operator
-             "k" 'evil-previous-line
-             "j" 'evil-next-line)
+      (:states 'operator
+               "k" 'evil-previous-line
+               "j" 'evil-next-line)
 
-    (:states 'visual
-             "<" (lambda ()
-                     (interactive)
-                     (evil-shift-left (region-beginning) (region-end))
-                     (evil-normal-state)
-                     (evil-visual-restore))
-             ">" (lambda ()
-                     (interactive)
-                     (evil-shift-right (region-beginning) (region-end))
-                     (evil-normal-state)
-                     (evil-visual-restore)))
+      (:states 'visual
+               "<" (lambda ()
+                       (interactive)
+                       (evil-shift-left (region-beginning) (region-end))
+                       (evil-normal-state)
+                       (evil-visual-restore))
+               ">" (lambda ()
+                       (interactive)
+                       (evil-shift-right (region-beginning) (region-end))
+                       (evil-normal-state)
+                       (evil-visual-restore)))
 
-    (:states 'normal
-             "C-z"  'wolfe/controlz)
+      (:states 'normal
+               "C-z"  'wolfe/controlz)
 
-    (wolfe/bind-leader
-     "w"  'save-buffer
-     "S"  'eval-buffer
-     "s"  'eval-defun
-     "b"  'mode-line-other-buffer
-     "k"  'kill-buffer
-     "m"  'ivy-switch-buffer
-     "t"  'wolfe/find-tag
-     "e"  'iedit-mode
-     "c"  'wolfe/compile-no-prompt
-     "n"  'narrow-or-widen-dwim
-     "a"  'org-agenda
-     "g"  'magit-status
-     "''" 'org-edit-src-exit
-     "#" 'wolfe/csharp-project
-     "p" (lambda() (interactive) (funcall wolfe/hydra-projectile))
-     ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
-     "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
-     "o"   (lambda() (interactive) (wolfe/org-open "everything"))
-     "SPC" (lambda() (interactive) (funcall (wolfe/hydra-selector)))
-     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))
-     )
-    )
+      (wolfe/bind-leader
+       "w"  'save-buffer
+       "S"  'eval-buffer
+       "s"  'eval-defun
+       "b"  'mode-line-other-buffer
+       "k"  'kill-buffer
+       "m"  'ivy-switch-buffer
+       "t"  'wolfe/find-tag
+       "e"  'iedit-mode
+       "c"  'wolfe/compile-no-prompt
+       "n"  'narrow-or-widen-dwim
+       "a"  'org-agenda
+       "g"  'magit-status
+       "f"  'wolfe/ag-try-project
+       "''" 'org-edit-src-exit
+       "#" 'wolfe/csharp-project
+       "p" (lambda() (interactive) (funcall wolfe/hydra-projectile))
+       ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
+       "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
+       "o"   (lambda() (interactive) (wolfe/org-open "everything"))
+       "SPC" (lambda() (interactive) (funcall (wolfe/hydra-selector)))
+       "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))
+       )
+      )
 
-  ;; Tpope's surround
-  (use-package evil-surround
-    :config
-    (global-evil-surround-mode 1))
+    ;; Tpope's surround
+    (use-package evil-surround
+      :config
+      (global-evil-surround-mode 1))
 
-  (use-package evil-magit)
+    (use-package evil-magit)
 
-  (use-package evil-matchit
-    :config
-    (global-evil-matchit-mode 1))
+    (use-package evil-matchit
+      :config
+      (global-evil-matchit-mode 1))
 
 #+END_SRC
 
 * Ivy, Counsel and Swiper
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package ivy
-      :demand
-      :bind (("M-x" . counsel-M-x)
-             ("C-x C-f" . counsel-find-file)
-             :map ivy-minibuffer-map
-             ("TAB" . ivy-next-line)
-             ("RET" . ivy-alt-done))
-      :init
-      (use-package smex)
-      (use-package counsel)
-      :config
-      (setq ivy-re-builders-alist
-            '((t . ivy--regex-ignore-order)))
-      (setq ivy-wrap t)
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t)
-      (eval-after-load "hydra" (use-package ivy-hydra)))
+  (use-package ivy
+    :demand
+    :bind (("M-x" . counsel-M-x)
+           ("C-x C-f" . counsel-find-file)
+           :map ivy-minibuffer-map
+           ("TAB" . ivy-next-line)
+           ("RET" . ivy-alt-done))
+    :init
+    (use-package smex)
+    (use-package counsel)
+    :config
+    (setq ivy-re-builders-alist
+          '((t . ivy--regex-ignore-order)))
+    (setq ivy-wrap t)
+    (ivy-mode 1)
+    (eval-after-load "hydra" (use-package ivy-hydra)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package swiper
   :bind (("C-s" . swiper)))
+#+END_SRC
+
+* Ag
+
+Emacs interface for ag  
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package ag)
 #+END_SRC
 
 * Projectile

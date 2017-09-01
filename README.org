@@ -1,5 +1,5 @@
 * dotfiles
-  #+html: <p align="center"><img src="https://imgs.xkcd.com/comics/borrow_your_laptop.png"/><img src="http://kuuv.io/i/NSVytnd.gif"/></p>
+  #+html: <p align="center"><img src="https://imgs.xkcd.com/comics/borrow_your_laptop.png"/><img src="http://kuuv.io/i/NSVytnd.gif" width=500/></p>
 
   Here are my personal dotfiles.
   * [[http://www.zsh.org/][zsh]] - shell

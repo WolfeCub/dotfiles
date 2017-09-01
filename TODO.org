@@ -1,9 +1,9 @@
 * Notable configs to look into
-  [[https://github.com/angrybacon/dotemacs][angrybacon/dotemacs]]
-  [[https://github.com/abo-abo/oremacs][abo-abo/oremacs]]
-  [[https://github.com/wasamasa/dotemacs][wasamasa/dotemacs]]
-  [[https://github.com/IvanMalison/dotfiles][IvanMalison/dotfiles]]
-  [[https://github.com/joedicastro/dotfiles][joedicastro/dotfiles]]
+  - [[https://github.com/angrybacon/dotemacs][angrybacon/dotemacs]]
+  - [[https://github.com/abo-abo/oremacs][abo-abo/oremacs]]
+  - [[https://github.com/wasamasa/dotemacs][wasamasa/dotemacs]]
+  - [[https://github.com/IvanMalison/dotfiles][IvanMalison/dotfiles]]
+  - [[https://github.com/joedicastro/dotfiles][joedicastro/dotfiles]]
 
 * TODO Find a suitable shell setup inside emacs
   Currently I use =urxvt= as an external terminal. Ideally I would like to run

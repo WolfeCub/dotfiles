@@ -1,5 +1,13 @@
 * dotfiles
-  #+html: <p align="center"><a href="http://kuuv.io/i/NSVytnd.gif"><img src="http://kuuv.io/i/SZhkuam.gif"/></a><img src="https://imgs.xkcd.com/comics/borrow_your_laptop.png"/></p>
+
+#+BEGIN_EXPORT html
+<p align="center">
+  <a href="http://kuuv.io/i/NSVytnd.gif">
+    <img src="http://kuuv.io/i/SZhkuam.gif"/>
+  </a>
+  <img src="https://imgs.xkcd.com/comics/borrow_your_laptop.png"/>
+</p>
+#+END_EXPORT
 
   Here are my personal dotfiles.
   * [[http://www.zsh.org/][zsh]] - shell

@@ -6,6 +6,7 @@
 #+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 #+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
 #+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+[[https://travis-ci.org/WolfeCub/dotfiles/][file:https://travis-ci.org/WolfeCub/dotfiles.svg?branch=master]]
 
 This literate config is best read [[http://wolfecub.github.io/dotfiles/][here]] or in emacs. 
 This page is generated and kept up to date using a combination of 

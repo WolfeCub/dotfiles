@@ -4,7 +4,7 @@ branches:
 before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -qq emacs
-script: emacs/.emacs.d/build_site.sh
+script: bash emacs/.emacs.d/build_site.sh
 env:
   global:
     secure: PFm5i469UN1cKs9VycV0NqKLjT/pZXiuA32HOJac7gLDdz98zADCui9jLV40BLoQTqJLryb5Dgqw2IVqIyxgOtQSJ7fCOj15K5UlOna/eQGPFMI4XgiqPWjandTUL/jz04WboY2Wj64ZZdhbE5Onuk7qnjyU2pAybTREbepEONTyWqQ3azV8O5B6t+j+dMGIcy+bNuGENZoqvzKaWsoBA/dPFqb+PbeallwC0YczTbCnAEKNcrNP6vHlaB2EiF1/KgKyg5G93xdl1dSFpxVjFgT/EFOQYgLr+v4AF1zevVDWFj1YvmOb8sPKsaEEZyCFsmbv/Tn2zNg1I9zoCjoKterHoZZ3d1JtWClSIuemo7AxfsmtKlA0rKNjbEJgBmkvGqyAN3Y32ntINn2sq9lb6yrFuS5G8bme+zFufYrDz3JwvHoFhNQp6kIyk6llobGxqJiozhvuVcuCJar6RUphyPviFj1h7LDobedms8VtDg2NPz/ks6Pe6G65hUFp5lwLaXFf3SahiHyaH2E8I/MAiZmvzC7r4Ht8Wokczm6Hg/Ejo4oZbQZzrvDaH4WXBz6/BL8+Ue8hvLIoMJ7mNNyWbojMCiYOutjYdwzp18vN8jutzk4Vfq2oaKyhHzOqKO+3B7NcvZ5OaklDZ/Q36JJpOWLTXBf7HTg/kTdH9rIQC18=

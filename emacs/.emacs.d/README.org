@@ -1,3 +1,12 @@
+# -*- mode: org; -*-
+
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+
 * Startup
 
 Runs a different function on startup depending on display mode.
@@ -8,7 +17,9 @@ Runs a different function on startup depending on display mode.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/term-setup ()
-    (load-theme 'base16-default-dark t)
+    (use-package base16-theme
+      :config
+      (load-theme 'base16-default-dark t))
     (setq nlinum-format "%d ")
     ;;(global-hl-line-mode 1)
     ;;(add-to-list 'default-frame-alist '(background-color . "color-16"))
@@ -80,6 +91,8 @@ Basic settings I can't really live without.
   (setq-default truncate-lines t)
   (load-file "~/.emacs.d/lisp/column-marker.el")
   (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
+  (custom-set-faces
+   '(column-marker-1 ((t (:background "dim gray")))))
   (setq explicit-shell-file-name
         (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
   (setq source-directory "~/Projects/emacs/")
@@ -418,6 +431,8 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
   (use-package org-bullets
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+  (use-package htmlize)
 
   (require 'ox-latex)
   (add-to-list 'org-latex-packages-alist '("" "minted"))
@@ -959,6 +974,17 @@ Autocomplete engine
 
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package circe
+    :config
+    (setq circe-network-options
+          '(("Freenode"
+             :tls t
+             :nick "interior"
+             :channels ("#emacs")
+             ))))
+#+END_SRC
+
 * Backups
 
 Stores all backups and temp files in =~/.bak.emacs/=
@@ -974,4 +1000,10 @@ Stores all backups and temp files in =~/.bak.emacs/=
       (make-directory "~/.bak.emacs/auto"))
   ;; backup in one place. flat, no tree structure
   (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
+#+END_SRC
+
+* Org Project
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (load-file "~/Projects/org-project/org-project.el")
+  (setq org-project-use-ag t)
 #+END_SRC

@@ -1,5 +1,11 @@
 #!/bin/bash
-cp emacs/.emacs.d/* .
+
+emacs --batch -f org-version --kill
+emacs --daemon
+emacsclient -e '(kill-emacs)'
+emacs --batch -f org-version --kill
+cd emacs/.emacs.d/
 emacs --script generate-html.el
+cd ../../
 mkdir deploy
-mv README.html deploy/index.html
+mv emacs/.emacs.d/README.html deploy/index.html

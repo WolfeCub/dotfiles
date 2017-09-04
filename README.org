@@ -3,7 +3,7 @@
 
   Here are my personal dotfiles.
   * [[http://www.zsh.org/][zsh]] - shell
-  * [[https://www.gnu.org/software/emacs/][emacs]] - text editor of choice (literate config can be found [[https://github.com/WolfeCub/dotfiles/tree/master/emacs/.emacs.d][here]])
+  * [[https://www.gnu.org/software/emacs/][emacs]] - text editor of choice (literate config can be found [[http://wolfecub.github.io/dotfiles/][here]])
   * [[https://github.com/vim/vim][vim]]/[[https://github.com/neovim/neovim][neovim]] - when SSHed or on a different computer
   * [[https://github.com/i3/i3][i3]]- window manager (linux)
     + I also have configuration files for a few other window managers I've experimented

@@ -19,6 +19,7 @@
              :ensure org-plus-contrib)
 
 (use-package htmlize)
+(use-package s)
 (require 'ox-html)
 
 (defmacro do-nothing (name)

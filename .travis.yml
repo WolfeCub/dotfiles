@@ -12,3 +12,7 @@ deploy:
   on:
     branch: master
   local_dir: deploy
+notifications:
+  email:
+    on_success: never
+    on_failure: never

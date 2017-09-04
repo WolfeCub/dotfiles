@@ -1,5 +1,6 @@
 #!/bin/bash
 
+emacs --version
 emacs --batch -f org-version --kill
 emacs --daemon
 emacsclient -e '(kill-emacs)'

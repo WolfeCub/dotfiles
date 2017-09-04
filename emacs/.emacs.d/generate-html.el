@@ -64,3 +64,5 @@
 (remove-hook 'org-export-before-processing-hook 'wolfe:org-inline-css-hook)
 
 (message (export-target readme-src))
+(cd "../../")
+(message (export-target "TODO.org"))

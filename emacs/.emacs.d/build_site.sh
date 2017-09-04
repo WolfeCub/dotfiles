@@ -8,3 +8,4 @@ emacs --batch -f org-version --kill
 cd ../../
 mkdir deploy
 mv emacs/.emacs.d/README.html deploy/index.html
+mv TODO.html deploy/todo.html

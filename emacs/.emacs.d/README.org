@@ -9,7 +9,7 @@
 #+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
 #+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
 #+LATEX_HEADER: \usepackage[margin=0.7in]{geometry}
-[[https://travis-ci.org/WolfeCub/dotfiles/][file:https://travis-ci.org/WolfeCub/dotfiles.svg?branch=master]]
+#+HTML: <a href="https://travis-ci.org/WolfeCub/dotfiles"><img src="https://travis-ci.org/WolfeCub/dotfiles.svg?branch=master" alt="Build Status"/></a><br><br>
 
 This literate config is best read [[http://wolfecub.github.io/dotfiles/][here]] or in emacs. 
 This page is generated and kept up to date using a combination of 

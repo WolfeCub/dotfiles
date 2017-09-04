@@ -18,8 +18,8 @@
              :pin org
              :ensure org-plus-contrib)
 
+(use-package htmlize)
 (require 'ox-html)
-(require 'htmlize)
 
 (defmacro do-nothing (name)
   `(defun ,name (&rest args) nil))

@@ -20,3 +20,4 @@ emacs/.emacs.d/.python-environments
 emacs/.emacs.d/#README.org#
 vim/.vim/.netrwhist
 vim/.vim/plugged/
+ncmpcpp/.ncmpcpp/error.log

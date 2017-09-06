@@ -97,8 +97,7 @@ Basic settings I can't really live without.
   (when (member "Inconsolata" (font-family-list)) ; Set default font
     (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
     (set-face-attribute 'default t :font "Inconsolata-15"))
-  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
-  (load custom-file 'noerror) ; Load custom file
+  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file & don't load it
   (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
   (setq scroll-margin 10
         scroll-step 1

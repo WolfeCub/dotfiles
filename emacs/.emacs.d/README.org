@@ -946,6 +946,24 @@ Postman inside of emacs.
   (use-package json-mode)
 #+END_SRC
 
+* Lisp
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package parinfer
+    :ensure t
+    :bind
+    (("C-," . parinfer-toggle-mode))
+    :init
+    (progn
+      (setq parinfer-extensions
+            '(defaults pretty-parens evil smart-tab smart-yank))
+      (add-hook 'clojure-mode-hook #'parinfer-mode)
+      (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+      (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+      (add-hook 'scheme-mode-hook #'parinfer-mode)
+      (add-hook 'lisp-mode-hook #'parinfer-mode)))
+#+END_SRC
+
 * Latex
 
 #+BEGIN_SRC emacs-lisp :tangle yes

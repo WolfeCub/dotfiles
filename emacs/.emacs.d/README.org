@@ -25,17 +25,23 @@ I'm using, [[https://raw.githubusercontent.com/WolfeCub/dotfiles/master/emacs/.e
 
 * Startup
 
-Runs a different function on startup depending on display mode.
+My graphical settings change
+
+** Common Code
+
+This should be run regardless of whether I'm in terminal or GUI.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory "~/.emacs.d/themes")
+  (use-package base16-theme
+    :config
+    (load-theme 'base16-default-dark t)
 #+END_SRC
+
+** Terminal
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/term-setup ()
-    (use-package base16-theme
-      :config
-      (load-theme 'base16-default-dark t))
     (setq nlinum-format "%d ")
     ;;(global-hl-line-mode 1)
     ;;(add-to-list 'default-frame-alist '(background-color . "color-16"))
@@ -49,11 +55,10 @@ Runs a different function on startup depending on display mode.
        ((t (:background "color-18" :foreground "color-244"))))))
 #+END_SRC
 
+** Graphical
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/gui-setup ()
-    (use-package base16-theme
-      :config
-      (load-theme 'base16-default-dark t)
       (defvar my/base16-colors base16-default-dark-colors)
       (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
             evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
@@ -71,8 +76,11 @@ Runs a different function on startup depending on display mode.
      '(org-todo ((t (:box (:line-width 1) :weight bold))))))
 #+END_SRC
 
+** Display check
+
+This checks which setup we're in and calls the appropriate function above.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;; Not a function but it needs to be after the 2 setup functions
   (if (display-graphic-p)
       (wolfe/gui-setup)
     (wolfe/term-setup))
@@ -82,37 +90,72 @@ Runs a different function on startup depending on display mode.
 
 Basic settings I can't really live without.
 
+** Splash and Startup
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq inhibit-splash-screen t
         inhibit-startup-message t
-        inhibit-startup-echo-area-message "wolfe")
+        inhibit-startup-echo-area-message "wolfe"
+        initial-scratch-message "") ; No scratch text
+#+END_SRC
+
+** Graphics
+*** Bars
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (tool-bar-mode -1) ; No toolbar
   (scroll-bar-mode -1) ; Hide scrollbars
   (menu-bar-mode -1) ; No menubar
-  (show-paren-mode t) ; Highlights matching parens
-  (setq initial-scratch-message "") ; No scratch text
-  (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
-  (setq-default indent-tabs-mode nil)
-  (column-number-mode t)
-  (delete-selection-mode 1) ; Replace selection on insert
-  (setq vc-follow-symlinks t) ; Always follow symlinks
+#+END_SRC
+
+*** Fonts
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (when (member "Inconsolata" (font-family-list)) ; Set default font
     (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
     (set-face-attribute 'default t :font "Inconsolata-15"))
-  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file & don't load it
-  (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
-  (setq scroll-margin 10
-        scroll-step 1
-        scroll-conservatively 10000
-        scroll-preserve-screen-position 1)
-  (setq-default truncate-lines t)
+#+END_SRC
+
+*** Column Marker
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (load-file "~/.emacs.d/lisp/column-marker.el")
   (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
   (custom-set-faces
    '(column-marker-1 ((t (:background "dim gray")))))
+#+END_SRC
+
+** Personal Deafaults
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (show-paren-mode t) ; Highlights matching parens
+  (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
+  (column-number-mode t)
+  (delete-selection-mode 1) ; Replace selection on insert
+  (setq-default truncate-lines t) ; Don't wrap
+  (setq vc-follow-symlinks t) ; Always follow symlinks
+  (setq-default indent-tabs-mode nil)
+  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file & don't load it
+  (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
+  (setq source-directory "~/Projects/emacs/")
+#+END_SRC
+
+** Misc
+
+*** Vim Scrolloff
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq scroll-margin 10
+        scroll-step 1
+        scroll-conservatively 10000
+        scroll-preserve-screen-position 1)
+#+END_SRC
+
+*** Shell Teaks
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (setq explicit-shell-file-name
         (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
-  (setq source-directory "~/Projects/emacs/")
   (when (eq system-type 'windows-nt)
     (setq explicit-shell-file-name "cmdproxy.exe"))
 #+END_SRC
@@ -532,43 +575,10 @@ Customizable popup menus.
   (use-package hydra)
 #+END_SRC
 
+** Major Modes
+*** C#
+
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq wolfe/hydra-projectile
-        (defhydra hydra-projectile (:color blue :columns 4)
-          "Projectile"
-          ("f" counsel-projectile-find-file        "Find File")
-          ("s" counsel-projectile-switch-project   "Switch Project")
-          ("k" projectile-kill-buffers             "Kill Buffers")
-          ("c" projectile-invalidate-cache         "Clear Cache")
-
-          ("d" counsel-projectile-find-dir         "Find Directory")
-          ("o" projectile-multi-occur              "Multi Occur")
-          ("P" projectile-clear-known-projects      "Clear Projects")
-          ("C" wolfe/projectile-invalidate-list    "Clear A Cache")
-          ))
-
-  (setq wolfe/hydra-jira
-        (defhydra hydra-jira (:color blue :columns 4)
-          "Jira"
-          ("p" org-jira-get-projects             "Get Projects")
-          ("b" org-jira-browse-issue             "Browse Issue")
-          ("g" org-jira-get-issues               "Get Issues")
-          ("u" org-jira-update-issue             "Update Issue")
-
-          ("p" org-jira-progress-issue           "Update Issue Progress")
-          ("a" org-jira-assign-issue             "Assign Issue")
-          ("r" org-jira-refresh-issue            "Refresh Issue")
-          ("R" org-jira-refresh-issues-in-buffer "Refresh Issues in Buffer")
-
-          ("c" org-jira-create-issue             "Create Issue")
-          ("y" org-jira-copy-current-issue-key   "Copy Current Issue Key")
-          ("s" org-jira-create-subtask           "Create Subtask")
-          ("G" org-jira-get-subtasks             "Get Subtasks")
-
-          ("U" org-jira-update-comment           "Update Comment")
-          ("t" org-jira-todo-to-jira             "Todo to Jira")
-          ("O"  (funcall wolfe/hydra-org-expand)  "Org Hydra")))
-
   (setq wolfe/hydra-csharp
         (defhydra hydra-csharp (:color blue)
           "Omnisharp"
@@ -580,7 +590,20 @@ Customizable popup menus.
           ("i" omnisharp-code-format-region            "Indent region")
           ("I" omnisharp-code-format-entire-file       "Indent entire file")
           ))
+#+END_SRC
 
+*** Org Mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq wolfe/hydra-org
+        (defhydra hydra-org (:color blue)
+          "Org Mode"
+          ("t" (funcall wolfe/hydra-org-expand) "Expand template")))
+#+END_SRC
+
+*** Org Templates
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-org-expand
         (defhydra hydra-org-template (:color blue :hint nil)
           "
@@ -603,18 +626,64 @@ Customizable popup menus.
           ("I" (hot-expand "<I"))
           ("H" (hot-expand "<H"))
           ("A" (hot-expand "<A"))))
+#+END_SRC
 
-  (setq wolfe/hydra-org
-        (defhydra hydra-org (:color blue)
-          "Org Mode"
-          ("t" (funcall wolfe/hydra-org-expand) "Expand template")))
+** Minor Modes
+*** Projectile
 
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq wolfe/hydra-projectile
+        (defhydra hydra-projectile (:color blue :columns 4)
+          "Projectile"
+          ("f" counsel-projectile-find-file        "Find File")
+          ("s" counsel-projectile-switch-project   "Switch Project")
+          ("k" projectile-kill-buffers             "Kill Buffers")
+          ("c" projectile-invalidate-cache         "Clear Cache")
+
+          ("d" counsel-projectile-find-dir         "Find Directory")
+          ("o" projectile-multi-occur              "Multi Occur")
+          ("P" projectile-clear-known-projects      "Clear Projects")
+          ("C" wolfe/projectile-invalidate-list    "Clear A Cache")
+          ))
+#+END_SRC
+
+*** Jira
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq wolfe/hydra-jira
+        (defhydra hydra-jira (:color blue :columns 4)
+          "Jira"
+          ("p" org-jira-get-projects             "Get Projects")
+          ("b" org-jira-browse-issue             "Browse Issue")
+          ("g" org-jira-get-issues               "Get Issues")
+          ("u" org-jira-update-issue             "Update Issue")
+
+          ("p" org-jira-progress-issue           "Update Issue Progress")
+          ("a" org-jira-assign-issue             "Assign Issue")
+          ("r" org-jira-refresh-issue            "Refresh Issue")
+          ("R" org-jira-refresh-issues-in-buffer "Refresh Issues in Buffer")
+
+          ("c" org-jira-create-issue             "Create Issue")
+          ("y" org-jira-copy-current-issue-key   "Copy Current Issue Key")
+          ("s" org-jira-create-subtask           "Create Subtask")
+          ("G" org-jira-get-subtasks             "Get Subtasks")
+
+          ("U" org-jira-update-comment           "Update Comment")
+          ("t" org-jira-todo-to-jira             "Todo to Jira")
+          ("O"  (funcall wolfe/hydra-org-expand)  "Org Hydra")))
+#+END_SRC
+
+** Default
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-default
         (defhydra hydra-default (:color blue)
           "Default"
           ("o" (funcall wolfe/hydra-org) "Org Mode")
           ("#" (funcall wolfe/hydra-csharp) "C# Mode")))
 #+END_SRC
+
+** Selector
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/hydra-selector ()
@@ -626,9 +695,15 @@ Customizable popup menus.
 #+END_SRC
 
 * Evil & General
+** General
 
 #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package general)
+#+END_SRC
+
+** Evil
+
+#+BEGIN_SRC emacs-lisp :tangle yes
     (use-package evil
       :demand
       :init
@@ -699,14 +774,27 @@ Customizable popup menus.
        "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))
        )
       )
+#+END_SRC
 
-    ;; Tpope's surround
+** Evil Surround
+
+Tpope's surround
+
+#+BEGIN_SRC emacs-lisp :tangle yes
     (use-package evil-surround
       :config
       (global-evil-surround-mode 1))
+#+END_SRC
 
+** Evil Magit
+
+#+BEGIN_SRC emacs-lisp :tangle yes
     (use-package evil-magit)
+#+END_SRC
 
+** Evil Machit
+
+#+BEGIN_SRC emacs-lisp :tangle yes
     (use-package evil-matchit
       :config
       (global-evil-matchit-mode 1))
@@ -714,6 +802,7 @@ Customizable popup menus.
 #+END_SRC
 
 * Ivy, Counsel and Swiper
+** Ivy & CounseL
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package ivy
@@ -733,6 +822,8 @@ Customizable popup menus.
     (ivy-mode 1)
     (eval-after-load "hydra" (use-package ivy-hydra)))
 #+END_SRC
+
+** Swiper
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package swiper
@@ -1000,19 +1091,30 @@ Autocomplete engine
 #+END_SRC
 
 * Misc
+** GDB
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq gdb-many-windows t ;; use gdb-many-windows by default
         gdb-show-main t
         ;; Non-nil means display source file containing the main routine at startup
         )
-  (use-package help-fns+)
+#+END_SRC
 
+** Help Fns+
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package help-fns+)
+#+END_SRC
+
+** Org Jira
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-jira
     :config
     (setq jiralib-url "https://indigoca.atlassian.net"))
-
 #+END_SRC
+
+** Circe
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package circe

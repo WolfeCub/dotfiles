@@ -11,8 +11,8 @@
 #+LATEX_HEADER: \usepackage[margin=0.7in]{geometry}
 #+HTML: <a href="https://travis-ci.org/WolfeCub/dotfiles"><img src="https://travis-ci.org/WolfeCub/dotfiles.svg?branch=master" alt="Build Status"/></a><br><br>
 
-This literate config is best read [[http://wolfecub.github.io/dotfiles/][here]] or in emacs. 
-This page is generated and kept up to date using a combination of 
+This literate config is best read [[http://wolfecub.github.io/dotfiles/][here]] or in emacs.
+This page is generated and kept up to date using a combination of
 [[https://travis-ci.org/WolfeCub/dotfiles/][travis ci]] and [[https://github.com/fniessen/org-html-themes][ReadTheOrg]]. If you want to see the script that travis
 uses [[https://github.com/WolfeCub/dotfiles/blob/master/emacs/.emacs.d/build_site.sh][here]] is the bash script it runs and [[https://github.com/WolfeCub/dotfiles/blob/master/emacs/.emacs.d/generate-html.el][this]] is the =.el= file that
 it runs through emacs to generate the html page (this was mostly stolen
@@ -40,6 +40,8 @@ Runs a different function on startup depending on display mode.
     ;;(global-hl-line-mode 1)
     ;;(add-to-list 'default-frame-alist '(background-color . "color-16"))
     (custom-set-faces
+     '(line-number ((t (:background "color-18" :foreground "brightblack"))))
+     '(ivy-current-match ((t (:background "color-18" :foreground "color-16"))))
      '(linum ((t (:background "color-18"))))
      '(region ((t :background "color-19")))
      '(mode-line ((t (:background "color-19" :foreground "brightblue" :box nil))))
@@ -368,7 +370,7 @@ Better narrowing.
 
 ** Projects Folder
 
-This function returns the path to my projects folder depending on OS
+This function returns the path to my projects folder depending on OS.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/project-path ()
@@ -418,7 +420,9 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
 #+END_SRC
 
 ** Ag Project If In Project
-   
+
+Ag
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/ag-try-project ()
     (interactive)
@@ -428,7 +432,9 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
 #+END_SRC
 
 ** Projectile Invalidate From List
-   
+
+Select project from list of projectile projects to invalidate.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/projectile-invalidate-list ()
     (interactive)
@@ -436,54 +442,11 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
 #+END_SRC
 
 * Org Mode
+** General
+
+Setup some basic quality of life org settings.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package org
-    :pin org
-    :ensure org-plus-contrib)
-
-  ;; Better looking org headers
-  (use-package org-bullets
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-  (use-package htmlize)
-
-  (require 'ox-latex)
-  (add-to-list 'org-latex-packages-alist '("" "minted"))
-  (setq org-latex-listings 'minted)
-  (setq org-latex-pdf-process
-        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-  (require 'org-agenda)
-  ;; Formats the agenda into nice columns
-  (setq org-agenda-prefix-format
-        '((agenda . " %i %-12t% s %-12(car (last (org-get-outline-path)))")
-          (timeline . "  % s")
-          (todo . " %i %-12:c")
-          (tags . " %i %-12:c")
-          (search . " %i %-12:c")))
-
-  ;; Sets location of org files
-  (setq org-agenda-files '("~/Dropbox/org/everything.org"))
-  (setq browse-url-browser-function 'browse-url-chromium)
-  (add-hook 'org-mode-hook
-            '(lambda ()
-               (setq org-file-apps
-                     (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps ))))
-
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key (kbd "C-M-y") 'yank)
-  (define-key org-agenda-mode-map "j" 'org-agenda-next-item)
-  (define-key org-agenda-mode-map "k" 'org-agenda-previous-item)
-
-  ;; ispell ignores SRC blocks
-  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
-  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_LATEX" . "#\\+END_LATEX"))
-
   (setq org-pretty-entities t
         org-src-fontify-natively t
         org-src-tab-acts-natively t
@@ -497,6 +460,68 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
         org-agenda-skip-scheduled-if-done t
         org-ellipsis "⤵")
 
+  (global-set-key "\C-cl" 'org-store-link)
+
+  ;; ispell ignores SRC blocks
+  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+  (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_LATEX" . "#\\+END_LATEX"))
+
+  (add-hook 'org-mode-hook
+            '(lambda ()
+               (setq org-file-apps
+                     (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps ))))
+#+END_SRC
+
+** Bullets
+
+Replaces the asterisks with nice UTF-8 bullets.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+END_SRC
+
+** Agenda
+
+Setup org agenda for managing my life.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package org-agenda
+    :ensure nil
+    :bind (("C-c a" . org-agenda)
+           :map org-agenda-mode-map
+           ("j" . org-agenda-next-item)
+           ("k" . org-agenda-previous-item))
+    :config
+    ;; Formats the agenda into nice columns
+    (setq org-agenda-prefix-format
+          '((agenda . " %i %-12t% s %-12(car (last (org-get-outline-path)))")
+            (timeline . "  % s")
+            (todo . " %i %-12:c")
+            (tags . " %i %-12:c")
+            (search . " %i %-12:c")))
+
+    ;; Sets location of org files
+    (setq org-agenda-files '("~/Dropbox/org/everything.org"))
+    (setq browse-url-browser-function 'browse-url-chromium))
+#+END_SRC
+
+** Export
+
+Setup html for syntax highlighting on export and add the apppropriate
+minted package for PDF export.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package htmlize)
+
+  (require 'ox-latex)
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 #+END_SRC
 
 * Hydra
@@ -716,7 +741,7 @@ Customizable popup menus.
 
 * Ag
 
-Emacs interface for ag  
+Emacs interface for ag
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package ag)

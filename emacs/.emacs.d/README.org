@@ -1017,8 +1017,34 @@ Stores all backups and temp files in =~/.bak.emacs/=
   (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 #+END_SRC
 
-* Org Project
+* Testing
+** Org Project
+
+ #+BEGIN_SRC emacs-lisp :tangle yes
+   (load-file "~/Projects/org-project/org-project.el")
+   (setq org-project-use-ag t)
+ #+END_SRC
+
+** Extract Dates
+
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (load-file "~/Projects/org-project/org-project.el")
-  (setq org-project-use-ag t)
+  (defun wolfe/extract-dates (file-path)
+    "Parse through a file for a list of all the comments"
+    (let (already-open
+          buf
+          start
+          (comments '()))
+      (setq already-open (find-buffer-visiting file-path)
+            buf (find-file-noselect file-path))
+      (with-current-buffer buf
+        (goto-char (point-min))
+        (while (setq start (text-property-any
+                            (point) (point-max)
+                            'face 'org-date))
+          (goto-char start)
+          (goto-char (next-single-char-property-change (point) 'face))
+          (let ((item (string-trim (buffer-substring-no-properties start (point)))))
+            (setq comments (cons item comments)))))
+      (unless already-open (kill-buffer buf))
+      (reverse comments)))
 #+END_SRC

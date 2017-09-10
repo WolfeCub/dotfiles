@@ -1,11 +1,10 @@
 branches:
   only:
   - master
+group: deprecated-2017Q3
 before_install:
-  - sudo sh -c 'echo "deb http://emacs.secretsauce.net unstable main" >> /etc/apt/sources.list'
-  - wget -q -O - http://emacs.secretsauce.net/key.gpg | sudo apt-key add -
   - sudo apt-get update -qq
-  - sudo apt-get install -qq emacs-snapshot
+  - sudo apt-get install -qq emacs
 script: bash .travis/build_site.sh
 deploy:
   provider: pages

@@ -7,7 +7,7 @@
 (do-nothing wolfe:disable-linum-mode)
 
 (setq emacs-dir
-      (expand-file-name "../.emacs.d/"
+      (expand-file-name "../emacs/.emacs.d/"
                         (file-name-directory load-file-name)))
 
 (setq readme-src (concat emacs-dir "README.org"))
@@ -40,5 +40,5 @@
 (remove-hook 'org-export-before-processing-hook 'wolfe:org-inline-css-hook)
 
 (message (export-target readme-src))
-(cd "../../")
+(cd "../")
 (message (export-target "TODO.org"))

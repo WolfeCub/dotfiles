@@ -2,11 +2,11 @@
 
 emacs --version
 emacs --batch -f org-version --kill
-cd emacs/gh-pages
+cd .travis
 emacs --script install.el
 emacs --script generate-html.el
 emacs --batch -f org-version --kill
-cd ../../
+cd ../
 mkdir -p deploy
 mv TODO.html deploy/todo.html
 mv emacs/.emacs.d/README.html deploy/index.html

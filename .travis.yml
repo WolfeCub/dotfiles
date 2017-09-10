@@ -1,9 +1,9 @@
 branches:
   only:
   - master
-group: deprecated-2017Q3
 before_install:
   - sudo apt-get update -qq
+  - sudo apt-cache search emacs
   - sudo apt-get install -qq emacs
 script: bash .travis/build_site.sh
 deploy:

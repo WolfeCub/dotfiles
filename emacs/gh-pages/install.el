@@ -20,5 +20,8 @@
 
 (use-package htmlize)
 (use-package s)
-(require 'ox-html)
-
+(require 'use-package)
+(require 's)
+(load-file
+ (s-trim
+  (shell-command-to-string "find ~/.emacs.d/elpa/org-plus-contrib* -name ox-html.el")))

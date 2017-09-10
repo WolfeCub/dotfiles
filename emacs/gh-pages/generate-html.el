@@ -1,4 +1,5 @@
-(load-file "./install.el")
+(load-file "install.el")
+
 (defmacro do-nothing (name)
   `(defun ,name (&rest args) nil))
 
@@ -11,8 +12,6 @@
 
 (setq readme-src (concat emacs-dir "README.org"))
 
-(require 'use-package)
-(require 's)
 (org-babel-tangle-file readme-src)
 
 (defun export-target (target)

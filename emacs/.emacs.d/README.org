@@ -14,7 +14,7 @@
 This literate config is best read [[http://wolfecub.github.io/dotfiles/][here]] or in emacs.
 This page is generated and kept up to date using a combination of
 [[https://travis-ci.org/WolfeCub/dotfiles/][travis ci]] and [[https://github.com/fniessen/org-html-themes][ReadTheOrg]]. If you want to see the script that travis
-uses [[https://github.com/WolfeCub/dotfiles/blob/master/emacs/.emacs.d/build_site.sh][here]] is the bash script it runs and [[https://github.com/WolfeCub/dotfiles/blob/master/emacs/.emacs.d/generate-html.el][this]] is the =.el= file that
+uses [[https://github.com/WolfeCub/dotfiles/blob/master/.travis/build_site.sh][here]] is the bash script it runs and [[https://github.com/WolfeCub/dotfiles/blob/master/.travis/generate-html.el][this]] is the =.el= file that
 it runs through emacs to generate the html page (this was mostly stolen
 from IvanMalison).
 

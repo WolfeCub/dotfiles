@@ -704,76 +704,84 @@ Customizable popup menus.
 ** Evil
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package evil
-      :demand
-      :init
-      (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
-      (setq evil-want-C-i-jump nil)
-      :config
-      (evil-mode t)
-      (setq evil-split-window-below t)
-      (setq evil-vsplit-window-right t)
-      (setq-default evil-symbol-word-search t)
-      (setq evil-lookup-func #'wolfe/man)
-      (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
-      (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
-      (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
-      (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
+  (use-package evil
+    :demand
+    :init
+    (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
+    (setq evil-want-C-i-jump nil)
+    :config
+    (evil-mode t)
+    (setq evil-split-window-below t)
+    (setq evil-vsplit-window-right t)
+    (setq-default evil-symbol-word-search t)
+    (setq evil-lookup-func #'wolfe/man)
+    (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
+    (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
+    (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
+    (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
-      (general-create-definer wolfe/bind-leader
-                              :keymaps 'global
-                              :states '(normal insert visual emacs)
-                              :prefix "SPC"
-                              :non-normal-prefix "M-SPC")
+    (general-create-definer wolfe/bind-leader
+                            :keymaps 'global
+                            :states '(normal insert visual emacs)
+                            :prefix "SPC"
+                            :non-normal-prefix "M-SPC")
 
-      :general
-      (:states 'motion
-               "k" 'evil-previous-visual-line
-               "j" 'evil-next-visual-line)
+    :general
+    (:states 'motion
+             "k" 'evil-previous-visual-line
+             "j" 'evil-next-visual-line)
 
-      (:states 'operator
-               "k" 'evil-previous-line
-               "j" 'evil-next-line)
+    (:states 'operator
+             "k" 'evil-previous-line
+             "j" 'evil-next-line)
 
-      (:states 'visual
-               "<" (lambda ()
-                       (interactive)
-                       (evil-shift-left (region-beginning) (region-end))
-                       (evil-normal-state)
-                       (evil-visual-restore))
-               ">" (lambda ()
-                       (interactive)
-                       (evil-shift-right (region-beginning) (region-end))
-                       (evil-normal-state)
-                       (evil-visual-restore)))
+    (:states 'visual
+             "<" (lambda ()
+                   (interactive)
+                   (evil-shift-left (region-beginning) (region-end))
+                   (evil-normal-state)
+                   (evil-visual-restore))
+             ">" (lambda ()
+                   (interactive)
+                   (evil-shift-right (region-beginning) (region-end))
+                   (evil-normal-state)
+                   (evil-visual-restore)))
 
-      (:states 'normal
-               "C-z"  'wolfe/controlz)
+    (:states 'normal
+             "C-z"  'wolfe/controlz
+             :prefix "g"
+             "a" (lambda (beginning end)
+                   (interactive "r")
+                   (if (use-region-p)
+                       (align beginning end)
+                     (align nil nil)))
+             "A" 'align-regexp)
 
-      (wolfe/bind-leader
-       "w"  'save-buffer
-       "S"  'eval-buffer
-       "s"  'eval-defun
-       "b"  'mode-line-other-buffer
-       "k"  'kill-buffer
-       "m"  'ivy-switch-buffer
-       "t"  'wolfe/find-tag
-       "e"  'iedit-mode
-       "c"  'wolfe/compile-no-prompt
-       "n"  'narrow-or-widen-dwim
-       "a"  'org-agenda
-       "g"  'magit-status
-       "f"  'wolfe/ag-try-project
-       "''" 'org-edit-src-exit
-       "#" 'wolfe/csharp-project
-       "p" (lambda() (interactive) (funcall wolfe/hydra-projectile))
-       ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
-       "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
-       "o"   (lambda() (interactive) (wolfe/org-open "everything"))
-       "SPC" (lambda() (interactive) (funcall (wolfe/hydra-selector)))
-       "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))
-       )
-      )
+
+    (wolfe/bind-leader
+     "w"  'save-buffer
+     "S"  'eval-buffer
+     "s"  'eval-defun
+     "b"  'mode-line-other-buffer
+     "k"  'kill-buffer
+     "m"  'ivy-switch-buffer
+     "t"  'wolfe/find-tag
+     "e"  'iedit-mode
+     "c"  'wolfe/compile-no-prompt
+     "n"  'narrow-or-widen-dwim
+     "a"  'org-agenda
+     "g"  'magit-status
+     "f"  'wolfe/ag-try-project
+     "''" 'org-edit-src-exit
+     "#" 'wolfe/csharp-project
+     "p" (lambda() (interactive) (funcall wolfe/hydra-projectile))
+     ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
+     "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
+     "o"   (lambda() (interactive) (wolfe/org-open "everything"))
+     "SPC" (lambda() (interactive) (funcall (wolfe/hydra-selector)))
+     "init" (lambda() (interactive) (evil-buffer-new nil "~/.emacs.d/README.org"))))
+
+
 #+END_SRC
 
 ** Evil Surround
@@ -977,8 +985,8 @@ Autocomplete engine
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company
     :bind (:map company-active-map
-                ("C-n" . company-select-next)
-                ("C-p" . company-select-previous))
+           ("C-n" . company-select-next)
+           ("C-p" . company-select-previous))
     :init
     (global-company-mode)
     :config

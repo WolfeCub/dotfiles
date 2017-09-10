@@ -64,7 +64,7 @@ body{
     height:100%;
     margin-left:300px;
     /* margin:auto; */
-    max-width:800px;
+    max-width:900px;
     min-height:100%;
     padding:1.618em 3.236em;
 }
@@ -284,7 +284,7 @@ code{
     background:#fff;
     /* color:#000;  for clickable code */
     font-family:Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace;
-    font-size:75%;
+    font-size:85%;
     max-width:100%;
     overflow-x:auto;
 }

@@ -10,3 +10,4 @@ cd ../
 mkdir -p deploy
 mv TODO.html deploy/todo.html
 mv emacs/.emacs.d/README.html deploy/index.html
+mv .travis/readtheorg.css deploy/

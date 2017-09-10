@@ -9,7 +9,7 @@
 #+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
 #+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
 #+LATEX_HEADER: \usepackage[margin=0.7in]{geometry}
-#+HTML: <a href="https://travis-ci.org/WolfeCub/dotfiles"><img src="https://travis-ci.org/WolfeCub/dotfiles.svg?branch=master" alt="Build Status"/></a><br><br>
+#+HTML: <a href="https://travis-ci.org/WolfeCub/dotfiles"><img style="width:90px" src="https://travis-ci.org/WolfeCub/dotfiles.svg?branch=master" alt="Build Status"/></a><br><br>
 
 This literate config is best read [[http://wolfecub.github.io/dotfiles/][here]] or in emacs.
 This page is generated and kept up to date using a combination of
@@ -151,7 +151,7 @@ Basic settings I can't really live without.
         scroll-preserve-screen-position 1)
 #+END_SRC
 
-*** Shell Teaks
+*** Shell Tweaks
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq explicit-shell-file-name

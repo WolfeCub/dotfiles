@@ -2,12 +2,12 @@
 # -*- mode: org; -*-
 #+TITLE: Wolfe's Literate Emacs Config
 #+AUTHOR: Josh Wolfe
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="readtheorg.css"/>
 #+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 #+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="https://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="https://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
 #+LATEX_HEADER: \usepackage[margin=0.7in]{geometry}
 #+HTML: <a href="https://travis-ci.org/WolfeCub/dotfiles"><img style="width:90px" src="https://travis-ci.org/WolfeCub/dotfiles.svg?branch=master" alt="Build Status"/></a><br><br>
 
@@ -248,6 +248,28 @@ Vim-like relative line numbering
 
 #+END_SRC
 
+* Variables
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/project-path
+    (cond
+     ((eq system-type 'gnu/linux)
+      "~/Projects/")
+     ((eq system-type 'windows-nt)
+      "C:/dev/")
+     (else nil))
+    "Path to my projects directory")
+
+  (defvar wolfe/org-dropbox-path
+    (cond
+     ((eq system-type 'gnu/linux)
+      "~/Dropbox/org/")
+     ((eq system-type 'windows-nt)
+      "C:\\Users\\Josh\\Dropbox\\org\\")
+     (else nil))
+    "Path to my org files inside dropbox")
+#+END_SRC
+
 * Functions
 ** Face Under Point
 
@@ -349,23 +371,7 @@ Utility functions for finding Dropbox directories/files.
   (defun wolfe/org-open (name)
     "Opens the file in the dropbox path"
     (interactive)
-    (when (eq system-type 'gnu/linux)
-      (evil-buffer-new nil (concat "~/Dropbox/org/" name ".org")))
-    (when (eq system-type 'windows-nt)
-      (evil-buffer-new nil (concat "C:\\Users\\Josh\\Dropbox\\org\\"
-                                   name ".org"))))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/org-dropbox-path ()
-    "Returns the dropbox path"
-    (interactive)
-    (cond
-     ((eq system-type 'gnu/linux)
-      "~/Dropbox/org/")
-     ((eq system-type 'windows-nt)
-      "C:\\Users\\Josh\\Dropbox\\org\\")
-     (else "")))
+    (evil-buffer-new nil (concat wolfe/org-dropbox-path name ".org")))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -430,20 +436,6 @@ Better narrowing.
       (woman)))
 #+END_SRC
 
-** Projects Folder
-
-This function returns the path to my projects folder depending on OS.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/project-path ()
-    (cond
-     ((eq system-type 'gnu/linux)
-      "~/Projects")
-     ((eq system-type 'windows-nt)
-      "C:/dev/")
-     (else nil)))
-#+END_SRC
-
 ** Open C# Project File
 
 This function prompts for a file. It then opens that file and looks for a src/
@@ -453,7 +445,7 @@ it looks for a C# .sln file and starts the an omnisharp server for that project.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/csharp-project ()
     (interactive)
-    (setq path (read-file-name "File: " (wolfe/project-path)))
+    (setq path (read-file-name "File: " wolfe/project-path))
     (setq split-path (split-string path "/"))
     (if (member "src" split-path)
         (catch 'loop
@@ -565,7 +557,7 @@ Setup org agenda for managing my life.
             (search . " %i %-12:c")))
 
     ;; Sets location of org files
-    (setq org-agenda-files '("~/Dropbox/org/everything.org"))
+    (setq org-agenda-files '((concat wolfe/org-dropbox-path "everything.org")))
     (setq browse-url-browser-function 'browse-url-chromium))
 #+END_SRC
 
@@ -1198,7 +1190,7 @@ Stores all backups and temp files in =~/.bak.emacs/=
 ** Org Project
 
  #+BEGIN_SRC emacs-lisp :tangle yes
-   (load-file "~/Projects/org-project/org-project.el")
+   (load-file "c:/dev/SideProjects/org-project/org-project.el")
    (setq org-project-use-ag t)
  #+END_SRC
 

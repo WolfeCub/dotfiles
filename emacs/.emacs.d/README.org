@@ -160,7 +160,7 @@ Basic settings I can't really live without.
     (setq explicit-shell-file-name "cmdproxy.exe"))
 #+END_SRC
 
-* Mode Line
+** Mode Line
 
 #+BEGIN_SRC emacs-lisp :tangle yes
       (if (display-graphic-p)
@@ -227,6 +227,25 @@ Basic settings I can't really live without.
                               (concat (format-time-string "%c; ")
                                       (emacs-uptime "Uptime:%hh"))))
           )))
+#+END_SRC
+
+** Line Numbers
+
+Vim-like relative line numbering
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (if (fboundp 'display-line-numbers-mode)
+      (progn
+        (setq display-line-numbers 'relative)
+        (add-hook 'prog-mode-hook 'display-line-numbers-mode))
+    (progn
+      (use-package nlinum-relative
+        :config
+        (nlinum-relative-setup-evil)
+        (setq nlinum-relative-redisplay-delay 0.25)
+        (setq nlinum-relative-current-symbol "")
+        (add-hook 'prog-mode-hook 'nlinum-relative-mode))))
+
 #+END_SRC
 
 * Functions
@@ -567,7 +586,8 @@ minted package for PDF export.
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 #+END_SRC
 
-* Hydra
+* Keymaps
+** Hydra
 
 Customizable popup menus.
 
@@ -575,8 +595,8 @@ Customizable popup menus.
   (use-package hydra)
 #+END_SRC
 
-** Major Modes
-*** C#
+*** Major Modes
+**** C#
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-csharp
@@ -592,7 +612,7 @@ Customizable popup menus.
           ))
 #+END_SRC
 
-*** Org Mode
+**** Org Mode
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-org
@@ -601,7 +621,7 @@ Customizable popup menus.
           ("t" (funcall wolfe/hydra-org-expand) "Expand template")))
 #+END_SRC
 
-*** Org Templates
+**** Org Templates
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-org-expand
@@ -628,8 +648,8 @@ Customizable popup menus.
           ("A" (hot-expand "<A"))))
 #+END_SRC
 
-** Minor Modes
-*** Projectile
+*** Minor Modes
+**** Projectile
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-projectile
@@ -647,7 +667,7 @@ Customizable popup menus.
           ))
 #+END_SRC
 
-*** Jira
+**** Jira
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-jira
@@ -673,7 +693,7 @@ Customizable popup menus.
           ("O"  (funcall wolfe/hydra-org-expand)  "Org Hydra")))
 #+END_SRC
 
-** Default
+*** Default
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-default
@@ -683,7 +703,7 @@ Customizable popup menus.
           ("#" (funcall wolfe/hydra-csharp) "C# Mode")))
 #+END_SRC
 
-** Selector
+*** Selector
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/hydra-selector ()
@@ -694,14 +714,14 @@ Customizable popup menus.
      (:else wolfe/hydra-default)))
 #+END_SRC
 
-* Evil & General
-** General
+** Evil & General
+*** General
 
 #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package general)
 #+END_SRC
 
-** Evil
+*** Evil
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package evil
@@ -784,7 +804,7 @@ Customizable popup menus.
 
 #+END_SRC
 
-** Evil Surround
+*** Evil Surround
 
 Tpope's surround
 
@@ -794,13 +814,13 @@ Tpope's surround
       (global-evil-surround-mode 1))
 #+END_SRC
 
-** Evil Magit
+*** Evil Magit
 
 #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package evil-magit)
 #+END_SRC
 
-** Evil Machit
+*** Evil Machit
 
 #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package evil-matchit
@@ -809,8 +829,207 @@ Tpope's surround
 
 #+END_SRC
 
-* Ivy, Counsel and Swiper
-** Ivy & CounseL
+* Project Management
+** Ag
+
+Emacs interface for ag
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package ag)
+#+END_SRC
+
+** Magit
+
+Magic git interface from within emacs
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package magit
+    :config
+    (global-set-key "\C-x\g" 'magit-status))
+#+END_SRC
+
+** Projectile
+
+Project management
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package projectile
+    :config
+    (use-package counsel-projectile
+      :config
+      (counsel-projectile-on))
+    (setq projectile-enable-caching t)
+    (setq projectile-indexing-method 'alien)
+    (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe"))
+    (projectile-global-mode))
+#+END_SRC
+
+* Languages
+** Generic Web
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package web-mode
+    :config
+    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+
+    (setq web-mode-enable-auto-closing t)
+    (setq web-mode-enable-auto-opening t)
+    (setq web-mode-enable-auto-indentation t))
+
+  (use-package json-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company-restclient
+    :after company
+    :config
+    (add-to-list 'company-backends 'company-restclient))
+#+END_SRC
+
+** Javascript
+   
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company-tern
+    :after company
+    :config
+    (add-to-list 'company-backends 'company-tern)
+    (add-hook 'web-mode-hook 'tern-mode))
+#+END_SRC
+
+** Lisp Family
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package parinfer
+    :bind
+    (("C-," . parinfer-toggle-mode))
+    :init
+    (setq
+     parinfer-extensions '(defaults pretty-parens evil smart-tab smart-yank)
+     parinfer-lighters '(" Φi" . " Φp"))
+    (add-hook 'clojure-mode-hook #'parinfer-mode)
+    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'scheme-mode-hook #'parinfer-mode)
+    (add-hook 'lisp-mode-hook #'parinfer-mode))
+#+END_SRC
+
+** Racket
+   
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package racket-mode)
+#+END_SRC
+
+** Latex
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package latex-preview-pane
+    :ensure f)
+#+END_SRC
+
+** C/C++
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq gdb-many-windows t
+        gdb-show-main t
+        company-clang-insert-arguments nil)
+
+  (use-package company-irony
+    :after company
+    :config
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (eval-after-load 'company
+      '(add-to-list 'company-backends 'company-irony)))
+#+END_SRC
+
+** C#
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package omnisharp
+    :after company
+    :config
+    (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe")
+    (add-hook 'csharp-mode-hook 'omnisharp-mode)
+    (add-to-list 'company-backends 'company-omnisharp))
+#+END_SRC
+
+** Python
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company-jedi
+    :after company
+    :config
+    (add-to-list 'company-backends 'company-jedi))
+
+#+END_SRC
+
+* Utility
+** Restclient
+
+Postman inside of emacs.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package restclient)
+#+END_SRC
+
+** Iedit
+
+Edit all instances of a string
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package iedit
+    :config
+    (setq iedit-toggle-key-default nil))
+#+END_SRC
+
+** Delight
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package delight
+    :config
+    (delight '((emacs-lisp-mode       "ξ" :major)
+               (lisp-interaction-mode "λ" :major)
+               (python-mode           "π" :major)
+               (org-mode              "Ø" :major)
+               (company-mode          " C" company)
+               (ivy-mode              " ι" ivy)
+               (projectile-mode       " ρ" projectile)
+               (eldoc-mode            " ε" eldoc)
+               (flycheck-mode         " ƒ" flycheck)
+               (undo-tree-mode        ""   undo-tree)
+               (auto-revert-mode      ""   autorevert))))
+#+END_SRC
+
+** Help Fns+
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package help-fns+)
+#+END_SRC
+
+** Org Jira
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package org-jira
+    :config
+    (setq jiralib-url "https://indigoca.atlassian.net"))
+#+END_SRC
+
+** Circe
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package circe
+    :config
+    (setq circe-network-options
+          '(("Freenode"
+             :tls t
+             :nick "interior"
+             :channels ("#emacs")
+             ))))
+#+END_SRC
+
+* Completion
+** Ivy & Counsel
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package ivy
@@ -838,147 +1057,7 @@ Tpope's surround
   :bind (("C-s" . swiper)))
 #+END_SRC
 
-* Ag
-
-Emacs interface for ag
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package ag)
-#+END_SRC
-
-* Projectile
-
-Project management
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package projectile
-    :config
-    (use-package counsel-projectile
-      :config
-      (counsel-projectile-on))
-    (setq projectile-enable-caching t)
-    (setq projectile-indexing-method 'alien)
-    (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe"))
-    (projectile-global-mode))
-#+END_SRC
-
-* Magit
-
-Magic git interface from within emacs
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package magit
-    :config
-    (global-set-key "\C-x\g" 'magit-status))
-#+END_SRC
-
-* Nlinum
-
-Vim-like relative line numbering
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (if (fboundp 'display-line-numbers-mode)
-      (progn
-        (setq display-line-numbers 'relative)
-        (add-hook 'prog-mode-hook 'display-line-numbers-mode))
-    (progn
-      (use-package nlinum-relative
-        :config
-        (nlinum-relative-setup-evil)
-        (setq nlinum-relative-redisplay-delay 0.25)
-        (setq nlinum-relative-current-symbol "")
-        (add-hook 'prog-mode-hook 'nlinum-relative-mode))))
-
-#+END_SRC
-
-* Iedit
-
-Edit all instances of a string
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package iedit
-    :config
-    (setq iedit-toggle-key-default nil))
-#+END_SRC
-
-* Flycheck
-
-On the fly syntax checking
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package flycheck
-    :config
-    (global-flycheck-mode)
-    (with-eval-after-load 'flycheck
-      (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
-#+END_SRC
-
-* Restclient
-
-Postman inside of emacs.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package restclient)
-#+END_SRC
-
-* Delight
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package delight
-    :config
-    (delight '((emacs-lisp-mode       "ξ" :major)
-               (lisp-interaction-mode "λ" :major)
-               (python-mode           "π" :major)
-               (org-mode              "Ø" :major)
-               (company-mode          " C" company)
-               (ivy-mode              " ι" ivy)
-               (projectile-mode       " ρ" projectile)
-               (eldoc-mode            " ε" eldoc)
-               (flycheck-mode         " ƒ" flycheck)
-               (undo-tree-mode        ""   undo-tree)
-               (auto-revert-mode      ""   autorevert))))
-#+END_SRC
-
-* Web
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package web-mode
-    :config
-    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-
-    (setq web-mode-enable-auto-closing t)
-    (setq web-mode-enable-auto-opening t)
-    (setq web-mode-enable-auto-indentation t))
-
-  (use-package json-mode)
-#+END_SRC
-
-* Lisp
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package parinfer
-    :bind
-    (("C-," . parinfer-toggle-mode))
-    :init
-    (setq
-     parinfer-extensions '(defaults pretty-parens evil smart-tab smart-yank)
-     parinfer-lighters '(" Φi" . " Φp"))
-    (add-hook 'clojure-mode-hook #'parinfer-mode)
-    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'scheme-mode-hook #'parinfer-mode)
-    (add-hook 'lisp-mode-hook #'parinfer-mode))
-#+END_SRC
-
-* Latex
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package latex-preview-pane
-    :ensure f)
-#+END_SRC
-
-* Company
+** Company
 
 Autocomplete engine
 
@@ -997,39 +1076,9 @@ Autocomplete engine
     (if (display-graphic-p)
         (define-key company-active-map [tab] 'company-select-next)
       (define-key company-active-map (kbd "C-i") 'company-select-next))
+#+END_SRC
 
-    ;; C / C++
-    (setq company-clang-insert-arguments nil)
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-
-    (use-package company-irony
-      :config
-      (eval-after-load 'company
-        '(add-to-list 'company-backends 'company-irony)))
-
-    ;; C#
-    (use-package omnisharp
-      :config
-      (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe")
-      (add-hook 'csharp-mode-hook 'omnisharp-mode)
-      (add-to-list 'company-backends 'company-omnisharp))
-
-    (use-package company-jedi
-      :config
-      (add-to-list 'company-backends 'company-jedi))
-
-    ;; Javascript
-    (use-package company-tern
-      :config
-      (add-to-list 'company-backends 'company-tern)
-      (add-hook 'web-mode-hook 'tern-mode))
-
-    ;; Restclient
-    (use-package company-restclient
-      :config
-      (add-to-list 'company-backends 'company-restclient))
-
+#+BEGIN_SRC emacs-lisp :tangle yes
     (ignore-errors
       (require 'color)
       (let ((bg (face-attribute 'default :background)))
@@ -1042,7 +1091,20 @@ Autocomplete engine
 
 #+END_SRC
 
-* Email
+** Flycheck Linting
+
+On the fly syntax checking
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package flycheck
+    :config
+    (global-flycheck-mode)
+    (with-eval-after-load 'flycheck
+      (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
+#+END_SRC
+
+* Misc
+** Email
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when (require 'mu4e nil 'noerror)
@@ -1113,43 +1175,6 @@ Autocomplete engine
                       (mue4e-headers-skip-duplicates . t)))))
 
     (use-package evil-mu4e))
-#+END_SRC
-
-* Misc
-** GDB
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq gdb-many-windows t ;; use gdb-many-windows by default
-        gdb-show-main t
-        ;; Non-nil means display source file containing the main routine at startup
-        )
-#+END_SRC
-
-** Help Fns+
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package help-fns+)
-#+END_SRC
-
-** Org Jira
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package org-jira
-    :config
-    (setq jiralib-url "https://indigoca.atlassian.net"))
-#+END_SRC
-
-** Circe
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package circe
-    :config
-    (setq circe-network-options
-          '(("Freenode"
-             :tls t
-             :nick "interior"
-             :channels ("#emacs")
-             ))))
 #+END_SRC
 
 * Backups

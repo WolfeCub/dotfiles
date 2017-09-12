@@ -249,6 +249,7 @@ Vim-like relative line numbering
 #+END_SRC
 
 * Variables
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/literate-config-name "README.org"
     "The name of my literate config")
@@ -260,24 +261,40 @@ Vim-like relative line numbering
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/linux? (eq system-type 'gnu/linux)
+    "Are we on linux")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(defvar wolfe/windows? (eq system-type 'windows-nt)
+    "Are we on windows")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/org-ellipsis 
+    (if (display-graphic-p)
+        "⤵"
+      "...")
+    "Fancy arrow when not in terminal")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/project-path
     (cond
-     ((eq system-type 'gnu/linux)
-      "~/Projects/")
-     ((eq system-type 'windows-nt)
-      "C:/dev/")
-     (else nil))
+     (wolfe/linux? "~/Projects/")
+     (wolfe/windows? "C:/dev/")
+     (:else nil))
     "Path to my projects directory")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/org-dropbox-path
     (cond
-     ((eq system-type 'gnu/linux)
+     (wolfe/linux?
       "~/Dropbox/org/")
-     ((eq system-type 'windows-nt)
+     (wolfe/windows?
       "C:\\Users\\Josh\\Dropbox\\org\\")
-     (else nil))
+     (:else nil))
     "Path to my org files inside dropbox")
 #+END_SRC
 
@@ -523,7 +540,7 @@ Setup some basic quality of life org settings.
         org-agenda-use-time-grid nil
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
-        org-ellipsis "⤵")
+        org-ellipsis wolfe/org-ellipsis)
 
   (global-set-key "\C-cl" 'org-store-link)
 
@@ -1202,7 +1219,7 @@ Stores all backups and temp files in =~/.bak.emacs/=
 ** Org Project
 
  #+BEGIN_SRC emacs-lisp :tangle yes
-   (load-file "c:/dev/SideProjects/org-project/org-project.el")
+   (load-file "~/Projects/org-project/org-project.el")
    (setq org-project-use-ag t)
  #+END_SRC
 

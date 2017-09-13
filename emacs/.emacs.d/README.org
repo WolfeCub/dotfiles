@@ -506,6 +506,18 @@ Select project from list of projectile projects to invalidate.
     (projectile-invalidate-cache t))
 #+END_SRC
 
+** User Pass Tupple
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/get-user-pass ()
+    (split-string
+     (car (last (split-string
+                 (shell-command-to-string (concat "gpg --output - --decrypt "
+                                                  (expand-file-name "~")
+                                                  "/.authinfo.gpg"))
+                 "[|\n]" t "[ 	\n]"))) " "))
+#+END_SRC
+
 * Org Mode
 ** General
 
@@ -773,7 +785,9 @@ Customizable popup menus.
 
     (:states 'normal
              "C-z"  'wolfe/controlz
-             :prefix "g"
+             "C-l"  'evil-ex-nohighlight)
+
+    (:states 'normal :prefix "g"
              "a" (lambda (beginning end)
                    (interactive "r")
                    (if (use-region-p)
@@ -969,12 +983,13 @@ Project management
 #+END_SRC
 
 * Utility
-** Restclient
-
-Postman inside of emacs.
+** Ranger
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package restclient)
+  (use-package ranger
+    :config
+    (setq ranger-cleanup-on-disable t)
+    (ranger-override-dired-mode t))
 #+END_SRC
 
 ** Iedit
@@ -985,6 +1000,54 @@ Edit all instances of a string
   (use-package iedit
     :config
     (setq iedit-toggle-key-default nil))
+#+END_SRC
+
+** Restclient
+
+Postman inside of emacs.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package restclient)
+#+END_SRC
+
+** Help Fns+
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package help-fns+)
+#+END_SRC
+
+** Org Jira
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package org-jira
+    :config
+    (setq jiralib-url "https://indigoca.atlassian.net"))
+#+END_SRC
+
+** IRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package erc
+    :ensure nil
+    :config
+    (add-hook 'window-configuration-change-hook
+              '(lambda ()
+                 (setq erc-fill-column (- (window-width) 2))))
+
+    (setq erc-rename-buffers t
+          erc-interpret-mirc-color t
+          erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+
+    (defun wolfe/irc ()
+      (interactive)
+      (let* ((tupple (wolfe/get-user-pass))
+             (user (car tupple))
+             (pass (cadr tupple)))
+        (erc
+         :server "irc.freenode.net"
+         :port 6667
+         :nick user
+         :password pass))))
 #+END_SRC
 
 ** Delight
@@ -1003,33 +1066,6 @@ Edit all instances of a string
                (flycheck-mode         " ƒ" flycheck)
                (undo-tree-mode        ""   undo-tree)
                (auto-revert-mode      ""   autorevert))))
-#+END_SRC
-
-** Help Fns+
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package help-fns+)
-#+END_SRC
-
-** Org Jira
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package org-jira
-    :config
-    (setq jiralib-url "https://indigoca.atlassian.net"))
-#+END_SRC
-
-** Circe
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package circe
-    :config
-    (setq circe-network-options
-          '(("Freenode"
-             :tls t
-             :nick "interior"
-             :channels ("#emacs")
-             ))))
 #+END_SRC
 
 * Completion

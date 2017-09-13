@@ -8,6 +8,7 @@ exec --no-startup-id ~/bin/battery_notify
 exec --no-startup-id powertop --auto-tune
 exec --no-startup-id tlp start
 exec --no-startup-id xset r rate 225 30
+exec --no-startup-id ~/.config/i3/fibonacci.py
 
 # Disable window borders
 for_window [class="^.*"] border pixel 2

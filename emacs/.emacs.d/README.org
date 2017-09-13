@@ -526,12 +526,11 @@ Select project from list of projectile projects to invalidate.
 ** User Pass Tupple
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/get-user-pass ()
+  (defun wolfe/get-user-pass (file)
     (split-string
      (car (last (split-string
                  (shell-command-to-string (concat "gpg --output - --decrypt "
-                                                  (expand-file-name "~")
-                                                  "/.authinfo.gpg"))
+                                                  file)
                  "[|\n]" t "[ 	\n]"))) " "))
 #+END_SRC
 
@@ -809,7 +808,7 @@ Customizable popup menus.
                    (interactive "r")
                    (if (use-region-p)
                        (align beginning end)
-                     (align nil nil)))
+                     (align-current)))
              "A" 'align-regexp)
 
 
@@ -1057,7 +1056,7 @@ Postman inside of emacs.
 
     (defun wolfe/irc ()
       (interactive)
-      (let* ((tupple (wolfe/get-user-pass))
+      (let* ((tupple (wolfe/get-user-pass "~/.authinfo.gpg"))
              (user (car tupple))
              (pass (cadr tupple)))
         (erc
@@ -1255,7 +1254,7 @@ Stores all backups and temp files in =~/.bak.emacs/=
 ** Org Project
 
  #+BEGIN_SRC emacs-lisp :tangle yes
-   (load-file "~/Projects/org-project/org-project.el")
+   (load-file "c:/dev/SideProjects/org-project/org-project.el")
    (setq org-project-use-ag t)
  #+END_SRC
 

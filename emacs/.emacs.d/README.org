@@ -530,8 +530,8 @@ Select project from list of projectile projects to invalidate.
     (split-string
      (car (last (split-string
                  (shell-command-to-string (concat "gpg --output - --decrypt "
-                                                  file)
-                 "[|\n]" t "[ 	\n]"))) " ")))
+                                                  (expand-file-name file)))
+                 "[|\n]" t "[ 	\n]"))) " "))
 #+END_SRC
 
 * Org Mode

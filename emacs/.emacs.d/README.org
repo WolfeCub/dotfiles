@@ -998,6 +998,15 @@ Project management
 
 #+END_SRC
 
+** Shell Scripts
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company-shell
+    :after company
+    :config
+    (add-to-list 'company-backends '(company-shell company-shell-env)))
+#+END_SRC
+
 * Utility
 ** Ranger
 

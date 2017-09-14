@@ -1049,32 +1049,6 @@ Postman inside of emacs.
     (setq jiralib-url "https://indigoca.atlassian.net"))
 #+END_SRC
 
-** IRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package erc
-    :ensure nil
-    :config
-    (add-hook 'window-configuration-change-hook
-              '(lambda ()
-                 (setq erc-fill-column (- (window-width) 2))))
-
-    (setq erc-rename-buffers t
-          erc-interpret-mirc-color t
-          erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
-
-    (defun wolfe/irc ()
-      (interactive)
-      (let* ((tupple (wolfe/get-user-pass "~/.authinfo.gpg"))
-             (user (car tupple))
-             (pass (cadr tupple)))
-        (erc
-         :server "irc.freenode.net"
-         :port 6667
-         :nick user
-         :password pass))))
-#+END_SRC
-
 ** Delight
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1240,6 +1214,32 @@ On the fly syntax checking
                       (mue4e-headers-skip-duplicates . t)))))
 
     (use-package evil-mu4e))
+#+END_SRC
+
+** IRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package erc
+    :ensure nil
+    :config
+    (add-hook 'window-configuration-change-hook
+              '(lambda ()
+                 (setq erc-fill-column (- (window-width) 2))))
+
+    (setq erc-rename-buffers t
+          erc-interpret-mirc-color t
+          erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+
+    (defun wolfe/irc ()
+      (interactive)
+      (let* ((tupple (wolfe/get-user-pass "~/.authinfo.gpg"))
+             (user (car tupple))
+             (pass (cadr tupple)))
+        (erc
+         :server "irc.freenode.net"
+         :port 6667
+         :nick user
+         :password pass))))
 #+END_SRC
 
 * Backups

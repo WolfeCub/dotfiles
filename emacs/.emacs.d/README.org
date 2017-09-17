@@ -125,7 +125,7 @@ Basic settings I can't really live without.
    '(column-marker-1 ((t (:background "dim gray")))))
 #+END_SRC
 
-** Personal Deafaults
+** Personal Defaults
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (show-paren-mode t) ; Highlights matching parens
@@ -271,7 +271,7 @@ Vim-like relative line numbering
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/org-ellipsis 
+  (defvar wolfe/org-ellipsis
     (if (display-graphic-p)
         "⤵"
       "...")
@@ -1229,6 +1229,9 @@ On the fly syntax checking
     (add-hook 'window-configuration-change-hook
               '(lambda ()
                  (setq erc-fill-column (- (window-width) 2))))
+    (add-hook 'erc-mode-hook
+              '(lambda ()
+                  (setq-local scroll-margin 0)))
 
     (setq erc-rename-buffers t
           erc-interpret-mirc-color t

@@ -155,7 +155,6 @@ qemu () {
 ##
 ## P R O M P T
 ##
-PROMPT_STATUS="\`$SMILE\`"
 _newline=$'\n'
 _lineup=$'\e[1A'
 _linedown=$'\e[1B'
@@ -183,9 +182,6 @@ setopt promptsubst
 # Delay of 0.1 seconds
 export KEYTIMEOUT=1
 
-if type fuck >/dev/null; then
-    eval $(thefuck --alias)
-fi
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
 
 # FZF custom options

@@ -553,6 +553,10 @@ Setup some basic quality of life org settings.
         org-agenda-skip-scheduled-if-done t
         org-ellipsis wolfe/org-ellipsis)
 
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)))
+
   (global-set-key "\C-cl" 'org-store-link)
 
   ;; ispell ignores SRC blocks

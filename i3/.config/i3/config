@@ -85,7 +85,7 @@ bindsym $mod+backslash exec emacs
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec rofi -show combi
+bindsym $mod+space exec rofi -show run
 bindsym $mod+c exec google-chrome-stable
 bindsym $mod+n exec "~/bin/lock.sh"
 

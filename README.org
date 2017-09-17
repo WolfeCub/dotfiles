@@ -9,8 +9,7 @@
     + I also have configuration files for a few other window managers I've experimented
       with. They probably won't be updated unless I switch off of i3.
     + [[https://github.com/krypt-n/bar][lemonbar]] - status bar (fork that supports more font formats)
-    + [[https://github.com/DaveDavenport/rofi][rofi]] - demenu replacement
-  * [[https://github.com/hammerspoon/hammerspoon][hammerspoon]] - window manager when I happen to be on osx (which is very very rare these days)
+    + [[https://github.com/DaveDavenport/rofi][rofi]] - dmenu replacement
 
 ** Installing
 
@@ -23,9 +22,9 @@
     #+BEGIN_SRC bash
       curl https://raw.githubusercontent.com/WolfeCub/dotfiles/master/install.sh | bash -s -- -g <& 1
     #+END_SRC
-  
+
 *** Manual Installation
-    If you don't want to use the one liner or the install script. 
+    If you don't want to use the one liner or the install script.
     You can install each module individually using =stow [name]= as shown below.
     This allows you to only use the modules that you want.
 
@@ -37,3 +36,56 @@
       stow emacs
       ...
     #+END_SRC
+
+
+** i3
+   #+html: <p align="center"><img src="https://i.imgur.com/6gn3wYs.jpg"/></p>
+   #+html: <p align="center"><img src="https://i.imgur.com/KLvUZRE.jpg"/></p>
+
+   I don't need much out of a window window manager and I want to think about
+   window management as little a possible while using my computer. I've found
+   =i3= accomplishes this very well. Most of the time I have one window per
+   workspace however 2-3 windows is not entirely uncommon.
+
+** Zsh
+   #+html: <p align="center"><img src="https://i.imgur.com/yW2gOLl.png"/></p>
+   #+html: <p align="center"><img src="https://i.imgur.com/ypDccfn.jpg"/></p>
+
+   My preffered shell is =zsh=. My customization isn't anything insanely intricate
+   but it's functional and I find it comfy. I =ssh= a fair amount and I find that
+   having the user and host always visible is very handy. The exit code and time
+   aren't used as much but they're out of my way on the right side and they're handy
+   every now and then. Personally I love the syntax highlighting it helps me visually
+   parse the command much more easily.
+
+*** Other Highlights
+    - Better completion
+    - Colorized =man= pages
+    - =C-z= to foreground a backgrounded process
+    - Directory aliases
+    - [[https://github.com/junegunn/fzf][=fzf=]]
+
+** Emacs
+   #+html: <p align="center"><img src="https://i.imgur.com/W2t0hAZ.jpg"/></p>
+
+   For all intents and purposes =emacs= might as well be my operating system.
+   My emacs configuration is completely literate and can be viewed [[http://wolfecub.github.io/dotfiles/][at it's documentation]]
+   or [[https://github.com/WolfeCub/dotfiles/tree/master/emacs/.emacs.d][in this repo]]. I use =emacs= for programming, writing, emails, calandar/TODOs,
+   presentations, IRC and more.
+
+*** Highlights
+    - GUI and terminal compatibility
+    - Vim emulation (E.V.I.L.)
+    - C/C++/C# focus
+    - General for keymaps and leader emulation
+    - Hydra for the rest of my shortcut needs
+    - Project management
+    - Email (mu4e)
+    - IRC (ERC)
+
+** Vim
+   #+html: <p align="center"><img src="https://i.imgur.com/kzrQCwx.jpg"/></p>
+
+   As wonderful as =emacs= is my configuration is highly customized and stock
+   emacs doesn't cut it for me. On remote systems or when quickly editing configs
+   vim is the way to go. My vim config is pretty minimal but it's very comfortable.

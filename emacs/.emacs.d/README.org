@@ -92,6 +92,9 @@ Basic settings I can't really live without.
 
 ** Splash and Startup
 
+This makes sure I'm presented with a nice blank =*scratch*=
+buffer when emacs starts up.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq inhibit-splash-screen t
         inhibit-startup-message t
@@ -102,6 +105,8 @@ Basic settings I can't really live without.
 ** Graphics
 *** Bars
 
+I don't really want to have to look at menu bars that I'm not going to use
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (tool-bar-mode -1) ; No toolbar
   (scroll-bar-mode -1) ; Hide scrollbars
@@ -110,10 +115,24 @@ Basic settings I can't really live without.
 
 *** Fonts
 
+I like Inconsolata so use it if installed.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (when (member "Inconsolata" (font-family-list)) ; Set default font
     (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
     (set-face-attribute 'default t :font "Inconsolata-15"))
+#+END_SRC
+
+Make sure that UTF-8 is used everywhere.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (set-terminal-coding-system  'utf-8)
+  (set-keyboard-coding-system  'utf-8)
+  (set-language-environment    'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (setq locale-coding-system   'utf-8)
+  (prefer-coding-system        'utf-8)
+  (set-input-method nil)
 #+END_SRC
 
 *** Column Marker
@@ -125,12 +144,16 @@ Basic settings I can't really live without.
    '(column-marker-1 ((t (:background "dim gray")))))
 #+END_SRC
 
-** Personal Deafaults
+** Personal Defaults
+
+Nothing to crazy here just the type of behaviour I personally
+expect as default.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (show-paren-mode t) ; Highlights matching parens
   (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
-  (column-number-mode t)
+  (blink-cursor-mode -1) ; No need to flash the cursor
+  (column-number-mode t) ; Show column in mode-line
   (delete-selection-mode 1) ; Replace selection on insert
   (setq-default truncate-lines t) ; Don't wrap
   (setq vc-follow-symlinks t) ; Always follow symlinks
@@ -143,6 +166,14 @@ Basic settings I can't really live without.
 ** Misc
 
 *** Vim Scrolloff
+
+This makes scrolling gradual rather than by half page. I find that the
+half page scroll really makes me lose where I am in the file so here
+I make sure to scroll one line at a time. In addition I want to keep
+what I'm working on centered so I start scrolling when the cursor is
+10 lines away from the margin.
+
+This behaviour in general emulates the =scrolloff= option in vim.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq scroll-margin 10
@@ -161,6 +192,9 @@ Basic settings I can't really live without.
 #+END_SRC
 
 ** Mode Line
+
+If we're in GUI emacs we make sure to use =powerline= otherwise we use
+a custom mode line configuration.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
       (if (display-graphic-p)
@@ -231,7 +265,9 @@ Basic settings I can't really live without.
 
 ** Line Numbers
 
-Vim-like relative line numbering
+Vim-like relative line numbering. If we're on the latest versions of emacs
+(i.e. =26.0.50= or higher) then we should use the native line numbering
+otherwise we fall back to =nlinum-relative=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (if (fboundp 'display-line-numbers-mode)
@@ -262,20 +298,20 @@ Vim-like relative line numbering
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/linux? (eq system-type 'gnu/linux)
-    "Are we on linux")
+    "Are we on linux?")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (defvar wolfe/windows? (eq system-type 'windows-nt)
-    "Are we on windows")
+    "Are we on windows?")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/org-ellipsis 
+  (defvar wolfe/org-ellipsis
     (if (display-graphic-p)
         "⤵"
       "...")
-    "Fancy arrow when not in terminal")
+    "The indicates if an `org-mode' tree can be expanded")
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -495,15 +531,20 @@ it looks for a C# .sln file and starts the an omnisharp server for that project.
 Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting org-templates.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun hot-expand (str)
+  (defun hot-expand (str &optional additional-text)
     "Expand org template."
     (insert str)
-    (org-try-structure-completion))
+    (org-try-structure-completion)
+    (when additional-text
+      (insert additional-text)
+      (next-line)))
 #+END_SRC
 
 ** Ag Project If In Project
 
-Ag
+If we're inside of a projectile project we'll use =projectile-ag= to
+search the project otherwise just normal ag frow our working directory
+does the job.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/ag-try-project ()
@@ -524,6 +565,8 @@ Select project from list of projectile projects to invalidate.
 #+END_SRC
 
 ** User Pass Tupple
+
+Uses GPG to decrypt =file= and returns a list of the contents split on spaces.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/get-user-pass (file)
@@ -661,13 +704,14 @@ Customizable popup menus.
           _c_enter  _q_uote    _L_aTeX:
           _l_atex   _e_xample  _i_ndex:
           _a_scii   _v_erse    _I_NCLUDE:
-          _s_rc     ^ ^        _H_TML:
+          _s_rc     _t_angle   _H_TML:
           _h_tml    ^ ^        _A_SCII:
           "
           ("s" (hot-expand "<s"))
           ("e" (hot-expand "<e"))
           ("q" (hot-expand "<q"))
           ("v" (hot-expand "<v"))
+          ("t" (hot-expand "<s" "emacs-lisp :tangle yes"))
           ("c" (hot-expand "<c"))
           ("l" (hot-expand "<l"))
           ("h" (hot-expand "<h"))
@@ -879,6 +923,10 @@ Magic git interface from within emacs
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
     :config
+    (setq magit-bury-buffer-function
+          (lambda (con)
+            (kill-buffer)
+            (delete-window)))
     (global-set-key "\C-x\g" 'magit-status))
 #+END_SRC
 

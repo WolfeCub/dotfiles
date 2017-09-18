@@ -35,7 +35,7 @@ This should be run regardless of whether I'm in terminal or GUI.
   (setq custom-theme-directory "~/.emacs.d/themes")
   (use-package base16-theme
     :config
-    (load-theme 'base16-default-dark t)
+    (load-theme 'base16-default-dark t))
 #+END_SRC
 
 ** Terminal
@@ -66,7 +66,7 @@ This should be run regardless of whether I'm in terminal or GUI.
             evil-normal-state-cursor  `(,(plist-get my/base16-colors :base07) box)
             evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
             evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
-      (set-face-attribute 'fringe nil :background nil))
+      (set-face-attribute 'fringe nil :background nil)
 
     (custom-set-faces
      '(region ((t (:background "gray19"))))

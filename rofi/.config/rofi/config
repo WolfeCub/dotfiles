@@ -1,0 +1,31 @@
+! Location
+! 1   2   3
+! 8   0   4
+! 7   6   5
+rofi.location: 1
+rofi.xoffset: 0
+rofi.yoffset: 0
+
+! "Enabled modi" Set from: Default
+rofi.modi: run
+
+! "Window width" Set from: Default
+rofi.width: 1920
+
+! "Padding" Set from: Default
+rofi.padding: 15
+
+! "Number of lines" Set from: Default
+rofi.lines: 1
+rofi.line-margin: 10
+rofi.line-padding: 2
+
+! "Font to use" Set from: Default
+rofi.font: Monaco 18
+
+
+! Property Name     BG       Border   Separator
+rofi.color-window:  #282828, #282828, #181818
+
+! Property Name     BG       FG       BG-alt   Head-BG  Head-FG
+rofi.color-normal:  #282828, #d8d8d8, #282828, #282828, #7cafc2

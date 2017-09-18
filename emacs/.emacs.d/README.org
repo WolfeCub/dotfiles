@@ -598,7 +598,8 @@ Setup some basic quality of life org settings.
 
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((shell . t)))
+   '((shell . t)
+     (  dot . t)))
 
   (global-set-key "\C-cl" 'org-store-link)
 
@@ -606,10 +607,17 @@ Setup some basic quality of life org settings.
   (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
   (add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_LATEX" . "#\\+END_LATEX"))
 
+  ;; Refresh images after executing a src block
+  (add-hook 'org-babel-after-execute-hook
+            '(lambda ()
+               (when org-inline-image-overlays
+                 (org-redisplay-inline-images))))
+
+  ;; Open PDFs with zathura
   (add-hook 'org-mode-hook
             '(lambda ()
                (setq org-file-apps
-                     (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps ))))
+                     (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps))))
 #+END_SRC
 
 ** Bullets

@@ -1291,7 +1291,8 @@ On the fly syntax checking
 
     (setq erc-rename-buffers t
           erc-interpret-mirc-color t
-          erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+          erc-lurker-hide-list '("JOIN" "PART" "QUIT")
+          erc-autojoin-channels-alist '(("freenode.net" "#emacs")))
 
     (defun wolfe/irc ()
       (interactive)

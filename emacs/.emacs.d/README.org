@@ -717,13 +717,14 @@ Customizable popup menus.
           _l_atex   _e_xample  _i_ndex:
           _a_scii   _v_erse    _I_NCLUDE:
           _s_rc     _t_angle   _H_TML:
-          _h_tml    ^ ^        _A_SCII:
+          _h_tml    _d_ot src  _A_SCII:
           "
           ("s" (hot-expand "<s"))
           ("e" (hot-expand "<e"))
           ("q" (hot-expand "<q"))
           ("v" (hot-expand "<v"))
           ("t" (hot-expand "<s" "emacs-lisp :tangle yes"))
+          ("d" (hot-expand "<s" "dot :file TMP.png :cmdline -Kdot -Tpng"))
           ("c" (hot-expand "<c"))
           ("l" (hot-expand "<l"))
           ("h" (hot-expand "<h"))

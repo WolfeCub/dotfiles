@@ -1096,6 +1096,14 @@ Postman inside of emacs.
   (use-package restclient)
 #+END_SRC
 
+** Rainbow Mode
+
+Shows hex colors inline.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package rainbow-mode)
+#+END_SRC
+
 ** Help Fns+
 
 #+BEGIN_SRC emacs-lisp :tangle yes

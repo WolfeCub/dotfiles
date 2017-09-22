@@ -23,42 +23,101 @@ for including the ReadTheOrg theme as well as some metadata and options
 like title, author, table of contents etc. If you wish to see the headers
 I'm using, [[https://raw.githubusercontent.com/WolfeCub/dotfiles/master/emacs/.emacs.d/README.org][this]] is the raw org file.
 
+* Variables
+
+Variables come at the beginning so that they're consistently available.
+If you don't care about these [[Startup][click here to skip over them]].
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/literate-config-name "README.org"
+    "The name of my literate config")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/init-file (concat user-emacs-directory wolfe/literate-config-name)
+    "The path to my literate config file")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/linux? (eq system-type 'gnu/linux)
+    "Are we on linux?")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(defvar wolfe/windows? (eq system-type 'windows-nt)
+    "Are we on windows?")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/org-ellipsis
+    (if (display-graphic-p)
+        "⤵"
+      "...")
+    "The indicates if an `org-mode' tree can be expanded")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/project-path
+    (cond
+     (wolfe/linux? "~/Projects/")
+     (wolfe/windows? "C:/dev/")
+     (:else nil))
+    "Path to my projects directory")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/org-dropbox-path
+    (cond
+     (wolfe/linux?
+      "~/Dropbox/org/")
+     (wolfe/windows?
+      "C:\\Users\\Josh\\Dropbox\\org\\")
+     (:else nil))
+    "Path to my org files inside dropbox")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/using-light nil
+    "Indicates whether we're using my light theme")
+#+END_SRC
+
 * Startup
 
-My graphical settings change
+My graphical settings change depending on whether I'm in terminal
+and if a command line flag (=-light=) was specified.
 
-** Common Code
+** Theme Setup
 
-This should be run regardless of whether I'm in terminal or GUI.
+This should be run regardless of whether I'm in terminal vs gui or dark vs light.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory "~/.emacs.d/themes")
-  (use-package base16-theme
-    :config
-    (load-theme 'base16-default-dark t))
+
+  (setq wolfe/using-light (member "-light" command-line-args))
+  (setq command-line-args (delete "-light" command-line-args))
 #+END_SRC
 
-** Terminal
+** Dark
+
+Configuration for my dark theme =base16 default dark= which is loaded by default.
+
+*** Common
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/term-setup ()
-    (setq nlinum-format "%d ")
-    ;;(global-hl-line-mode 1)
-    ;;(add-to-list 'default-frame-alist '(background-color . "color-16"))
-    (custom-set-faces
-     '(line-number ((t (:background "color-18" :foreground "brightblack"))))
-     '(ivy-current-match ((t (:background "color-18" :foreground "color-16"))))
-     '(linum ((t (:background "color-18"))))
-     '(region ((t :background "color-19")))
-     '(mode-line ((t (:background "color-19" :foreground "brightblue" :box nil))))
-     '(mode-line-inactive
-       ((t (:background "color-18" :foreground "color-244"))))))
+  (defun wolfe/dark-setup ()
+    (use-package base16-theme
+      :config
+      (load-theme 'base16-default-dark t)
+
+      (if (display-graphic-p)
+          (wolfe/dark-gui-setup)
+        (wolfe/dark-term-setup))))
 #+END_SRC
 
-** Graphical
+*** Graphical
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/gui-setup ()
+  (defun wolfe/dark-gui-setup ()
       (defvar my/base16-colors base16-default-dark-colors)
       (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
             evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
@@ -76,14 +135,43 @@ This should be run regardless of whether I'm in terminal or GUI.
      '(org-todo ((t (:box (:line-width 1) :weight bold))))))
 #+END_SRC
 
+*** Terminal
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/dark-term-setup ()
+    (setq nlinum-format "%d ")
+    (custom-set-faces
+     '(line-number ((t (:background "color-18" :foreground "brightblack"))))
+     '(ivy-current-match ((t (:background "color-18" :foreground "color-16"))))
+     '(linum ((t (:background "color-18"))))
+     '(region ((t :background "color-19")))
+     '(mode-line ((t (:background "color-19" :foreground "brightblue" :box nil))))
+     '(mode-line-inactive
+       ((t (:background "color-18" :foreground "color-244"))))))
+#+END_SRC
+
+** Light
+
+Configuration for my light theme =leuven=. This is only loaded when the =-light= flag is
+specified on the command line.
+
+*** Common
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/light-setup ()
+    (use-package leuven-theme
+      :config
+      (load-theme 'leuven t)))
+#+END_SRC
+
 ** Display check
 
 This checks which setup we're in and calls the appropriate function above.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (if (display-graphic-p)
-      (wolfe/gui-setup)
-    (wolfe/term-setup))
+  (if wolfe/using-light
+      (wolfe/light-setup)
+    (wolfe/dark-setup))
 #+END_SRC
 
 * General Settings
@@ -282,56 +370,6 @@ otherwise we fall back to =nlinum-relative=.
         (setq nlinum-relative-current-symbol "")
         (add-hook 'prog-mode-hook 'nlinum-relative-mode))))
 
-#+END_SRC
-
-* Variables
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/literate-config-name "README.org"
-    "The name of my literate config")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/init-file (concat user-emacs-directory wolfe/literate-config-name)
-    "The path to my literate config file")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/linux? (eq system-type 'gnu/linux)
-    "Are we on linux?")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-(defvar wolfe/windows? (eq system-type 'windows-nt)
-    "Are we on windows?")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/org-ellipsis
-    (if (display-graphic-p)
-        "⤵"
-      "...")
-    "The indicates if an `org-mode' tree can be expanded")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/project-path
-    (cond
-     (wolfe/linux? "~/Projects/")
-     (wolfe/windows? "C:/dev/")
-     (:else nil))
-    "Path to my projects directory")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/org-dropbox-path
-    (cond
-     (wolfe/linux?
-      "~/Dropbox/org/")
-     (wolfe/windows?
-      "C:\\Users\\Josh\\Dropbox\\org\\")
-     (:else nil))
-    "Path to my org files inside dropbox")
 #+END_SRC
 
 * Functions
@@ -1094,6 +1132,14 @@ Postman inside of emacs.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package restclient)
+#+END_SRC
+
+** Rainbow Mode
+
+Shows hex colors inline.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package rainbow-mode)
 #+END_SRC
 
 ** Help Fns+

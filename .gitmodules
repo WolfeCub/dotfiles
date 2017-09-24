@@ -3,4 +3,4 @@
 	url = https://github.com/junegunn/vim-plug.git
 [submodule "emacs/.emacs.d/lisp/meme"]
 	path = emacs/.emacs.d/lisp/meme
-	url = git@github.com:larsmagne/meme.git
+	url = https://github.com/larsmagne/meme.git

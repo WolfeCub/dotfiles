@@ -81,6 +81,11 @@ If you don't care about these [[Startup][click here to skip over them]].
     "Indicates whether we're using my light theme")
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/lisp-dir-path "~/.emacs.d/lisp/"
+    "Path to my custom lisp files")
+#+END_SRC
+
 * Startup
 
 My graphical settings change depending on whether I'm in terminal
@@ -178,6 +183,16 @@ This checks which setup we're in and calls the appropriate function above.
 
 Basic settings I can't really live without.
 
+** Load Path
+
+Recursively add =~/.emacs.d/lisp/= to my load path.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-to-list 'load-path wolfe/lisp-dir-path)
+  (let ((default-directory wolfe/lisp-dir-path))
+    (normal-top-level-add-subdirs-to-load-path))
+#+END_SRC
+
 ** Splash and Startup
 
 This makes sure I'm presented with a nice blank =*scratch*=
@@ -226,10 +241,12 @@ Make sure that UTF-8 is used everywhere.
 *** Column Marker
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (load-file "~/.emacs.d/lisp/column-marker.el")
-  (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
-  (custom-set-faces
-   '(column-marker-1 ((t (:background "dim gray")))))
+  (use-package column-marker
+    :ensure nil
+    :config
+    (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
+    (custom-set-faces
+     '(column-marker-1 ((t (:background "dim gray"))))))
 #+END_SRC
 
 ** Personal Defaults
@@ -1351,6 +1368,16 @@ On the fly syntax checking
          :port 6667
          :nick user
          :password pass))))
+#+END_SRC
+
+** Meme
+
+Meme creator from within emacs... what more is there to say?
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package meme
+    :ensure nil
+    :commands (meme meme-file))
 #+END_SRC
 
 * Backups

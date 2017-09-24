@@ -1,3 +1,6 @@
 [submodule ".vim/autoload"]
 	path = vim/.vim/autoload
 	url = https://github.com/junegunn/vim-plug.git
+[submodule "emacs/.emacs.d/lisp/meme"]
+	path = emacs/.emacs.d/lisp/meme
+	url = git@github.com:larsmagne/meme.git

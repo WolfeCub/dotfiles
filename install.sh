@@ -17,7 +17,7 @@ echo -e "$AGREEN▝▀ ▀▘ ▝▀▘   ▀▀  ▝▘   ▝▀▀       ▀�
 echo -e $ARESET
 
 if [[ $1 = "-g" ]] || [[ $1 = "--git" ]]; then
-    git clone https://github.com/WolfeCub/dotfiles.git
+    git clone --recursive https://github.com/WolfeCub/dotfiles.git
     cd dotfiles
     ./install.sh
 elif [[ $1 = "-u" ]] || [[ $1 = "--uninstall" ]]; then
@@ -35,6 +35,8 @@ elif [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
     echo -en "Report bugs/problems by creating an issue on github\n"
     echo -en "https://github.com/anthonytam/DotFiles\n"
 else
+    git submodule init 1> /dev/null
+    git submodule update 1> /dev/null
     for ITEM in `ls -d */`;
     do
         TEMP=`echo $ITEM | sed s'/.$//'`
@@ -50,5 +52,3 @@ else
         esac
     done
 fi
-git submodule init 1> /dev/null
-git submodule update 1> /dev/null

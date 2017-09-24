@@ -29,15 +29,13 @@
     This allows you to only use the modules that you want.
 
     #+BEGIN_SRC bash
-      git clone https://github.com/WolfeCub/dotfiles.git
+      git clone --recursive https://github.com/WolfeCub/dotfiles.git
       cd dotfiles
-      git submodules init && git submodules update
       stow zsh
       stow emacs
       ...
     #+END_SRC
-
-
+    
 ** i3
    #+html: <p align="center"><img src="https://i.imgur.com/6gn3wYs.jpg"/></p>
    #+html: <p align="center"><img src="https://i.imgur.com/KLvUZRE.jpg"/></p>

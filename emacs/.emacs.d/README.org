@@ -1404,10 +1404,15 @@ Stores all backups and temp files in =~/.bak.emacs/=
 * Testing
 ** Org Project
 
- #+BEGIN_SRC emacs-lisp :tangle yes
-   (load-file "c:/dev/SideProjects/org-project/org-project.el")
-   (setq org-project-use-ag t)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (cond ((file-exists-p "~/Projects/org-project/")
+         (load-file "~/Projects/org-project/org-project.el")
+         (setq org-project-use-ag t))
+        ((file-exists-p "C:/dev/SideProjects/org-project/")
+         (load-file "C:/dev/SideProjects/org-project/org-project.el")
+         (setq org-project-use-ag t)))
+
+#+END_SRC
 
 ** Extract Dates
 

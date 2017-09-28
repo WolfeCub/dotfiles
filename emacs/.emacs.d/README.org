@@ -166,6 +166,8 @@ specified on the command line.
   (defun wolfe/light-setup ()
     (use-package leuven-theme
       :config
+      (custom-set-faces
+       '(ivy-subdir ((t (:background "gray88")))))
       (load-theme 'leuven t)))
 #+END_SRC
 
@@ -201,8 +203,9 @@ buffer when emacs starts up.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq inhibit-splash-screen t
         inhibit-startup-message t
-        inhibit-startup-echo-area-message "wolfe"
         initial-scratch-message "") ; No scratch text
+  (defun display-startup-echo-area-message ()
+    (message "Welcome to the church of GNU/Emacs"))
 #+END_SRC
 
 ** Graphics
@@ -260,12 +263,13 @@ expect as default.
   (blink-cursor-mode -1) ; No need to flash the cursor
   (column-number-mode t) ; Show column in mode-line
   (delete-selection-mode 1) ; Replace selection on insert
-  (setq-default truncate-lines t) ; Don't wrap
-  (setq vc-follow-symlinks t) ; Always follow symlinks
-  (setq-default indent-tabs-mode nil)
-  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file & don't load it
-  (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
-  (setq source-directory "~/Projects/emacs/")
+  (setq-default truncate-lines t ; Don't wrap
+                indent-tabs-mode nil)
+  (setq vc-follow-symlinks t ; Always follow symlinks
+        tags-revert-without-query t ; Don't ask to reload TAGS file
+        echo-keystrokes 0.5
+        custom-file "~/.emacs.d/custom.el" ; Set custom file & don't load it
+        source-directory "~/Projects/emacs/")
 #+END_SRC
 
 ** Misc
@@ -1401,7 +1405,7 @@ Stores all backups and temp files in =~/.bak.emacs/=
 ** Org Project
 
  #+BEGIN_SRC emacs-lisp :tangle yes
-   (load-file "~/Projects/org-project/org-project.el")
+   (load-file "c:/dev/SideProjects/org-project/org-project.el")
    (setq org-project-use-ag t)
  #+END_SRC
 
@@ -1428,3 +1432,4 @@ Stores all backups and temp files in =~/.bak.emacs/=
       (unless already-open (kill-buffer buf))
       (reverse comments)))
 #+END_SRC
+

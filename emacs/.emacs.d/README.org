@@ -221,12 +221,27 @@ I don't really want to have to look at menu bars that I'm not going to use
 
 *** Fonts
 
-I like Inconsolata so use it if installed.
+Quick macro that tries to load the font. If it loads it return =t= so we
+know not to try and load anything else if it returns =nil= then we'll
+try a different font.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (member "Inconsolata" (font-family-list)) ; Set default font
-    (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
-    (set-face-attribute 'default t :font "Inconsolata-15"))
+  (defmacro load-font-if-exists (family size)
+    (if (member family (font-family-list)) ; Set default font
+        (progn
+          (let ((font-and-size (format "%s-%s" family size)))
+            (add-to-list 'default-frame-alist `(font . ,font-and-size))
+            (set-face-attribute 'default t :font font-and-size))
+          t)
+      nil))
+#+END_SRC
+
+I like =Inconsolata-dz= a bit more than =Inconsolata= so use it if installed
+otherwise fall back to regular =Inconsolata=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (unless (load-font-if-exists "Inconsolata-dz" 15)
+    (load-font-if-exists "Inconsolata" 15))
 #+END_SRC
 
 Make sure that UTF-8 is used everywhere.
@@ -1437,4 +1452,5 @@ Stores all backups and temp files in =~/.bak.emacs/=
       (unless already-open (kill-buffer buf))
       (reverse comments)))
 #+END_SRC
+
 

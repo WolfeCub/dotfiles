@@ -651,6 +651,19 @@ Uses GPG to decrypt =file= and returns a list of the contents split on spaces.
                  "[|\n]" t "[ 	\n]"))) " "))
 #+END_SRC
 
+** Ag Kill Buffers and Close Window
+
+Kill all the open ag buffers and delete the window I'm in. This is bound
+in my =[[Ag][ag config]]= in =ag-mode-map= so it will close the current =ag= window
+and all the buffers.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/ag-kill-buffers-and-window ()
+    (interactive)
+    (ag-kill-buffers)
+    (delete-window))
+#+END_SRC
+
 * Org Mode
 ** General
 
@@ -1000,7 +1013,9 @@ Tpope's surround
 Emacs interface for ag
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package ag)
+  (use-package ag
+    :bind (:map ag-mode-map
+           ("Q" . wolfe/ag-kill-buffers-and-window)))
 #+END_SRC
 
 ** Magit

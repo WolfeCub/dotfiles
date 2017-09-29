@@ -28,25 +28,35 @@ I'm using, [[https://raw.githubusercontent.com/WolfeCub/dotfiles/master/emacs/.e
 Variables come at the beginning so that they're consistently available.
 If you don't care about these [[Startup][click here to skip over them]].
 
+** Config Name
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/literate-config-name "README.org"
     "The name of my literate config")
 #+END_SRC
+
+** Init File
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/init-file (concat user-emacs-directory wolfe/literate-config-name)
     "The path to my literate config file")
 #+END_SRC
 
+** Linux Check
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/linux? (eq system-type 'gnu/linux)
     "Are we on linux?")
 #+END_SRC
 
+** Windows Check
+
 #+BEGIN_SRC emacs-lisp :tangle yes
 (defvar wolfe/windows? (eq system-type 'windows-nt)
     "Are we on windows?")
 #+END_SRC
+
+** Org Ellipsis
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/org-ellipsis
@@ -56,6 +66,8 @@ If you don't care about these [[Startup][click here to skip over them]].
     "The indicates if an `org-mode' tree can be expanded")
 #+END_SRC
 
+** Project Path
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/project-path
     (cond
@@ -64,6 +76,8 @@ If you don't care about these [[Startup][click here to skip over them]].
      (:else nil))
     "Path to my projects directory")
 #+END_SRC
+
+** Dropbox Path
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/org-dropbox-path
@@ -76,14 +90,28 @@ If you don't care about these [[Startup][click here to skip over them]].
     "Path to my org files inside dropbox")
 #+END_SRC
 
+** Light Check
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/using-light nil
     "Indicates whether we're using my light theme")
 #+END_SRC
 
+** Lisp Path Location
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/lisp-dir-path "~/.emacs.d/lisp/"
     "Path to my custom lisp files")
+#+END_SRC
+
+** Highlight Escapes Modes
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/highlight-escapes-mode-list '(python-mode
+                                              c-mode
+                                              c++-mode
+                                              web-mode)
+    "List of modes to highlight escape characters in")
 #+END_SRC
 
 * Startup
@@ -265,6 +293,43 @@ Make sure that UTF-8 is used everywhere.
     (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
     (custom-set-faces
      '(column-marker-1 ((t (:background "dim gray"))))))
+#+END_SRC
+
+*** Highlight Escape Characters
+
+This defines 4 new faces and the appropriate =regexps= that highlight
+them and maps them to all the modes in =[[Highlight Escapes Modes][wolfe/highlight-escapes-mode-list]]=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defface wolfe/backslash-escape-backslash-face
+    '((t :inherit font-lock-regexp-grouping-backslash))
+    "Face for the back-slash component of a back-slash escape."
+    :group 'font-lock-faces)
+
+  (defface wolfe/backslash-escape-char-face
+    '((t :inherit font-lock-regexp-grouping-construct))
+    "Face for the charcter component of a back-slash escape."
+    :group 'font-lock-faces)
+
+  (defface wolfe/format-code-format-face
+    '((t :inherit font-lock-regexp-grouping-backslash))
+    "Face for the % component of a printf format code."
+    :group 'font-lock-faces)
+
+  (defface wolfe/format-code-directive-face
+    '((t :inherit font-lock-regexp-grouping-construct))
+    "Face for the directive component of a printf format code."
+    :group 'font-lock-faces)
+
+  (mapc
+   (lambda (mode)
+     (font-lock-add-keywords
+      mode
+      '(("\\(\\\\\\)." 1 'wolfe/backslash-escape-backslash-face prepend)
+        ("\\\\\\(.\\)" 1 'wolfe/backslash-escape-char-face      prepend)
+        ("\\(%\\)."    1 'wolfe/format-code-format-face         prepend)
+        ("%\\(.\\)"    1 'wolfe/format-code-directive-face      prepend))))
+   wolfe/highlight-escapes-mode-list)
 #+END_SRC
 
 ** Personal Defaults
@@ -1467,5 +1532,4 @@ Stores all backups and temp files in =~/.bak.emacs/=
       (unless already-open (kill-buffer buf))
       (reverse comments)))
 #+END_SRC
-
 

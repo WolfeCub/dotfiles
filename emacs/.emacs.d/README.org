@@ -1109,7 +1109,8 @@ Project management
       (counsel-projectile-on))
     (setq projectile-enable-caching t)
     (setq projectile-indexing-method 'alien)
-    (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe"))
+    (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe" ".o"))
+    (setq projectile-globally-ignored-directories '(".git" "node_modules"))
     (projectile-global-mode))
 #+END_SRC
 

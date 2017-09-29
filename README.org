@@ -61,7 +61,7 @@
     - Colorized =man= pages
     - =C-z= to foreground a backgrounded process
     - Directory aliases
-    - [[https://github.com/junegunn/fzf][=fzf=]]
+    - =[[https://github.com/junegunn/fzf][fzf]]=
 
 ** Emacs
    #+html: <p align="center"><img src="https://i.imgur.com/W2t0hAZ.jpg"/></p>

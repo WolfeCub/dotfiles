@@ -28,25 +28,35 @@ I'm using, [[https://raw.githubusercontent.com/WolfeCub/dotfiles/master/emacs/.e
 Variables come at the beginning so that they're consistently available.
 If you don't care about these [[Startup][click here to skip over them]].
 
+** Config Name
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/literate-config-name "README.org"
     "The name of my literate config")
 #+END_SRC
+
+** Init File
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/init-file (concat user-emacs-directory wolfe/literate-config-name)
     "The path to my literate config file")
 #+END_SRC
 
+** Linux Check
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/linux? (eq system-type 'gnu/linux)
     "Are we on linux?")
 #+END_SRC
 
+** Windows Check
+
 #+BEGIN_SRC emacs-lisp :tangle yes
 (defvar wolfe/windows? (eq system-type 'windows-nt)
     "Are we on windows?")
 #+END_SRC
+
+** Org Ellipsis
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/org-ellipsis
@@ -56,6 +66,8 @@ If you don't care about these [[Startup][click here to skip over them]].
     "The indicates if an `org-mode' tree can be expanded")
 #+END_SRC
 
+** Project Path
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/project-path
     (cond
@@ -64,6 +76,8 @@ If you don't care about these [[Startup][click here to skip over them]].
      (:else nil))
     "Path to my projects directory")
 #+END_SRC
+
+** Dropbox Path
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/org-dropbox-path
@@ -76,14 +90,28 @@ If you don't care about these [[Startup][click here to skip over them]].
     "Path to my org files inside dropbox")
 #+END_SRC
 
+** Light Check
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/using-light nil
     "Indicates whether we're using my light theme")
 #+END_SRC
 
+** Lisp Path Location
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/lisp-dir-path "~/.emacs.d/lisp/"
     "Path to my custom lisp files")
+#+END_SRC
+
+** Highlight Escapes Modes
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/highlight-escapes-mode-list '(python-mode
+                                              c-mode
+                                              c++-mode
+                                              web-mode)
+    "List of modes to highlight escape characters in")
 #+END_SRC
 
 * Startup
@@ -166,6 +194,8 @@ specified on the command line.
   (defun wolfe/light-setup ()
     (use-package leuven-theme
       :config
+      (custom-set-faces
+       '(ivy-subdir ((t (:background "gray88")))))
       (load-theme 'leuven t)))
 #+END_SRC
 
@@ -201,8 +231,9 @@ buffer when emacs starts up.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq inhibit-splash-screen t
         inhibit-startup-message t
-        inhibit-startup-echo-area-message "wolfe"
         initial-scratch-message "") ; No scratch text
+  (defun display-startup-echo-area-message ()
+    (message "Welcome to the church of GNU/Emacs"))
 #+END_SRC
 
 ** Graphics
@@ -218,12 +249,27 @@ I don't really want to have to look at menu bars that I'm not going to use
 
 *** Fonts
 
-I like Inconsolata so use it if installed.
+Quick macro that tries to load the font. If it loads it return =t= so we
+know not to try and load anything else if it returns =nil= then we'll
+try a different font.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (member "Inconsolata" (font-family-list)) ; Set default font
-    (add-to-list 'default-frame-alist '(font . "Inconsolata-15" ))
-    (set-face-attribute 'default t :font "Inconsolata-15"))
+  (defmacro load-font-if-exists (family size)
+    (if (member family (font-family-list)) ; Set default font
+        (progn
+          (let ((font-and-size (format "%s-%s" family size)))
+            (add-to-list 'default-frame-alist `(font . ,font-and-size))
+            (set-face-attribute 'default t :font font-and-size))
+          t)
+      nil))
+#+END_SRC
+
+I like =Inconsolata-dz= a bit more than =Inconsolata= so use it if installed
+otherwise fall back to regular =Inconsolata=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (unless (load-font-if-exists "Inconsolata-dz" 15)
+    (load-font-if-exists "Inconsolata" 15))
 #+END_SRC
 
 Make sure that UTF-8 is used everywhere.
@@ -249,6 +295,43 @@ Make sure that UTF-8 is used everywhere.
      '(column-marker-1 ((t (:background "dim gray"))))))
 #+END_SRC
 
+*** Highlight Escape Characters
+
+This defines 4 new faces and the appropriate =regexps= that highlight
+them and maps them to all the modes in =[[Highlight Escapes Modes][wolfe/highlight-escapes-mode-list]]=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defface wolfe/backslash-escape-backslash-face
+    '((t :inherit font-lock-regexp-grouping-backslash))
+    "Face for the back-slash component of a back-slash escape."
+    :group 'font-lock-faces)
+
+  (defface wolfe/backslash-escape-char-face
+    '((t :inherit font-lock-regexp-grouping-construct))
+    "Face for the charcter component of a back-slash escape."
+    :group 'font-lock-faces)
+
+  (defface wolfe/format-code-format-face
+    '((t :inherit font-lock-regexp-grouping-backslash))
+    "Face for the % component of a printf format code."
+    :group 'font-lock-faces)
+
+  (defface wolfe/format-code-directive-face
+    '((t :inherit font-lock-regexp-grouping-construct))
+    "Face for the directive component of a printf format code."
+    :group 'font-lock-faces)
+
+  (mapc
+   (lambda (mode)
+     (font-lock-add-keywords
+      mode
+      '(("\\(\\\\\\)." 1 'wolfe/backslash-escape-backslash-face prepend)
+        ("\\\\\\(.\\)" 1 'wolfe/backslash-escape-char-face      prepend)
+        ("\\(%\\)."    1 'wolfe/format-code-format-face         prepend)
+        ("%\\(.\\)"    1 'wolfe/format-code-directive-face      prepend))))
+   wolfe/highlight-escapes-mode-list)
+#+END_SRC
+
 ** Personal Defaults
 
 Nothing to crazy here just the type of behaviour I personally
@@ -260,12 +343,13 @@ expect as default.
   (blink-cursor-mode -1) ; No need to flash the cursor
   (column-number-mode t) ; Show column in mode-line
   (delete-selection-mode 1) ; Replace selection on insert
-  (setq-default truncate-lines t) ; Don't wrap
-  (setq vc-follow-symlinks t) ; Always follow symlinks
-  (setq-default indent-tabs-mode nil)
-  (setq custom-file "~/.emacs.d/custom.el") ; Set custom file & don't load it
-  (setq tags-revert-without-query t) ; Don't ask to reload TAGS file
-  (setq source-directory "~/Projects/emacs/")
+  (setq-default truncate-lines t ; Don't wrap
+                indent-tabs-mode nil)
+  (setq vc-follow-symlinks t ; Always follow symlinks
+        tags-revert-without-query t ; Don't ask to reload TAGS file
+        echo-keystrokes 0.5
+        custom-file "~/.emacs.d/custom.el" ; Set custom file & don't load it
+        source-directory "~/Projects/emacs/")
 #+END_SRC
 
 ** Misc
@@ -632,6 +716,19 @@ Uses GPG to decrypt =file= and returns a list of the contents split on spaces.
                  "[|\n]" t "[ 	\n]"))) " "))
 #+END_SRC
 
+** Ag Kill Buffers and Close Window
+
+Kill all the open ag buffers and delete the window I'm in. This is bound
+in my =[[Ag][ag config]]= in =ag-mode-map= so it will close the current =ag= window
+and all the buffers.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/ag-kill-buffers-and-window ()
+    (interactive)
+    (ag-kill-buffers)
+    (delete-window))
+#+END_SRC
+
 * Org Mode
 ** General
 
@@ -981,7 +1078,9 @@ Tpope's surround
 Emacs interface for ag
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package ag)
+  (use-package ag
+    :bind (:map ag-mode-map
+           ("Q" . wolfe/ag-kill-buffers-and-window)))
 #+END_SRC
 
 ** Magit
@@ -1010,7 +1109,8 @@ Project management
       (counsel-projectile-on))
     (setq projectile-enable-caching t)
     (setq projectile-indexing-method 'alien)
-    (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe"))
+    (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe" ".o"))
+    (setq projectile-globally-ignored-directories '(".git" "node_modules"))
     (projectile-global-mode))
 #+END_SRC
 
@@ -1400,10 +1500,15 @@ Stores all backups and temp files in =~/.bak.emacs/=
 * Testing
 ** Org Project
 
- #+BEGIN_SRC emacs-lisp :tangle yes
-   (load-file "~/Projects/org-project/org-project.el")
-   (setq org-project-use-ag t)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (cond ((file-exists-p "~/Projects/org-project/")
+         (load-file "~/Projects/org-project/org-project.el")
+         (setq org-project-use-ag t))
+        ((file-exists-p "C:/dev/SideProjects/org-project/")
+         (load-file "C:/dev/SideProjects/org-project/org-project.el")
+         (setq org-project-use-ag t)))
+
+#+END_SRC
 
 ** Extract Dates
 
@@ -1428,3 +1533,4 @@ Stores all backups and temp files in =~/.bak.emacs/=
       (unless already-open (kill-buffer buf))
       (reverse comments)))
 #+END_SRC
+

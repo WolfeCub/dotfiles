@@ -8,7 +8,7 @@ exec --no-startup-id ~/bin/battery_notify
 exec --no-startup-id powertop --auto-tune
 exec --no-startup-id tlp start
 exec --no-startup-id xset r rate 225 30
-exec --no-startup-id ~/.config/i3/fibonacci.py
+#exec --no-startup-id ~/.config/i3/fibonacci.py
 
 # Disable window borders
 for_window [class="^.*"] border pixel 2
@@ -49,7 +49,7 @@ for_window [title="^QEMU$"] floating enable
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%-
 bindsym XF86AudioMute exec amixer set Master toggle
-bindsym --release Print exec ~/bin/shot_upload
+bindsym --release Print exec ~/bin/teknik -s
 
 # brightness keys
 bindsym XF86MonBrightnessUp exec xbacklight -inc 2
@@ -86,7 +86,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+space exec rofi -show run
-bindsym $mod+c exec google-chrome-stable
+bindsym $mod+c exec vivaldi-snapshot
 bindsym $mod+n exec "~/bin/lock.sh"
 
 # change focus

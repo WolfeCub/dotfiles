@@ -1,0 +1,7 @@
+[user]
+	email = joshuafwolfe@gmail.com
+	name = Josh Wolfe
+[push]
+	default = simple
+[magit]
+	hideCampaign = true

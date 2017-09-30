@@ -126,6 +126,7 @@ bindkey -M viins '^u'    backward-kill-line
 alias :q='exit'
 alias less='less -R'
 alias grep='grep --color=always'
+alias pacaur='pacaur --color=always'
 alias open='xdg-open'
 alias wttr='~/bin/weather'
 alias ducolor='cdu -i -s -dh'

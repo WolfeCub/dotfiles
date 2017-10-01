@@ -119,6 +119,13 @@ If you don't care about these *[[Startup][click here to skip over them]]*.
     "List of modes to highlight escape characters in")
 #+END_SRC
 
+** IRC Info Path
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/irc-info-path "~/.ircinfo.gpg"
+    "Location of the GPG encrypted file that has my irc login info")
+#+END_SRC
+
 * Startup
 
 My graphical settings change depending on whether I'm in terminal
@@ -1104,6 +1111,14 @@ Magic git interface from within emacs
     (global-set-key "\C-x\g" 'magit-status))
 #+END_SRC
 
+** Magithub
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package magithub
+    :after magit
+    :config (magithub-feature-autoinject t))
+#+END_SRC
+
 ** Projectile
 
 Project management
@@ -1473,7 +1488,7 @@ On the fly syntax checking
 
     (defun wolfe/irc ()
       (interactive)
-      (let* ((tupple (wolfe/get-user-pass "~/.authinfo.gpg"))
+      (let* ((tupple (wolfe/get-user-pass wolfe/irc-info-path))
              (user (car tupple))
              (pass (cadr tupple)))
         (erc

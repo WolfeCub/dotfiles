@@ -18,6 +18,7 @@ emacs/.emacs.d/irony
 emacs/.emacs.d/*.cache
 emacs/.emacs.d/.python-environments
 emacs/.emacs.d/#README.org#
+emacs/.emacs.d/magithub
 vim/.vim/.netrwhist
 vim/.vim/plugged/
 ncmpcpp/.ncmpcpp/error.log

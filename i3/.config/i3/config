@@ -1,5 +1,6 @@
 exec "xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12"
 exec "setxkbmap -option 'caps:ctrl_modifier'"
+exec "setxkbmap -option compose:ralt"
 exec "xcape -e 'Caps_Lock=Escape'"
 exec "xsetroot -cursor_name left_ptr"
 exec --no-startup-id dropbox start
@@ -8,7 +9,6 @@ exec --no-startup-id ~/bin/battery_notify
 exec --no-startup-id powertop --auto-tune
 exec --no-startup-id tlp start
 exec --no-startup-id xset r rate 225 30
-#exec --no-startup-id ~/.config/i3/fibonacci.py
 
 # Disable window borders
 for_window [class="^.*"] border pixel 2
@@ -80,6 +80,7 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec urxvt
 bindsym $mod+backslash exec emacs
+bindsym $mod+Shift+backslash exec emacs -light
 
 # kill focused window
 bindsym $mod+Shift+q kill

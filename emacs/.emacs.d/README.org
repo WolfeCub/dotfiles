@@ -90,7 +90,12 @@ If you don't care about these [[Startup][click here to skip over them]].
     "Path to my org files inside dropbox")
 #+END_SRC
 
-** Light Check
+** Theme Checks
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar wolfe/using-dark t
+    "Indicates whether we're using my dark theme")
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar wolfe/using-light nil
@@ -133,8 +138,10 @@ This should be run regardless of whether I'm in terminal vs gui or dark vs light
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory "~/.emacs.d/themes")
 
-  (setq wolfe/using-light (member "-light" command-line-args))
-  (setq command-line-args (delete "-light" command-line-args))
+  (when (member "-light" command-line-args)
+    (setq wolfe/using-dark nil)
+    (setq wolfe/using-light t)
+    (setq command-line-args (delete "-light" command-line-args)))
 #+END_SRC
 
 ** Dark

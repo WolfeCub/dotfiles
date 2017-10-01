@@ -5,3 +5,5 @@
 	default = simple
 [magit]
 	hideCampaign = true
+[github]
+	user = WolfeCub

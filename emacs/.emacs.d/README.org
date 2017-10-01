@@ -26,7 +26,7 @@ I'm using, [[https://raw.githubusercontent.com/WolfeCub/dotfiles/master/emacs/.e
 * Variables
 
 Variables come at the beginning so that they're consistently available.
-If you don't care about these [[Startup][click here to skip over them]].
+If you don't care about these *[[Startup][click here to skip over them]]*.
 
 ** Config Name
 
@@ -1228,6 +1228,12 @@ Project management
     :after company
     :config
     (add-to-list 'company-backends '(company-shell company-shell-env)))
+#+END_SRC
+
+** Nim
+   
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package nim-mode)
 #+END_SRC
 
 * Utility

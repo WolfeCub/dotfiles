@@ -138,10 +138,17 @@ This should be run regardless of whether I'm in terminal vs gui or dark vs light
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory "~/.emacs.d/themes")
 
-  (when (member "-light" command-line-args)
-    (setq wolfe/using-dark nil)
-    (setq wolfe/using-light t)
-    (setq command-line-args (delete "-light" command-line-args)))
+  (defmacro check-and-remove-command-line-arg (argument)
+    "Checks `command-line-args' for argument and removes it if found returning t or nil"
+    (if (member argument command-line-args)
+        (progn
+          (setq command-line-args (delete argument command-line-args))
+          t)
+      nil))
+
+  (let ((result (check-and-remove-command-line-arg "-light")))
+    (setq wolfe/using-light result)
+    (setq wolfe/using-dark (not result)))
 #+END_SRC
 
 ** Dark

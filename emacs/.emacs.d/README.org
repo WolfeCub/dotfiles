@@ -305,6 +305,13 @@ Make sure that UTF-8 is used everywhere.
   (set-input-method nil)
 #+END_SRC
 
+*** Pretty Symbols
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq prettify-symbols-unprettify-at-point 'right-edge)
+  (add-hook 'prog-mode-hook 'prettify-symbols-mode)
+#+END_SRC
+
 *** Column Marker
 
 #+BEGIN_SRC emacs-lisp :tangle yes

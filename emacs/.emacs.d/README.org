@@ -365,7 +365,7 @@ This function can be called by the mode specific hook to push the defaults.
 *** Highlight Escape Characters
 
 This defines 4 new faces and the appropriate =regexps= that highlight
-them and maps them to all the modes in =[[Highlight Escapes Modes][wolfe/highlight-escapes-mode-list]]=.
+them and maps them to all the modes in [[Highlight Escapes Modes][=wolfe/highlight-escapes-mode-list=]].
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defface wolfe/backslash-escape-backslash-face
@@ -786,7 +786,7 @@ Uses GPG to decrypt =file= and returns a list of the contents split on spaces.
 ** Ag Kill Buffers and Close Window
 
 Kill all the open ag buffers and delete the window I'm in. This is bound
-in my =[[Ag][ag config]]= in =ag-mode-map= so it will close the current =ag= window
+in my [[Ag][=ag config=]] in =ag-mode-map= so it will close the current =ag= window
 and all the buffers.
 
 #+BEGIN_SRC emacs-lisp :tangle yes

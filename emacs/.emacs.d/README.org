@@ -293,6 +293,14 @@ otherwise fall back to regular =Inconsolata=.
     (load-font-if-exists "Inconsolata" 15))
 #+END_SRC
 
+Specify a fallback font for =utf-8= symbols.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (when (member "Fira Code" (font-family-list))
+    (set-fontset-font "fontset-default" nil
+                      (font-spec :name "Fira Code")))
+#+END_SRC
+
 Make sure that UTF-8 is used everywhere.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -307,9 +315,40 @@ Make sure that UTF-8 is used everywhere.
 
 *** Pretty Symbols
 
+In emacs =24.4= we got =prettify-symbols-mode= which replaces things like =lambda=
+with =λ=. This can help make the code easier to read. The =inhibit-compacting-font-caches=
+stops garbage collect from trying to handle font caches which makes things a lot faster
+and saves us ram.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq prettify-symbols-unprettify-at-point 'right-edge)
-  (add-hook 'prog-mode-hook 'prettify-symbols-mode)
+  (setq inhibit-compacting-font-caches t)
+#+END_SRC
+
+**** Global
+
+These symbols are the basics that I would like enabled for all =prog-mode= modes.
+This function can be called by the mode specific hook to push the defaults.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/pretty-symbol-push-default ()
+    (push '("!=" . ?≠) prettify-symbols-alist)
+    (push '("<=" . ?≤) prettify-symbols-alist)
+    (push '(">=" . ?≥) prettify-symbols-alist)
+    (push '("=>" . ?⇒) prettify-symbols-alist))
+#+END_SRC
+
+**** Python
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (wolfe/pretty-symbol-push-default)
+              (push '("def" . ?ƒ) prettify-symbols-alist)
+              (push '("sum" . ?𝚺) prettify-symbols-alist)
+              (push '("**2" . ?²) prettify-symbols-alist)
+              (push '("**3" . ?³) prettify-symbols-alist)
+              (prettify-symbols-mode t)))
 #+END_SRC
 
 *** Column Marker
@@ -1260,7 +1299,7 @@ Project management
 #+END_SRC
 
 ** Nim
-   
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package nim-mode)
 #+END_SRC

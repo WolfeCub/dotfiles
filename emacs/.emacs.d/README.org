@@ -796,6 +796,24 @@ and all the buffers.
     (delete-window))
 #+END_SRC
 
+** Org Tree Slides Set Transient Map
+
+This function once called will keep a transient map active until =wolfe--enable-transient-map=
+is set to nil at which point it will unbind the variable. This is used with [[Org Tree Slide][=org-tree-slide-mode=]]
+to add custom bindings regardless of the mode.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/org-tree-set-transient-map ()
+    (interactive)
+    (if wolfe--enable-transient-map
+        (let ((map (make-sparse-keymap)))
+          (define-key map (kbd "<right>") 'org-tree-slide-move-next-tree)
+          (define-key map (kbd "<left>")  'org-tree-slide-move-previous-tree)
+          (define-key map (kbd "<up>")    'org-tree-slide-content)
+          (set-transient-map map nil 'wolfe/org-tree-set-transient-map))
+      (makeunbound wolfe--enable-transient-map)))
+#+END_SRC
+
 * Org Mode
 ** General
 
@@ -893,8 +911,19 @@ minted package for PDF export.
 
 ** Org Tree Slide
 
+Presentation mode that runs from within an org document. I add a custom hook for [[Org Tree Slides Set Transient Map][a function]] that
+repeatedly creates a transient map replacing the controls regardless of my evil mode.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package org-tree-slide)
+  (use-package org-tree-slide
+    :config
+    (add-hook 'org-tree-slide-mode-hook
+              (lambda ()
+                (if org-tree-slide-mode
+                    (progn
+                      (setq wolfe--enable-transient-map t)
+                      (wolfe/org-tree-set-transient-map))
+                  (setq wolfe--enable-transient-map nil)))))
 #+END_SRC
 
 * Keymaps

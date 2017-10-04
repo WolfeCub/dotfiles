@@ -1,5 +1,4 @@
 * About
-# -*- mode: org; -*-
 #+TITLE: Wolfe's Literate Emacs Config
 #+AUTHOR: Josh Wolfe
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
@@ -890,6 +889,12 @@ minted package for PDF export.
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+
+** Org Tree Slide
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package org-tree-slide)
 #+END_SRC
 
 * Keymaps

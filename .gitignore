@@ -19,6 +19,7 @@ emacs/.emacs.d/*.cache
 emacs/.emacs.d/.python-environments
 emacs/.emacs.d/#README.org#
 emacs/.emacs.d/magithub
+emacs/.emacs.d/server
 vim/.vim/.netrwhist
 vim/.vim/plugged/
 ncmpcpp/.ncmpcpp/error.log

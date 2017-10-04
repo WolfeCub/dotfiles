@@ -810,6 +810,7 @@ to add custom bindings regardless of the mode.
           (define-key map (kbd "<right>") 'org-tree-slide-move-next-tree)
           (define-key map (kbd "<left>")  'org-tree-slide-move-previous-tree)
           (define-key map (kbd "<up>")    'org-tree-slide-content)
+          (define-key map (kbd "<down>")  'org-tree-slide-display-header-toggle)
           (set-transient-map map nil 'wolfe/org-tree-set-transient-map))
       (makeunbound wolfe--enable-transient-map)))
 #+END_SRC

@@ -288,16 +288,17 @@ I like =Inconsolata-dz= a bit more than =Inconsolata= so use it if installed
 otherwise fall back to regular =Inconsolata=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (unless (load-font-if-exists "Inconsolata-dz" 15)
-    (load-font-if-exists "Inconsolata" 15))
+  (unless (load-font-if-exists "Inconsolata-dz" 17)
+    (load-font-if-exists "Inconsolata" 17))
 #+END_SRC
 
-Specify a fallback font for =utf-8= symbols.
+Force =Fira Code= for all =UTF-8= symbols.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (member "Fira Code" (font-family-list))
-    (set-fontset-font "fontset-default" nil
-                      (font-spec :name "Fira Code")))
+  (let ((utf8-font "Fira Code"))
+    (set-fontset-font "fontset-startup" '(#x000000 . #x3FFFFF) utf8-font)
+    (set-fontset-font "fontset-default" '(#x000000 . #x3FFFFF) utf8-font)
+    (set-fontset-font "fontset-standard" '(#x000000 . #x3FFFFF) utf8-font))
 #+END_SRC
 
 Make sure that UTF-8 is used everywhere.
@@ -343,11 +344,24 @@ This function can be called by the mode specific hook to push the defaults.
   (add-hook 'python-mode-hook
             (lambda ()
               (wolfe/pretty-symbol-push-default)
-              (push '("def" . ?ƒ) prettify-symbols-alist)
-              (push '("sum" . ?𝚺) prettify-symbols-alist)
-              (push '("**2" . ?²) prettify-symbols-alist)
-              (push '("**3" . ?³) prettify-symbols-alist)
-              (push '("None" . ?∅) prettify-symbols-alist)
+              (push '("def"    . ?ƒ) prettify-symbols-alist)
+              (push '("sum"    . ?Σ) prettify-symbols-alist)
+              (push '("**2"    . ?²) prettify-symbols-alist)
+              (push '("**3"    . ?³) prettify-symbols-alist)
+              (push '("None"   . ?∅) prettify-symbols-alist)
+              (push '("in"     . ?∈) prettify-symbols-alist)
+              (push '("not in" . ?∉) prettify-symbols-alist)
+              (push '("return" . ?➡) prettify-symbols-alist)
+              (prettify-symbols-mode t)))
+#+END_SRC
+
+**** Lisp
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'lisp-mode-hook
+            (lambda ()
+              (wolfe/pretty-symbol-push-default)
+              (push '("defun" . ?ƒ) prettify-symbols-alist)
               (prettify-symbols-mode t)))
 #+END_SRC
 

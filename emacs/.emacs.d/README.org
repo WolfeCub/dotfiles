@@ -358,10 +358,12 @@ This function can be called by the mode specific hook to push the defaults.
 **** Lisp
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-hook 'lisp-mode-hook
+  (add-hook 'emacs-lisp-mode-hook
             (lambda ()
               (wolfe/pretty-symbol-push-default)
-              (push '("defun" . ?ƒ) prettify-symbols-alist)
+              (push '("defun"    . ?ƒ) prettify-symbols-alist)
+              (push '("defmacro" . ?μ) prettify-symbols-alist)
+              (push '("defvar"   . ?ν) prettify-symbols-alist)
               (prettify-symbols-mode t)))
 #+END_SRC
 

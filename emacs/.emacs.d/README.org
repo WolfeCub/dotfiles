@@ -1192,6 +1192,16 @@ Tpope's surround
 
 #+END_SRC
 
+*** Evil Visual Star
+
+This allows me to easily start a =*= or =#= search from a visual selection.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package evil-visualstar
+    :config
+    (global-evil-visualstar-mode))
+#+END_SRC
+
 * Project Management
 ** Ag
 

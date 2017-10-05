@@ -935,10 +935,13 @@ repeatedly creates a transient map replacing the controls regardless of my evil 
     (add-hook 'org-tree-slide-mode-hook
               (lambda ()
                 (if org-tree-slide-mode
-                    (progn
-                      (setq wolfe--enable-transient-map t)
-                      (wolfe/org-tree-set-transient-map))
-                  (setq wolfe--enable-transient-map nil)))))
+                    ;; When mode is enabled
+                    (progn (setq org-hide-emphasis-markers t
+                                 wolfe--enable-transient-map t)
+                           (wolfe/org-tree-set-transient-map))
+                  ;; When mode is disabled
+                  (setq org-hide-emphasis-markers nil
+                        wolfe--enable-transient-map nil)))))
 #+END_SRC
 
 * Keymaps

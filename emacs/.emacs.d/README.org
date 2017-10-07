@@ -338,6 +338,15 @@ This function can be called by the mode specific hook to push the defaults.
     (push '("=>" . ?⇒) prettify-symbols-alist))
 #+END_SRC
 
+Now apply the default to some modes I don't want anything special in.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (mapc
+   (lambda (hook)
+     (add-hook 'hook (lambda () (wolfe/pretty-symbol-push-default))))
+   '(c-mode))
+#+END_SRC
+
 **** Python
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1227,14 +1236,6 @@ Magic git interface from within emacs
             (kill-buffer)
             (delete-window)))
     (global-set-key "\C-x\g" 'magit-status))
-#+END_SRC
-
-** Magithub
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package magithub
-    :after magit
-    :config (magithub-feature-autoinject t))
 #+END_SRC
 
 ** Projectile

@@ -914,7 +914,7 @@ Setup org agenda for managing my life.
             (search . " %i %-12:c")))
 
     ;; Sets location of org files
-    (setq org-agenda-files '((concat wolfe/org-dropbox-path "everything.org")))
+    (setq org-agenda-files `(,(concat wolfe/org-dropbox-path "everything.org")))
     (setq browse-url-browser-function 'browse-url-chromium))
 #+END_SRC
 

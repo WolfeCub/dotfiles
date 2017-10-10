@@ -768,7 +768,7 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
     (org-try-structure-completion)
     (when additional-text
       (insert additional-text)
-      (next-line)))
+      (forward-line)))
 #+END_SRC
 
 ** Ag Project If In Project
@@ -928,7 +928,8 @@ minted package for PDF export.
 
   (require 'ox-latex)
   (add-to-list 'org-latex-packages-alist '("" "minted"))
-  (setq org-latex-listings 'minted)
+  (setq org-export-allow-bind-keywords t
+        org-latex-listings 'minted)
   (setq org-latex-pdf-process
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
@@ -1252,7 +1253,7 @@ Project management
     (setq projectile-indexing-method 'alien)
     (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe" ".o"))
     (setq projectile-globally-ignored-directories '(".git" "node_modules"))
-    (projectile-global-mode))
+    (projectile-mode))
 #+END_SRC
 
 * Languages

@@ -1349,6 +1349,19 @@ Project management
     (add-to-list 'company-backends 'company-omnisharp))
 #+END_SRC
 
+** Rust
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package rust-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package racer
+    :config
+    (add-hook 'rust-mode-hook #'racer-mode)
+    (add-hook 'racer-mode-hook #'eldoc-mode))
+#+END_SRC
+
 ** Python
 
 #+BEGIN_SRC emacs-lisp :tangle yes

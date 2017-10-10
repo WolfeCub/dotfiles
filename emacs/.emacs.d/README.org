@@ -338,6 +338,15 @@ This function can be called by the mode specific hook to push the defaults.
     (push '("=>" . ?⇒) prettify-symbols-alist))
 #+END_SRC
 
+Now apply the default to some modes I don't want anything special in.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (mapc
+   (lambda (hook)
+     (add-hook 'hook (lambda () (wolfe/pretty-symbol-push-default))))
+   '(c-mode))
+#+END_SRC
+
 **** Python
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -905,7 +914,7 @@ Setup org agenda for managing my life.
             (search . " %i %-12:c")))
 
     ;; Sets location of org files
-    (setq org-agenda-files '((concat wolfe/org-dropbox-path "everything.org")))
+    (setq org-agenda-files `(,(concat wolfe/org-dropbox-path "everything.org")))
     (setq browse-url-browser-function 'browse-url-chromium))
 #+END_SRC
 
@@ -1230,14 +1239,6 @@ Magic git interface from within emacs
     (global-set-key "\C-x\g" 'magit-status))
 #+END_SRC
 
-** Magithub
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package magithub
-    :after magit
-    :config (magithub-feature-autoinject t))
-#+END_SRC
-
 ** Projectile
 
 Project management
@@ -1259,6 +1260,7 @@ Project management
 ** Generic Web
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package web-mode
+    :defer t
     :config
     (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
@@ -1292,29 +1294,32 @@ Project management
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package parinfer
+    :defer t
     :bind
     (("C-," . parinfer-toggle-mode))
     :init
     (setq
      parinfer-extensions '(defaults pretty-parens evil smart-tab smart-yank)
      parinfer-lighters '(" Φi" . " Φp"))
-    (add-hook 'clojure-mode-hook #'parinfer-mode)
-    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'clojure-mode-hook     #'parinfer-mode)
+    (add-hook 'emacs-lisp-mode-hook  #'parinfer-mode)
     (add-hook 'common-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'scheme-mode-hook #'parinfer-mode)
-    (add-hook 'lisp-mode-hook #'parinfer-mode))
+    (add-hook 'scheme-mode-hook      #'parinfer-mode)
+    (add-hook 'lisp-mode-hook        #'parinfer-mode))
 #+END_SRC
 
 ** Racket
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package racket-mode)
+  (use-package racket-mode
+    :defer t)
 #+END_SRC
 
 ** Latex
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package latex-preview-pane
+    :defer t
     :ensure f)
 #+END_SRC
 
@@ -1367,7 +1372,8 @@ Project management
 ** Nim
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package nim-mode)
+  (use-package nim-mode
+    :defer t)
 #+END_SRC
 
 * Utility

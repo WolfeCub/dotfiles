@@ -11,7 +11,7 @@ autoload -U colors && colors
 export CLICOLOR=1
 
 # awesome cd movements from zshkit
-setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
+setopt autopushd pushdminus pushdsilent pushdtohome
 DIRSTACKSIZE=5
 
 # Enable extended globbing
@@ -160,20 +160,11 @@ _newline=$'\n'
 _lineup=$'\e[1A'
 _linedown=$'\e[1B'
 
-# * There are uncommitted changes.
-# ? There are files git doesn't know about.
-# ➚ There are commits that haven't been pushed yet.
-# ☰ There are stashed files.
-# ⌥ There are branches other than master.
-# ® There are remote repositories other than origin configured.
-source ~/.zsh/git-prompt.zsh 
-
 function preexec() {
     echo
 }
 function precmd() {
     echo
-    PSVAR=`git_prompt_precmd`
 }
 
 PROMPT="%F{red}%n%F{white}@%F{green}%m %F{blue}%~ ${_newline}%F{white}$ "
@@ -194,4 +185,4 @@ fi
 
 
 # added by travis gem
-[ -f /home/wolfe/.travis/travis.sh ] && source /home/wolfe/.travis/travis.sh
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh

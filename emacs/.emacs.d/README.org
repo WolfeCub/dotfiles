@@ -1366,11 +1366,10 @@ Project management
 ** Python
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package company-jedi
+  (use-package elpy
     :after company
     :config
-    (add-to-list 'company-backends 'company-jedi))
-
+    (elpy-enable))
 #+END_SRC
 
 ** Shell Scripts

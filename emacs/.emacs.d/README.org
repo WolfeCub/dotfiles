@@ -853,6 +853,7 @@ Setup some basic quality of life org settings.
         org-fontify-whole-heading-line t
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t
+        org-highlight-latex-and-related '(latex)
         org-log-done 'time
         org-agenda-use-time-grid nil
         org-agenda-skip-deadline-if-done t
@@ -970,7 +971,7 @@ Customizable popup menus.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-csharp
-        (defhydra hydra-csharp (:color blue)
+        (defhydra hydra-csharp (:color blue :columns 4)
           "Omnisharp"
           ("d" omnisharp-go-to-definition              "Goto definition")
           ("D" omnisharp-go-to-definition-other-window "Pop-open definition")
@@ -979,6 +980,19 @@ Customizable popup menus.
           ("R" omnisharp-reload-solution               "Reload solution")
           ("i" omnisharp-code-format-region            "Indent region")
           ("I" omnisharp-code-format-entire-file       "Indent entire file")
+          ))
+#+END_SRC
+
+**** Python
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq wolfe/hydra-python
+        (defhydra hydra-python (:color blue :columns 4)
+          "Python"
+          ("i" elpy-importmagic-fixup "Importmagic fixup")
+          ("d" elpy-goto-definition   "Goto definition")
+          ("r" elpy-multiedit-python-symbol-at-point   "Rename symbol")
+          ("f" elpy-format-code   "Format code")
           ))
 #+END_SRC
 
@@ -1072,6 +1086,7 @@ Customizable popup menus.
         (defhydra hydra-default (:color blue)
           "Default"
           ("o" (funcall wolfe/hydra-org) "Org Mode")
+          ("p" (funcall wolfe/hydra-python) "Python Mode")
           ("#" (funcall wolfe/hydra-csharp) "C# Mode")))
 #+END_SRC
 
@@ -1081,6 +1096,7 @@ Customizable popup menus.
   (defun wolfe/hydra-selector ()
     (cond
      ((derived-mode-p 'csharp-mode) wolfe/hydra-csharp)
+     ((derived-mode-p 'python-mode) wolfe/hydra-python)
      ((bound-and-true-p org-jira-mode) wolfe/hydra-jira)
      ((derived-mode-p 'org-mode) wolfe/hydra-org)
      (:else wolfe/hydra-default)))
@@ -1369,6 +1385,8 @@ Project management
   (use-package elpy
     :after company
     :config
+    (when (executable-find "ipython")
+      (elpy-use-ipython))
     (elpy-enable))
 #+END_SRC
 
@@ -1406,6 +1424,14 @@ Edit all instances of a string
   (use-package iedit
     :config
     (setq iedit-toggle-key-default nil))
+#+END_SRC
+
+** Zoom
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package zoom
+    :config
+    (zoom-mode t))
 #+END_SRC
 
 ** Restclient

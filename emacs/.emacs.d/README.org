@@ -440,8 +440,9 @@ expect as default.
   (setq vc-follow-symlinks t ; Always follow symlinks
         tags-revert-without-query t ; Don't ask to reload TAGS file
         echo-keystrokes 0.5
-        custom-file "~/.emacs.d/custom.el" ; Set custom file & don't load it
+        custom-file "~/.emacs.d/custom.el" ; Set custom file
         source-directory "~/Projects/emacs/")
+  (load custom-file 'noerror)
 #+END_SRC
 
 ** Misc
@@ -1424,14 +1425,6 @@ Edit all instances of a string
   (use-package iedit
     :config
     (setq iedit-toggle-key-default nil))
-#+END_SRC
-
-** Zoom
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package zoom
-    :config
-    (zoom-mode t))
 #+END_SRC
 
 ** Restclient

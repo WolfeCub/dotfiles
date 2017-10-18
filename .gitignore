@@ -1,4 +1,5 @@
 *.elc
+#.*#
 emacs/.emacs.d/lisp/the-lab.el
 emacs/.emacs.d/custom.el*
 emacs/.emacs.d/README.el
@@ -12,14 +13,13 @@ emacs/.emacs.d/projectile-bookmarks.eld
 emacs/.emacs.d/network-security.data
 emacs/.emacs.d/oauth2.plstore
 emacs/.emacs.d/ido.last*
-emacs/.emacs.d/#init.el#
 emacs/.emacs.d/srecode-map.el
 emacs/.emacs.d/irony
 emacs/.emacs.d/*.cache
 emacs/.emacs.d/.python-environments
-emacs/.emacs.d/#README.org#
 emacs/.emacs.d/magithub
 emacs/.emacs.d/server
+emacs/.emacs.d/request/
 vim/.vim/.netrwhist
 vim/.vim/plugged/
 ncmpcpp/.ncmpcpp/error.log

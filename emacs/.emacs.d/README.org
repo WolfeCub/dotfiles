@@ -446,7 +446,6 @@ expect as default.
 #+END_SRC
 
 ** Misc
-
 *** Vim Scrolloff
 
 This makes scrolling gradual rather than by half page. I find that the
@@ -1248,12 +1247,12 @@ Magic git interface from within emacs
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
+    :defer t
     :config
     (setq magit-bury-buffer-function
           (lambda (con)
             (kill-buffer)
-            (delete-window)))
-    (global-set-key "\C-x\g" 'magit-status))
+            (delete-window))))
 #+END_SRC
 
 ** Projectile
@@ -1370,11 +1369,13 @@ Project management
 ** Rust
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package rust-mode)
+  (use-package rust-mode
+    :defer t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package racer
+    :defer t
     :config
     (add-hook 'rust-mode-hook #'racer-mode)
     (add-hook 'racer-mode-hook #'eldoc-mode))
@@ -1385,6 +1386,7 @@ Project management
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package elpy
     :after company
+    :defer t
     :config
     (when (executable-find "ipython")
       (elpy-use-ipython))
@@ -1432,7 +1434,8 @@ Edit all instances of a string
 Postman inside of emacs.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package restclient)
+  (use-package restclient
+    :defer t)
 #+END_SRC
 
 ** Rainbow Mode
@@ -1440,7 +1443,8 @@ Postman inside of emacs.
 Shows hex colors inline.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package rainbow-mode)
+  (use-package rainbow-mode
+    :defer t)
 #+END_SRC
 
 ** Help Fns+
@@ -1453,6 +1457,7 @@ Shows hex colors inline.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package org-jira
+    :defer t
     :config
     (setq jiralib-url "https://indigoca.atlassian.net"))
 #+END_SRC
@@ -1626,9 +1631,14 @@ On the fly syntax checking
 
 ** IRC
 
+My =erc= settings are pretty basic. I have the fill column recalculate
+on window resize and I put the scroll margin back to default so that my
+[[Vim Scrolloff][scrolloff]] settings don't mess with it.
+
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package erc
     :ensure nil
+    :defer t
     :config
     (add-hook 'window-configuration-change-hook
               '(lambda ()
@@ -1640,18 +1650,23 @@ On the fly syntax checking
     (setq erc-rename-buffers t
           erc-interpret-mirc-color t
           erc-lurker-hide-list '("JOIN" "PART" "QUIT")
-          erc-autojoin-channels-alist '(("freenode.net" "#emacs")))
+          erc-autojoin-channels-alist '(("freenode.net" "#emacs"))))
+#+END_SRC
 
-    (defun wolfe/irc ()
-      (interactive)
-      (let* ((tupple (wolfe/get-user-pass wolfe/irc-info-path))
-             (user (car tupple))
-             (pass (cadr tupple)))
-        (erc
-         :server "irc.freenode.net"
-         :port 6667
-         :nick user
-         :password pass))))
+Simple function that pulls my credentials from a GPG encrypted file
+and connects to =freenode= providing a nick and password to verify my user.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/irc ()
+        (interactive)
+        (let* ((tupple (wolfe/get-user-pass wolfe/irc-info-path))
+               (user (car tupple))
+               (pass (cadr tupple)))
+          (erc
+           :server "irc.freenode.net"
+           :port 6667
+           :nick user
+           :password pass)))
 #+END_SRC
 
 ** Meme

@@ -376,6 +376,17 @@ Now apply the default to some modes I don't want anything special in.
               (prettify-symbols-mode t)))
 #+END_SRC
 
+**** Go
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (wolfe/pretty-symbol-push-default)
+              (push '("func"    . ?ƒ) prettify-symbols-alist)
+              (push '(":="    . ?←) prettify-symbols-alist)
+              (prettify-symbols-mode t)))
+#+END_SRC
+
 *** Column Marker
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1365,21 +1376,6 @@ Project management
     (add-to-list 'company-backends 'company-omnisharp))
 #+END_SRC
 
-** Rust
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package rust-mode
-    :defer t)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package racer
-    :defer t
-    :config
-    (add-hook 'rust-mode-hook #'racer-mode)
-    (add-hook 'racer-mode-hook #'eldoc-mode))
-#+END_SRC
-
 ** Python
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1399,6 +1395,21 @@ Project management
     :after company
     :config
     (add-to-list 'company-backends '(company-shell company-shell-env)))
+#+END_SRC
+
+** Go
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package go-mode
+    :config
+    (add-hook 'go-mode-hook '(lambda () (setq tab-width 4))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company-go
+    :after company
+    :config
+    (add-to-list 'company-backends 'company-go))
 #+END_SRC
 
 ** Nim

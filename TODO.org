@@ -36,6 +36,10 @@ packages and configs that I should look into.
     - hydras
     - mu4e
 
+* Things to look into
+** TODO Read about emacs =follow-mode=
+   Follow mode allows you to extend your scrolling of a buffer across multiple
+   splits.
 * TODO Find a suitable shell setup inside emacs
   Currently I use =urxvt= as an external terminal. Ideally I would like to run
   my shell from within emacs but as of present I haven't found an experience

@@ -81,7 +81,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 bindsym $mod+space exec rofi -show run
-bindsym $mod+c exec vivaldi-snapshot
+bindsym $mod+c exec firefox-developer
 bindsym $mod+n exec "~/bin/lock.sh"
 
 # change focus
@@ -117,15 +117,15 @@ bindsym $mod+Shift+space floating toggle
 bindsym Mod1+space focus mode_toggle
 
 # switch to workspace
-bindsym $mod+percent workspace 1
-bindsym $mod+bracketleft workspace 2
-bindsym $mod+braceleft workspace 3
-bindsym $mod+braceright workspace 4
-bindsym $mod+parenleft workspace 5
-bindsym $mod+equal workspace 6
-bindsym $mod+astericks workspace 7
-bindsym $mod+parenright workspace 8
-bindsym $mod+plus workspace 9
+bindsym $mod+percent      workspace 1
+bindsym $mod+bracketleft  workspace 2
+bindsym $mod+braceleft    workspace 3
+bindsym $mod+braceright   workspace 4
+bindsym $mod+parenleft    workspace 5
+bindsym $mod+equal        workspace 6
+bindsym $mod+asterisk     workspace 7
+bindsym $mod+parenright   workspace 8
+bindsym $mod+plus         workspace 9
 bindsym $mod+bracketright workspace 10
 
 bindsym $mod+Shift+percent      move container to workspace 1
@@ -134,7 +134,7 @@ bindsym $mod+Shift+braceleft    move container to workspace 3
 bindsym $mod+Shift+braceright   move container to workspace 4
 bindsym $mod+Shift+parenleft    move container to workspace 5
 bindsym $mod+Shift+equal        move container to workspace 6
-bindsym $mod+Shift+astericks    move container to workspace 7
+bindsym $mod+Shift+asterisk     move container to workspace 7
 bindsym $mod+Shift+parenright   move container to workspace 8
 bindsym $mod+Shift+plus         move container to workspace 9
 bindsym $mod+Shift+bracketright move container to workspace 10

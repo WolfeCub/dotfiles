@@ -295,10 +295,11 @@ otherwise fall back to regular =Inconsolata=.
 Force =Fira Code= for all =UTF-8= symbols.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (let ((utf8-font "Fira Code"))
-    (set-fontset-font "fontset-startup" '(#x000000 . #x3FFFFF) utf8-font)
-    (set-fontset-font "fontset-default" '(#x000000 . #x3FFFFF) utf8-font)
-    (set-fontset-font "fontset-standard" '(#x000000 . #x3FFFFF) utf8-font))
+  (when (display-graphic-p)
+    (let ((utf8-font "Fira Code"))
+      (set-fontset-font "fontset-startup" '(#x000000 . #x3FFFFF) utf8-font)
+      (set-fontset-font "fontset-default" '(#x000000 . #x3FFFFF) utf8-font)
+      (set-fontset-font "fontset-standard" '(#x000000 . #x3FFFFF) utf8-font)))
 #+END_SRC
 
 Make sure that UTF-8 is used everywhere.
@@ -959,12 +960,10 @@ repeatedly creates a transient map replacing the controls regardless of my evil 
               (lambda ()
                 (if org-tree-slide-mode
                     ;; When mode is enabled
-                    (progn (setq org-hide-emphasis-markers t
-                                 wolfe--enable-transient-map t)
+                    (progn (setq wolfe--enable-transient-map t)
                            (wolfe/org-tree-set-transient-map))
                   ;; When mode is disabled
-                  (setq org-hide-emphasis-markers nil
-                        wolfe--enable-transient-map nil)))))
+                  (setq wolfe--enable-transient-map nil)))))
 #+END_SRC
 
 * Keymaps
@@ -1371,7 +1370,9 @@ Project management
   (use-package omnisharp
     :after company
     :config
-    (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe")
+    (when wolfe/windows?
+        (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
+  
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
     (add-to-list 'company-backends 'company-omnisharp))
 #+END_SRC
@@ -1409,6 +1410,8 @@ Project management
   (use-package company-go
     :after company
     :config
+    (when wolfe/linux?
+      (add-to-list 'exec-path "~/Projects/go/bin"))
     (add-to-list 'company-backends 'company-go))
 #+END_SRC
 

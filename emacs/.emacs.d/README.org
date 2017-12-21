@@ -1273,7 +1273,7 @@ Project management
     :config
     (use-package counsel-projectile
       :config
-      (counsel-projectile-on))
+      (counsel-projectile-mode))
     (setq projectile-enable-caching t)
     (setq projectile-indexing-method 'alien)
     (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe" ".o"))

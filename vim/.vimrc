@@ -127,6 +127,9 @@ vnoremap <leader>S y:execute @@<cr>
 nnoremap <leader>b :b#<cr>
 nnoremap <leader>k :bd<cr>
 nnoremap <leader>m :Buffers<cr>
+" Tab navigation
+nnoremap <right> :tabnext<cr>
+nnoremap <left> :tabprevious<cr>
 " Don't lose visual selection with < >
 xnoremap < <gv
 xnoremap > >gv

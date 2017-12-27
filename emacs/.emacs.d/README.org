@@ -1144,38 +1144,42 @@ Customizable popup menus.
                             :prefix "SPC"
                             :non-normal-prefix "M-SPC")
 
-    :general
-    (:states 'motion
-             "k" 'evil-previous-visual-line
-             "j" 'evil-next-visual-line)
+    (general-define-key
+     :states 'motion
+     "k" 'evil-previous-visual-line
+     "j" 'evil-next-visual-line)
 
-    (:states 'operator
-             "k" 'evil-previous-line
-             "j" 'evil-next-line)
+    (general-define-key
+     :states 'operator
+     "k" 'evil-previous-line
+     "j" 'evil-next-line)
 
-    (:states 'visual
-             "<" (lambda ()
-                   (interactive)
-                   (evil-shift-left (region-beginning) (region-end))
-                   (evil-normal-state)
-                   (evil-visual-restore))
-             ">" (lambda ()
-                   (interactive)
-                   (evil-shift-right (region-beginning) (region-end))
-                   (evil-normal-state)
-                   (evil-visual-restore)))
+    (general-define-key
+     :states 'visual
+     "<" (lambda ()
+           (interactive)
+           (evil-shift-left (region-beginning) (region-end))
+           (evil-normal-state)
+           (evil-visual-restore))
+     ">" (lambda ()
+           (interactive)
+           (evil-shift-right (region-beginning) (region-end))
+           (evil-normal-state)
+           (evil-visual-restore)))
 
-    (:states 'normal
-             "C-z"  'wolfe/controlz
-             "C-l"  'evil-ex-nohighlight)
+    (general-define-key
+     :states 'normal
+     "C-z"  'wolfe/controlz
+     "C-l"  'evil-ex-nohighlight)
 
-    (:states 'normal :prefix "g"
-             "a" (lambda (beginning end)
-                   (interactive "r")
-                   (if (use-region-p)
-                       (align beginning end)
-                     (align-current)))
-             "A" 'align-regexp)
+    (general-define-key
+     :states 'normal :prefix "g"
+     "a" (lambda (beginning end)
+           (interactive "r")
+           (if (use-region-p)
+               (align beginning end)
+             (align-current)))
+     "A" 'align-regexp)
 
 
     (wolfe/bind-leader

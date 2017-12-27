@@ -1,4 +1,11 @@
 ##
+## E N V I R O N M E N T
+##
+export PAGER='less -R'
+export GOROOT=/usr/lib/go
+export GOPATH=$HOME/Projects/go
+
+##
 ## S E T T I N G S
 ##
 # Vi mode
@@ -130,6 +137,8 @@ alias pacaur='pacaur --color=always'
 alias open='xdg-open'
 alias wttr='~/bin/weather'
 alias ducolor='cdu -i -s -dh'
+alias yaourt='yaourt --color'
+alias yp='yaourt --pager --noconfirm'
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'
@@ -151,6 +160,10 @@ alias ec='emacsclient -c'
 
 qemu () {
     $(which qemu-system-x86_64) "$@" 2>&1 | grep -v "Gtk-WARNING"
+}
+
+pgrepk () {
+    pgrep -i $1 | xargs kill -9
 }
 
 ##
@@ -187,5 +200,3 @@ fi
 # added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
-export GOROOT=/usr/lib/go
-export GOPATH=$HOME/Projects/go

@@ -782,18 +782,20 @@ Is used in one of my [[Hydra][hydras]] =wolfe/hydra-org-expand=. For inserting o
       (forward-line)))
 #+END_SRC
 
-** Ag Project If In Project
+** Projectile If-Else
 
-If we're inside of a projectile project we'll use =projectile-ag= to
-search the project otherwise just normal ag frow our working directory
-does the job.
+This allows us to easily call a projectile version of a
+function if we're inside of a project otherwise we can just
+call the normal version. For example =projectile-ag= vs =ag=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/ag-try-project ()
+  (defun wolfe/if-else-projectile (if-function else-function)
+    "Calls the if-function if inside a project otherwise
+  it calls the else-function"
     (interactive)
     (if (projectile-project-p)
-        (call-interactively 'projectile-ag)
-      (call-interactively 'ag)))
+        (call-interactively if-function)
+      (call-interactively else-function)))
 #+END_SRC
 
 ** Projectile Invalidate From List
@@ -1181,7 +1183,6 @@ Customizable popup menus.
              (align-current)))
      "A" 'align-regexp)
 
-
     (wolfe/bind-leader
      "w"  'save-buffer
      "S"  'eval-buffer
@@ -1189,23 +1190,21 @@ Customizable popup menus.
      "b"  'mode-line-other-buffer
      "k"  'kill-buffer
      "m"  'ivy-switch-buffer
-     "t"  'wolfe/find-tag
      "e"  'iedit-mode
      "c"  'wolfe/compile-no-prompt
      "n"  'narrow-or-widen-dwim
      "a"  'org-agenda
      "g"  'magit-status
-     "f"  'wolfe/ag-try-project
      "''" 'org-edit-src-exit
-     "#" 'wolfe/csharp-project
-     "p" (lambda() (interactive) (funcall wolfe/hydra-projectile))
-     ";" (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
-     "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
-     "o"   (lambda() (interactive) (wolfe/org-open "everything"))
-     "SPC" (lambda() (interactive) (funcall (wolfe/hydra-selector)))
+     "#"  'wolfe/csharp-project
+     "t"    (lambda() (interactive) (wolfe/if-else-projectile 'treemacs-projectile 'treemacs))
+     "f"    (lambda() (interactive) (wolfe/if-else-projectile 'projectile-ag 'ag))
+     "p"    (lambda() (interactive) (funcall wolfe/hydra-projectile))
+     ";"    (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
+     "id"   (lambda() (interactive) (indent-region (point-min) (point-max)))
+     "o"    (lambda() (interactive) (wolfe/org-open "everything"))
+     "SPC"  (lambda() (interactive) (funcall (wolfe/hydra-selector)))
      "init" (lambda() (interactive) (evil-buffer-new nil wolfe/init-file))))
-
-
 #+END_SRC
 
 *** Evil Surround
@@ -1283,6 +1282,24 @@ Project management
     (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe" ".o"))
     (setq projectile-globally-ignored-directories '(".git" "node_modules"))
     (projectile-mode))
+#+END_SRC
+
+** Treemacs
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package treemacs
+    :config
+    (setq treemacs-follow-after-init t
+          treemacs-width             35
+          treemacs-indentation       2))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package treemacs-evil)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package treemacs-projectile)
 #+END_SRC
 
 * Languages

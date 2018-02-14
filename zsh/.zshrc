@@ -11,6 +11,9 @@ export GOPATH=$HOME/Projects/go
 # Vi mode
 bindkey -v
 
+# Enable Ctrl-x e to edit command line in editor
+autoload -U edit-command-line
+
 # Enable colors
 autoload -U colors && colors
 
@@ -125,6 +128,9 @@ bindkey -M viins '^e'    end-of-line
 bindkey -M viins '^k'    kill-line
 bindkey -M viins '^w'    backward-kill-word
 bindkey -M viins '^u'    backward-kill-line
+zle -N edit-command-line
+bindkey -M viins '^xe'  edit-command-line
+bindkey -M viins '^x^e'  edit-command-line
 
 ##
 ## A L I A S E S

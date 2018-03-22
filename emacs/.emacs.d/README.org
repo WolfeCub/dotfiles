@@ -1242,6 +1242,16 @@ This allows me to easily start a =*= or =#= search from a visual selection.
     (global-evil-visualstar-mode))
 #+END_SRC
 
+*** Evil Numbers
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package evil-numbers
+    :config
+    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+    (define-key evil-normal-state-map (kbd "C--") 'evil-numbers/dec-at-pt))
+
+#+END_SRC
+
 * Project Management
 ** Ag
 
@@ -1479,12 +1489,6 @@ Shows hex colors inline.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package rainbow-mode
     :defer t)
-#+END_SRC
-
-** Help Fns+
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package help-fns+)
 #+END_SRC
 
 ** Org Jira

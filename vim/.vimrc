@@ -192,10 +192,10 @@ let g:airline#extensions#tabline#enabled = 1
 
 " FZF Settings
 " Insert mode completion
-inoremap <c-x><c-k> <Plug>(fzf-complete-word)
-inoremap <c-x><c-f> <Plug>(fzf-complete-path)
-inoremap <c-x><c-j> <Plug>(fzf-complete-file-ag)
-inoremap <c-x><c-l> <Plug>(fzf-complete-line)
+imap <C-x><C-k> <Plug>(fzf-complete-word)
+imap <C-x><C-f> <Plug>(fzf-complete-path)
+imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
+imap <C-x><C-l> <Plug>(fzf-complete-line)
 " [Tags] Command to generate tags file
 let g:fzf_tags_command = 'ctags -R'
 

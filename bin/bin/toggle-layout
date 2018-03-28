@@ -5,3 +5,5 @@ if [[ `setxkbmap -query | grep layout` == "layout:     us" ]]; then
 else
     setxkbmap us
 fi
+
+~/bin/caps

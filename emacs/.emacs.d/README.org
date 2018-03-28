@@ -1410,9 +1410,13 @@ Project management
     :after company
     :hook python-mode-hook
     :config
+    (setq elpy-rpc-backend "jedi")
     (when (executable-find "ipython")
-      (elpy-use-ipython))
-    (elpy-enable))
+      (setq python-shell-interpreter "ipython"
+            python-shell-interpreter-args "-i --simple-prompt"))
+
+    (elpy-enable)
+    (delete 'elpy-module-highlight-indentation elpy-modules))
 #+END_SRC
 
 ** Shell Scripts

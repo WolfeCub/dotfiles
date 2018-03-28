@@ -14,7 +14,6 @@
                            ("org" . "http://orgmode.org/elpa/")))
   (setq package-enable-at-startup nil)
   (setq package-pinned-packages '((use-package . "melpa")))
-  (package-initialize)
 
   ;; Bootstrap use-package
   (unless (package-installed-p 'use-package)

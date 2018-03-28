@@ -1174,15 +1174,6 @@ Customizable popup menus.
      "C-z"  'wolfe/controlz
      "C-l"  'evil-ex-nohighlight)
 
-    (general-define-key
-     :states 'normal :prefix "g"
-     "a" (lambda (beginning end)
-           (interactive "r")
-           (if (use-region-p)
-               (align beginning end)
-             (align-current)))
-     "A" 'align-regexp)
-
     (wolfe/bind-leader
      "w"  'save-buffer
      "S"  'eval-buffer
@@ -1250,6 +1241,14 @@ This allows me to easily start a =*= or =#= search from a visual selection.
     (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
     (define-key evil-normal-state-map (kbd "C--") 'evil-numbers/dec-at-pt))
 
+#+END_SRC
+
+*** Evil Lion
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package evil-lion
+    :config
+    (evil-lion-mode))
 #+END_SRC
 
 * Project Management

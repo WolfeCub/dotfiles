@@ -1409,7 +1409,7 @@ Project management
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package elpy
     :after company
-    :mode "\\.py\\'"
+    :hook python-mode-hook
     :config
     (when (executable-find "ipython")
       (elpy-use-ipython))

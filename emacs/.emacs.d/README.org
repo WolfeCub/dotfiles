@@ -1316,12 +1316,8 @@ Project management
 ** Generic Web
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package web-mode
-    :defer t
+    :mode ("\\.html\\'" "\\.php\\'" "\\.js\\'")
     :config
-    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-
     (setq web-mode-enable-auto-closing t)
     (setq web-mode-enable-auto-opening t)
     (setq web-mode-enable-auto-indentation t))
@@ -1413,7 +1409,7 @@ Project management
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package elpy
     :after company
-    :defer t
+    :mode "\\.py\\'"
     :config
     (when (executable-find "ipython")
       (elpy-use-ipython))

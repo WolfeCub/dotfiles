@@ -1408,14 +1408,12 @@ Project management
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package elpy
     :after company
-    :hook python-mode-hook
+    :init (elpy-enable)
     :config
     (setq elpy-rpc-backend "jedi")
     (when (executable-find "ipython")
       (setq python-shell-interpreter "ipython"
             python-shell-interpreter-args "-i --simple-prompt"))
-
-    (elpy-enable)
     (delete 'elpy-module-highlight-indentation elpy-modules))
 #+END_SRC
 

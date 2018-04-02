@@ -1414,7 +1414,9 @@ Project management
     (when (executable-find "ipython")
       (setq python-shell-interpreter "ipython"
             python-shell-interpreter-args "-i --simple-prompt"))
-    (delete 'elpy-module-highlight-indentation elpy-modules))
+
+    (delete 'elpy-module-highlight-indentation elpy-modules)
+    (delete 'elpy-module-flymake elpy-modules))
 #+END_SRC
 
 ** Shell Scripts
@@ -1599,8 +1601,7 @@ On the fly syntax checking
   (use-package flycheck
     :config
     (global-flycheck-mode)
-    (with-eval-after-load 'flycheck
-      (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 #+END_SRC
 
 * Misc

@@ -154,23 +154,12 @@ This should be run regardless of whether I'm in terminal vs gui or dark vs light
 
 Configuration for my dark theme =base16 default dark= which is loaded by default.
 
-*** Common
-
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/dark-setup ()
     (use-package base16-theme
       :config
       (load-theme 'base16-default-dark t)
 
-      (if (display-graphic-p)
-          (wolfe/dark-gui-setup)
-        (wolfe/dark-term-setup))))
-#+END_SRC
-
-*** Graphical
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/dark-gui-setup ()
       (defvar my/base16-colors base16-default-dark-colors)
       (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)
             evil-insert-state-cursor  `(,(plist-get my/base16-colors :base0D) bar)
@@ -178,7 +167,7 @@ Configuration for my dark theme =base16 default dark= which is loaded by default
             evil-normal-state-cursor  `(,(plist-get my/base16-colors :base07) box)
             evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
             evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box))
-      (set-face-attribute 'fringe nil :background nil)
+      (set-face-attribute 'fringe nil :background nil))
 
     (custom-set-faces
      '(region ((t (:background "gray19"))))
@@ -188,27 +177,10 @@ Configuration for my dark theme =base16 default dark= which is loaded by default
      '(org-todo ((t (:box (:line-width 1) :weight bold))))))
 #+END_SRC
 
-*** Terminal
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/dark-term-setup ()
-    (setq nlinum-format "%d ")
-    (custom-set-faces
-     '(line-number ((t (:background "color-18" :foreground "brightblack"))))
-     '(ivy-current-match ((t (:background "color-18" :foreground "color-16"))))
-     '(linum ((t (:background "color-18"))))
-     '(region ((t :background "color-19")))
-     '(mode-line ((t (:background "color-19" :foreground "brightblue" :box nil))))
-     '(mode-line-inactive
-       ((t (:background "color-18" :foreground "color-244"))))))
-#+END_SRC
-
 ** Light
 
 Configuration for my light theme =leuven=. This is only loaded when the =-light= flag is
 specified on the command line.
-
-*** Common
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/light-setup ()
@@ -579,7 +551,7 @@ Vim-like relative line numbering. If we're on the latest versions of emacs
 otherwise we fall back to =nlinum-relative=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (if (fboundp 'display-line-numbers-mode)
+  (if (version< "26.0.50" emacs-version)
       (progn
         (setq display-line-numbers 'relative)
         (add-hook 'prog-mode-hook 'display-line-numbers-mode))
@@ -1416,7 +1388,7 @@ Project management
 #+END_SRC
 
 ** Python
-   
+
 I explicitly load the python package so that I can defer it
 and =elpy= together since elpy is a bit slow to load at startup.
 

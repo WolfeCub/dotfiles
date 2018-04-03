@@ -1740,13 +1740,12 @@ Stores all backups and temp files in =~/.bak.emacs/=
 ** Org Project
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (cond ((file-exists-p "~/Projects/org-project/")
-         (load-file "~/Projects/org-project/org-project.el")
-         (setq org-project-use-ag t))
-        ((file-exists-p "C:/dev/SideProjects/org-project/")
-         (load-file "C:/dev/SideProjects/org-project/org-project.el")
-         (setq org-project-use-ag t)))
-
+  (let ((todo-file-path "~/Projects/todo-projectile/todo-projectile.el"))
+    (when wolfe/windows?
+      (setq todo-file-path "c:/dev/SideProjects/todo-projectile/todo-projectile.el"))
+    (when (file-exists-p todo-file-path)
+      (load-file todo-file-path)
+      (setq org-project-use-ag t)))
 #+END_SRC
 
 ** Extract Dates

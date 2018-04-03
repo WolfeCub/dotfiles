@@ -1468,7 +1468,7 @@ Project management
     (setq eyebrowse-new-workspace t)
     (evil-ex-define-cmd "tabe" 'eyebrowse-create-window-config)
     (eyebrowse-setup-opinionated-keys) ; Evil window bindings
-    (define-key evil-normal-state-map (kbd "<left>") 'eyebrowse-last-window-config)
+    (define-key evil-normal-state-map (kbd "<left>") 'eyebrowse-prev-window-config)
     (define-key evil-normal-state-map (kbd "<right>") 'eyebrowse-next-window-config))
 #+END_SRC
 

@@ -1404,7 +1404,7 @@ Project management
     :config
     (when wolfe/windows?
         (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
-  
+
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
     (add-to-list 'company-backends 'company-omnisharp))
 #+END_SRC
@@ -1787,4 +1787,3 @@ Stores all backups and temp files in =~/.bak.emacs/=
       (unless already-open (kill-buffer buf))
       (reverse comments)))
 #+END_SRC
-

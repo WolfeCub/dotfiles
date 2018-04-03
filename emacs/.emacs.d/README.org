@@ -495,7 +495,9 @@ This behaviour in general emulates the =scrolloff= option in vim.
 *** Spell Check
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
+  (add-hook 'prog-mode-hook
+            (lambda () (let ((inhibit-message t))
+                    (flyspell-prog-mode))))
 #+END_SRC
 
 ** Mode Line

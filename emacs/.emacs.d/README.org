@@ -1251,7 +1251,7 @@ Magic git interface from within emacs
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
-    :defer 2
+    :defer 4
     :config
     (use-package evil-magit)
     (setq magit-bury-buffer-function

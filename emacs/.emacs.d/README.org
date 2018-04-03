@@ -1223,12 +1223,6 @@ Tpope's surround
       (global-evil-surround-mode 1))
 #+END_SRC
 
-*** Evil Magit
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package evil-magit)
-#+END_SRC
-
 *** Evil Machit
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1283,8 +1277,9 @@ Magic git interface from within emacs
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package magit
-    :defer t
+    :defer 2
     :config
+    (use-package evil-magit)
     (setq magit-bury-buffer-function
           (lambda (con)
             (kill-buffer)
@@ -1419,10 +1414,17 @@ Project management
 #+END_SRC
 
 ** Python
+   
+I explicitly load the python package so that I can defer it
+and =elpy= together since elpy is a bit slow to load at startup.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package python
+    :defer 2
+    :hook python-mode-hook)
+
   (use-package elpy
-    :after company
+    :after (company python)
     :init (elpy-enable)
     :config
     (setq elpy-rpc-backend "jedi")

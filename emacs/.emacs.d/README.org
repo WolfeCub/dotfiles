@@ -483,6 +483,12 @@ This behaviour in general emulates the =scrolloff= option in vim.
     (setq explicit-shell-file-name "cmdproxy.exe"))
 #+END_SRC
 
+*** Spell Check
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
+#+END_SRC
+
 ** Mode Line
 
 If we're in GUI emacs we make sure to use =powerline= otherwise we use

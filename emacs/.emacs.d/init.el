@@ -5,9 +5,10 @@
 ;;    \_/\_/ \___/|_|_|  \___| |___/ |_|_| |_|_|\__(_)___|_|
 
 ;; Set garbage collect high to speed up startup
-(let ((gc-cons-threshold most-positive-fixnum))
-  ;; Setup package sources
+(let ((gc-cons-threshold most-positive-fixnum)
+      (ad-redefinition-action 'accept)) ;; Ignore advice warnings
   (require 'package)
+  ;; Setup package sources
   (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                            ("marmalade" . "https://marmalade-repo.org/packages/")
                            ("melpa" . "http://melpa.org/packages/")

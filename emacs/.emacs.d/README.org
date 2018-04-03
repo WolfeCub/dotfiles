@@ -436,6 +436,15 @@ them and maps them to all the modes in [[Highlight Escapes Modes][=wolfe/highlig
    wolfe/highlight-escapes-mode-list)
 #+END_SRC
 
+*** Highlight Todo, Fixme & Bug
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'prog-mode-hook
+                 (lambda ()
+                  (font-lock-add-keywords nil
+                   '(("\\<\\(FIXME\\|TODO\\|BUG\\|XXX\\):" 1 font-lock-warning-face t)))))
+#+END_SRC
+
 ** Personal Defaults
 
 Nothing to crazy here just the type of behaviour I personally

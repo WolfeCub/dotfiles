@@ -1745,7 +1745,7 @@ Stores all backups and temp files in =~/.bak.emacs/=
       (setq todo-file-path "c:/dev/SideProjects/todo-projectile/todo-projectile.el"))
     (when (file-exists-p todo-file-path)
       (load-file todo-file-path)
-      (setq org-project-use-ag t)))
+      (setq todo-projectile-use-ag t)))
 #+END_SRC
 
 ** Extract Dates

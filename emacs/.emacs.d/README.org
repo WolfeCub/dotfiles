@@ -130,6 +130,15 @@ If you don't care about these *[[Startup][click here to skip over them]]*.
 My graphical settings change depending on whether I'm in terminal
 and if a command line flag (=-light=) was specified.
 
+** WM
+
+Start load emacs window manager config if it exists.
+
+ #+BEGIN_SRC emacs-lisp :tangle yes
+   (when (file-exists-p "~/.exwm.el")
+     (load-file "~/.exwm.el"))
+ #+END_SRC
+
 ** Theme Setup
 
 This should be run regardless of whether I'm in terminal vs gui or dark vs light.

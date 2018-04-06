@@ -467,9 +467,15 @@ This behaviour in general emulates the =scrolloff= option in vim.
 *** Spell Check
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (setq flyspell-mode-map nil)
   (add-hook 'prog-mode-hook
             (lambda () (let ((inhibit-message t))
                     (flyspell-prog-mode))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (when wolfe/windows?
+    (setq ispell-program-name "c:/emacs/hunspell/bin/hunspell.exe"))
 #+END_SRC
 
 ** Mode Line

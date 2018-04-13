@@ -894,6 +894,10 @@ Setup some basic quality of life org settings.
                (when org-inline-image-overlays
                  (org-redisplay-inline-images))))
 
+  (defun wolfe/confirm-babel-evaluate (lang body)
+    (not (string= lang "dot")))
+  (setq org-confirm-babel-evaluate 'wolfe/confirm-babel-evaluate)
+
   ;; Open PDFs with zathura
   (add-hook 'org-mode-hook
             '(lambda ()
@@ -1533,7 +1537,8 @@ Shows hex colors inline.
                (eldoc-mode            " ε" eldoc)
                (flycheck-mode         " ƒ" flycheck)
                (undo-tree-mode        ""   undo-tree)
-               (auto-revert-mode      ""   autorevert))))
+               (auto-revert-mode      ""   autorevert)
+               (flyspell-mode         ""   flyspell))))
 #+END_SRC
 
 * Completion
@@ -1550,12 +1555,23 @@ Shows hex colors inline.
     :init
     (use-package smex)
     (use-package counsel)
-    (use-package doom-todo-ivy :ensure nil)
+    (use-package doom-todo-ivy
+      :ensure nil
+      :config
+      (evil-ex-define-cmd "todo" 'doom/ivy-tasks))
     :config
     (setq ivy-re-builders-alist
           '((t . ivy--regex-ignore-order)))
     (setq ivy-wrap t)
     (ivy-mode 1)
+
+    (define-key ivy-switch-buffer-map (kbd "C-d")
+      '(lambda () (interactive)
+         (setq ivy-current-prefix-arg current-prefix-arg)
+         (ivy-set-action 'ivy--kill-buffer-action)
+         (ivy-call)
+         (ivy-shrink-after-dispatching)))
+
     (eval-after-load "hydra" (use-package ivy-hydra)))
 #+END_SRC
 

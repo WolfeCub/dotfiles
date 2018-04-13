@@ -857,6 +857,23 @@ to add custom bindings regardless of the mode.
       (makeunbound wolfe--enable-transient-map)))
 #+END_SRC
 
+** Eval and Replace
+
+This was stolen from [[https://github.com/bbatsov/prelude][prelude]] emacs. Over there it's called =prelude-eval-and-replace=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/eval-and-replace ()
+    "Replace the preceding sexp with its value."
+    (interactive)
+    (backward-kill-sexp)
+    (condition-case nil
+        (prin1 (eval (read (current-kill 0)))
+               (current-buffer))
+      (error (message "Invalid expression")
+             (insert (current-kill 0)))))
+
+#+END_SRC
+
 * Org Mode
 ** General
 
@@ -1184,7 +1201,7 @@ Customizable popup menus.
 
     (wolfe/bind-leader
      "w"  'save-buffer
-     "S"  'eval-buffer
+     "S"  'wolfe/eval-and-replace
      "s"  'eval-defun
      "b"  'mode-line-other-buffer
      "k"  'kill-buffer
@@ -1197,7 +1214,7 @@ Customizable popup menus.
      "''" 'org-edit-src-exit
      "#"  'wolfe/csharp-project
      "t"    (lambda() (interactive) (wolfe/if-else-projectile 'treemacs-projectile 'treemacs))
-     "f"    (lambda() (interactive) (wolfe/if-else-projectile 'projectile-ag 'ag))
+     "f"    (lambda() (interactive) (wolfe/if-else-projectile 'counsel-projectile-ag 'counsel-ag))
      "p"    (lambda() (interactive) (funcall wolfe/hydra-projectile))
      ";"    (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
      "id"   (lambda() (interactive) (indent-region (point-min) (point-max)))

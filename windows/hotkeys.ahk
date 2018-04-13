@@ -7,7 +7,7 @@
 #c::run firefox
 
 ;; Launch Emacs
-#\::Run C:\emacs\bin\runemacs.exe
+#\::Run C:\emacs\bin\runemacs.exe, C:\
 
 ;; Minimize current window
 $Insert::WinMinimize, A

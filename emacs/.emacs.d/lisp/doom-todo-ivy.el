@@ -62,7 +62,7 @@ face to render it with.")
                                       (car (split-string x ":"))))
                        nil))
                collect `((type . ,(match-string 3 x))
-                         (desc . ,(match-string 4 x))
+                         (desc . ,(replace-regexp-in-string "|" "¦" (match-string 4 x)))
                          (file . ,(match-string 1 x))
                          (line . ,(match-string 2 x)))))))
 

@@ -862,10 +862,12 @@ to add custom bindings regardless of the mode.
 This was stolen from [[https://github.com/bbatsov/prelude][prelude]] emacs. Over there it's called =prelude-eval-and-replace=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/eval-and-replace ()
-    "Replace the preceding sexp with its value."
-    (interactive)
-    (backward-kill-sexp)
+  (defun wolfe/eval-and-replace (beginning end)
+    "Replace the preceding sexp or region with its value."
+    (interactive "r")
+    (if (region-active-p)
+        (delete-region beginning end)
+      (backward-kill-sexp))
     (condition-case nil
         (prin1 (eval (read (current-kill 0)))
                (current-buffer))

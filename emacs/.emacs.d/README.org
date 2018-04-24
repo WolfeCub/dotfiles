@@ -480,18 +480,20 @@ This behaviour in general emulates the =scrolloff= option in vim.
     (setq ispell-program-name "c:/emacs/hunspell/bin/hunspell.exe"))
 #+END_SRC
 
-*** Compilation
+*** Help & Compilation
+
+Keep the output scrolling as it compiles.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (require 'compile)
   (setq compilation-scroll-output t)
 #+END_SRC
 
-*** Help Mode
+=q= should really quit the buffer not just stick it at the bottom.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (bind-key (kbd "q") (lambda () (interactive)
-                            (quit-window t))
-            help-mode-map)
+  (dolist (m (list help-mode-map compilation-mode-map))
+    (bind-key (kbd "q") (lambda () (interactive) (quit-window t)) m))
 #+END_SRC
 
 ** Mode Line
@@ -999,6 +1001,7 @@ Customizable popup menus.
           ("R" omnisharp-reload-solution               "Reload solution")
           ("i" omnisharp-code-format-region            "Indent region")
           ("I" omnisharp-code-format-entire-file       "Indent entire file")
+          ("e" omnisharp-solution-errors               "Solution errors")
           ))
 #+END_SRC
 

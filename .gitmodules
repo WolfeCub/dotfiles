@@ -5,3 +5,6 @@
 	path = emacs/.emacs.d/lisp/meme
 	url = https://github.com/larsmagne/meme.git
     ignore = untracked
+[submodule "emacs/.emacs.d/lisp/major-mode-hydra"]
+	path = emacs/.emacs.d/lisp/major-mode-hydra
+	url = https://github.com/jerrypnz/major-mode-hydra.el.git

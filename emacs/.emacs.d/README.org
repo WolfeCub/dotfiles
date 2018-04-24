@@ -985,46 +985,46 @@ Customizable popup menus.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package hydra)
+  (use-package major-mode-hydra
+    :ensure nil)
 #+END_SRC
 
 *** Major Modes
 **** C#
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq wolfe/hydra-csharp
-        (defhydra hydra-csharp (:color blue :columns 4)
-          "Omnisharp"
-          ("d" omnisharp-go-to-definition              "Goto definition")
-          ("D" omnisharp-go-to-definition-other-window "Pop-open definition")
-          ("u" omnisharp-find-usages                   "Find usages")
-          ("r" omnisharp-rename                        "Rename symbol")
-          ("R" omnisharp-reload-solution               "Reload solution")
-          ("i" omnisharp-code-format-region            "Indent region")
-          ("I" omnisharp-code-format-entire-file       "Indent entire file")
-          ("e" omnisharp-solution-errors               "Solution errors")
-          ))
+  (major-mode-hydra-bind csharp-mode "Find"
+    ("d" omnisharp-go-to-definition              "Goto definition")
+    ("D" omnisharp-go-to-definition-other-window "Pop-open definition")
+    ("u" omnisharp-find-usages                   "Find usages"))
+
+  (major-mode-hydra-bind csharp-mode "Refactor"
+    ("r" omnisharp-rename                        "Rename symbol")
+    ("R" omnisharp-run-code-action-refactoring   "Refactor"))
+
+  (major-mode-hydra-bind csharp-mode "Manage"
+    ("s" omnisharp-reload-solution               "Reload solution")
+    ("i" omnisharp-code-format-region            "Indent region")
+    ("I" omnisharp-code-format-entire-file       "Indent entire file")
+    ("e" omnisharp-solution-errors               "Solution errors"))
 #+END_SRC
 
 **** Python
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq wolfe/hydra-python
-        (defhydra hydra-python (:color blue :columns 4)
-          "Python"
-          ("i" elpy-importmagic-fixup "Importmagic fixup")
-          ("d" elpy-goto-definition   "Goto definition")
-          ("r" elpy-multiedit-python-symbol-at-point   "Rename symbol")
-          ("f" elpy-format-code   "Format code")
-          ))
+  (major-mode-hydra-bind python-mode "Python"
+    ("i" elpy-importmagic-fixup "Importmagic fixup")
+    ("d" elpy-goto-definition   "Goto definition")
+    ("r" elpy-multiedit-python-symbol-at-point   "Rename symbol")
+    ("f" elpy-format-code   "Format code")
+    )
 #+END_SRC
 
 **** Org Mode
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq wolfe/hydra-org
-        (defhydra hydra-org (:color blue)
-          "Org Mode"
-          ("t" (funcall wolfe/hydra-org-expand) "Expand template")))
+  (major-mode-hydra-bind org-mode "Org Mode"
+    ("t" (funcall wolfe/hydra-org-expand) "Expand template"))
 #+END_SRC
 
 **** Org Templates
@@ -1061,67 +1061,41 @@ Customizable popup menus.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq wolfe/hydra-projectile
-        (defhydra hydra-projectile (:color blue :columns 4)
-          "Projectile"
-          ("f" counsel-projectile-find-file        "Find File")
-          ("s" counsel-projectile-switch-project   "Switch Project")
-          ("k" projectile-kill-buffers             "Kill Buffers")
-          ("c" projectile-invalidate-cache         "Clear Cache")
+        (pretty-hydra-define hydra-projectile (:exit t :hint nil)
+          ("Files" (("f" counsel-projectile-find-file        "Find File")
+                    ("d" counsel-projectile-find-dir         "Find Directory")
+                    ("o" projectile-multi-occur              "Multi Occur")
+                    ("s" counsel-projectile-switch-project   "Switch Project")
+                    ("k" projectile-kill-buffers             "Kill Buffers"))
 
-          ("d" counsel-projectile-find-dir         "Find Directory")
-          ("o" projectile-multi-occur              "Multi Occur")
-          ("P" projectile-clear-known-projects      "Clear Projects")
-          ("C" wolfe/projectile-invalidate-list    "Clear A Cache")
-          ))
+           "Cache" (("c" projectile-invalidate-cache         "Clear Cache")
+                    ("C" wolfe/projectile-invalidate-list    "Clear A Cache")
+                    ("P" projectile-clear-known-projects     "Clear Projects")))))
 #+END_SRC
 
 **** Jira
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq wolfe/hydra-jira
-        (defhydra hydra-jira (:color blue :columns 4)
-          "Jira"
-          ("p" org-jira-get-projects             "Get Projects")
-          ("b" org-jira-browse-issue             "Browse Issue")
-          ("g" org-jira-get-issues               "Get Issues")
-          ("u" org-jira-update-issue             "Update Issue")
+  (defun wolfe/hydra-jira ()
+    (interactive)
+    (funcall
+        (pretty-hydra-define hydra-jira (:exit t :hint nil)
+          ("Get" (("p" org-jira-get-projects                "Get Projects")
+                  ("g" org-jira-get-issues                  "Get Issues")
+                  ("G" org-jira-get-subtasks                "Get Subtasks")
+                  ("r" org-jira-refresh-issue               "Refresh Issue")
+                  ("R" org-jira-refresh-issues-in-buffer    "Refresh Issues in Buffer"))
 
-          ("p" org-jira-progress-issue           "Update Issue Progress")
-          ("a" org-jira-assign-issue             "Assign Issue")
-          ("r" org-jira-refresh-issue            "Refresh Issue")
-          ("R" org-jira-refresh-issues-in-buffer "Refresh Issues in Buffer")
+           "Manage" (("b" org-jira-browse-issue             "Browse Issue")
+                     ("c" org-jira-create-issue             "Create Issue")
+                     ("s" org-jira-create-subtask           "Create Subtask")
+                     ("P" org-jira-progress-issue           "Update Issue Progress")
+                     ("a" org-jira-assign-issue             "Assign Issue"))
 
-          ("c" org-jira-create-issue             "Create Issue")
-          ("y" org-jira-copy-current-issue-key   "Copy Current Issue Key")
-          ("s" org-jira-create-subtask           "Create Subtask")
-          ("G" org-jira-get-subtasks             "Get Subtasks")
-
-          ("U" org-jira-update-comment           "Update Comment")
-          ("t" org-jira-todo-to-jira             "Todo to Jira")
-          ("O"  (funcall wolfe/hydra-org-expand)  "Org Hydra")))
-#+END_SRC
-
-*** Default
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (setq wolfe/hydra-default
-        (defhydra hydra-default (:color blue)
-          "Default"
-          ("o" (funcall wolfe/hydra-org) "Org Mode")
-          ("p" (funcall wolfe/hydra-python) "Python Mode")
-          ("#" (funcall wolfe/hydra-csharp) "C# Mode")))
-#+END_SRC
-
-*** Selector
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/hydra-selector ()
-    (cond
-     ((derived-mode-p 'csharp-mode) wolfe/hydra-csharp)
-     ((derived-mode-p 'python-mode) wolfe/hydra-python)
-     ((bound-and-true-p org-jira-mode) wolfe/hydra-jira)
-     ((derived-mode-p 'org-mode) wolfe/hydra-org)
-     (:else wolfe/hydra-default)))
+           "Push" (("u" org-jira-update-issue                "Update Issue")
+                   ("y" org-jira-copy-current-issue-key      "Copy Current Issue Key")
+                   ("U" org-jira-update-comment              "Update Comment")
+                   ("t" org-jira-todo-to-jira                "Todo to Jira"))))))
 #+END_SRC
 
 ** Evil & General
@@ -1205,8 +1179,8 @@ Customizable popup menus.
      ";"    (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
      "id"   (lambda() (interactive) (indent-region (point-min) (point-max)))
      "o"    (lambda() (interactive) (wolfe/org-open "everything"))
-     "SPC"  (lambda() (interactive) (funcall (wolfe/hydra-selector)))
-     "init" (lambda() (interactive) (evil-buffer-new nil wolfe/init-file))))
+     "init" (lambda() (interactive) (evil-buffer-new nil wolfe/init-file))
+     "SPC"  'major-mode-hydra))
 #+END_SRC
 
 *** Evil Surround

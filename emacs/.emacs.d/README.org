@@ -269,8 +269,8 @@ I like =Inconsolata-dz= a bit more than =Inconsolata= so use it if installed
 otherwise fall back to regular =Inconsolata=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (unless (load-font-if-exists "Inconsolata-dz" 17)
-    (load-font-if-exists "Inconsolata" 17))
+  (unless (load-font-if-exists "Inconsolata-dz" 16)
+    (load-font-if-exists "Inconsolata" 16))
 #+END_SRC
 
 Force =Fira Code= for all =UTF-8= symbols.
@@ -476,15 +476,14 @@ This behaviour in general emulates the =scrolloff= option in vim.
 *** Spell Check
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq flyspell-mode-map nil)
-  (add-hook 'prog-mode-hook
-            (lambda () (let ((inhibit-message t))
-                    (flyspell-prog-mode))))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
   (when wolfe/windows?
     (setq ispell-program-name "c:/emacs/hunspell/bin/hunspell.exe"))
+#+END_SRC
+
+*** Compilation
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq compilation-scroll-output t)
 #+END_SRC
 
 ** Mode Line
@@ -744,32 +743,6 @@ Better narrowing.
     (if (executable-find "man")
         (man (word-at-point))
       (woman)))
-#+END_SRC
-
-** Open C# Project File
-
-This function prompts for a file. It then opens that file and looks for a src/
-directory above it. The dir can be any number of levels higher. In that folder
-it looks for a C# .sln file and starts the an omnisharp server for that project.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/csharp-project ()
-    (interactive)
-    (setq path (read-file-name "File: " wolfe/project-path))
-    (setq split-path (split-string path "/"))
-    (if (member "src" split-path)
-        (catch 'loop
-          (dolist (item (reverse split-path))
-            (if (string-equal item "src")
-                (throw 'loop nil)
-              (delete item split-path)))
-          (message "src/ directory not found")))
-
-    (if (or (equal '("c:") split-path) (equal '() split-path))
-        (message "Could not find src directory for specified project")
-      (progn
-        (omnisharp-start-omnisharp-server (mapconcat 'identity split-path "/"))
-        (find-file path))))
 #+END_SRC
 
 ** Hot Expand
@@ -1419,7 +1392,11 @@ Project management
     :after company
     :config
     (when wolfe/windows?
-        (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
+      (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
+    (add-hook 'csharp-mode-hook
+              (lambda ()
+                (unless (file-exists-p "Makefile")
+                  (set (make-local-variable 'compile-command) (concat "msbuild " (cdr (assoc :project-root omnisharp--server-info)))))))
 
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
     (add-to-list 'company-backends 'company-omnisharp))

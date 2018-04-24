@@ -134,10 +134,10 @@ and if a command line flag (=-light=) was specified.
 
 Start load emacs window manager config if it exists.
 
- #+BEGIN_SRC emacs-lisp :tangle yes
-   (when (file-exists-p "~/.exwm.el")
-     (load-file "~/.exwm.el"))
- #+END_SRC
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (when (file-exists-p "~/.exwm.org")
+    (org-babel-load-file "~/.exwm.org"))
+#+END_SRC
 
 ** Theme Setup
 
@@ -484,6 +484,14 @@ This behaviour in general emulates the =scrolloff= option in vim.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq compilation-scroll-output t)
+#+END_SRC
+
+*** Help Mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (bind-key (kbd "q") (lambda () (interactive)
+                            (quit-window t))
+            help-mode-map)
 #+END_SRC
 
 ** Mode Line

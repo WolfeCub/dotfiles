@@ -577,8 +577,9 @@ otherwise we fall back to =nlinum-relative=.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (if (version< "26.0.50" emacs-version)
       (progn
-        (setq display-line-numbers 'relative)
-        (add-hook 'prog-mode-hook 'display-line-numbers-mode))
+        (add-hook 'prog-mode-hook '(lambda ()
+                                     (display-line-numbers-mode t)
+                                     (setq display-line-numbers 'relative))))
     (progn
       (use-package nlinum-relative
         :config
@@ -996,17 +997,19 @@ Customizable popup menus.
   (major-mode-hydra-bind csharp-mode "Find"
     ("d" omnisharp-go-to-definition              "Goto definition")
     ("D" omnisharp-go-to-definition-other-window "Pop-open definition")
-    ("u" omnisharp-find-usages                   "Find usages"))
+    ("u" omnisharp-find-usages                   "Find usages")
+    ("p" omnisharp-find-implementations          "Find implementations"))
 
-  (major-mode-hydra-bind csharp-mode "Refactor"
+  (major-mode-hydra-bind csharp-mode "Fix/Refactor"
     ("r" omnisharp-rename                        "Rename symbol")
-    ("R" omnisharp-run-code-action-refactoring   "Refactor"))
-
-  (major-mode-hydra-bind csharp-mode "Manage"
-    ("s" omnisharp-reload-solution               "Reload solution")
+    ("f" omnisharp-run-code-action-refactoring   "Code action")
     ("i" omnisharp-code-format-region            "Indent region")
-    ("I" omnisharp-code-format-entire-file       "Indent entire file")
-    ("e" omnisharp-solution-errors               "Solution errors"))
+    ("I" omnisharp-code-format-entire-file       "Indent entire file"))
+
+  (major-mode-hydra-bind csharp-mode "Solution"
+    ("e" omnisharp-solution-errors               "Solution errors")
+    ("a" omnisharp-add-to-solution-current-file  "Add current file to sln")
+    ("s" omnisharp-reload-solution               "Reload solution"))
 #+END_SRC
 
 **** Python
@@ -1268,8 +1271,11 @@ Project management
       (counsel-projectile-mode))
     (setq projectile-enable-caching t)
     (setq projectile-indexing-method 'alien)
-    (setq projectile-globally-ignored-file-suffixes '(".dll" ".exe" ".o" ".swp"))
-    (setq projectile-globally-ignored-directories '(".git" "node_modules"))
+    (setq projectile-globally-ignored-file-suffixes
+          '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar"))
+    (setq projectile-globally-ignored-directories
+          '(".git" "node_modules" "__pycache__" ".vs"))
+    (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
     (projectile-mode))
 #+END_SRC
 
@@ -1380,6 +1386,7 @@ Project management
       (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
     (add-hook 'csharp-mode-hook
               (lambda ()
+                (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
                 (unless (file-exists-p "Makefile")
                   (set (make-local-variable 'compile-command) (concat "msbuild " (cdr (assoc :project-root omnisharp--server-info)))))))
 
@@ -1512,14 +1519,15 @@ Shows hex colors inline.
                (lisp-interaction-mode "λ" :major)
                (python-mode           "π" :major)
                (org-mode              "Ø" :major)
-               (company-mode          " C" company)
-               (ivy-mode              " ι" ivy)
-               (projectile-mode       " ρ" projectile)
-               (eldoc-mode            " ε" eldoc)
-               (flycheck-mode         " ƒ" flycheck)
-               (undo-tree-mode        ""   undo-tree)
-               (auto-revert-mode      ""   autorevert)
-               (flyspell-mode         ""   flyspell))))
+               (company-mode          " C"  company)
+               (ivy-mode              " ι"  ivy)
+               (projectile-mode       " ρ"  projectile)
+               (eldoc-mode            " ε"  eldoc)
+               (flycheck-mode         " ƒ"  flycheck)
+               (omnisharp-mode        " ο#" omnisharp)
+               (undo-tree-mode        ""    undo-tree)
+               (auto-revert-mode      ""    autorevert)
+               (flyspell-mode         ""    flyspell))))
 #+END_SRC
 
 * Completion

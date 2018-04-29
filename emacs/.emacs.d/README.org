@@ -1382,6 +1382,7 @@ Project management
   (use-package omnisharp
     :after company
     :config
+<<<<<<< Updated upstream
     (when wolfe/windows?
       (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
     (add-hook 'csharp-mode-hook
@@ -1390,6 +1391,8 @@ Project management
                 (unless (file-exists-p "Makefile")
                   (set (make-local-variable 'compile-command) (concat "msbuild " (cdr (assoc :project-root omnisharp--server-info)))))))
 
+=======
+>>>>>>> Stashed changes
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
     (add-to-list 'company-backends 'company-omnisharp))
 #+END_SRC

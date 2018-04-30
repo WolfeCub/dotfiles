@@ -1621,6 +1621,14 @@ On the fly syntax checking
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 #+END_SRC
 
+** Yasnippet
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package yasnippet
+    :config
+    (yas-global-mode 1))
+#+END_SRC
+
 * Misc
 ** Email
 

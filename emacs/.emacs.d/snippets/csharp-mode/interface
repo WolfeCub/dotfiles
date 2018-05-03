@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: class
-# key: class
+# name: interface
+# key: interface
 # --
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ${1:Namespace}
 {
-    class ${2:Name}
+    interface ${2:IName}
     {
         $0
     }

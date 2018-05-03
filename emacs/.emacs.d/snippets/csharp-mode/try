@@ -1,0 +1,12 @@
+# key: try
+# name: try
+# --
+try
+{
+    ${1:block;}
+}
+catch (${2:Exception e})
+{
+    ${3:handle;}
+}
+$0

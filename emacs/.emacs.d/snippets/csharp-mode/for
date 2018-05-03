@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: for
+# key: for
+# --
+for (int i = 0; i < ${1:max}; i++)
+{
+    ${2:body;}
+}
+$0

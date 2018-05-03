@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: foreach
+# key: fore
+# --
+foreach (var ${1:itr} in ${2:iterable})
+{
+    ${3:body;}
+}
+$0

@@ -961,6 +961,16 @@ minted package for PDF export.
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 #+END_SRC
 
+*** Hugo
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package ox-hugo
+    :after ox
+    :config
+    (setq org-tags-column -63)
+    (setq org-hugo-front-matter-format "yaml"))
+#+END_SRC
+
 ** Org Tree Slide
 
 Presentation mode that runs from within an org document. I add a custom hook for [[Org Tree Slides Set Transient Map][a function]] that

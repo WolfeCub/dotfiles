@@ -880,6 +880,12 @@ Setup some basic quality of life org settings.
         org-agenda-skip-scheduled-if-done t
         org-ellipsis wolfe/org-ellipsis)
 
+  ;; 0.75 is used since that's approximately how much bigger the org heading is
+  (add-hook 'org-mode-hook
+            (lambda ()
+             (setq org-tags-column (- (floor (* 0.75 (frame-width)))))
+             (org-align-all-tags)))
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((shell . t)
@@ -967,7 +973,6 @@ minted package for PDF export.
   (use-package ox-hugo
     :after ox
     :config
-    (setq org-tags-column -63)
     (setq org-hugo-front-matter-format "yaml"))
 #+END_SRC
 

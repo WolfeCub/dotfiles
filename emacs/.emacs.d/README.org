@@ -84,7 +84,7 @@ If you don't care about these *[[Startup][click here to skip over them]]*.
      (wolfe/linux?
       "~/Dropbox/org/")
      (wolfe/windows?
-      "C:\\Users\\Josh\\Dropbox\\org\\")
+      (concat "C:\\Users\\" (getenv "USERNAME") "\\Dropbox\\org\\"))
      (:else nil))
     "Path to my org files inside dropbox")
 #+END_SRC
@@ -875,6 +875,7 @@ Setup some basic quality of life org settings.
         org-fontify-quote-and-verse-blocks t
         org-highlight-latex-and-related '(latex)
         org-log-done 'time
+        org-enforce-todo-dependencies t
         org-agenda-use-time-grid nil
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
@@ -949,6 +950,17 @@ Setup org agenda for managing my life.
     (setq browse-url-browser-function 'browse-url-chromium))
 #+END_SRC
 
+** Capture
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (global-set-key "\C-cc" 'org-capture)
+
+  (setq org-default-notes-file (concat wolfe/org-dropbox-path "everything.org"))
+  (setq org-capture-templates
+        '(("t" "Task" entry (file+headline "" "Tasks")
+           "* TODO %?\n  DEADLINE: %T\n")))
+#+END_SRC
+
 ** Export
 
 Setup html for syntax highlighting on export and add the apppropriate
@@ -972,8 +984,6 @@ minted package for PDF export.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package ox-hugo
     :after ox
-    :config
-    (setq org-hugo-front-matter-format "yaml"))
 #+END_SRC
 
 ** Org Tree Slide

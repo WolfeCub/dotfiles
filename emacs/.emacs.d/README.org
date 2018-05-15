@@ -881,11 +881,19 @@ Setup some basic quality of life org settings.
         org-agenda-skip-scheduled-if-done t
         org-ellipsis wolfe/org-ellipsis)
 
+  (defun wolfe/org-tags-compute-width ()
+    (- (floor (* 0.75 (frame-width))))
+    (org-align-all-tags))
+
   ;; 0.75 is used since that's approximately how much bigger the org heading is
   (add-hook 'org-mode-hook
-            (lambda ()
-             (setq org-tags-column (- (floor (* 0.75 (frame-width)))))
-             (org-align-all-tags)))
+            '(lambda ()
+               (setq org-tags-column (wolfe/org-tags-compute-width))
+               (org-align-all-tags)))
+  (add-hook 'org-agenda-mode-hook
+            '(lambda ()
+               (setq org-agenda-tags-column (wolfe/org-tags-compute-width))
+               (org-agenda-align-tags)))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -983,7 +991,7 @@ minted package for PDF export.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package ox-hugo
-    :after ox
+    :after ox)
 #+END_SRC
 
 ** Org Tree Slide

@@ -882,10 +882,8 @@ Setup some basic quality of life org settings.
         org-ellipsis wolfe/org-ellipsis)
 
   (defun wolfe/org-tags-compute-width ()
-    (- (floor (* 0.75 (frame-width))))
-    (org-align-all-tags))
+    (- (floor (* 0.8 (frame-width)))))
 
-  ;; 0.75 is used since that's approximately how much bigger the org heading is
   (add-hook 'org-mode-hook
             '(lambda ()
                (setq org-tags-column (wolfe/org-tags-compute-width))
@@ -894,6 +892,13 @@ Setup some basic quality of life org settings.
             '(lambda ()
                (setq org-agenda-tags-column (wolfe/org-tags-compute-width))
                (org-agenda-align-tags)))
+
+  (defun wolfe/save-org-archive-buffers (orig-fun &rest args)
+    (save-some-buffers 'no-confirm
+                       '(lambda ()
+                         (string-match "_archive\\'" buffer-file-name))))
+
+  (advice-add 'org-archive-subtree :after 'wolfe/save-org-archive-buffers)
 
   (org-babel-do-load-languages
    'org-babel-load-languages

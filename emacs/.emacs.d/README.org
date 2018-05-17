@@ -577,9 +577,9 @@ otherwise we fall back to =nlinum-relative=.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (if (version< "26.0.50" emacs-version)
       (progn
-        (add-hook 'prog-mode-hook '(lambda ()
-                                     (display-line-numbers-mode t)
-                                     (setq display-line-numbers 'relative))))
+        (add-hook 'prog-mode-hook (lambda ()
+                                    (display-line-numbers-mode t)
+                                    (setq display-line-numbers 'relative))))
     (progn
       (use-package nlinum-relative
         :config
@@ -885,17 +885,17 @@ Setup some basic quality of life org settings.
     (- (floor (* 0.8 (frame-width)))))
 
   (add-hook 'org-mode-hook
-            '(lambda ()
-               (setq org-tags-column (wolfe/org-tags-compute-width))
-               (org-align-all-tags)))
+            (lambda ()
+              (setq org-tags-column (wolfe/org-tags-compute-width))
+              (org-align-all-tags)))
   (add-hook 'org-agenda-mode-hook
-            '(lambda ()
-               (setq org-agenda-tags-column (wolfe/org-tags-compute-width))
-               (org-agenda-align-tags)))
+            (lambda ()
+              (setq org-agenda-tags-column (wolfe/org-tags-compute-width))
+              (org-agenda-align-tags)))
 
   (defun wolfe/save-org-archive-buffers (orig-fun &rest args)
     (save-some-buffers 'no-confirm
-                       '(lambda ()
+                       (lambda ()
                          (string-match "_archive\\'" buffer-file-name))))
 
   (advice-add 'org-archive-subtree :after 'wolfe/save-org-archive-buffers)
@@ -913,9 +913,9 @@ Setup some basic quality of life org settings.
 
   ;; Refresh images after executing a src block
   (add-hook 'org-babel-after-execute-hook
-            '(lambda ()
-               (when org-inline-image-overlays
-                 (org-redisplay-inline-images))))
+            (lambda ()
+              (when org-inline-image-overlays
+                (org-redisplay-inline-images))))
 
   (defun wolfe/confirm-babel-evaluate (lang body)
     (not (string= lang "dot")))
@@ -923,9 +923,9 @@ Setup some basic quality of life org settings.
 
   ;; Open PDFs with zathura
   (add-hook 'org-mode-hook
-            '(lambda ()
-               (setq org-file-apps
-                     (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps))))
+            (lambda ()
+              (setq org-file-apps
+                    (append '(("\\.pdf\\'" . "zathura \"%s\"")) org-file-apps))))
 #+END_SRC
 
 ** Bullets
@@ -971,7 +971,7 @@ Setup org agenda for managing my life.
   (setq org-default-notes-file (concat wolfe/org-dropbox-path "everything.org"))
   (setq org-capture-templates
         '(("t" "Task" entry (file+headline "" "Tasks")
-           "* TODO %?\n  DEADLINE: %T\n")))
+           "* TODO %?\n  DEADLINE: %t\n")))
 #+END_SRC
 
 ** Export
@@ -1468,7 +1468,7 @@ and =elpy= together since elpy is a bit slow to load at startup.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package go-mode
     :config
-    (add-hook 'go-mode-hook '(lambda () (setq tab-width 4))))
+    (add-hook 'go-mode-hook (lambda () (setq tab-width 4))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1588,11 +1588,11 @@ Shows hex colors inline.
     (ivy-mode 1)
 
     (define-key ivy-switch-buffer-map (kbd "C-d")
-      '(lambda () (interactive)
-         (setq ivy-current-prefix-arg current-prefix-arg)
-         (ivy-set-action 'ivy--kill-buffer-action)
-         (ivy-call)
-         (ivy-shrink-after-dispatching)))
+      (lambda () (interactive)
+        (setq ivy-current-prefix-arg current-prefix-arg)
+        (ivy-set-action 'ivy--kill-buffer-action)
+        (ivy-call)
+        (ivy-shrink-after-dispatching)))
 
     (use-package doom-todo-ivy
       :ensure nil
@@ -1715,11 +1715,11 @@ on window resize and I put the scroll margin back to default so that my
     :defer t
     :config
     (add-hook 'window-configuration-change-hook
-              '(lambda ()
-                 (setq erc-fill-column (- (window-width) 2))))
+              (lambda ()
+                (setq erc-fill-column (- (window-width) 2))))
     (add-hook 'erc-mode-hook
-              '(lambda ()
-                  (setq-local scroll-margin 1)))
+              (lambda ()
+                (setq-local scroll-margin 1)))
 
     (setq erc-rename-buffers t
           erc-interpret-mirc-color t

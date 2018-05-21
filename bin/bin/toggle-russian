@@ -1,7 +1,0 @@
-#!/bin/sh
-
-if [[ `setxkbmap -query | grep layout` == "layout:     us" ]]; then
-    setxkbmap ru
-else
-    setxkbmap us
-fi

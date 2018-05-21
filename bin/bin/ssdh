@@ -1,2 +1,0 @@
-#!/bin/sh
-ssh wolfejos@dh20$1pc$2.utm.utoronto.ca

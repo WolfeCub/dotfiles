@@ -1,5 +1,0 @@
-xrandr --output HDMI1 --primary      
-xrandr --output HDMI1 --right-of eDP1
-pkill polybar                        
-bspc config -m eDP1 top_padding 0    
-polybar wolfe

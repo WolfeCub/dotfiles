@@ -37,7 +37,7 @@ for_window [title="^QEMU$"] floating enable
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%-
 bindsym XF86AudioMute exec amixer set Master toggle
-bindsym --release Print exec ~/bin/teknik -s
+bindsym --release Print exec scrot -q 100 -s ~/temp.png
 
 # brightness keys
 bindsym XF86MonBrightnessUp exec xbacklight -inc 2
@@ -186,4 +186,4 @@ exec_always "setxkbmap -option compose:ralt"
 exec_always "xsetroot -cursor_name left_ptr"
 exec_always "~/bin/caps"
 exec_always "~/bin/key-rate"
-exec_always feh --bg-scale --randomize ~/Pictures/rotating-wallpapers/*
+exec_always feh --bg-scale --randomize ~/Pictures/wallpapers/*

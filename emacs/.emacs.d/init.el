@@ -24,8 +24,8 @@
   (setq use-package-always-ensure t)
 
   ;; Use latest org before calling babel
+  (use-package-pin-package 'org "org")
   (use-package org
-    :pin org
     :ensure org-plus-contrib)
 
   (defun init/tangle-section-canceled ()

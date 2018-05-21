@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ "$1" == "--debug" ]]; then
+    sudo pon indigo debug dump logfd 2 nodetach
+else
+    sudo pon indigo
+fi

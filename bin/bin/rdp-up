@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ "$#" -ne 2 ]]; then
+    echo "Usage: $0 [user] [host]"
+    exit 1
+fi
+
+xfreerdp -u "$1" -v "$2":3389 -f

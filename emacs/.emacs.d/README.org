@@ -749,7 +749,14 @@ Better narrowing.
           ((derived-mode-p 'latex-mode)
            (LaTeX-narrow-to-environment))
           (t (narrow-to-defun))))
+#+END_SRC
 
+** Man Replacement
+
+Use the real =man= if I'm on a system that has the binary otherwise
+we should just use the emacs =woman=.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/man ()
     (if (executable-find "man")
         (man (word-at-point))

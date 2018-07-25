@@ -1582,6 +1582,10 @@ Shows hex colors inline.
     (use-package smex)
     (use-package counsel)
     :config
+    (use-package all-the-icons-ivy
+      :config
+      (all-the-icons-ivy-setup))
+
     (setq ivy-re-builders-alist
           '((t . ivy--regex-ignore-order)))
     (setq ivy-wrap t)
@@ -1593,6 +1597,10 @@ Shows hex colors inline.
         (ivy-set-action 'ivy--kill-buffer-action)
         (ivy-call)
         (ivy-shrink-after-dispatching)))
+
+    (use-package ivy-rich
+      :config
+      (ivy-rich-mode 1))
 
     (use-package doom-todo-ivy
       :ensure nil

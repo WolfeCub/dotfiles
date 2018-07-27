@@ -1527,6 +1527,12 @@ Edit all instances of a string
     (setq iedit-toggle-key-default nil))
 #+END_SRC
 
+** Quick Run
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package quickrun)
+#+END_SRC
+
 ** Restclient
 
 Postman inside of emacs.

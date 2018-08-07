@@ -1372,6 +1372,12 @@ Project management
     (add-hook 'web-mode-hook 'tern-mode))
 #+END_SRC
 
+Basic editing mode for React.js files.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package rjsx-mode)
+#+END_SRC
+
 ** Lisp Family
 
 #+BEGIN_SRC emacs-lisp :tangle yes

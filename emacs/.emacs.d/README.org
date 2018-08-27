@@ -167,7 +167,7 @@ Configuration for my dark theme =base16 default dark= which is loaded by default
   (defun wolfe/dark-setup ()
       (setq evil-emacs-state-cursor   `(,"#81a2be" box)
             evil-insert-state-cursor  `(,"#81a2be" bar)
-            evil-motion-state-cursor  `(,"#85678f" (hbar . 15))
+            evil-motion-state-cursor  `(,"#85678f" box)
             evil-normal-state-cursor  `(,"#f8f8f8" box)
             evil-replace-state-cursor `(,"#a54242" (hbar . 10))
             evil-visual-state-cursor  `(,"#ff6000" box))

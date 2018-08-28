@@ -1258,9 +1258,10 @@ This allows me to easily start a =*= or =#= search from a visual selection.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package evil-numbers
-    :config
-    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-    (define-key evil-normal-state-map (kbd "C--") 'evil-numbers/dec-at-pt))
+    :bind
+    (:map evil-normal-state-map
+          ("C-a" . 'evil-numbers/inc-at-pt)
+          ("C--" . 'evil-numbers/dec-at-pt)))
 
 #+END_SRC
 
@@ -1503,13 +1504,15 @@ and =elpy= together since elpy is a bit slow to load at startup.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package eyebrowse
+    :bind
+    (:map evil-normal-state-map
+          ("<left>" . 'eyebrowse-prev-window-config)
+          ("<right>" . 'eyebrowse-next-window-config))
     :config
     (eyebrowse-mode t)
     (setq eyebrowse-new-workspace t)
     (evil-ex-define-cmd "tabe" 'eyebrowse-create-window-config)
-    (eyebrowse-setup-opinionated-keys) ; Evil window bindings
-    (define-key evil-normal-state-map (kbd "<left>") 'eyebrowse-prev-window-config)
-    (define-key evil-normal-state-map (kbd "<right>") 'eyebrowse-next-window-config))
+    (eyebrowse-setup-opinionated-keys)) ; Evil window bindings
 #+END_SRC
 
 ** Ranger

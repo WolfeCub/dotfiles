@@ -1337,6 +1337,19 @@ Project management
   (use-package treemacs-projectile)
 #+END_SRC
 
+** Dumb Jump
+
+Automatically =grep= or =ag= through a project for a definition. This
+is useful when semantic jump to definition or =TAGS= files aren't present
+or don't exist for the language.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package dumb-jump
+    :config
+    (setq dumb-jump-selector 'ivy)
+    (evil-global-set-key 'normal (kbd "g D") 'dumb-jump-go))
+#+END_SRC
+
 * Languages
 ** Generic Web
 #+BEGIN_SRC emacs-lisp :tangle yes

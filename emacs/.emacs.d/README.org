@@ -1558,14 +1558,6 @@ Shows hex colors inline.
     :defer t)
 #+END_SRC
 
-** Midnight Mode
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package midnight
-    :config
-    (midnight-delay-set 'midnight-delay "4:00am"))
-#+END_SRC
-
 ** Org Jira
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1605,26 +1597,21 @@ Shows hex colors inline.
            ("C-x C-f" . counsel-find-file)
            :map ivy-minibuffer-map
            ("TAB" . ivy-next-line)
-           ("RET" . ivy-alt-done))
+           ("RET" . ivy-alt-done)
+           :map ivy-switch-buffer-map
+           ("C-d" . ivy-switch-buffer-kill))
     :init
     (use-package smex)
     (use-package counsel)
     :config
-    (use-package all-the-icons-ivy
-      :config
-      (all-the-icons-ivy-setup))
-
     (setq ivy-re-builders-alist
           '((t . ivy--regex-ignore-order)))
     (setq ivy-wrap t)
     (ivy-mode 1)
 
-    (define-key ivy-switch-buffer-map (kbd "C-d")
-      (lambda () (interactive)
-        (setq ivy-current-prefix-arg current-prefix-arg)
-        (ivy-set-action 'ivy--kill-buffer-action)
-        (ivy-call)
-        (ivy-shrink-after-dispatching)))
+    (use-package all-the-icons-ivy
+      :config
+      (all-the-icons-ivy-setup))
 
     (use-package ivy-rich
       :config

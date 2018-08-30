@@ -5,6 +5,10 @@ export PAGER='less -R'
 export GOROOT=/usr/lib/go
 export GOPATH=$HOME/Projects/go
 
+if $(which virtualenvwrapper.sh); then
+    source virtualenvwrapper.sh
+fi
+
 ##
 ## S E T T I N G S
 ##

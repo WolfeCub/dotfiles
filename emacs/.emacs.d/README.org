@@ -1258,9 +1258,10 @@ This allows me to easily start a =*= or =#= search from a visual selection.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package evil-numbers
-    :config
-    (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-    (define-key evil-normal-state-map (kbd "C--") 'evil-numbers/dec-at-pt))
+    :bind
+    (:map evil-normal-state-map
+          ("C-a" . 'evil-numbers/inc-at-pt)
+          ("C--" . 'evil-numbers/dec-at-pt)))
 
 #+END_SRC
 
@@ -1334,6 +1335,19 @@ Project management
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package treemacs-projectile)
+#+END_SRC
+
+** Dumb Jump
+
+Automatically =grep= or =ag= through a project for a definition. This
+is useful when semantic jump to definition or =TAGS= files aren't present
+or don't exist for the language.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package dumb-jump
+    :config
+    (setq dumb-jump-selector 'ivy)
+    (evil-global-set-key 'normal (kbd "g D") 'dumb-jump-go))
 #+END_SRC
 
 * Languages
@@ -1503,13 +1517,15 @@ and =elpy= together since elpy is a bit slow to load at startup.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package eyebrowse
+    :bind
+    (:map evil-normal-state-map
+          ("<left>" . 'eyebrowse-prev-window-config)
+          ("<right>" . 'eyebrowse-next-window-config))
     :config
     (eyebrowse-mode t)
     (setq eyebrowse-new-workspace t)
     (evil-ex-define-cmd "tabe" 'eyebrowse-create-window-config)
-    (eyebrowse-setup-opinionated-keys) ; Evil window bindings
-    (define-key evil-normal-state-map (kbd "<left>") 'eyebrowse-prev-window-config)
-    (define-key evil-normal-state-map (kbd "<right>") 'eyebrowse-next-window-config))
+    (eyebrowse-setup-opinionated-keys)) ; Evil window bindings
 #+END_SRC
 
 ** Ranger
@@ -1555,14 +1571,6 @@ Shows hex colors inline.
     :defer t)
 #+END_SRC
 
-** Midnight Mode
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package midnight
-    :config
-    (midnight-delay-set 'midnight-delay "4:00am"))
-#+END_SRC
-
 ** Org Jira
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1602,26 +1610,21 @@ Shows hex colors inline.
            ("C-x C-f" . counsel-find-file)
            :map ivy-minibuffer-map
            ("TAB" . ivy-next-line)
-           ("RET" . ivy-alt-done))
+           ("RET" . ivy-alt-done)
+           :map ivy-switch-buffer-map
+           ("C-d" . ivy-switch-buffer-kill))
     :init
     (use-package smex)
     (use-package counsel)
     :config
-    (use-package all-the-icons-ivy
-      :config
-      (all-the-icons-ivy-setup))
-
     (setq ivy-re-builders-alist
           '((t . ivy--regex-ignore-order)))
     (setq ivy-wrap t)
     (ivy-mode 1)
 
-    (define-key ivy-switch-buffer-map (kbd "C-d")
-      (lambda () (interactive)
-        (setq ivy-current-prefix-arg current-prefix-arg)
-        (ivy-set-action 'ivy--kill-buffer-action)
-        (ivy-call)
-        (ivy-shrink-after-dispatching)))
+    (use-package all-the-icons-ivy
+      :config
+      (all-the-icons-ivy-setup))
 
     (use-package ivy-rich
       :config

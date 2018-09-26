@@ -1,0 +1,16 @@
+#!/bin/bash
+
+kb_name='AT Translated Set 2 keyboard'
+
+if [[ "$1" == "enable" ]]; then
+    xinput enable "$kb_name"
+elif [[ "$1" == "disable" ]]; then
+    xinput disable "$kb_name"
+else
+    if xinput list "$kb_name" | grep -i --quiet disable; then
+        xinput enable "$kb_name"
+    else
+        xinput disable "$kb_name"
+    fi
+fi
+

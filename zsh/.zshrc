@@ -147,7 +147,7 @@ alias pacaur='pacaur --color=always'
 alias open='xdg-open'
 alias wttr='~/bin/weather'
 alias ducolor='cdu -i -s -dh'
-alias yp='yaourt --color --pager --noconfirm'
+alias yp='echo You meant to use yay!'
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'

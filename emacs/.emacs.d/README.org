@@ -1413,6 +1413,7 @@ Basic editing mode for React.js files.
     (setq
      parinfer-extensions '(defaults pretty-parens evil smart-tab smart-yank)
      parinfer-lighters '(" Φi" . " Φp"))
+    (add-hook 'racket-mode           #'parinfer-mode)
     (add-hook 'clojure-mode-hook     #'parinfer-mode)
     (add-hook 'emacs-lisp-mode-hook  #'parinfer-mode)
     (add-hook 'common-lisp-mode-hook #'parinfer-mode)
@@ -1425,6 +1426,19 @@ Basic editing mode for React.js files.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package racket-mode
     :defer t)
+#+END_SRC
+
+** Haskell
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package haskell-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package flycheck-haskell
+    :after flycheck
+    :config
+    (add-hook 'haskell-mode-hook #'flycheck-haskell-setup))
 #+END_SRC
 
 ** Latex
@@ -1592,26 +1606,6 @@ Shows hex colors inline.
     (setq jiralib-url "https://indigoca.atlassian.net"))
 #+END_SRC
 
-** Delight
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package delight
-    :config
-    (delight '((emacs-lisp-mode       "ξ" :major)
-               (lisp-interaction-mode "λ" :major)
-               (python-mode           "π" :major)
-               (org-mode              "Ø" :major)
-               (company-mode          " C"  company)
-               (ivy-mode              " ι"  ivy)
-               (projectile-mode       " ρ"  projectile)
-               (eldoc-mode            " ε"  eldoc)
-               (flycheck-mode         " ƒ"  flycheck)
-               (omnisharp-mode        " ο#" omnisharp)
-               (undo-tree-mode        ""    undo-tree)
-               (auto-revert-mode      ""    autorevert)
-               (flyspell-mode         ""    flyspell))))
-#+END_SRC
-
 * Completion
 ** Ivy & Counsel
 
@@ -1633,14 +1627,6 @@ Shows hex colors inline.
           '((t . ivy--regex-ignore-order)))
     (setq ivy-wrap t)
     (ivy-mode 1)
-
-    (use-package all-the-icons-ivy
-      :config
-      (all-the-icons-ivy-setup))
-
-    (use-package ivy-rich
-      :config
-      (ivy-rich-mode 1))
 
     (use-package doom-todo-ivy
       :ensure nil

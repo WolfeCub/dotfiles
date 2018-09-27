@@ -22,6 +22,14 @@ for including the ReadTheOrg theme as well as some metadata and options
 like title, author, table of contents etc. If you wish to see the headers
 I'm using, [[https://raw.githubusercontent.com/WolfeCub/dotfiles/master/emacs/.emacs.d/README.org][this]] is the raw org file.
 
+Right off the bat we want these libraries but they don't really belong
+anywhere else. So here they are.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package dash)
+  (use-package s)
+#+END_SRC
+
 * Variables
 
 Variables come at the beginning so that they're consistently available.

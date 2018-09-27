@@ -35,13 +35,30 @@ packages and configs that I should look into.
     - images for explanation
     - hydras
     - mu4e
+  - [[https://github.com/hlissner/doom-emacs/tree/develop][hlissner/doom-emacs]]
+    - very vim-y
+    - shackle for pop-ups
+    - helpful for better help
+    - steal the function doom/window-enlargen
 
 * Things to look into
 ** TODO Read about emacs =follow-mode=
    Follow mode allows you to extend your scrolling of a buffer across multiple
    splits.
+* TODO Find a suitable shell setup inside emacs
+  Currently I use =urxvt= as an external terminal. Ideally I would like to run
+  my shell from within emacs but as of present I haven't found an experience
+  smooth enough to use full time. One possibility is using eshell and doing
+  all of the configuration in elisp. The other (and more likely option) is using
+  =shell=, =term= or =ansi-term= with packages like [[https://github.com/killdash9/better-shell][=better-shell=]].
+* TODO Write an app that suggests Github repos based on stars
+  The basic idea is an app that would cross reference all of the repos starred by 
+  users who also starred the same repos as you and display the most common overlap. 
+  This is *very* performance intensive so a better solution or optimizations will
+  need to be considered.
 
-* UNDERWAY Write a package that integrates =org-mode= into projects
+* DONE Write a package that integrates =org-mode= into projects
+  CLOSED: [2018-09-27 Thu 00:29]
   I'm working on this project at [[https://github.com/WolfeCub/org-project/][=org-project=]] on my github if you're interested in contributing.
 
   The general idea of this package would be to have a org file that integrates
@@ -49,29 +66,9 @@ packages and configs that I should look into.
   code. In addition it should be able remove the TODO from the code once the org
   item has been completed.
 
-* UNDERWAY Write an efficient seam carving application web app
-  Seam carving is a technique that can "smart crop" an image i.e. shrinking without
-  distorting the image. I think that having a website provides this service would be
-  very useful to people.
-
-  - [ ] Write the core seam carving application in C++ as efficiently as possible
-  - [ ] Define a protocol for communication between the carver and the web app
-  - [ ] Write the web app
-
-* TODO Find a suitable shell setup inside emacs
-  Currently I use =urxvt= as an external terminal. Ideally I would like to run
-  my shell from within emacs but as of present I haven't found an experience
-  smooth enough to use full time. One possibility is using eshell and doing
-  all of the configuration in elisp. The other (and more likely option) is using
-  =shell=, =term= or =ansi-term= with packages like [[https://github.com/killdash9/better-shell][=better-shell=]].
-
-* TODO Find additional performance tweaks on windows
+* DONE Find additional performance tweaks on windows
+  CLOSED: [2018-09-27 Thu 00:29]
   Currently I use windows at work and have found that some things don't perform as
   quickly as they do on linux. A few things that require more investigation are:
   - =UTF-8= font display drastically slows down emacs
   - =Magit= is quite slow though this is probably caused by =git= slowness
-* TODO Write an app that suggests Github repos based on stars
-  The basic idea is an app that would cross reference all of the repos starred by 
-  users who also starred the same repos as you and display the most common overlap. 
-  This is *very* performance intensive so a better solution or optimizations will
-  need to be considered.

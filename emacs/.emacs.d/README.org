@@ -496,70 +496,73 @@ If we're in GUI emacs we make sure to use =powerline= otherwise we use
 a custom mode line configuration.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-      (if (display-graphic-p)
-          (use-package powerline
-            :init
-            (defadvice powerline-major-mode (around delight-powerline-major-mode activate)
-              (let ((inhibit-mode-name-delight nil))
-                ad-do-it))
+  (if (display-graphic-p)
+      (use-package doom-modeline
+        :init
+        (use-package anzu)
+        (use-package evil-anzu)
+        (setq evil-normal-state-tag   ""
+              evil-emacs-state-tag    ""
+              evil-insert-state-tag   ""
+              evil-motion-state-tag   ""
+              evil-visual-state-tag   ""
+              evil-operator-state-tag "")
+        :config
+        (setq doom-modeline-bar-width 3)
+        (custom-set-faces
+         `(doom-modeline-bar ((t (:inherit default :background ,(face-foreground 'match))))))
+        :defer t
+        :hook (after-init . doom-modeline-init))
+    (setq-default
+     mode-line-format
+     (list
+      " "
+      ;; is this buffer read-only?
+      '(:eval (when buffer-read-only
+                (propertize "RO"
+                            'face 'font-lock-type-face
+                            'help-echo "Buffer is read-only")))
 
-            :config
-            (setq powerline-arrow-shape 'curve
-                  powerline-display-buffer-size nil
-                  powerline-display-mule-info nil)
-            (powerline-default-theme)
-            (remove-hook 'focus-out-hook 'powerline-unset-selected-window)
-            (setq powerline-height 24))
+      ;; was this buffer modified since the last save?
+      '(:eval (when (buffer-modified-p)
+                (propertize "M"
+                            'face 'font-lock-warning-face
+                            'help-echo "Buffer has been modified")))
 
-        (setq-default mode-line-format
-         (list
-          " "
-          ;; is this buffer read-only?
-          '(:eval (when buffer-read-only
-                    (propertize "RO"
-                                'face 'font-lock-type-face
-                                'help-echo "Buffer is read-only")))
-
-          ;; was this buffer modified since the last save?
-          '(:eval (when (buffer-modified-p)
-                    (propertize "M"
-                                'face 'font-lock-warning-face
-                                'help-echo "Buffer has been modified")))
-
-          " "
-          ;; the buffer name; the file name as a tool tip
-          '(:eval (propertize "%b " 'face 'font-lock-keyword-face
-                              'help-echo (buffer-file-name)))
+      " "
+      ;; the buffer name; the file name as a tool tip
+      '(:eval (propertize "%b " 'face 'font-lock-keyword-face
+                          'help-echo (buffer-file-name)))
 
 
-          ;; the current major mode for the buffer.
-          "["
+      ;; the current major mode for the buffer.
+      "["
 
-          '(:eval (propertize (format-mode-line mode-name) 'face '(:family "Arial")
-                              'help-echo buffer-file-coding-system))
-          '(:eval (propertize (format-mode-line minor-mode-alist)
-                              'face '(:family "Arial")))
-          "]             "
+      '(:eval (propertize (format-mode-line mode-name) 'face '(:family "Arial")
+                          'help-echo buffer-file-coding-system))
+      '(:eval (propertize (format-mode-line minor-mode-alist)
+                          'face '(:family "Arial")))
+      "]             "
 
-          ;; line and column
-          "(" ;; '%02' to set to 2 chars at least; prevents flickering
-          (propertize "%02l" 'face 'font-lock-type-face) ","
-          (propertize "%02c" 'face 'font-lock-type-face)
-          ") "
+      ;; line and column
+      "(" ;; '%02' to set to 2 chars at least; prevents flickering
+      (propertize "%02l" 'face 'font-lock-type-face) ","
+      (propertize "%02c" 'face 'font-lock-type-face)
+      ") "
 
-          ;; relative position, size of file
-          "["
-          (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
-          "/"
-          (propertize "%I" 'face 'font-lock-constant-face) ;; size
-          "] "
+      ;; relative position, size of file
+      "["
+      (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
+      "/"
+      (propertize "%I" 'face 'font-lock-constant-face) ;; size
+      "] "
 
-          ;; add the time, with the date and the emacs uptime in the tooltip
-          '(:eval (propertize (format-time-string "%H:%M")
-                              'help-echo
-                              (concat (format-time-string "%c; ")
-                                      (emacs-uptime "Uptime:%hh"))))
-          )))
+      ;; add the time, with the date and the emacs uptime in the tooltip
+      '(:eval (propertize (format-time-string "%H:%M")
+                          'help-echo
+                          (concat (format-time-string "%c; ")
+                                  (emacs-uptime "Uptime:%hh")))))))
+
 #+END_SRC
 
 ** Line Numbers

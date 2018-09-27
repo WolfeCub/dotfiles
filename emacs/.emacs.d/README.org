@@ -1285,6 +1285,14 @@ This allows me to easily start a =*= or =#= search from a visual selection.
     (evil-lion-mode))
 #+END_SRC
 
+*** Evil Exchange
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package evil-exchange
+    :config
+    (evil-exchange-install))
+#+END_SRC
+
 * Project Management
 ** Ag
 
@@ -1570,6 +1578,7 @@ Edit all instances of a string
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package iedit
     :config
+    (set-face-attribute 'iedit-occurrence nil :foreground (face-attribute 'match :foreground))
     (setq iedit-toggle-key-default nil))
 #+END_SRC
 

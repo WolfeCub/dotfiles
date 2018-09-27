@@ -165,14 +165,15 @@ Configuration for my dark theme =base16 default dark= which is loaded by default
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/dark-setup ()
-      (setq evil-emacs-state-cursor   `(,"#81a2be" box)
-            evil-insert-state-cursor  `(,"#81a2be" bar)
-            evil-motion-state-cursor  `(,"#85678f" box)
-            evil-normal-state-cursor  `(,"#f8f8f8" box)
-            evil-replace-state-cursor `(,"#a54242" (hbar . 10))
-            evil-visual-state-cursor  `(,"#ff6000" box))
-      (load-theme 'my t)
-      (set-face-attribute 'fringe nil :background nil)
+    (setq evil-emacs-state-cursor   `(,"#81a2be" box)
+          evil-insert-state-cursor  `(,"#81a2be" bar)
+          evil-motion-state-cursor  `(,"#85678f" box)
+          evil-normal-state-cursor  `(,"#f8f8f8" box)
+          evil-replace-state-cursor `(,"#a54242" (hbar . 10))
+          evil-visual-state-cursor  `(,"#ff6000" box))
+    (load-theme 'my t)
+    (set-face-attribute 'fringe nil :background nil)
+    (eval-after-load 'ivy (lambda () (setq ivy-switch-buffer-faces-alist '((dired-mode . ivy-subdir)))))
 
     (custom-set-faces
      '(org-done ((t (:box (:line-width 1) :weight bold))))

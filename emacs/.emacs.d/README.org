@@ -864,6 +864,15 @@ This was stolen from [[https://github.com/bbatsov/prelude][prelude]] emacs. Over
 
 #+END_SRC
 
+** Call Function and Update Ex History
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defun wolfe/call-and-update-ex (fun)
+    "Calls the function and updates `evil-ex-history' with the result"
+    (interactive)
+    (setq evil-ex-history (cons (format "e %s" (funcall fun)) evil-ex-history)))
+#+END_SRC
+
 * Org Mode
 ** General
 
@@ -1167,7 +1176,7 @@ Customizable popup menus.
     (custom-set-variables '(evil-search-module (quote evil-search)))
     (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
     (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
-    (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
+    (define-key evil-ex-map "e " (lambda () (interactive) (wolfe/call-and-update-ex 'counsel-find-file))) ; Trigger file completion :e
     (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
     (general-create-definer wolfe/bind-leader

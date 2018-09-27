@@ -250,7 +250,7 @@ know not to try and load anything else if it returns =nil= then we'll
 try a different font.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defmacro load-font-if-exists (family size)
+  (defun load-font-if-exists (family size)
     (if (member family (font-family-list)) ; Set default font
         (progn
           (let ((font-and-size (format "%s-%s" family size)))
@@ -260,12 +260,11 @@ try a different font.
       nil))
 #+END_SRC
 
-I like =Inconsolata-dz= a bit more than =Inconsolata= so use it if installed
-otherwise fall back to regular =Inconsolata=.
+I used =Inconsolata-dz= for quite a long time but have recently been
+using =Fira Mono=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (unless (load-font-if-exists "Inconsolata-dz" 16)
-    (load-font-if-exists "Inconsolata" 16))
+  (load-font-if-exists "Fira Mono" 15)
 #+END_SRC
 
 Force =Fira Code= for all =UTF-8= symbols.

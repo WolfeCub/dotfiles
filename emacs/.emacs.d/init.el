@@ -79,7 +79,7 @@
                      (not canc))
             (add-to-list 'body-list body)))))
     (with-temp-file elfile
-      (insert (format ";; Don't edit this file, edit %s instead ...\n\n" orgfile))
+      (insert (format ";;; -*- lexical-binding: t -*-\n" orgfile))
       (apply 'insert (reverse body-list)))
     (message "Wrote %s ..." elfile)))
 

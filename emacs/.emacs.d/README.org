@@ -66,10 +66,7 @@ If you don't care about these *[[Startup][click here to skip over them]]*.
 ** Org Ellipsis
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/org-ellipsis
-    (if (display-graphic-p)
-        "⤵"
-      "...")
+  (defvar wolfe/org-ellipsis "⤵"
     "The indicates if an `org-mode' tree can be expanded")
 #+END_SRC
 
@@ -154,7 +151,7 @@ This should be run regardless of whether I'm in terminal vs gui or dark vs light
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq custom-theme-directory "~/.emacs.d/themes")
 
-  (defmacro check-and-remove-command-line-arg (argument)
+  (defun check-and-remove-command-line-arg (argument)
     "Checks `command-line-args' for argument and removes it if found returning t or nil"
     (if (member argument command-line-args)
         (progn
@@ -208,6 +205,16 @@ specified on the command line.
 This checks which setup we're in and calls the appropriate function above.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (defun hook-if-daemonp (func)
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+                  (lambda (frame)
+                    (with-selected-frame frame
+                      (funcall func))))
+      (funcall func)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
   (if wolfe/using-light
       (wolfe/light-setup)
     (wolfe/dark-setup))
@@ -246,43 +253,36 @@ buffer when emacs starts up.
 I don't really want to have to look at menu bars that I'm not going to use
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (tool-bar-mode -1) ; No toolbar
-  (scroll-bar-mode -1) ; Hide scrollbars
-  (menu-bar-mode -1) ; No menubar
+  (hook-if-daemonp
+   (lambda ()
+    (tool-bar-mode -1) ; No toolbar
+    (scroll-bar-mode -1) ; Hide scrollbars
+    (menu-bar-mode -1))) ; No menubar
 #+END_SRC
 
 *** Fonts
-
-Quick macro that tries to load the font. If it loads it return =t= so we
-know not to try and load anything else if it returns =nil= then we'll
-try a different font.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun load-font-if-exists (family size)
-    (if (member family (font-family-list)) ; Set default font
-        (progn
-          (let ((font-and-size (format "%s-%s" family size)))
-            (add-to-list 'default-frame-alist `(font . ,font-and-size))
-            (set-face-attribute 'default t :font font-and-size))
-          t)
-      nil))
-#+END_SRC
 
 I used =Inconsolata-dz= for quite a long time but have recently been
 using =Fira Mono=.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (load-font-if-exists "Fira Mono" 15)
+  (let* ((font "Fira Mono")
+         (size 15)
+         (font-size (format "%s-%s" font size)))
+    (setq default-frame-alist `((font . ,font-size)))
+    (set-face-attribute 'default t :font font-size))
 #+END_SRC
 
 Force =Fira Code= for all =UTF-8= symbols.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (when (display-graphic-p)
-    (let ((utf8-font "Fira Code"))
-      (set-fontset-font "fontset-startup" '(#x000000 . #x3FFFFF) utf8-font)
-      (set-fontset-font "fontset-default" '(#x000000 . #x3FFFFF) utf8-font)
-      (set-fontset-font "fontset-standard" '(#x000000 . #x3FFFFF) utf8-font)))
+  (hook-if-daemonp
+   (lambda ()
+    (when (display-graphic-p)
+      (let ((utf8-font "Fira Code"))
+        (set-fontset-font "fontset-startup" '(#x000000 . #x3FFFFF) utf8-font)
+        (set-fontset-font "fontset-default" '(#x000000 . #x3FFFFF) utf8-font)
+        (set-fontset-font "fontset-standard" '(#x000000 . #x3FFFFF) utf8-font)))))
 #+END_SRC
 
 Make sure that UTF-8 is used everywhere.
@@ -504,7 +504,7 @@ If we're in GUI emacs we make sure to use =powerline= otherwise we use
 a custom mode line configuration.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (if (display-graphic-p)
+  (if (or (display-graphic-p) (daemonp))
       (use-package doom-modeline
         :init
         (use-package anzu)
@@ -1172,6 +1172,9 @@ Customizable popup menus.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package evil
     :demand
+    :bind
+    (:map evil-motion-state-map
+          ("C-u" . evil-scroll-up))
     :init
     (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
     (setq evil-want-C-i-jump nil)
@@ -1188,10 +1191,10 @@ Customizable popup menus.
     (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
 
     (general-create-definer wolfe/bind-leader
-                            :keymaps 'global
-                            :states '(normal insert visual emacs)
-                            :prefix "SPC"
-                            :non-normal-prefix "M-SPC")
+      :keymaps 'global
+      :states '(normal insert visual emacs)
+      :prefix "SPC"
+      :non-normal-prefix "M-SPC")
 
     (general-define-key
      :states 'motion
@@ -1222,27 +1225,27 @@ Customizable popup menus.
      "C-l"  'evil-ex-nohighlight)
 
     (wolfe/bind-leader
-     "w"  'save-buffer
-     "S"  'wolfe/eval-and-replace
-     "s"  'eval-defun
-     "b"  'mode-line-other-buffer
-     "k"  'kill-buffer
-     "m"  'ivy-switch-buffer
-     "e"  'iedit-mode
-     "c"  'wolfe/compile-no-prompt
-     "n"  'narrow-or-widen-dwim
-     "a"  'org-agenda
-     "g"  'magit-status
-     "''" 'org-edit-src-exit
-     "#"  'wolfe/csharp-project
-     "t"    (lambda() (interactive) (wolfe/if-else-projectile 'treemacs-projectile 'treemacs))
-     "f"    (lambda() (interactive) (wolfe/if-else-projectile 'counsel-projectile-ag 'counsel-ag))
-     "p"    (lambda() (interactive) (funcall wolfe/hydra-projectile))
-     ";"    (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
-     "id"   (lambda() (interactive) (indent-region (point-min) (point-max)))
-     "o"    (lambda() (interactive) (wolfe/org-open "everything"))
-     "init" (lambda() (interactive) (evil-buffer-new nil wolfe/init-file))
-     "SPC"  'major-mode-hydra))
+      "w"  'save-buffer
+      "S"  'wolfe/eval-and-replace
+      "s"  'eval-defun
+      "b"  'mode-line-other-buffer
+      "k"  'kill-buffer
+      "m"  'ivy-switch-buffer
+      "e"  'iedit-mode
+      "c"  'wolfe/compile-no-prompt
+      "n"  'narrow-or-widen-dwim
+      "a"  'org-agenda
+      "g"  'magit-status
+      "''" 'org-edit-src-exit
+      "#"  'wolfe/csharp-project
+      "t"    (lambda() (interactive) (wolfe/if-else-projectile 'treemacs-projectile 'treemacs))
+      "f"    (lambda() (interactive) (wolfe/if-else-projectile 'counsel-projectile-ag 'counsel-ag))
+      "p"    (lambda() (interactive) (funcall wolfe/hydra-projectile))
+      ";"    (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
+      "id"   (lambda() (interactive) (indent-region (point-min) (point-max)))
+      "o"    (lambda() (interactive) (wolfe/org-open "everything"))
+      "init" (lambda() (interactive) (evil-buffer-new nil wolfe/init-file))
+      "SPC"  'major-mode-hydra))
 #+END_SRC
 
 *** Evil Surround
@@ -1340,7 +1343,7 @@ Project management
     (setq projectile-enable-caching t)
     (setq projectile-indexing-method 'alien)
     (setq projectile-globally-ignored-file-suffixes
-          '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar"))
+          '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar" "*.class"))
     (setq projectile-globally-ignored-directories
           '(".git" "node_modules" "__pycache__" ".vs"))
     (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
@@ -1373,9 +1376,34 @@ or don't exist for the language.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package dumb-jump
+    :bind
+    (:map evil-normal-state-map
+          ("g D" . dumb-jump-go))
     :config
-    (setq dumb-jump-selector 'ivy)
-    (evil-global-set-key 'normal (kbd "g D") 'dumb-jump-go))
+    (setq dumb-jump-selector 'ivy))
+#+END_SRC
+
+** Persp Mode
+   
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package persp-mode
+    :hook (after-init . (lambda () (persp-mode 1)))
+    :config
+    (setq wg-morph-on nil ;; switch off animation
+          persp-autokill-buffer-on-remove 'kill-weak
+          persp-auto-save-opt 0
+          persp-auto-resume-time -1
+          persp-nil-hidden t
+          persp-add-buffer-on-find-file t
+          persp-add-buffer-on-after-change-major-mode t)
+
+    (defvar wolfe/persp-default-workspace "main")
+    (add-hook
+     'after-make-frame-functions
+     (lambda (frame)
+       (with-selected-frame frame
+        (persp-add-new wolfe/persp-default-workspace)
+        (persp-frame-switch wolfe/persp-default-workspace frame)))))
 #+END_SRC
 
 * Languages
@@ -1486,12 +1514,15 @@ Basic editing mode for React.js files.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package omnisharp
     :after company
+    :bind
+    (:map omnisharp-mode-map
+          :map evil-normal-state-map
+          ("g d" . 'omnisharp-go-to-definition))
     :config
     (when wolfe/windows?
       (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
     (add-hook 'csharp-mode-hook
               (lambda ()
-                (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
                 (unless (file-exists-p "Makefile")
                   (set (make-local-variable 'compile-command) (concat "msbuild " (cdr (assoc :project-root omnisharp--server-info)))))))
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
@@ -1554,22 +1585,22 @@ and =elpy= together since elpy is a bit slow to load at startup.
     :defer t)
 #+END_SRC
 
-* Utility
-** Eyebrowse
+** Java
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package eyebrowse
-    :bind
-    (:map evil-normal-state-map
-          ("<left>" . 'eyebrowse-prev-window-config)
-          ("<right>" . 'eyebrowse-next-window-config))
+  (use-package company-emacs-eclim
+    :after company
     :config
-    (eyebrowse-mode t)
-    (setq eyebrowse-new-workspace t)
-    (evil-ex-define-cmd "tabe" 'eyebrowse-create-window-config)
-    (eyebrowse-setup-opinionated-keys)) ; Evil window bindings
+    (company-emacs-eclim-setup)
+    (setq eclimd-autostart t)
+
+    (defun my-java-mode-hook ()
+        (eclim-mode t))
+
+    (add-hook 'java-mode-hook 'my-java-mode-hook))
 #+END_SRC
 
+* Utility
 ** Ranger
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1593,7 +1624,8 @@ Edit all instances of a string
 ** Quick Run
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package quickrun)
+  (use-package quickrun
+    :defer t)
 #+END_SRC
 
 ** Restclient
@@ -1614,13 +1646,43 @@ Shows hex colors inline.
     :defer t)
 #+END_SRC
 
-** Org Jira
+** Helpful
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package org-jira
+  (use-package helpful
     :defer t
+    :bind
+    (("C-h f" . helpful-callable)
+     ("C-h v" . helpful-variable)
+     ("C-h k" . helpful-key)
+     ("C-h F" . helpful-function)
+     ("C-h C" . helpful-command)
+     :map helpful-mode-map
+     (:map evil-normal-state-map
+           ("q" . kill-buffer-and-window)))
     :config
-    (setq jiralib-url "https://indigoca.atlassian.net"))
+    (set-face-attribute 'helpful-heading nil :height 1.1))
+#+END_SRC
+
+** Shackle
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package shackle
+    :config
+    (setq shackle-default-alignment 'below
+          shackle-default-size 0.4
+          shackle-rules
+          '(("*HTTP Response*" :popup t :align right)))
+    (shackle-mode))
+#+END_SRC
+
+** Zoom
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package zoom
+    :config
+    (setq zoom-size '(0.618 . 0.618))
+    (zoom-mode t))
 #+END_SRC
 
 * Completion

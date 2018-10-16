@@ -67,7 +67,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec urxvt
-bindsym $mod+backslash exec emacs
+bindsym $mod+backslash exec emacsclient -c
 bindsym $mod+Shift+backslash exec emacs -light
 
 # kill focused window

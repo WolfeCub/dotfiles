@@ -1389,21 +1389,67 @@ or don't exist for the language.
   (use-package persp-mode
     :hook (after-init . (lambda () (persp-mode 1)))
     :config
+    (defvar wolfe/persp-default-workspace "main")
+    (defvar wolfe/persp-shared-buffers '("*scratch*" "*Messages*"))
+
     (setq wg-morph-on nil ;; switch off animation
           persp-autokill-buffer-on-remove 'kill-weak
           persp-auto-save-opt 0
           persp-auto-resume-time -1
           persp-nil-hidden t
           persp-add-buffer-on-find-file t
-          persp-add-buffer-on-after-change-major-mode t)
+          persp-add-buffer-on-after-change-major-mode nil
+          persp-hook-up-emacs-buffer-completion t)
 
-    (defvar wolfe/persp-default-workspace "main")
+    ;; Make ivy play nice
+    (with-eval-after-load "ivy"
+      (add-hook 'ivy-ignore-buffers
+                #'(lambda (b)
+                    (when persp-mode
+                      (let ((persp (get-current-persp)))
+                        (if persp
+                            (not (persp-contain-buffer-p b persp))
+                          nil)))))
+      (setq ivy-sort-functions-alist
+            (append ivy-sort-functions-alist
+                    '((persp-kill-buffer   . nil)
+                      (persp-remove-buffer . nil)
+                      (persp-add-buffer    . nil)
+                      (persp-switch        . nil)
+                      (persp-window-switch . nil)
+                      (persp-frame-switch . nil)))))
+
+    (defun wolfe/persp-switch-project-action ()
+      (let ((frame (selected-frame))
+            (name (projectile-project-name)))
+        (with-selected-frame frame
+          (persp-add-new name)
+          (persp-frame-switch name)
+          (persp-add-buffer wolfe/persp-shared-buffers (get-current-persp) nil)
+          (run-with-timer 0 nil (lambda () (persp-add-buffer (current-buffer)))))))
+
+    (add-hook 'projectile-after-switch-project-hook 'wolfe/persp-switch-project-action)
+
+    (defun wolfe/persp-concat-name (count)
+      (if (eq count 0)
+          wolfe/persp-default-workspace
+        (format "%s-%s" wolfe/persp-default-workspace count)))
+
+    (defun wolfe/persp-next-main-name (&optional count)
+      (let ((count (or count 0)))
+        (if (persp-with-name-exists-p (wolfe/persp-concat-name count))
+            (wolfe/persp-next-main-name (+ count 1))
+          (wolfe/persp-concat-name count))))
+
     (add-hook
      'after-make-frame-functions
      (lambda (frame)
-       (with-selected-frame frame
-        (persp-add-new wolfe/persp-default-workspace)
-        (persp-frame-switch wolfe/persp-default-workspace frame)))))
+       (let ((name (wolfe/persp-next-main-name)))
+         (with-selected-frame frame
+           (message "Making persp %s" name)
+           (persp-add-new name)
+           (persp-add-buffer wolfe/persp-shared-buffers (get-current-persp) nil)
+           (persp-frame-switch name frame))))))
 #+END_SRC
 
 * Languages
@@ -1514,15 +1560,12 @@ Basic editing mode for React.js files.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package omnisharp
     :after company
-    :bind
-    (:map omnisharp-mode-map
-          :map evil-normal-state-map
-          ("g d" . 'omnisharp-go-to-definition))
     :config
     (when wolfe/windows?
       (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
     (add-hook 'csharp-mode-hook
               (lambda ()
+                (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)
                 (unless (file-exists-p "Makefile")
                   (set (make-local-variable 'compile-command) (concat "msbuild " (cdr (assoc :project-root omnisharp--server-info)))))))
     (add-hook 'csharp-mode-hook 'omnisharp-mode)
@@ -1656,11 +1699,9 @@ Shows hex colors inline.
      ("C-h v" . helpful-variable)
      ("C-h k" . helpful-key)
      ("C-h F" . helpful-function)
-     ("C-h C" . helpful-command)
-     :map helpful-mode-map
-     (:map evil-normal-state-map
-           ("q" . kill-buffer-and-window)))
+     ("C-h C" . helpful-command))
     :config
+    (evil-define-key 'normal helpful-mode-map (kbd "q") 'kill-buffer-and-window)
     (set-face-attribute 'helpful-heading nil :height 1.1))
 #+END_SRC
 

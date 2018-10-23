@@ -1,6 +1,7 @@
 [user]
 	email = joshuafwolfe@gmail.com
 	name = Josh Wolfe
+	signingkey = joshuafwolfe@gmail.com
 [push]
 	default = simple
 [magit]

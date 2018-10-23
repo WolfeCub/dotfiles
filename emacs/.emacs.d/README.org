@@ -181,6 +181,7 @@ Configuration for my dark theme =base16 default dark= which is loaded by default
     (eval-after-load 'ivy (lambda () (setq ivy-switch-buffer-faces-alist '((dired-mode . ivy-subdir)))))
 
     (custom-set-faces
+     '(lazy-highlight ((t (:background "light gray" :foreground "#000000"))))
      '(org-done ((t (:box (:line-width 1) :weight bold))))
      '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
      '(org-todo ((t (:box (:line-width 1) :weight bold))))))
@@ -1176,8 +1177,9 @@ Customizable popup menus.
     (:map evil-motion-state-map
           ("C-u" . evil-scroll-up))
     :init
-    (setq evil-want-C-u-scroll t) ; Unbind <C-u> for evil mode's use
-    (setq evil-want-C-i-jump nil)
+    (setq evil-want-C-u-scroll t
+          evil-want-C-i-jump t
+          evil-want-Y-yank-to-eol t)
     :config
     (evil-mode t)
     (setq evil-split-window-below t
@@ -1446,10 +1448,16 @@ or don't exist for the language.
      (lambda (frame)
        (let ((name (wolfe/persp-next-main-name)))
          (with-selected-frame frame
-           (message "Making persp %s" name)
+           (set-frame-parameter frame 'wolfe/persp-current-main name)
            (persp-add-new name)
-           (persp-add-buffer wolfe/persp-shared-buffers (get-current-persp) nil)
-           (persp-frame-switch name frame))))))
+           (persp-frame-switch name frame)
+           (persp-add-buffer wolfe/persp-shared-buffers (get-current-persp) nil)))))
+
+    (add-hook
+     'delete-frame-functions
+     (lambda (frame)
+       (with-selected-frame frame
+         (persp-kill (frame-parameter frame 'wolfe/persp-current-main))))))
 #+END_SRC
 
 * Languages

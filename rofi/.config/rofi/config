@@ -2,21 +2,21 @@
 ! 1   2   3
 ! 8   0   4
 ! 7   6   5
-rofi.location: 1
-rofi.xoffset: 0
-rofi.yoffset: 0
+! rofi.location: 1
+! rofi.xoffset: 0
+! rofi.yoffset: 0
 
 ! "Enabled modi" Set from: Default
 rofi.modi: run
 
 ! "Window width" Set from: Default
-rofi.width: 1920
+! rofi.width: 1920
 
 ! "Padding" Set from: Default
 rofi.padding: 15
 
 ! "Number of lines" Set from: Default
-rofi.lines: 1
+rofi.lines: 5
 rofi.line-margin: 10
 rofi.line-padding: 2
 

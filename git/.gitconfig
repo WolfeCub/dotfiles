@@ -10,3 +10,9 @@
 	user = WolfeCub
 [commit]
 	gpgsign = true
+[alias]
+	c = commit
+	co = checkout
+    s = status
+    p = pull
+    po = push origin

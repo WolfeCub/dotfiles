@@ -5,12 +5,13 @@ export PAGER='less -R'
 export GOROOT=/usr/lib/go
 export GOPATH=$HOME/Projects/go
 
-if $(which virtualenvwrapper.sh); then
+if which virtualenvwrapper.sh 2>&1 > /dev/null; then
     source virtualenvwrapper.sh
 fi
 
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpgconf --create-socketdir
 gpg-connect-agent updatestartuptty /bye > /dev/null
 
 ##
@@ -193,8 +194,12 @@ function precmd() {
     echo
 }
 
+function promptjobs() {
+    jobs %% 2> /dev/null | cut -d " " -f6
+}
+
 PROMPT="%F{red}%n%F{white}@%F{green}%m %F{blue}%~ ${_newline}%F{white}$ "
-RPROMPT='%{${_lineup}%}%F{red}%(?..%? )%F{yellow}%v%F{white}`jobs %% 2> /dev/null | cut -d " " -f6` [`date +%H:%M:%S`]%{${_linedown}%}'
+RPROMPT='%{${_lineup}%}%F{red}%(?..%? )%F{yellow}%v%F{white}$(promptjobs) [`date +%H:%M:%S`]%{${_linedown}%}'
 setopt promptsubst
 
 # Delay of 0.1 seconds
@@ -202,6 +207,9 @@ export KEYTIMEOUT=1
 
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
 
+##
+## E N D
+##
 # FZF custom options
 if [ -f ~/.fzf.zsh ] && which tree > /dev/null 2>&1; then
     source ~/.fzf.zsh
@@ -209,7 +217,5 @@ if [ -f ~/.fzf.zsh ] && which tree > /dev/null 2>&1; then
     export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 fi
 
-
-# added by travis gem
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 

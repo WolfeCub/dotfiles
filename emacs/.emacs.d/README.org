@@ -198,6 +198,8 @@ Configuration for my dark theme =base16 default dark= which is loaded by default
     (hook-if-daemonp (lambda () (set-face-attribute 'fringe nil :background nil)))
 
     (custom-set-faces
+     '(org-block-begin-line      ((t (:inherit (org-meta-line) :height 0.7))))
+     '(org-block-end-line        ((t (:inherit (org-meta-line) :height 0.7))))
      '(region ((t (:background "gray19"))))
      '(org-block ((t (:foreground "#d8d8d8"))))
      '(org-done ((t (:box (:line-width 1) :weight bold))))
@@ -1192,6 +1194,7 @@ Customizable popup menus.
     (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
     (define-key evil-ex-map "e " (lambda () (interactive) (wolfe/call-and-update-ex 'counsel-find-file))) ; Trigger file completion :e
     (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
+    (add-to-list 'evil-emacs-state-modes 'vterm-mode)
 
     (general-create-definer wolfe/bind-leader
       :keymaps 'global
@@ -1715,6 +1718,15 @@ Shows hex colors inline.
     :config
     (setq zoom-size '(0.618 . 0.618))
     (zoom-mode t))
+#+END_SRC
+
+** Exec Path From Shell
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package exec-path-from-shell
+    :config
+    (exec-path-from-shell-copy-env "GPG_TTY")
+    (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
 #+END_SRC
 
 * Completion

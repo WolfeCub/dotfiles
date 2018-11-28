@@ -1331,8 +1331,7 @@ Magic git interface from within emacs
     (use-package evil-magit)
     (setq magit-bury-buffer-function
           (lambda (con)
-            (kill-buffer)
-            (delete-window))))
+            (kill-buffer-and-window))))
 #+END_SRC
 
 ** Projectile
@@ -1406,16 +1405,15 @@ or don't exist for the language.
                       (persp-window-switch . nil)
                       (persp-frame-switch . nil)))))
 
-    (defun wolfe/persp-switch-project-action ()
+    (defun wolfe/persp-create-project-persp ()
       (let ((frame (selected-frame))
             (name (projectile-project-name)))
         (with-selected-frame frame
           (persp-add-new name)
           (persp-frame-switch name)
-          (persp-add-buffer wolfe/persp-shared-buffers (get-current-persp) nil)
-          (run-with-timer 0 nil (lambda () (persp-add-buffer (current-buffer)))))))
+          (persp-add-buffer wolfe/persp-shared-buffers (get-current-persp) nil))))
 
-    (add-hook 'projectile-after-switch-project-hook 'wolfe/persp-switch-project-action)
+    (add-hook 'projectile-before-switch-project-hook 'wolfe/persp-create-project-persp)
 
     (defun wolfe/persp-concat-name (count)
       (if (eq count 0)
@@ -1449,6 +1447,7 @@ or don't exist for the language.
 ** Generic Web
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package web-mode
+    :defer t
     :mode ("\\.html\\'" "\\.php\\'" "\\.js\\'")
     :config
     (setq web-mode-enable-auto-closing t)
@@ -1476,13 +1475,15 @@ or don't exist for the language.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package indium)
+  (use-package indium
+    :defer t)
 #+END_SRC
 
 Basic editing mode for React.js files.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package rjsx-mode)
+  (use-package rjsx-mode
+    :defer t)
 #+END_SRC
 
 ** Lisp Family
@@ -1514,14 +1515,8 @@ Basic editing mode for React.js files.
 ** Haskell
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package haskell-mode)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package flycheck-haskell
-    :after flycheck
-    :config
-    (add-hook 'haskell-mode-hook #'flycheck-haskell-setup))
+  (use-package haskell-mode
+    :defer t)
 #+END_SRC
 
 ** Latex
@@ -1542,6 +1537,7 @@ Basic editing mode for React.js files.
   (setq-default c-basic-offset 4)
 
   (use-package company-irony
+    :defer t
     :after company
     :config
     (add-hook 'c++-mode-hook 'irony-mode)
@@ -1554,6 +1550,7 @@ Basic editing mode for React.js files.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package omnisharp
+    :defer t
     :after company
     :config
     (when wolfe/windows?
@@ -1594,6 +1591,7 @@ and =elpy= together since elpy is a bit slow to load at startup.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company-shell
+    :defer t
     :after company
     :config
     (add-to-list 'company-backends '(company-shell company-shell-env)))
@@ -1603,24 +1601,19 @@ and =elpy= together since elpy is a bit slow to load at startup.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package go-mode
+    :defer t
     :config
     (add-hook 'go-mode-hook (lambda () (setq tab-width 4))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company-go
+    :defer t
     :after company
     :config
     (when wolfe/linux?
       (add-to-list 'exec-path "~/Projects/go/bin"))
     (add-to-list 'company-backends 'company-go))
-#+END_SRC
-
-** Nim
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package nim-mode
-    :defer t)
 #+END_SRC
 
 ** Java

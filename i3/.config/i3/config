@@ -74,7 +74,7 @@ bindsym $mod+Shift+backslash exec emacs -light
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec rofi -show run
+bindsym $mod+space exec rofi -show drun
 bindsym $mod+d exec rofi-pass
 bindsym $mod+Shift+d exec "rofi-pass --insert"
 bindsym $mod+c exec firefox-developer-edition

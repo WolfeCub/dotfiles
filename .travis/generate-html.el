@@ -41,4 +41,3 @@
 
 (message (export-target readme-src))
 (cd "../")
-(message (export-target "TODO.org"))

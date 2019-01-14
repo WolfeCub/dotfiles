@@ -899,12 +899,13 @@ Setup some basic quality of life org settings.
         org-fontify-done-headline t
         org-fontify-quote-and-verse-blocks t
         org-highlight-latex-and-related '(latex)
-        org-log-done 'time
         org-enforce-todo-dependencies t
         org-agenda-use-time-grid nil
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
-        org-ellipsis wolfe/org-ellipsis)
+        org-ellipsis wolfe/org-ellipsis
+        org-entities-user '(("bot" "\\bot" nil "" "" "" "⊥")))
+
 
   (defun wolfe/org-tags-compute-width ()
     (- (floor (* 0.8 (frame-width)))))
@@ -1730,6 +1731,30 @@ Shows hex colors inline.
     :config
     (exec-path-from-shell-copy-env "GPG_TTY")
     (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
+#+END_SRC
+
+** Shell Pop
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package shell-pop
+    :config
+    (defun shell-pop--set-exit-action ()
+      (if (string= shell-pop-internal-mode "eshell")
+          (add-hook 'eshell-exit-hook 'shell-pop--kill-and-delete-window nil t)
+        (let ((process (get-buffer-process (current-buffer))))
+          (when process
+            (set-process-sentinel
+             process
+             (lambda (_proc change)
+               (when (string-match-p "\\(?:finished\\|exited\\)" change)
+                 (if (one-window-p)
+                     (switch-to-buffer shell-pop-last-buffer)
+                   (kill-buffer-and-window)))))))))
+
+    (custom-set-variables
+     '(shell-pop-shell-type (quote ("vterm" "*vterm*" (lambda nil (vterm)))))
+     '(shell-pop-term-shell "/usr/bin/zsh")
+     '(shell-pop-window-position "right")))
 #+END_SRC
 
 * Completion

@@ -904,7 +904,8 @@ Setup some basic quality of life org settings.
         org-agenda-skip-deadline-if-done t
         org-agenda-skip-scheduled-if-done t
         org-ellipsis wolfe/org-ellipsis
-        org-entities-user '(("bot" "\\bot" nil "" "" "" "⊥")))
+        org-entities-user '(("bot" "\\bot" nil "" "" "" "⊥")
+                            ("square" "$\\square$" nil "" "" "" "□")))
 
 
   (defun wolfe/org-tags-compute-width ()
@@ -996,7 +997,7 @@ Setup org agenda for managing my life.
 
   (setq org-default-notes-file (concat wolfe/org-dropbox-path "everything.org"))
   (setq org-capture-templates
-        '(("t" "Task" entry (file+headline "" "Tasks")
+        '(("t" "Task" entry (file+headline "" "Need Refiling")
            "* TODO %?\n  DEADLINE: %t\n")))
 #+END_SRC
 

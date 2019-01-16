@@ -172,6 +172,14 @@ alias e='emacs -nw'
 alias et='emacsclient -t'
 alias ec='emacsclient -c'
 
+function send {
+    if [[ "t" == "$(emacsclient -e '(> (length (visible-frame-list)) 1)')" ]]; then
+        emacsclient -n -a "" $1
+    else
+        emacsclient -n -a "" -c $1
+    fi
+}
+
 qemu () {
     $(which qemu-system-x86_64) "$@" 2>&1 | grep -v "Gtk-WARNING"
 }
@@ -217,5 +225,6 @@ if [ -f ~/.fzf.zsh ] && which tree > /dev/null 2>&1; then
     export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 fi
 
+[ -f /usr/lib/z.sh ] && source /usr/lib/z.sh
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 

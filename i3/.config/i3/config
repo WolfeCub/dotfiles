@@ -113,6 +113,29 @@ bindsym $mod+Shift+space floating toggle
 bindsym Mod1+space focus mode_toggle
 
 # switch to workspace
+
+#bindsym Mod1+Shift+ampersand    workspace 1
+#bindsym Mod1+braceleft          workspace 2
+#bindsym Mod1+Shift+bracketleft  workspace 3
+#bindsym Mod1+Shift+braceright   workspace 4
+#bindsym Mod1+Shift+parenleft    workspace 5
+#bindsym Mod1+equal              workspace 6
+#bindsym Mod1+Shift+asterisk     workspace 7
+#bindsym Mod1+Shift+parenright   workspace 8
+#bindsym Mod1+Shift+plus         workspace 9
+#bindsym Mod1+bracketright       workspace 10
+#
+#bindsym $mod+Shift+ampersand    move container to workspace 1
+#bindsym $mod+braceleft          move container to workspace 2
+#bindsym $mod+Shift+bracketleft  move container to workspace 3
+#bindsym $mod+Shift+braceright   move container to workspace 4
+#bindsym $mod+Shift+parenleft    move container to workspace 5
+#bindsym $mod+equal              move container to workspace 6
+#bindsym $mod+Shift+asterisk     move container to workspace 7
+#bindsym $mod+Shift+parenright   move container to workspace 8
+#bindsym $mod+Shift+plus         move container to workspace 9
+#bindsym $mod+bracketright       move container to workspace 10
+
 bindsym $mod+percent      workspace 1
 bindsym $mod+bracketleft  workspace 2
 bindsym $mod+braceleft    workspace 3

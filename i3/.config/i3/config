@@ -37,7 +37,7 @@ for_window [title="^QEMU$"] floating enable
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%-
 bindsym XF86AudioMute exec amixer set Master toggle
-bindsym --release Print exec scrot -q 100 -s ~/temp.png
+bindsym --release Print exec "scrot -q 100 -s ~/temp.png && xclip -selection clipboard -t image/png -i ~/temp.png"
 
 # brightness keys
 bindsym XF86MonBrightnessUp exec xbacklight -inc 2
@@ -169,39 +169,39 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 mode "resize" {
 # These bindings trigger as soon as you enter the resize mode
 
-# Pressing left will shrink the window’s width.
-# Pressing right will grow the window’s width.
-# Pressing up will shrink the window’s height.
-# Pressing down will grow the window’s height.
-bindsym h resize shrink width 5 px or 5 ppt
-bindsym j resize grow height 5 px or 5 ppt
-bindsym k resize shrink height 5 px or 5 ppt
-bindsym l resize grow width 5 px or 5 ppt
+    # Pressing left will shrink the window’s width.
+    # Pressing right will grow the window’s width.
+    # Pressing up will shrink the window’s height.
+    # Pressing down will grow the window’s height.
+    bindsym h resize shrink width 5 px or 5 ppt
+    bindsym j resize grow height 5 px or 5 ppt
+    bindsym k resize shrink height 5 px or 5 ppt
+    bindsym l resize grow width 5 px or 5 ppt
 
-# back to normal: Enter or Escape
-bindsym Return mode "default"
-bindsym Escape mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 
-bar {
-    status_command i3status
-    position top
-    mode hide
-    hidden_state hide
-    modifier $mod
-    font pango:Inconsolata 12
-
-    colors {
-        separator $base03
-        background $base01
-        statusline $base05
-        focused_workspace $base0C $base0D $base00
-        active_workspace $base02 $base02 $base07
-        inactive_workspace $base01 $base01 $base03
-        urgent_workspace $base08 $base08 $base07
-    }
-}
+#bar {
+#    status_command i3status
+#    position top
+#    mode hide
+#    hidden_state hide
+#    modifier $mod
+#    font pango:Inconsolata 12
+#
+#    colors {
+#        separator $base03
+#        background $base01
+#        statusline $base05
+#        focused_workspace $base0C $base0D $base00
+#        active_workspace $base02 $base02 $base07
+#        inactive_workspace $base01 $base01 $base03
+#        urgent_workspace $base08 $base08 $base07
+#    }
+#}
 
 exec --no-startup-id dropbox start
 exec --no-startup-id nm-applet
@@ -211,4 +211,6 @@ exec_always "setxkbmap -option compose:ralt"
 exec_always "xsetroot -cursor_name left_ptr"
 exec_always "~/bin/caps"
 exec_always "~/bin/key-rate"
+exec_always "~/bin/autohide"
 exec_always feh --bg-scale --randomize ~/Pictures/wallpapers/*
+exec_always polybar my-awesome-polybar

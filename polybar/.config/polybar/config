@@ -22,6 +22,7 @@ accent = #e60053
 
 [bar/my-awesome-polybar]
 enable-ipc = true
+override-redirect = true
 
 width = 100%
 height = 25
@@ -46,11 +47,10 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 1
 
-#font-0 = DejaVu Sans Mono:size=9;1
-font-0 = Droid Sans Mono:size=10;1
+font-0 = DejaVu Sans Mono:size=9;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
-font-3 = FontAwesome:size=12:weight=Regular
+font-3 = "Font Awesome 5 Free:size=12:style=Solid"
 
 modules-left = ewmh xwindow
 modules-center =
@@ -59,46 +59,6 @@ modules-right = xbacklight volume memory cpu wlan battery temperature date
 tray-position = right
 tray-padding = 4
 tray-maxsize = 16
-
-[bar/bottom-bar]
-enable-ipc = true
-
-;monitor = ${env:MONITOR:HDMI-1}
-width = 100%
-height = 27
-
-bottom = true
-
-;offset-x = 1%
-#offset-y = 1050
-;radius = 0
-fixed-center = false
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-line-size = 3
-line-color = #f00
-
-border-size = 4
-border-color = #00000000
-
-padding-left = 2
-padding-right = 2
-
-module-margin-left = 4
-module-margin-right = 4
-
-#font-0 = DejaVu Sans Mono:size=9;1
-font-0 = Droid Sans Mono:size=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-font-3 = FontAwesome:size=12:weight=Regular
-
-modules-left = mpd
-modules-center =
-modules-right = ip-wireless ip-wired filesystem
-
 
 [module/ewmh]
 type = internal/xworkspaces
@@ -194,7 +154,7 @@ type = internal/xkeyboard
 blacklist-0 = num lock
 
 format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
+#format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
 label-layout = %layout%
@@ -246,9 +206,10 @@ label-song-ellipsis = true
 
 [module/xbacklight]
 type = internal/xbacklight
+output = eDP1
 
 format = <label> <bar>
-label = BL
+label = " %percentage%%"
 
 bar-width = 10
 bar-indicator = |
@@ -271,7 +232,7 @@ type = internal/cpu
 interval = 2
 format = <label> <ramp-coreload>
 format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
+#format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
 label = %percentage%%
 ramp-coreload-0 = ▁
@@ -304,7 +265,7 @@ type = internal/memory
 interval = 2
 format = <label> <bar-used>
 format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
+#format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 label = %percentage_used%%
 bar-used-width = 8
@@ -382,7 +343,7 @@ format-packetloss = <animation-packetloss> <label-connected>
 ; ;   %downspeed% [wireless+wired]
 ; ;   %linkspeed% [wired]
 ; ; Default: %ifname% %local_ip%
-label-connected = %essid% %upspeed:8% %downspeed:8%
+label-connected = %essid%%upspeed:8%%downspeed:8%
 label-connected-foreground = #eefafafa
 ;
 ; ; Available tokens:
@@ -449,16 +410,16 @@ time = %H:%M
 time-alt = %H:%M:%S
 
 format-prefix = 
-format-prefix-foreground = ${colors.foreground-alt}
+#format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
 label = %date% %time%
 
 [module/volume]
-type = internal/volume
+type = internal/alsa
 
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL
+format-volume = "<label-volume> <bar-volume>"
+label-volume = " %percentage%%"
 label-volume-foreground = ${root.foreground}
 
 format-muted-prefix = " "
@@ -501,7 +462,7 @@ format-full-underline = ${self.format-charging-underline}
 ramp-capacity-0 = " "
 ramp-capacity-1 = " "
 ramp-capacity-2 = " "
-ramp-capacity-foreground = ${colors.foreground-alt}
+#ramp-capacity-foreground = ${colors.foreground-alt}
 
 animation-charging-0 = " "
 animation-charging-1 = " "
@@ -519,14 +480,14 @@ format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
-label = %temperature%
-label-warn = %temperature%
+label = %temperature-c%
+label-warn = %temperature-c%
 label-warn-foreground = ${colors.secondary}
 
 ramp-0 = 
 ramp-1 = 
 ramp-2 = 
-ramp-foreground = ${colors.foreground-alt}
+#ramp-foreground = ${colors.foreground-alt}
 
 [module/powermenu]
 type = custom/menu

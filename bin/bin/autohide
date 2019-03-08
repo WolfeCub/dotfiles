@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Check if xdo is installed
+xdo_path=$(which xdo)
+if [ $? -ne 0 ]; then
+    echo "Cannot find \`xdo\` command." 1>&2
+    exit 1
+fi
+
+xinput test AT\ Translated\ Set\ 2\ keyboard | while read -r in ; do
+    if [[ "$in" = "key press   133" ]]; then
+        xdo show -N "Polybar"
+        xdo show -a "Polybar tray window"
+    elif [[ "$in" = "key release 133" ]]; then
+        xdo hide -N "Polybar"
+        xdo hide -a "Polybar tray window"
+    fi
+done
+

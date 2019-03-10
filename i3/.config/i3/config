@@ -212,5 +212,5 @@ exec_always "xsetroot -cursor_name left_ptr"
 exec_always "~/bin/caps"
 exec_always "~/bin/key-rate"
 exec_always "~/bin/autohide"
+exec_always "~/bin/launch_polybar"
 exec_always feh --bg-scale --randomize ~/Pictures/wallpapers/*
-exec_always polybar my-awesome-polybar

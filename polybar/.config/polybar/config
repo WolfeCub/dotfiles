@@ -343,7 +343,7 @@ format-packetloss = <animation-packetloss> <label-connected>
 ; ;   %downspeed% [wireless+wired]
 ; ;   %linkspeed% [wired]
 ; ; Default: %ifname% %local_ip%
-label-connected = %essid%%upspeed:8%%downspeed:8%
+label-connected = %essid% %downspeed:8%%upspeed:8%
 label-connected-foreground = #eefafafa
 ;
 ; ; Available tokens:

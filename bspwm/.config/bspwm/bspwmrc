@@ -2,33 +2,29 @@
 
 sxhkd &
 
-# Auto Start
-xsetroot -cursor_name left_ptr
-xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12
-setxkbmap -option 'caps:ctrl_modifier'
-xcape -e 'Caps_Lock=Escape'
-~/bin/battery_notify&
-feh --bg-scale ~/Pictures/star_wars_wallpaper.jpg 
-powertop --auto-tune
-tlp start
-xset r rate 225 30
-(dropbox&)
-
-bspc config border_width         2
-bspc config window_gap           5
-bspc config top_padding          27
-
-bspc config split_ratio          0.52
-bspc config borderless_monocle   true
-bspc config gapless_monocle      true
-
+bspc config border_width          2
+bspc config window_gap            0
+bspc config top_padding           0
+bspc config split_ratio           0.5
+bspc config borderless_monocle    true
+bspc config gapless_monocle       true
 bspc config focus_follows_pointer true
+bspc config single_monocle        true
 
-bspc rule -a Gimp desktop='^8' state=floating follow=on
-bspc rule -a mplayer2 state=floating
-bspc rule -a Kupfer.py focus=on
-bspc rule -a Screenkey manage=off
+bspc rule -a Emacs state=tiled
 
 bspc monitor -d www Term I II III IV V VI VII VIII
 
-polybar wolfe
+xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12
+setxkbmap -option compose:ralt
+xsetroot -cursor_name left_ptr
+~/bin/caps
+~/bin/key-rate
+
+(dropbox start&)
+(nm-applet&)
+(~/bin/battery_notify&)
+(~/bin/autohide&)
+
+feh --bg-scale --randomize ~/Pictures/wallpapers/*
+polybar my-awesome-polybar

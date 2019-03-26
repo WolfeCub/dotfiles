@@ -9,6 +9,8 @@ fi
 
 xinput test AT\ Translated\ Set\ 2\ keyboard | while read -r in ; do
     if [[ "$in" = "key press   133" ]]; then
+        xdo raise -N "Polybar"
+        xdo raise -a "Polybar tray window"
         xdo show -N "Polybar"
         xdo show -a "Polybar tray window"
     elif [[ "$in" = "key release 133" ]]; then

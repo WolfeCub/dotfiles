@@ -909,7 +909,7 @@ Setup some basic quality of life org settings.
 
 
   (defun wolfe/org-tags-compute-width ()
-    (- (floor (* 0.8 (frame-width)))))
+    (- (floor (* 0.6 (frame-width)))))
 
   (add-hook 'org-mode-hook
             (lambda ()

@@ -4,44 +4,49 @@
 
 # terminal emulator
 super + Return
-  terminator
+    urxvt
 
 # emacs
 super + backslash
-  emacs
+    emacsclient -c
 
 # chrome
 super + c
-  chromium
+    firefox-developer-edition
 
 # program launcher
 super + space
-  rofi -show run -font "snap 10" -o 85
+    rofi -show drun
+
+super + d
+    rofi-pass
+
+super + shift + d
+    rofi-pass --insert
+
+super + n
+    ~/bin/lock.sh
+
+Print
+    sleep 0.2; \
+    scrot -q 100 -s ~/temp.png && xclip -selection clipboard -t image/png -i ~/temp.png
 
 # make sxhkd reload its configuration files:
-super + Escape
-  pkill -USR1 -x sxhkd
+super + Escape pkill -USR1 -x sxhkd
 
 # volume keys
 XF86AudioRaiseVolume
-  amixer -D pulse sset Master 2%+
+    amixer -D pulse sset Master 2%+
 XF86AudioLowerVolume
-  amixer -D pulse sset Master 2%-
+    amixer -D pulse sset Master 2%-
 XF86AudioMute
-  amixer set Master toggle
+    amixer set Master toggle
 
 # brightness keys
 XF86MonBrightnessUp
-  xbacklight -inc 5
+    xbacklight -inc 5
 XF86MonBrightnessDown
-  xbacklight -dec 5
-
-# swap keyboard layout
-super + p
-  ~/bin/toggle-layout
-# swap keyboard layout
-super + r
-  ~/bin/toggle-russian
+    xbacklight -dec 5
 
 #
 # bspwm hotkeys
@@ -96,7 +101,7 @@ super + {_,shift + }c
   bspc node -f {next,prev}
 
 # focus the next/previous desktop
-super + bracket{left,right}
+super + {slash,at}
   bspc desktop -f {prev,next}
 
 # focus the last node/desktop
@@ -110,7 +115,7 @@ super + {o,i}
   bspc wm -h on
 
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0}
+super + {_,shift + }{ampersand, bracketleft, braceleft, braceright, parenleft, equal, asterisk, parenright, plus, bracketright}
   bspc {desktop -f,node -d} '^{1-9,10}'
 
 #

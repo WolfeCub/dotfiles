@@ -71,7 +71,7 @@ set hidden         " Allow buffers with pending changes to be sent to background
 set timeoutlen=500 ttimeoutlen=0
 
 " Completion options
-set wildmode=list:longest
+set wildmode=longest:list,full
 set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
 set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
 set wildignore+=*vim/backups*

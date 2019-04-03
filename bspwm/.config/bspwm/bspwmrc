@@ -13,7 +13,7 @@ bspc config single_monocle        true
 
 bspc rule -a Emacs state=tiled
 
-bspc monitor -d www Term I II III IV V VI VII VIII
+bspc monitor -d I II III IV V VI VII VIII IX X
 
 xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12
 setxkbmap -option compose:ralt

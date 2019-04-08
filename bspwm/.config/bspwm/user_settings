@@ -1,0 +1,15 @@
+#!/bin/sh
+
+xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12
+setxkbmap -option compose:ralt
+xsetroot -cursor_name left_ptr
+~/bin/caps
+~/bin/key-rate
+
+(dropbox start&)
+(nm-applet&)
+(~/bin/battery_notify&)
+(~/bin/autohide&)
+
+feh --bg-scale --randomize ~/Pictures/wallpapers/*
+polybar my-awesome-polybar

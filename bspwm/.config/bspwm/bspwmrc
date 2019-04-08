@@ -2,29 +2,6 @@
 
 sxhkd &
 
-bspc config border_width          2
-bspc config window_gap            0
-bspc config top_padding           0
-bspc config split_ratio           0.5
-bspc config borderless_monocle    true
-bspc config gapless_monocle       true
-bspc config focus_follows_pointer true
-bspc config single_monocle        true
+~/.config/bspwm/bspwm_settings
 
-bspc rule -a Emacs state=tiled
-
-bspc monitor -d I II III IV V VI VII VIII IX X
-
-xinput set-button-map 14 1 2 3 5 4 6 7 8 9 10 11 12
-setxkbmap -option compose:ralt
-xsetroot -cursor_name left_ptr
-~/bin/caps
-~/bin/key-rate
-
-(dropbox start&)
-(nm-applet&)
-(~/bin/battery_notify&)
-(~/bin/autohide&)
-
-feh --bg-scale --randomize ~/Pictures/wallpapers/*
-polybar my-awesome-polybar
+~/.config/bspwm/user_settings

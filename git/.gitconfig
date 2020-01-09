@@ -13,6 +13,6 @@
 [alias]
 	c = commit
 	co = checkout
-    s = status
-    p = pull
-    po = push origin
+	s = status
+	p = pull
+	po = push origin

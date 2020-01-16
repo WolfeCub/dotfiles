@@ -1132,9 +1132,12 @@ Customizable popup menus.
         (pretty-hydra-define hydra-projectile (:exit t :hint nil)
           ("Files" (("f" counsel-projectile-find-file        "Find File")
                     ("d" counsel-projectile-find-dir         "Find Directory")
-                    ("o" projectile-multi-occur              "Multi Occur")
                     ("s" counsel-projectile-switch-project   "Switch Project")
                     ("k" projectile-kill-buffers             "Kill Buffers"))
+
+           "Search" (("a" projectile-ag                      "Ag")
+                     ("A" counsel-projectile-ag              "Counsel Ag")
+                     ("o" projectile-multi-occur             "Multi Occur"))
 
            "Cache" (("c" projectile-invalidate-cache         "Clear Cache")
                     ("C" wolfe/projectile-invalidate-list    "Clear A Cache")
@@ -1238,6 +1241,7 @@ Customizable popup menus.
       "s"  'eval-defun
       "b"  'mode-line-other-buffer
       "k"  'kill-buffer
+      "K"  'kill-buffer-and-window
       "m"  'ivy-switch-buffer
       "e"  'iedit-mode
       "c"  'wolfe/compile-no-prompt
@@ -1452,6 +1456,10 @@ or don't exist for the language.
      'delete-frame-functions
      (lambda (frame)
        (with-selected-frame frame
+         (let* ((current-persp (get-current-persp))
+                (current-persp-name (persp-name current-persp)))
+           (when (not (string= 'wolfe/persp-current-main current-persp-name))
+             (persp-kill current-persp-name)))
          (persp-kill (frame-parameter frame 'wolfe/persp-current-main))))))
 #+END_SRC
 
@@ -1565,8 +1573,6 @@ Basic editing mode for React.js files.
     :defer t
     :after company
     :config
-    (when wolfe/windows?
-      (setq omnisharp-server-executable-path "C:/emacs/omnisharp/Omnisharp.exe"))
     (add-hook 'csharp-mode-hook
               (lambda ()
                 (evil-define-key 'normal omnisharp-mode-map (kbd "g d") 'omnisharp-go-to-definition)

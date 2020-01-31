@@ -81,17 +81,17 @@ If you don't care about these *[[Startup][click here to skip over them]]*.
     "Path to my projects directory")
 #+END_SRC
 
-** Dropbox Path
+** Nextcloud Path
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/org-dropbox-path
+  (defvar wolfe/org-nextcloud-path
     (cond
      (wolfe/linux?
-      "~/Dropbox/org/")
+      "~/Nextcloud/Sync/org/")
      (wolfe/windows?
-      (concat "C:\\Users\\" (getenv "USERNAME") "\\Dropbox\\org\\"))
+      (concat "C:\\Users\\" (getenv "USERNAME") "\\Nextcloud\\Sync\\org\\"))
      (:else nil))
-    "Path to my org files inside dropbox")
+    "Path to my org files inside nextcloud")
 #+END_SRC
 
 ** Theme Checks
@@ -692,15 +692,15 @@ Fixes =C-z= in terminal.
       (suspend-frame)))
 #+END_SRC
 
-** Dropbox
+** Cloud Sync
 
-Utility functions for finding Dropbox directories/files.
+Utility functions for finding Nexcloud directories/files.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defun wolfe/org-open (name)
-    "Opens the file in the dropbox path"
+    "Opens the file in the nextcloud path"
     (interactive)
-    (evil-buffer-new nil (concat wolfe/org-dropbox-path name ".org")))
+    (evil-buffer-new nil (concat wolfe/org-nextcloud-path name ".org")))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -986,7 +986,7 @@ Setup org agenda for managing my life.
             (search . " %i %-12:c")))
 
     ;; Sets location of org files
-    (setq org-agenda-files `(,(concat wolfe/org-dropbox-path "everything.org")))
+    (setq org-agenda-files `(,(concat wolfe/org-nextcloud-path "everything.org")))
     (setq browse-url-browser-function 'browse-url-chromium))
 #+END_SRC
 
@@ -995,7 +995,7 @@ Setup org agenda for managing my life.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-set-key "\C-cc" 'org-capture)
 
-  (setq org-default-notes-file (concat wolfe/org-dropbox-path "everything.org"))
+  (setq org-default-notes-file (concat wolfe/org-nextcloud-path "everything.org"))
   (setq org-capture-templates
         '(("t" "Task" entry (file+headline "" "Need Refiling")
            "* TODO %?\n  DEADLINE: %t\n")))
@@ -1051,30 +1051,50 @@ Customizable popup menus.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package hydra)
-  (use-package major-mode-hydra
-    :ensure nil)
+  (use-package major-mode-hydra)
 #+END_SRC
 
 *** Major Modes
+**** General Lsp Mode
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (major-mode-hydra-define ("typescript-mode") nil
+    ("Find"
+     (("d" lsp-goto-implementation         "Goto implementation")
+      ("r" lsp-find-references             "Find references")
+      ("o" lsp-describe-thing-at-point     "Describe thing"))
+
+     "Peek"
+     (("D" lsp-ui-peek-find-implementation "Peek implementation")
+      ("R" lsp-ui-peek-find-references     "Peek references"))
+
+     "Fix/Refactor"
+     (("n" lsp-rename                     "Rename symbol")
+      ("f" lsp-format-region              "Format region")
+      ("x" lsp-execute-code-action        "Execute code action"))))
+#+END_SRC
+
 **** C#
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (major-mode-hydra-bind csharp-mode "Find"
-    ("d" omnisharp-go-to-definition              "Goto definition")
-    ("D" omnisharp-go-to-definition-other-window "Pop-open definition")
-    ("u" omnisharp-find-usages                   "Find usages")
-    ("p" omnisharp-find-implementations          "Find implementations"))
+  (major-mode-hydra-define csharp-mode nil
+    ("Find"
+     (("d" omnisharp-go-to-definition              "Goto definition")
+      ("D" omnisharp-go-to-definition-other-window "Pop-open definition")
+      ("u" omnisharp-find-usages                   "Find usages")
+      ("p" omnisharp-find-implementations          "Find implementations"))
 
-  (major-mode-hydra-bind csharp-mode "Fix/Refactor"
-    ("r" omnisharp-rename                        "Rename symbol")
-    ("f" omnisharp-run-code-action-refactoring   "Code action")
-    ("i" omnisharp-code-format-region            "Indent region")
-    ("I" omnisharp-code-format-entire-file       "Indent entire file"))
+     "Fix/Refactor"
+      (("r" omnisharp-rename                        "Rename symbol")
+       ("f" omnisharp-run-code-action-refactoring   "Code action")
+       ("i" omnisharp-code-format-region            "Indent region")
+       ("I" omnisharp-code-format-entire-file       "Indent entire file"))
 
-  (major-mode-hydra-bind csharp-mode "Solution"
-    ("e" omnisharp-solution-errors               "Solution errors")
-    ("a" omnisharp-add-to-solution-current-file  "Add current file to sln")
-    ("s" omnisharp-reload-solution               "Reload solution"))
+     "Solution"
+      (("e" omnisharp-solution-errors               "Solution errors")
+       ("a" omnisharp-add-to-solution-current-file  "Add current file to sln")
+       ("s" omnisharp-reload-solution               "Reload solution"))))
+
 #+END_SRC
 
 **** Python
@@ -1142,31 +1162,6 @@ Customizable popup menus.
            "Cache" (("c" projectile-invalidate-cache         "Clear Cache")
                     ("C" wolfe/projectile-invalidate-list    "Clear A Cache")
                     ("P" projectile-clear-known-projects     "Clear Projects")))))
-#+END_SRC
-
-**** Jira
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/hydra-jira ()
-    (interactive)
-    (funcall
-        (pretty-hydra-define hydra-jira (:exit t :hint nil)
-          ("Get" (("p" org-jira-get-projects                "Get Projects")
-                  ("g" org-jira-get-issues                  "Get Issues")
-                  ("G" org-jira-get-subtasks                "Get Subtasks")
-                  ("r" org-jira-refresh-issue               "Refresh Issue")
-                  ("R" org-jira-refresh-issues-in-buffer    "Refresh Issues in Buffer"))
-
-           "Manage" (("b" org-jira-browse-issue             "Browse Issue")
-                     ("c" org-jira-create-issue             "Create Issue")
-                     ("s" org-jira-create-subtask           "Create Subtask")
-                     ("P" org-jira-progress-issue           "Update Issue Progress")
-                     ("a" org-jira-assign-issue             "Assign Issue"))
-
-           "Push" (("u" org-jira-update-issue                "Update Issue")
-                   ("y" org-jira-copy-current-issue-key      "Copy Current Issue Key")
-                   ("U" org-jira-update-comment              "Update Comment")
-                   ("t" org-jira-todo-to-jira                "Todo to Jira"))))))
 #+END_SRC
 
 ** Evil & General
@@ -1350,8 +1345,10 @@ Project management
     (use-package counsel-projectile
       :config
       (counsel-projectile-mode))
+
     (setq projectile-enable-caching t)
     (setq projectile-indexing-method 'alien)
+
     (setq projectile-globally-ignored-file-suffixes
           '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar" "*.class"))
     (setq projectile-globally-ignored-directories
@@ -1487,14 +1484,6 @@ or don't exist for the language.
 ** Javascript
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package company-tern
-    :after company
-    :config
-    (add-to-list 'company-backends 'company-tern)
-    (add-hook 'web-mode-hook 'tern-mode))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package indium
     :defer t)
 #+END_SRC
@@ -1555,15 +1544,6 @@ Basic editing mode for React.js files.
         company-clang-insert-arguments nil)
 
   (setq-default c-basic-offset 4)
-
-  (use-package company-irony
-    :defer t
-    :after company
-    :config
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-    (eval-after-load 'company
-      '(add-to-list 'company-backends 'company-irony)))
 #+END_SRC
 
 ** C#
@@ -1589,20 +1569,8 @@ and =elpy= together since elpy is a bit slow to load at startup.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package python
-    :defer 10
+    :defer t
     :hook python-mode-hook)
-
-  (use-package elpy
-    :after (company python)
-    :init (elpy-enable)
-    :config
-    (setq elpy-rpc-backend "jedi")
-    (when (executable-find "ipython")
-      (setq python-shell-interpreter "ipython"
-            python-shell-interpreter-args "-i --simple-prompt"))
-
-    (delete 'elpy-module-highlight-indentation elpy-modules)
-    (delete 'elpy-module-flymake elpy-modules))
 #+END_SRC
 
 ** Shell Scripts
@@ -1622,31 +1590,6 @@ and =elpy= together since elpy is a bit slow to load at startup.
     :defer t
     :config
     (add-hook 'go-mode-hook (lambda () (setq tab-width 4))))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package company-go
-    :defer t
-    :after company
-    :config
-    (when wolfe/linux?
-      (add-to-list 'exec-path "~/Projects/go/bin"))
-    (add-to-list 'company-backends 'company-go))
-#+END_SRC
-
-** Java
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package company-emacs-eclim
-    :after company
-    :config
-    (company-emacs-eclim-setup)
-    (setq eclimd-autostart t)
-
-    (defun my-java-mode-hook ()
-        (eclim-mode t))
-
-    (add-hook 'java-mode-hook 'my-java-mode-hook))
 #+END_SRC
 
 * Utility
@@ -1774,9 +1717,7 @@ Shows hex colors inline.
            ("C-x C-f" . counsel-find-file)
            :map ivy-minibuffer-map
            ("TAB" . ivy-next-line)
-           ("RET" . ivy-alt-done)
-           :map ivy-switch-buffer-map
-           ("C-d" . ivy-switch-buffer-kill))
+           ("RET" . ivy-alt-done))
     :init
     (use-package smex)
     (use-package counsel)
@@ -1801,8 +1742,24 @@ Shows hex colors inline.
 ** Swiper
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package swiper
-  :bind (("C-s" . swiper)))
+  (use-package swiper
+    :bind (("C-s" . swiper)))
+#+END_SRC
+
+** Language Server Protocol
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package lsp-mode
+    :hook (typescript-mode . lsp))
+
+  (use-package company-lsp
+    :after company
+    :config
+    (push 'company-lsp company-backends))
+
+  (use-package lsp-ui
+    :config
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 #+END_SRC
 
 ** Company

@@ -9,11 +9,6 @@ if which virtualenvwrapper.sh 2>&1 > /dev/null; then
     source virtualenvwrapper.sh
 fi
 
-export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-gpgconf --create-socketdir
-gpg-connect-agent updatestartuptty /bye > /dev/null
-
 ##
 ## S E T T I N G S
 ##
@@ -152,16 +147,12 @@ alias pacaur='pacaur --color=always'
 alias open='xdg-open'
 alias wttr='~/bin/weather'
 alias ducolor='cdu -i -s -dh'
-alias yp='echo You meant to use yay!'
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'
 alias ll='ls -lh --color'
 alias la='ls -A --color'
 alias ls='ls --color'
-# Push and pop directories on directory stack
-alias md='mkdir -p'
-alias rd=rmdir
 alias d='dirs -v | head -10'
 alias -g ...='../..'
 alias -g ....='../../..'
@@ -171,17 +162,15 @@ alias -g ......='../../../../..'
 alias e='emacs -nw'
 alias et='emacsclient -t'
 alias ec='emacsclient -c'
+# Git
+alias gitcb='$(git rev-parse --abbrev-ref HEAD)'
 
 function send {
     if [[ "t" == "$(emacsclient -e '(> (length (visible-frame-list)) 1)')" ]]; then
-        emacsclient -n -a "" $1
+        emacsclient -n $1
     else
-        emacsclient -n -a "" -c $1
+        emacsclient -n -c $1
     fi
-}
-
-qemu () {
-    $(which qemu-system-x86_64) "$@" 2>&1 | grep -v "Gtk-WARNING"
 }
 
 pgrepk () {
@@ -218,13 +207,7 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ##
 ## E N D
 ##
-# FZF custom options
-if [ -f ~/.fzf.zsh ] && which tree > /dev/null 2>&1; then
-    source ~/.fzf.zsh
-    export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-    export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-fi
 
-[ -f /usr/lib/z.sh ] && source /usr/lib/z.sh
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
-
+export DISPLAY='localhost:0.0'
+export SSH_AUTH_SOCK=/mnt/c/bin/wsl-ssh-bridge/ssh-agent.sock
+source /usr/share/nvm/init-nvm.sh

@@ -135,14 +135,6 @@ If you don't care about these *[[Startup][click here to skip over them]]*.
 My graphical settings change depending on whether I'm in terminal
 and if a command line flag (=-light=) was specified.
 
-** WM
-
-Start load emacs window manager config if it exists.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (when (file-exists-p "~/.exwm.org")
-    (org-babel-load-file "~/.exwm.org"))
-#+END_SRC
 
 ** Theme Setup
 
@@ -1058,7 +1050,7 @@ Customizable popup menus.
 **** General Lsp Mode
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (major-mode-hydra-define ("typescript-mode") nil
+  (major-mode-hydra-define ("web-mode") nil
     ("Find"
      (("d" lsp-goto-implementation         "Goto implementation")
       ("r" lsp-find-references             "Find references")
@@ -1153,7 +1145,9 @@ Customizable popup menus.
           ("Files" (("f" counsel-projectile-find-file        "Find File")
                     ("d" counsel-projectile-find-dir         "Find Directory")
                     ("s" counsel-projectile-switch-project   "Switch Project")
-                    ("k" projectile-kill-buffers             "Kill Buffers"))
+                    ("S" projectile-kill-buffers             "Switch & Clear"))
+
+           "Buffers" (("k" projectile-kill-buffers             "Kill Buffers"))
 
            "Search" (("a" projectile-ag                      "Ag")
                      ("A" counsel-projectile-ag              "Counsel Ag")
@@ -1308,6 +1302,14 @@ This allows me to easily start a =*= or =#= search from a visual selection.
   (use-package evil-exchange
     :config
     (evil-exchange-install))
+#+END_SRC
+
+*** Evil Collection
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package evil-collection
+    :config
+    (evil-collection-init))
 #+END_SRC
 
 * Project Management
@@ -1465,11 +1467,12 @@ or don't exist for the language.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package web-mode
     :defer t
-    :mode ("\\.html\\'" "\\.php\\'" "\\.js\\'")
+    :mode ("\\.html\\'" "\\.php\\'" "\\.js\\'" "\\.tsx\\'")
     :config
     (setq web-mode-enable-auto-closing t)
     (setq web-mode-enable-auto-opening t)
-    (setq web-mode-enable-auto-indentation t))
+    (setq web-mode-enable-auto-indentation t)
+    (setq web-mode-enable-auto-quoting nil))
 
   (use-package json-mode)
 #+END_SRC
@@ -1750,7 +1753,14 @@ Shows hex colors inline.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package lsp-mode
-    :hook (typescript-mode . lsp))
+    :hook (typescript-mode . lsp)
+          (web-mode . lsp)
+    :init
+    (setq read-process-output-max (* 1024 1024))
+    :config
+    (setq lsp-completion-provider :capf))
+
+
 
   (use-package company-lsp
     :after company
@@ -1815,92 +1825,6 @@ On the fly syntax checking
   (use-package yasnippet
     :config
     (yas-global-mode 1))
-#+END_SRC
-
-* Misc
-** Email
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (require 'epa-file)
-  (custom-set-variables '(epg-gpg-program  "c:/Program Files (x86)/GNU/GnuPG/pub/gpg2"))
-  (epa-file-enable)
-
-  (require 'gnus)
-  (setq user-mail-address "joshuafwolfe@gmail.com"
-        user-full-name "Josh Wolfe")
-
-  (setq gnus-select-method
-        '(nnimap "gmail"
-           (nnimap-address "imap.gmail.com")
-           (nnimap-server-port 993)
-           (nnimap-stream ssl)))
-
-  (setq smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
-
-  (setq gnus-thread-sort-functions
-        '(gnus-thread-sort-by-most-recent-date
-          (not gnus-thread-sort-by-number)))
-
-  (defun my-gnus-group-list-subscribed-groups ()
-    "List all subscribed groups with or without un-read messages"
-    (interactive)
-    (gnus-group-list-all-groups 5))
-
-  (define-key gnus-group-mode-map
-    ;; list all the subscribed groups even they contain zero un-read messages
-    (kbd "o") 'my-gnus-group-list-subscribed-groups)
-#+END_SRC
-
-** IRC
-
-My =erc= settings are pretty basic. I have the fill column recalculate
-on window resize and I put the scroll margin back to default so that my
-[[Vim Scrolloff][scrolloff]] settings don't mess with it.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package erc
-    :ensure nil
-    :defer t
-    :config
-    (add-hook 'window-configuration-change-hook
-              (lambda ()
-                (setq erc-fill-column (- (window-width) 2))))
-    (add-hook 'erc-mode-hook
-              (lambda ()
-                (setq-local scroll-margin 1)))
-
-    (setq erc-rename-buffers t
-          erc-interpret-mirc-color t
-          erc-lurker-hide-list '("JOIN" "PART" "QUIT")
-          erc-autojoin-channels-alist '(("freenode.net" "#emacs"))))
-#+END_SRC
-
-Simple function that pulls my credentials from a GPG encrypted file
-and connects to =freenode= providing a nick and password to verify my user.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/irc ()
-        (interactive)
-        (let* ((tupple (wolfe/get-user-pass wolfe/irc-info-path))
-               (user (car tupple))
-               (pass (cadr tupple)))
-          (erc
-           :server "irc.freenode.net"
-           :port 6667
-           :nick user
-           :password pass)))
-#+END_SRC
-
-** Meme
-
-Meme creator from within emacs... what more is there to say?
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package meme
-    :ensure nil
-    :commands (meme meme-file))
 #+END_SRC
 
 * Backups

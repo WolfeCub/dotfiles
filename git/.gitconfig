@@ -15,4 +15,5 @@
 	co = checkout
 	s = status
 	p = pull
-	po = push origin
+	po = push -u origin HEAD
+	get = "!f() { git stash && git checkout $1 && git pull --ff && git stash pop; }; f"

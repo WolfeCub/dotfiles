@@ -123,13 +123,6 @@ If you don't care about these *[[Startup][click here to skip over them]]*.
     "List of modes to highlight escape characters in")
 #+END_SRC
 
-** IRC Info Path
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defvar wolfe/irc-info-path "~/.ircinfo.gpg"
-    "Location of the GPG encrypted file that has my irc login info")
-#+END_SRC
-
 * Startup
 
 My graphical settings change depending on whether I'm in terminal
@@ -167,7 +160,6 @@ This checks which setup we're in and calls the appropriate function above.
                       (funcall func))))
       (funcall func)))
 #+END_SRC
-
 
 ** Dark
 
@@ -804,19 +796,6 @@ Select project from list of projectile projects to invalidate.
     (projectile-invalidate-cache t))
 #+END_SRC
 
-** User Pass Tupple
-
-Uses GPG to decrypt =file= and returns a list of the contents split on spaces.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (defun wolfe/get-user-pass (file)
-    (split-string
-     (car (last (split-string
-                 (shell-command-to-string (concat "gpg --output - --decrypt "
-                                                  (expand-file-name file)))
-                 "[|\n]" t "[ 	\n]"))) " "))
-#+END_SRC
-
 ** Ag Kill Buffers and Close Window
 
 Kill all the open ag buffers and delete the window I'm in. This is bound
@@ -1174,9 +1153,7 @@ Customizable popup menus.
     (:map evil-motion-state-map
           ("C-u" . evil-scroll-up))
     :init
-    (setq evil-want-C-u-scroll t
-          evil-want-C-i-jump t
-          evil-want-Y-yank-to-eol t)
+    (setq evil-want-keybinding nil)
     :config
     (evil-mode t)
     (setq evil-split-window-below t
@@ -1248,6 +1225,14 @@ Customizable popup menus.
       "SPC"  'major-mode-hydra))
 #+END_SRC
 
+*** Evil Collection
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package evil-collection
+    :config
+    (evil-collection-init))
+#+END_SRC
+
 *** Evil Surround
 
 Tpope's surround
@@ -1304,14 +1289,6 @@ This allows me to easily start a =*= or =#= search from a visual selection.
     (evil-exchange-install))
 #+END_SRC
 
-*** Evil Collection
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package evil-collection
-    :config
-    (evil-collection-init))
-#+END_SRC
-
 * Project Management
 ** Ag
 
@@ -1350,6 +1327,7 @@ Project management
 
     (setq projectile-enable-caching t)
     (setq projectile-indexing-method 'alien)
+    (setq projectile-git-submodule-command nil)
 
     (setq projectile-globally-ignored-file-suffixes
           '("#" "~" ".swp" ".o" ".so" ".exe" ".dll" ".elc" ".pyc" ".jar" "*.class"))
@@ -1484,20 +1462,6 @@ or don't exist for the language.
     (add-to-list 'company-backends 'company-restclient))
 #+END_SRC
 
-** Javascript
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package indium
-    :defer t)
-#+END_SRC
-
-Basic editing mode for React.js files.
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package rjsx-mode
-    :defer t)
-#+END_SRC
-
 ** Lisp Family
 
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -1543,8 +1507,7 @@ Basic editing mode for React.js files.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq gdb-many-windows t
-        gdb-show-main t
-        company-clang-insert-arguments nil)
+        gdb-show-main t)
 
   (setq-default c-basic-offset 4)
 #+END_SRC
@@ -1567,23 +1530,9 @@ Basic editing mode for React.js files.
 
 ** Python
 
-I explicitly load the python package so that I can defer it
-and =elpy= together since elpy is a bit slow to load at startup.
-
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package python
-    :defer t
-    :hook python-mode-hook)
-#+END_SRC
-
-** Shell Scripts
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package company-shell
-    :defer t
-    :after company
-    :config
-    (add-to-list 'company-backends '(company-shell company-shell-env)))
+    :defer t)
 #+END_SRC
 
 ** Go
@@ -1681,6 +1630,7 @@ Shows hex colors inline.
 
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package exec-path-from-shell
+    :when (not wolfe/windows?)
     :config
     (exec-path-from-shell-copy-env "GPG_TTY")
     (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
@@ -1755,21 +1705,14 @@ Shows hex colors inline.
   (use-package lsp-mode
     :hook (typescript-mode . lsp)
           (web-mode . lsp)
+          (python-mode . lsp)
     :init
-    (setq read-process-output-max (* 1024 1024))
+    (setq read-process-output-max (* 1024 1024)
+          lsp-idle-delay 0.500)
     :config
-    (setq lsp-completion-provider :capf))
-
-
-
-  (use-package company-lsp
-    :after company
-    :config
-    (push 'company-lsp company-backends))
-
-  (use-package lsp-ui
-    :config
-    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+    (setq lsp-completion-provider :capf
+          lsp-enable-snippet nil
+          company-lsp-enable-snippet nil))
 #+END_SRC
 
 ** Company
@@ -1779,8 +1722,10 @@ Autocomplete engine
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company
     :bind (:map company-active-map
-           ("C-n" . company-select-next)
-           ("C-p" . company-select-previous))
+           ("C-n"   . company-select-next)
+           ("C-p"   . company-select-previous)
+           ("RET"   . company-complete-selection)
+           ("<ret>" . company-complete-selection))
     :init
     (global-company-mode)
     :config
@@ -1880,6 +1825,7 @@ Stores all backups and temp files in =~/.bak.emacs/=
 ** Vterm
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (add-to-list 'load-path "~/emacs-libvterm/")
-  (require 'vterm)
+  (when (file-exists-p "~/emacs-libvterm/")
+    (add-to-list 'load-path "~/emacs-libvterm/")
+    (require 'vterm))
 #+END_SRC

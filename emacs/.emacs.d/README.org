@@ -1445,12 +1445,14 @@ or don't exist for the language.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package web-mode
     :defer t
-    :mode ("\\.html\\'" "\\.php\\'" "\\.js\\'" "\\.tsx\\'")
+    :mode ("\\.html\\'" "\\.php\\'" "\\.js\\'" "\\.tsx\\'" "\\.vue\\'")
     :config
-    (setq web-mode-enable-auto-closing t)
-    (setq web-mode-enable-auto-opening t)
-    (setq web-mode-enable-auto-indentation t)
-    (setq web-mode-enable-auto-quoting nil))
+    (setq web-mode-enable-auto-closing t
+          web-mode-enable-auto-opening t
+          web-mode-enable-auto-indentation t
+          web-mode-enable-auto-quoting nil
+          web-mode-script-padding 0
+          web-mode-style-padding 0))
 
   (use-package json-mode)
 #+END_SRC
@@ -1460,6 +1462,32 @@ or don't exist for the language.
     :after company
     :config
     (add-to-list 'company-backends 'company-restclient))
+#+END_SRC
+
+** Javascript
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package typescript-mode)
+#+END_SRC
+
+Use 2 space indentation in =.vue= files.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook
+   'web-mode-hook
+   (lambda ()
+     (when (and (stringp buffer-file-name)
+                (string-match "\\.vue\\'" buffer-file-name))
+       (setq web-mode-markup-indent-offset 2
+             web-mode-css-indent-offset 2
+             web-mode-code-indent-offset 2))))
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package purescript-mode
+    :config
+    (turn-on-purescript-indentation))
 #+END_SRC
 
 ** Lisp Family
@@ -1479,20 +1507,6 @@ or don't exist for the language.
     (add-hook 'common-lisp-mode-hook #'parinfer-mode)
     (add-hook 'scheme-mode-hook      #'parinfer-mode)
     (add-hook 'lisp-mode-hook        #'parinfer-mode))
-#+END_SRC
-
-** Racket
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package racket-mode
-    :defer t)
-#+END_SRC
-
-** Haskell
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package haskell-mode
-    :defer t)
 #+END_SRC
 
 ** Latex
@@ -1533,15 +1547,6 @@ or don't exist for the language.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package python
     :defer t)
-#+END_SRC
-
-** Go
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package go-mode
-    :defer t
-    :config
-    (add-hook 'go-mode-hook (lambda () (setq tab-width 4))))
 #+END_SRC
 
 * Utility
@@ -1709,6 +1714,10 @@ Shows hex colors inline.
     :init
     (setq read-process-output-max (* 1024 1024)
           lsp-idle-delay 0.500)
+    :config
+    (setq lsp-completion-provider :capf))
+
+  (use-package lsp-ui
     :config
     (setq lsp-completion-provider :capf
           lsp-enable-snippet nil

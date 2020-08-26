@@ -8,8 +8,6 @@
 	hideCampaign = true
 [github]
 	user = WolfeCub
-[commit]
-	gpgsign = true
 [alias]
 	c = commit
 	co = checkout

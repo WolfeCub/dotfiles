@@ -165,6 +165,10 @@ alias ec='emacsclient -c'
 # Git
 alias gitcb='$(git rev-parse --abbrev-ref HEAD)'
 
+function em {
+    (emacs $@ 2>&1 > /dev/null &)
+}
+
 function send {
     if [[ "t" == "$(emacsclient -e '(> (length (visible-frame-list)) 1)')" ]]; then
         emacsclient -n $1
@@ -208,6 +212,12 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ## E N D
 ##
 
-export DISPLAY='localhost:0.0'
 export SSH_AUTH_SOCK=/mnt/c/bin/wsl-ssh-bridge/ssh-agent.sock
 source /usr/share/nvm/init-nvm.sh
+
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/home/wolfe/.deno/bin:$PATH"

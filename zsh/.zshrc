@@ -2,12 +2,16 @@
 ## E N V I R O N M E N T
 ##
 export PAGER='less -R'
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1
+
+export PATH="$HOME/.deno/bin:$PATH"
 export GOROOT=/usr/lib/go
 export GOPATH=$HOME/Projects/go
 
-if which virtualenvwrapper.sh 2>&1 > /dev/null; then
-    source virtualenvwrapper.sh
-fi
+[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+which virtualenvwrapper.sh 2>&1 > /dev/null && source virtualenvwrapper.sh
 
 ##
 ## S E T T I N G S
@@ -143,10 +147,7 @@ bindkey -M viins '^x^e'  edit-command-line
 alias :q='exit'
 alias less='less -R'
 alias grep='grep --color=always'
-alias pacaur='pacaur --color=always'
 alias open='xdg-open'
-alias wttr='~/bin/weather'
-alias ducolor='cdu -i -s -dh'
 # List directory contents
 alias lsa='ls -lah --color'
 alias l='ls --color'
@@ -211,13 +212,3 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ##
 ## E N D
 ##
-
-export SSH_AUTH_SOCK=/mnt/c/bin/wsl-ssh-bridge/ssh-agent.sock
-source /usr/share/nvm/init-nvm.sh
-
-export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
-export LIBGL_ALWAYS_INDIRECT=1
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH="/home/wolfe/.deno/bin:$PATH"

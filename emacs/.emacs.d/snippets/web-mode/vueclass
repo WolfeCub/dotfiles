@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: Vue SFC
+# key: vueclass
+# --
+<template>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+
+@Component
+export default class $1 extends Vue {
+$0
+}
+</script>
+
+<style scoped>
+</style>

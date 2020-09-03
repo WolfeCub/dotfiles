@@ -1485,9 +1485,17 @@ Use 2 space indentation in =.vue= files.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package purescript-mode
+  (use-package purescript-mode)
+
+  (use-package psc-ide
+    :after purescript-mode
     :config
-    (turn-on-purescript-indentation))
+    (add-hook 'purescript-mode-hook
+              (lambda ()
+                (psc-ide-mode)
+                (company-mode)
+                (flycheck-mode)
+                (turn-on-purescript-indentation))))
 #+END_SRC
 
 ** Lisp Family

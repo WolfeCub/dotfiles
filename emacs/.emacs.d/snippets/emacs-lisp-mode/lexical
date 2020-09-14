@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Lexical Binding
+# key: lex
+# --
+;;; $1.el -*- lexical-binding: t; -*-
+$0

@@ -3,7 +3,7 @@
 
   Here are my personal dotfiles.
   * [[http://www.zsh.org/][zsh]] - shell
-  * [[https://www.gnu.org/software/emacs/][emacs]] - text editor of choice (literate config can be found [[http://wolfecub.github.io/dotfiles/][here]])
+  * [[https://www.gnu.org/software/emacs/][emacs]] - text editor of choice (=.emacs.d= makes up a good portion of this repo)
   * [[https://github.com/vim/vim][vim]]/[[https://github.com/neovim/neovim][neovim]] - when SSHed or on a different computer
   * [[https://github.com/i3/i3][i3]]- window manager (linux)
     + I also have configuration files for a few other window managers I've experimented
@@ -67,19 +67,19 @@
    #+html: <p align="center"><img src="https://i.imgur.com/W2t0hAZ.jpg"/></p>
 
    For all intents and purposes =emacs= might as well be my operating system.
-   My emacs configuration is completely literate and can be viewed [[http://wolfecub.github.io/dotfiles/][at it's documentation]]
-   or [[https://github.com/WolfeCub/dotfiles/tree/master/emacs/.emacs.d][in this repo]]. I use =emacs= for programming, writing, emails, calandar/TODOs,
+   My emacs configuration used to be completely literate however the org file grew to unmanagable size.
+   It's since been split up into many self contained modules that can easily be plucked into other configs
+   or lazy loaded/disabled until needed.   I use =emacs= for programming, writing, emails, calandar/TODOs,
    presentations, IRC and more.
 
 *** Highlights
     - GUI and terminal compatibility
     - Vim emulation (E.V.I.L.)
-    - C/C++/C# focus
+    - C#, Haskell, React, Vue and many other popular languages supported
     - General for keymaps and leader emulation
     - Hydra for the rest of my shortcut needs
-    - Project management
-    - Email (mu4e)
-    - IRC (ERC)
+    - Project management (using projectile)
+    - Daemon support with isolated peprspectives for each open window
 
 ** Vim
    #+html: <p align="center"><img src="https://i.imgur.com/kzrQCwx.jpg"/></p>

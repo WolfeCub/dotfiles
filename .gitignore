@@ -22,6 +22,8 @@ emacs/.emacs.d/magithub
 emacs/.emacs.d/server
 emacs/.emacs.d/request/
 emacs/.emacs.d/transient/
+emacs/.emacs.d/.lsp-session-v1
+emacs/.emacs.d/eln-cache
 vim/.vim/.netrwhist
 vim/.vim/plugged/
 ncmpcpp/.ncmpcpp/error.log

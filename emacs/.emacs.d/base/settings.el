@@ -123,8 +123,6 @@
 
 ;; Look for spellcheck exe on windows
 (when wolfe/windows?
-  (when wolfe/windows?
-    (setq ispell-program-name "c:/emacs/hunspell/bin/hunspell.exe"))
   (setq ispell-program-name "c:/emacs/hunspell/bin/hunspell.exe"))
 
 ;; Keep scrolling compilation output

@@ -14,10 +14,6 @@
 
 (use-package projectile
   :config
-  (use-package counsel-projectile
-    :config
-    (counsel-projectile-mode))
-
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'alien)
   (setq projectile-git-submodule-command nil)
@@ -28,6 +24,11 @@
         '(".git" "node_modules" "__pycache__" ".vs"))
   (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
   (projectile-mode))
+
+(use-package counsel-projectile
+  :after projectile
+  :config
+  (counsel-projectile-mode))
 
 ;; Automatically =grep= or =ag= through a project for a definition. This
 ;; is useful when semantic jump to definition or =TAGS= files aren't present

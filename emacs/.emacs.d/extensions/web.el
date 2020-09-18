@@ -11,7 +11,9 @@
         web-mode-script-padding 0
         web-mode-style-padding 0))
 
-(use-package json-mode)
+(use-package json-mode
+  :defer t
+  :mode ("\\.json\\'"))
 
 (use-package company-restclient
   :after company

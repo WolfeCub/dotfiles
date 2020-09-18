@@ -1,7 +1,13 @@
 ;;; utilities.el -*- lexical-binding: t; -*-
 
+;; Real terminal emulator inside of emacs
+(use-package vterm
+  :when wolfe/linux?)
+
 ;; More vimy dired
 (use-package ranger
+  :defer t
+  :commands ranger
   :config
   (setq ranger-cleanup-on-disable t)
   (ranger-override-dired-mode t))
@@ -51,13 +57,6 @@
   (setq zoom-size '(0.618 . 0.618))
   (zoom-mode t))
 
-;; Load env variables
-(use-package exec-path-from-shell
-  :when (not wolfe/windows?)
-  :config
-  (exec-path-from-shell-copy-env "GPG_TTY")
-  (exec-path-from-shell-copy-env "SSH_AUTH_SOCK"))
-
 ;; Quickly access and close the shell
 (use-package shell-pop
   :config
@@ -78,5 +77,9 @@
    '(shell-pop-shell-type (quote ("vterm" "*vterm*" (lambda nil (vterm)))))
    '(shell-pop-term-shell "/usr/bin/zsh")
    '(shell-pop-window-position "right")))
+
+;; Startup profiler
+(use-package esup
+  :commands (esup))
 
 (provide 'utilities)

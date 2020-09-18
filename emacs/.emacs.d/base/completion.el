@@ -32,7 +32,10 @@
   :bind (("C-s" . swiper)))
 
 (use-package lsp-mode
-  :hook (typescript-mode . lsp)
+  :defer t
+  :commands lsp
+  :hook
+  (typescript-mode . lsp)
   (web-mode . lsp)
   (python-mode . lsp)
   :init
@@ -42,6 +45,7 @@
   (setq lsp-completion-provider :capf))
 
 (use-package lsp-ui
+  :after lsp-mode
   :config
   (setq lsp-completion-provider :capf
         lsp-enable-snippet nil

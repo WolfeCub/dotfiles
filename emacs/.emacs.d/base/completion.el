@@ -36,8 +36,9 @@
   :commands lsp
   :hook
   (typescript-mode . lsp)
-  (web-mode . lsp)
-  (python-mode . lsp)
+  (web-mode        . lsp)
+  (python-mode     . lsp)
+  (csharp-mode     . lsp)
   :init
   (setq read-process-output-max (* 1024 1024)
         lsp-idle-delay 0.500)

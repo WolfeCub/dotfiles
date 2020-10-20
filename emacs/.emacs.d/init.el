@@ -58,6 +58,7 @@
 (require 'c-cpp)
 (require 'csharp)
 (require 'py)
+(require 'haskell)
 
 (require 'utilities)
 (require 'completion)

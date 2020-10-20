@@ -82,7 +82,6 @@
     ";"    (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
     "id"   (lambda() (interactive) (indent-region (point-min) (point-max)))
     "o"    (lambda() (interactive) (wolfe/org-open "everything"))
-    "init" (lambda() (interactive) (evil-buffer-new nil wolfe/init-file))
     "SPC"  'major-mode-hydra))
 
 ;; Evil everywhere possible

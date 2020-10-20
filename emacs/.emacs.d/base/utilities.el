@@ -23,6 +23,7 @@
 
 ;; Postman for emacs
 (use-package restclient
+  :mode (("\\.rest\\'" . restclient-mode))
   :defer t)
 
 ;; Shows hex colors inline.

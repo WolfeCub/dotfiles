@@ -4,7 +4,7 @@
 (use-package major-mode-hydra)
 
 ;; Major modes
-(major-mode-hydra-define ("web-mode") nil
+(major-mode-hydra-define ("web-mode" "typescript-mode") nil
   ("Find"
    (("d" lsp-goto-implementation         "Goto implementation")
     ("r" lsp-find-references             "Find references")

@@ -57,7 +57,7 @@
 (require 'latex)
 (require 'c-cpp)
 (require 'csharp)
-(require 'python)
+(require 'py)
 
 (require 'utilities)
 (require 'completion)

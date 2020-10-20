@@ -3,13 +3,18 @@
 ;; This replaces evil-leader but is much more powerful
 (use-package general)
 
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+
 (use-package evil
   :demand
   :bind
   (:map evil-motion-state-map
         ("C-u" . evil-scroll-up))
   :init
-  (setq evil-want-keybinding nil)
+  (setq evil-want-keybinding nil
+        evil-undo-system 'undo-tree)
   :config
   (evil-mode t)
   (setq evil-split-window-below t

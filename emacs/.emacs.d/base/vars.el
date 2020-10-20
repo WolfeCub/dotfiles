@@ -31,14 +31,22 @@
 (defvar wolfe/using-light nil
   "Indicates whether we're using my light theme")
 
-(defvar wolfe/lisp-dir-path "~/.emacs.d/lisp/"
-  "Path to my custom lisp files")
-
 (defvar wolfe/highlight-escapes-mode-list '(python-mode
                                             c-mode
                                             c++-mode
                                             web-mode)
   "List of modes to highlight escape characters in")
 
+(defvar wolfe/lisp-dir-path (concat user-emacs-directory "lisp/")
+  "Path to my custom lisp files")
+
+(defvar wolfe/init-file (concat user-emacs-directory "init.el")
+  "Path to emacs init file")
+
+(defvar wolfe/byte-compile-dirs 
+  (--map
+   (concat (concat user-emacs-directory it))
+   '("base/" "extensions/" "lisp/"))
+  "Path to directories to byte compile")
 
 (provide 'vars)

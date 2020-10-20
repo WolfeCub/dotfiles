@@ -6,7 +6,6 @@
 
 ;; More vimy dired
 (use-package ranger
-  :defer t
   :commands ranger
   :config
   (setq ranger-cleanup-on-disable t)
@@ -19,16 +18,15 @@
 
 ;; Run your current buffer
 (use-package quickrun
-  :defer t)
+  :commands quickrun)
 
 ;; Postman for emacs
 (use-package restclient
-  :mode (("\\.rest\\'" . restclient-mode))
-  :defer t)
+  :mode (("\\.rest\\'" . restclient-mode)))
 
 ;; Shows hex colors inline.
 (use-package rainbow-mode
-  :defer t)
+  :commands rainbow-mode)
 
 ;; More helpful help pages
 (use-package helpful
@@ -60,6 +58,7 @@
 
 ;; Quickly access and close the shell
 (use-package shell-pop
+  :commands shell-pop
   :config
   (defun shell-pop--set-exit-action ()
     (if (string= shell-pop-internal-mode "eshell")

@@ -39,6 +39,9 @@
 (setq straight-use-package-by-default t)
 
 (straight-use-package 'use-package)
+(use-package bind-key :straight nil)
+(use-package dash)
+(use-package s)
 
 (add-to-list 'load-path (concat user-emacs-directory "base"))
 (require 'vars)

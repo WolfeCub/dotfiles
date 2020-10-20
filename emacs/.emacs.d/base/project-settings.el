@@ -13,6 +13,10 @@
           (kill-buffer-and-window))))
 
 (use-package projectile
+  :commands (projectile-project-root
+             projectile-project-name
+             projectile-project-p
+             projectile-locate-dominating-file)
   :config
   (setq projectile-enable-caching t)
   (setq projectile-indexing-method 'alien)

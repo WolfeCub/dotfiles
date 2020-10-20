@@ -25,6 +25,7 @@ emacs/.emacs.d/transient/
 emacs/.emacs.d/.lsp-session-v1
 emacs/.emacs.d/eln-cache
 emacs/.emacs.d/url/cookies
+emacs/.emacs.d/var
 vim/.vim/.netrwhist
 vim/.vim/plugged/
 ncmpcpp/.ncmpcpp/error.log

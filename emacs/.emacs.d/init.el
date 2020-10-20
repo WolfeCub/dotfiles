@@ -15,11 +15,32 @@
       ;; Ignore advice warnings
       ad-redefinition-action 'accept)
 
+(defvar wolfe/gc-cons-threshold 16777216)
+
 (add-hook 'emacs-startup-hook
-          (lambda () (setq gc-cons-threshold 800000
+          (lambda () (setq gc-cons-threshold wolfe/gc-cons-threshold 
                       gc-cons-percentage 0.1
                       file-name-handler-alist wolfe/file-name-handler-alist
                       ad-redefinition-action 'warn)))
+
+;; It may also be wise to raise gc-cons-threshold while the minibuffer is active,
+;; so the GC doesn't slow down expensive commands (or completion frameworks, like
+;; helm and ivy. The following is taken from doom-emacs
+(defun defer-garbage-collection-h ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun restore-garbage-collection-h ()
+  ;; Defer it so that commands launched immediately after will enjoy the
+  ;; benefits.
+  (run-at-time
+   1 nil (lambda () (setq gc-cons-threshold wolfe/gc-cons-threshold))))
+
+(add-hook 'minibuffer-setup-hook #'defer-garbage-collection-h)
+(add-hook 'minibuffer-exit-hook #'restore-garbage-collection-h)
+
+;; Stop package.el from starting itself up
+(setq package-enable-at-startup nil
+      package--init-file-ensured t)
 
 ;; Bootstrap straight.el
 (defvar bootstrap-version)

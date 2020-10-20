@@ -19,7 +19,7 @@
 
 ;; Format font string and set as default
 (let* ((font "Fira Code")
-       (size 15)
+       (size 14)
        (font-size (format "%s-%s" font size)))
   (setq default-frame-alist `((font . ,font-size)))
   (set-face-attribute 'default t :font font-size))

@@ -1,16 +1,14 @@
 ;;; modeline.el -*- lexical-binding: t; -*-
 
 (if (or (display-graphic-p) (daemonp))
-    (use-package powerline
+    (use-package doom-modeline
+      :ensure t
+      :init
+      (doom-modeline-mode)
       :config
-      (setq powerline-arrow-shape 'curve
-            powerline-display-buffer-size nil
-            powerline-display-mule-info nil)
-      (powerline-default-theme)
-      (remove-hook 'focus-out-hook 'powerline-unset-selected-window)
-      (setq powerline-height 24)
-      (defpowerline powerline-minor-modes ""))
-
+      (setq doom-modeline-height 1)
+      (set-face-attribute 'mode-line nil :height 125)
+      (set-face-attribute 'mode-line-inactive nil :height 125))
   (setq-default
    mode-line-format
    (list

@@ -82,6 +82,9 @@
     (setq wolfe/projectile-project-to-switch (car args))
     (apply counsel-projectile-switch-project-by-name args)
     (setq wolfe/projectile-project-to-switch nil))
+
+  (advice-add #'projectile-switch-project-by-name :around #'wolfe/projectile-switch-project-by-name)
+  (advice-add #'ctrl-p--projectile-switch-project-by-name :around #'wolfe/projectile-switch-project-by-name)
   (advice-add #'counsel-projectile-switch-project-by-name :around #'wolfe/projectile-switch-project-by-name)
 
   (defun wolfe/persp-create-project-persp ()

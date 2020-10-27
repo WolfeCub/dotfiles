@@ -53,7 +53,8 @@
 ;; Auto window sizer
 (use-package zoom
   :config
-  (setq zoom-size '(0.618 . 0.618))
+  (setq zoom-size '(0.618 . 0.618)
+        zoom-ignored-buffer-names '(" *ctrl-p*" " *ctrl-p-results*"))
   (zoom-mode t))
 
 ;; Quickly access and close the shell

@@ -64,13 +64,23 @@
 (use-package dash)
 (use-package s)
 
+(use-package general
+  :demand t
+  :config
+  (general-auto-unbind-keys)
+  (general-create-definer wolfe/bind-leader
+    :keymaps 'global
+    :states '(normal insert visual emacs)
+    :prefix "SPC"
+    :non-normal-prefix "M-SPC"))
+
 (add-to-list 'load-path (concat user-emacs-directory "base"))
 (require 'vars)
 (require 'ui)
 (require 'settings)
 (require 'functions)
 (require 'org-config)
-(require 'popups)
+;;(require 'popups)
 (require 'keymaps)
 (require 'project-settings)
 
@@ -81,8 +91,10 @@
 (require 'latex)
 (require 'c-cpp)
 (require 'csharp)
+(require 'fsharp)
 (require 'py)
 (require 'haskell)
+(require 'elixir)
 
 (require 'utilities)
 (require 'completion)

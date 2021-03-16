@@ -3,6 +3,7 @@
 (use-package haskell-mode
   :mode "\\.hs\\'")
 
-(use-package lsp-haskell)
+(use-package lsp-haskell
+  :after (haskell-mode lsp-mode))
 
 (provide 'haskell)

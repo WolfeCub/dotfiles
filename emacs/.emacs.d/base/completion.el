@@ -38,9 +38,6 @@
     (doom/ivy-tasks bang))
   (evil-ex-define-cmd "todo" 'doom/ivy-tasks-ex))
 
-(use-package ivy-hydra
-  :after (ivy hydra))
-
 (use-package swiper
   :bind (("C-s" . swiper)))
 

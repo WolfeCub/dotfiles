@@ -1,3 +1,4 @@
+*.swp
 *.elc
 #.*#
 emacs/.emacs.d/lisp/the-lab.el

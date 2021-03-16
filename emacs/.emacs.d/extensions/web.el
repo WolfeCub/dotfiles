@@ -2,7 +2,9 @@
 
 (use-package web-mode
   :defer t
-  :mode ("\\.html\\'" "\\.php\\'" "\\.js\\'" "\\.tsx\\'" "\\.vue\\'")
+  :mode ("\\.html\\'" "\\.php\\'"
+         "\\.js\\'" "\\.ts\\'" "\\.jsx\\'" "\\.tsx\\'"
+         "\\.vue\\'" "\\.eex\\'")
   :config
   (setq web-mode-enable-auto-closing t
         web-mode-enable-auto-opening t

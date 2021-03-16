@@ -1,14 +1,11 @@
 ;;; keymaps.el -*- lexical-binding: t; -*-
 
-;; This replaces evil-leader but is much more powerful
-(use-package general)
-
 (use-package undo-tree
   :config
   (global-undo-tree-mode))
 
 (use-package evil
-  :demand
+  :demand t
   :bind
   (:map evil-motion-state-map
         ("C-u" . evil-scroll-up))
@@ -27,12 +24,6 @@
   (define-key evil-ex-map "e " (lambda () (interactive) (wolfe/call-and-update-ex 'counsel-find-file))) ; Trigger file completion :e
   (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
   (add-to-list 'evil-emacs-state-modes 'vterm-mode)
-
-  (general-create-definer wolfe/bind-leader
-    :keymaps 'global
-    :states '(normal insert visual emacs)
-    :prefix "SPC"
-    :non-normal-prefix "M-SPC")
 
   (general-define-key
    :states 'motion
@@ -78,11 +69,9 @@
     "''" 'org-edit-src-exit
     "t"  'shell-pop
     "f"    (lambda() (interactive) (wolfe/if-else-projectile 'counsel-projectile-ag 'counsel-ag))
-    "p"    (lambda() (interactive) (funcall wolfe/hydra-projectile))
     ";"    (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
     "id"   (lambda() (interactive) (indent-region (point-min) (point-max)))
-    "o"    (lambda() (interactive) (wolfe/org-open "everything"))
-    "SPC"  'major-mode-hydra))
+    "o"    (lambda() (interactive) (wolfe/org-open "everything"))))
 
 ;; Evil everywhere possible
 (use-package evil-collection
@@ -120,5 +109,9 @@
 (use-package evil-exchange
   :config
   (evil-exchange-install))
+
+(use-package which-key
+  :config
+  (which-key-mode))
 
 (provide 'keymaps)

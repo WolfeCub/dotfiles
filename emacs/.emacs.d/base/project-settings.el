@@ -21,7 +21,9 @@
     "p S" '(projectile-kill-buffers           :wk "Switch & Clear")
     "p k" '(projectile-kill-buffers           :wk "Kill Buffers")
     "p a" '(counsel-projectile-ag             :wk "Counsel Ag")
-    "p o" '(projectile-multi-occur            :wk "Multi Occur"))
+    "p o" '(projectile-multi-occur            :wk "Multi Occur")
+    "p +" '(projectile-add-known-project      :wk "Add Project")
+    "p i" '(projectile-invalidate-cache       :wk "Invalidate Cache"))
 
   :commands (projectile-project-root
              projectile-project-name

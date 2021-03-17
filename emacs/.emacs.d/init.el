@@ -78,9 +78,9 @@
 (require 'vars)
 (require 'ui)
 (require 'settings)
+(require 'modeline)
 (require 'functions)
 (require 'org-config)
-;;(require 'popups)
 (require 'keymaps)
 (require 'project-settings)
 

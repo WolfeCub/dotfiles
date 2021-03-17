@@ -19,7 +19,7 @@
 
 ;; Format font string and set as default
 (let* ((font "Fira Code")
-       (size 14)
+       (size 13)
        (font-size (format "%s-%s" font size)))
   (setq default-frame-alist `((font . ,font-size)))
   (set-face-attribute 'default t :font font-size))
@@ -146,14 +146,13 @@
   (setq ispell-program-name "c:/emacs/hunspell/bin/hunspell.exe"))
 
 ;; Keep scrolling compilation output
-(require 'compile)
-(setq compilation-scroll-output t)
-
-;; Q should quit help buffers not just bury it
-(dolist (m (list help-mode-map compilation-mode-map))
-  (bind-key (kbd "q") (lambda () (interactive) (quit-window t)) m))
-
-(require 'modeline)
+(use-package compile
+  :straight nil
+  :commands compilation-mode
+  :bind (:map compilation-mode-map
+              ("q" . (lambda () (interactive) (quit-window t))))
+  :config
+  (setq compilation-scroll-output t))
 
 ;; Newer versions of emacs support native relative line numbers but some old
 ;; versions don't in that case pull nlinum

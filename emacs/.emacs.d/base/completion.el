@@ -42,7 +42,6 @@
   :bind (("C-s" . swiper)))
 
 (use-package lsp-mode
-  :defer t
   :commands lsp
   :hook
   (typescript-mode . lsp)
@@ -50,6 +49,12 @@
   (python-mode     . lsp)
   (csharp-mode     . lsp)
   (haskell-mode    . lsp)
+  :general
+  (wolfe/bind-leader
+    "l"   '(nil                     :wk "LSP Mode")
+    "l x" '(lsp-execute-code-action :wk "Code action")
+    "l r" '(lsp-rename              :wk "Rename")
+    "l i" '(lsp-goto-implementation :wk "Goto Implementation"))
   :init
   (setq read-process-output-max (* 1024 1024)
         lsp-idle-delay 0.500)

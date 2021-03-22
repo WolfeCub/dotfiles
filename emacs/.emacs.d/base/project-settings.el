@@ -7,7 +7,6 @@
 (use-package magit
   :defer 10
   :config
-  (use-package evil-magit)
   (setq magit-bury-buffer-function
         (lambda (con)
           (kill-buffer-and-window))))
@@ -15,6 +14,7 @@
 (use-package projectile
   :general
   (wolfe/bind-leader
+    "p"   '(nil                               :wk "Projectile")
     "p f" '(counsel-projectile-find-file      :wk "Find File")
     "p d" '(counsel-projectile-find-dir       :wk "Find Directory")
     "p s" '(counsel-projectile-switch-project :wk "Switch Project")

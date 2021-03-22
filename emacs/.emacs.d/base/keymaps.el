@@ -75,6 +75,7 @@
 
 ;; Evil everywhere possible
 (use-package evil-collection
+  :after evil
   :config
   (evil-collection-init))
 
@@ -112,6 +113,8 @@
 
 (use-package which-key
   :config
+  (setq which-key-max-display-columns 3
+        which-key-add-column-padding 1)
   (which-key-mode))
 
 (provide 'keymaps)

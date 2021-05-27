@@ -2,7 +2,7 @@
 
 (use-package org
   :straight nil
-  :mode "\\.org\\'"
+  :mode ("\\.org\\'" . org-mode)
   :config
   ;; Basic quality of life settings
   (setq org-pretty-entities t

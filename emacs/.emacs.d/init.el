@@ -95,6 +95,8 @@
 (require 'py)
 (require 'haskell)
 (require 'elixir)
+(require 'docker)
+(require 'org-tree-slide)
 
 (require 'utilities)
 (require 'completion)

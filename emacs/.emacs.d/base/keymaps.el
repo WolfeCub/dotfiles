@@ -60,7 +60,6 @@
     "b"  'mode-line-other-buffer
     "k"  'kill-buffer
     "K"  'kill-buffer-and-window
-    "m"  'ivy-switch-buffer
     "e"  'iedit-mode
     "c"  'wolfe/compile-no-prompt
     "n"  'narrow-or-widen-dwim

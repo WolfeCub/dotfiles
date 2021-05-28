@@ -58,8 +58,6 @@
     "S"  'wolfe/eval-and-replace
     "s"  'eval-defun
     "b"  'mode-line-other-buffer
-    "k"  'kill-buffer
-    "K"  'kill-buffer-and-window
     "e"  'iedit-mode
     "c"  'wolfe/compile-no-prompt
     "n"  'narrow-or-widen-dwim

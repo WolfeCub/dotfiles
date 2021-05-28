@@ -60,12 +60,17 @@
   :demand
   :after ivy
   :general
-  (wolfe/bind-leader "m" 'persp-ivy-switch-buffer)
+  (wolfe/bind-leader
+    "m" 'persp-ivy-switch-buffer
+    "M" 'persp-counsel-switch-buffer
+    "k" 'persp-kill-buffer*)
   :init
   (setq persp-mode-prefix-key (kbd "C-c p"))
   :config
   (set-face-attribute 'persp-selected-face nil
                       :foreground (face-attribute 'match :foreground))
+  (setq persp-sort 'access
+        persp-modestring-short t)
   (persp-mode)
   (use-package persp-projectile))
 

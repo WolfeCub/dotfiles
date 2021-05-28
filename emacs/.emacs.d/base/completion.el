@@ -68,12 +68,13 @@
         lsp-enable-snippet nil
         company-lsp-enable-snippet nil))
 
-(defun wolfe/hot-load-company (args)
+(defun wolfe/hot-load-company (orig-fun &rest args)
   (unless (bound-and-true-p company-mode)
-    (company-mode)))
+    (company-mode 1)
+    (company-complete)))
 
-(advice-add 'evil-complete-next :before #'wolfe/hot-load-company)
-(advice-add 'evil-complete-previous :before #'wolfe/hot-load-company)
+(advice-add 'evil-complete-next :around #'wolfe/hot-load-company)
+(advice-add 'evil-complete-previous :around #'wolfe/hot-load-company)
 
 (use-package company
   :hook

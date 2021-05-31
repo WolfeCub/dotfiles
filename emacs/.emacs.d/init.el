@@ -74,7 +74,14 @@
     :prefix "SPC"
     :non-normal-prefix "M-SPC"))
 
-(add-to-list 'load-path (concat user-emacs-directory "base"))
+(defun recursive-add-to-load-path (base)
+ (let* ((dir (concat user-emacs-directory base))
+        (default-directory dir))
+  (add-to-list 'load-path dir)
+  (normal-top-level-add-subdirs-to-load-path)))
+
+;; Core packages
+(recursive-add-to-load-path "base")
 (require 'vars)
 (require 'ui)
 (require 'settings)
@@ -84,7 +91,9 @@
 (require 'keymaps)
 (require 'project-settings)
 
-(add-to-list 'load-path (concat user-emacs-directory "extensions"))
+;; Optional packages
+(recursive-add-to-load-path "extensions")
+(require 'vars)
 (require 'web)
 (require 'javascript)
 (require 'lisp)
@@ -98,6 +107,7 @@
 (require 'docker)
 (require 'org-tree-slide)
 
+;; Load last packages
 (require 'utilities)
 (require 'completion)
 (require 'backups)

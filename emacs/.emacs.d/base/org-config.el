@@ -116,4 +116,8 @@
   (setq org-agenda-files `(,(concat wolfe/org-nextcloud-path "everything.org")))
   (setq browse-url-browser-function 'browse-url-chromium))
 
+(use-package org-babel
+  :straight nil
+  :after org)
+
 (provide 'org-config)

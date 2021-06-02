@@ -14,16 +14,17 @@
 (use-package projectile
   :general
   (wolfe/bind-leader
-    "p"   '(nil                               :wk "Projectile")
-    "p f" '(counsel-projectile-find-file      :wk "Find File")
-    "p d" '(counsel-projectile-find-dir       :wk "Find Directory")
-    "p s" '(projectile-persp-switch-project   :wk "Switch Project")
-    "p S" '(projectile-kill-buffers           :wk "Switch & Clear")
-    "p k" '(projectile-kill-buffers           :wk "Kill Buffers")
-    "p a" '(counsel-projectile-ag             :wk "Counsel Ag")
-    "p o" '(projectile-multi-occur            :wk "Multi Occur")
-    "p +" '(projectile-add-known-project      :wk "Add Project")
-    "p i" '(projectile-invalidate-cache       :wk "Invalidate Cache"))
+    "p"   '(nil                             :wk "Projectile")
+    "p f" '(counsel-projectile-find-file    :wk "Find File")
+    "p d" '(counsel-projectile-find-dir     :wk "Find Directory")
+    "p s" '(projectile-persp-switch-project :wk "Switch Project")
+    "p S" '(projectile-kill-buffers         :wk "Switch & Clear")
+    "p k" '(projectile-kill-buffers         :wk "Kill Buffers")
+    "p a" '(counsel-projectile-ag           :wk "Ag")
+    "p g" '(counsel-projectile-git-grep     :wk "Git Grep")
+    "p o" '(projectile-multi-occur          :wk "Multi Occur")
+    "p +" '(projectile-add-known-project    :wk "Add Project")
+    "p i" '(projectile-invalidate-cache     :wk "Invalidate Cache"))
 
   :commands (projectile-project-root
              projectile-project-name

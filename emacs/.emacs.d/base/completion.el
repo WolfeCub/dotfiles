@@ -11,6 +11,9 @@
          :map ivy-minibuffer-map
          ("TAB" . ivy-next-line)
          ("RET" . ivy-alt-done))
+  :general
+  (wolfe/bind-leader
+    "r"   '(ivy-resume :wk "Ivy Resume"))
   :init
   ;; Counsel changes a lot of ivy's state at startup; to control for that, we
   ;; need to load it as early as possible. Some packages (like `ivy-prescient')
@@ -61,12 +64,14 @@
   :config
   (setq lsp-completion-provider :capf))
 
-(use-package lsp-ui
-  :after lsp-mode
-  :config
-  (setq lsp-completion-provider :capf
-        lsp-enable-snippet nil
-        company-lsp-enable-snippet nil))
+;; The lsp-ui overlays are very slow on windows
+(when wolfe/linux?
+  (use-package lsp-ui
+    :after lsp-mode
+    :config
+    (setq lsp-completion-provider :capf
+          lsp-enable-snippet nil
+          company-lsp-enable-snippet nil)))
 
 (defun wolfe/hot-load-company (orig-fun &rest args)
   (unless (bound-and-true-p company-mode)

@@ -2,6 +2,7 @@
 
 (use-package org
   :straight nil
+  :defer 60
   :mode ("\\.org\\'" . org-mode)
   :config
   ;; Basic quality of life settings

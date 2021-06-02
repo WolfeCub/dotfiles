@@ -11,12 +11,6 @@
 (defun display-startup-echo-area-message ()
   (message "Welcome to the church of GNU/Emacs"))
 
-(hook-if-daemonp
- (lambda ()
-   (tool-bar-mode -1) ; No toolbar
-   (scroll-bar-mode -1) ; Hide scrollbars
-   (menu-bar-mode -1))) ; No menubar
-
 ;; Format font string and set as default
 (let* ((font "Fira Code")
        (size 13)

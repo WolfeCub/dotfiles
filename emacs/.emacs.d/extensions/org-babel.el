@@ -12,4 +12,6 @@
 
   (add-to-list 'org-src-lang-modes '("deno" . web-ts)))
 
+(use-package ob-mermaid)
+
 (provide 'org-babel)

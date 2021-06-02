@@ -13,7 +13,6 @@
         evil-replace-state-cursor `(,(plist-get my/base16-colors :base08) bar)
         evil-visual-state-cursor  `(,(plist-get my/base16-colors :base09) box)))
 
-(eval-after-load 'ivy (lambda () (setq ivy-switch-buffer-faces-alist '((dired-mode . ivy-subdir)))))
 (hook-if-daemonp (lambda () (set-face-attribute 'fringe nil :background nil)))
 
 (custom-set-faces

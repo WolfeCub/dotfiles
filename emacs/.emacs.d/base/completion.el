@@ -1,49 +1,5 @@
 ;;; completion.el -*- lexical-binding: t; -*-
 
-(use-package prescient
-  :config
-  (prescient-persist-mode))
-
-(use-package ivy
-  :demand
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-next-line)
-         ("RET" . ivy-alt-done))
-  :general
-  (wolfe/bind-leader
-    "r"   '(ivy-resume :wk "Ivy Resume"))
-  :init
-  ;; Counsel changes a lot of ivy's state at startup; to control for that, we
-  ;; need to load it as early as possible. Some packages (like `ivy-prescient')
-  ;; require this. :config
-  (use-package counsel)
-
-  (setq ivy-re-builders-alist
-        '((t . ivy--regex-ignore-order)))
-  (setq ivy-wrap t)
-  (ivy-mode 1))
-
-(use-package ivy-prescient
-  :after (prescient ivy)
-  :config
-  (ivy-prescient-mode))
-
-;; Extracted from doom config for finding TODOs
-(use-package doom-todo-ivy
-  :straight nil
-  :after ivy
-  :config
-  (evil-define-command doom/ivy-tasks-ex (&optional bang)
-    "An ex wrapper around `doom/ivy-tasks'."
-    (interactive "<!>")
-    (doom/ivy-tasks bang))
-  (evil-ex-define-cmd "todo" 'doom/ivy-tasks-ex))
-
-(use-package swiper
-  :bind (("C-s" . swiper)))
-
 (use-package lsp-mode
   :commands lsp
   :hook

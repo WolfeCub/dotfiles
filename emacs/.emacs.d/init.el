@@ -78,5 +78,6 @@
 
 ;; Load last packages
 (require 'utilities)
+(require 'incremental-narrowing)
 (require 'completion)
 (require 'backups)

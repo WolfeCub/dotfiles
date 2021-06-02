@@ -21,7 +21,7 @@
   (custom-set-variables '(evil-search-module (quote evil-search)))
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
   (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
-  (define-key evil-ex-map "e " (lambda () (interactive) (wolfe/call-and-update-ex 'counsel-find-file))) ; Trigger file completion :e
+  (define-key evil-ex-map "e " (lambda () (interactive) (wolfe/call-and-update-ex 'find-file))) ; Trigger file completion :e
   (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
   (add-to-list 'evil-emacs-state-modes 'vterm-mode)
 
@@ -65,10 +65,10 @@
     "g"  'magit-status
     "''" 'org-edit-src-exit
     "t"  'shell-pop
-    "f"    (lambda() (interactive) (wolfe/if-else-projectile 'counsel-projectile-ag 'counsel-ag))
-    ";"    (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
-    "id"   (lambda() (interactive) (indent-region (point-min) (point-max)))
-    "o"    (lambda() (interactive) (wolfe/org-open "everything"))))
+    "f"  'consult-ripgrep
+    ";"  (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
+    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
+    "o"  (lambda() (interactive) (wolfe/org-open "everything"))))
 
 ;; Evil everywhere possible
 (use-package evil-collection

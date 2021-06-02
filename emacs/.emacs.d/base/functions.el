@@ -147,6 +147,6 @@
 (defun wolfe/call-and-update-ex (fun)
   "Calls the function and updates `evil-ex-history' with the result"
   (interactive)
-  (setq evil-ex-history (cons (format "e %s" (funcall fun)) evil-ex-history)))
+  (setq evil-ex-history (cons (format "e %s" (call-interactively fun)) evil-ex-history)))
 
 (provide 'functions)

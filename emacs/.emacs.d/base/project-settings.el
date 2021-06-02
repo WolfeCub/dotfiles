@@ -15,13 +15,12 @@
   :general
   (wolfe/bind-leader
     "p"   '(nil                             :wk "Projectile")
-    "p f" '(counsel-projectile-find-file    :wk "Find File")
-    "p d" '(counsel-projectile-find-dir     :wk "Find Directory")
+    "p f" '(projectile-find-file            :wk "Find File")
+    "p d" '(projectile-find-dir             :wk "Find Directory")
     "p s" '(projectile-persp-switch-project :wk "Switch Project")
     "p S" '(projectile-kill-buffers         :wk "Switch & Clear")
     "p k" '(projectile-kill-buffers         :wk "Kill Buffers")
-    "p a" '(counsel-projectile-ag           :wk "Ag")
-    "p g" '(counsel-projectile-git-grep     :wk "Git Grep")
+    "p g" '(consult-git-grep                :wk "Git Grep")
     "p o" '(projectile-multi-occur          :wk "Multi Occur")
     "p +" '(projectile-add-known-project    :wk "Add Project")
     "p i" '(projectile-invalidate-cache     :wk "Invalidate Cache"))
@@ -42,28 +41,19 @@
   (setq projectile-globally-ignored-files '("TAGS" "tags" ".DS_Store"))
   (projectile-mode))
 
-(use-package counsel-projectile
-  :after projectile
-  :config
-  (counsel-projectile-mode))
-
 ;; Automatically =grep= or =ag= through a project for a definition. This
 ;; is useful when semantic jump to definition or =TAGS= files aren't present
 ;; or don't exist for the language.
 (use-package dumb-jump
   :bind
   (:map evil-normal-state-map
-        ("g D" . dumb-jump-go))
-  :config
-  (setq dumb-jump-selector 'ivy))
+        ("g D" . dumb-jump-go)))
 
 (use-package perspective
   :demand
-  :after ivy
   :general
   (wolfe/bind-leader
-    "m" 'persp-ivy-switch-buffer
-    "M" 'persp-counsel-switch-buffer
+    "m" 'persp-switch-to-buffer*
     "k" 'persp-kill-buffer*)
   :init
   (setq persp-mode-prefix-key (kbd "C-c p"))

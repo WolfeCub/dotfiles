@@ -5,7 +5,8 @@
               ("Q" . wolfe/ag-kill-buffers-and-window)))
 
 (use-package magit
-  :defer 10
+  :defer 30
+  :defer-incrementally dash f s with-editor git-commit package eieio lv transient
   :config
   (setq magit-bury-buffer-function
         (lambda (con)
@@ -17,7 +18,6 @@
     "p"   '(nil                             :wk "Projectile")
     "p f" '(projectile-find-file            :wk "Find File")
     "p d" '(projectile-find-dir             :wk "Find Directory")
-    "p s" '(projectile-persp-switch-project :wk "Switch Project")
     "p S" '(projectile-kill-buffers         :wk "Switch & Clear")
     "p k" '(projectile-kill-buffers         :wk "Kill Buffers")
     "p g" '(consult-git-grep                :wk "Git Grep")
@@ -50,11 +50,12 @@
         ("g D" . dumb-jump-go)))
 
 (use-package perspective
-  :demand
+  :commands projectile-persp-switch-project
   :general
   (wolfe/bind-leader
-    "m" 'persp-switch-to-buffer*
-    "k" 'persp-kill-buffer*)
+    "m"   'persp-switch-to-buffer*
+    "k"   'persp-kill-buffer*
+    "p s" '(projectile-persp-switch-project :wk "Switch Project"))
   :init
   (setq persp-mode-prefix-key (kbd "C-c p"))
   :config

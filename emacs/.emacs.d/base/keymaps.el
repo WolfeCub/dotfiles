@@ -9,22 +9,7 @@
   :bind
   (:map evil-motion-state-map
         ("C-u" . evil-scroll-up))
-  :init
-  (setq evil-want-keybinding nil
-        evil-undo-system 'undo-tree)
-  :config
-  (evil-mode t)
-  (setq evil-split-window-below t
-        evil-vsplit-window-right t
-        evil-lookup-func #'wolfe/man)
-  (setq-default evil-symbol-word-search t)
-  (custom-set-variables '(evil-search-module (quote evil-search)))
-  (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
-  (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
-  (define-key evil-ex-map "e " (lambda () (interactive) (wolfe/call-and-update-ex 'find-file))) ; Trigger file completion :e
-  (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
-  (add-to-list 'evil-emacs-state-modes 'vterm-mode)
-
+  :general
   (general-define-key
    :states 'motion
    "k" 'evil-previous-visual-line
@@ -58,7 +43,6 @@
     "S"  'wolfe/eval-and-replace
     "s"  'eval-defun
     "b"  'mode-line-other-buffer
-    "e"  'iedit-mode
     "c"  'wolfe/compile-no-prompt
     "n"  'narrow-or-widen-dwim
     "a"  'org-agenda
@@ -68,7 +52,23 @@
     "f"  'consult-ripgrep
     ";"  (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
     "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
-    "o"  (lambda() (interactive) (wolfe/org-open "everything"))))
+    "o"  (lambda() (interactive) (wolfe/org-open "everything")))
+
+  :init
+  (setq evil-want-keybinding nil
+        evil-undo-system 'undo-tree)
+  :config
+  (evil-mode t)
+  (setq evil-split-window-below t
+        evil-vsplit-window-right t
+        evil-lookup-func #'wolfe/man)
+  (setq-default evil-symbol-word-search t)
+  (custom-set-variables '(evil-search-module (quote evil-search)))
+  (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
+  (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
+  (define-key evil-ex-map "e " (lambda () (interactive) (wolfe/call-and-update-ex 'find-file))) ; Trigger file completion :e
+  (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
+  (add-to-list 'evil-emacs-state-modes 'vterm-mode))
 
 ;; Evil everywhere possible
 (use-package evil-collection
@@ -78,6 +78,10 @@
 
 ;; Tpope's surround
 (use-package evil-surround
+  :commands (global-evil-surround-mode
+             evil-surround-edit
+             evil-Surround-edit
+             evil-surround-region)
   :config
   (global-evil-surround-mode 1))
 
@@ -88,11 +92,15 @@
 
 ;; Start * or # from visual selection
 (use-package evil-visualstar
+  :commands (evil-visualstar/begin-search
+             evil-visualstar/begin-search-forward
+             evil-visualstar/begin-search-backward)
   :config
   (global-evil-visualstar-mode))
 
 ;; Useful for macros
 (use-package evil-numbers
+  :defer t
   :bind
   (:map evil-normal-state-map
         ("C-a" . 'evil-numbers/inc-at-pt)
@@ -100,18 +108,26 @@
 
 ;; Align things the vim way
 (use-package evil-lion
+  :general
+  (general-define-key
+   :states 'normal
+   "gl" #'evil-lion-left
+   "gL" #'evil-lion-right
+   "gl" #'evil-lion-left
+   "gL" #'evil-lion-right)
   :config
   (evil-lion-mode))
 
 ;; Exchange places
 (use-package evil-exchange
+  :commands evil-exchange
   :config
   (evil-exchange-install))
 
 (use-package which-key
+  :hook (wolfe/first-input . which-key-mode)
   :config
   (setq which-key-max-display-columns 3
-        which-key-add-column-padding 1)
-  (which-key-mode))
+        which-key-add-column-padding 1))
 
 (provide 'keymaps)

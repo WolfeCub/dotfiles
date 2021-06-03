@@ -2,6 +2,10 @@
 
 (use-package org
   :straight nil
+  :defer-incrementally
+  calendar find-func format-spec org-macs org-compat org-faces org-entities
+  org-list org-pcomplete org-src org-footnote org-macro ob org org-agenda
+  org-capture
   :defer 60
   :mode ("\\.org\\'" . org-mode)
   :config
@@ -116,9 +120,5 @@
   ;; Sets location of org files
   (setq org-agenda-files `(,(concat wolfe/org-nextcloud-path "everything.org")))
   (setq browse-url-browser-function 'browse-url-chromium))
-
-(use-package org-babel
-  :straight nil
-  :after org)
 
 (provide 'org-config)

@@ -13,20 +13,6 @@
   (let ((compilation-read-command nil))
     (compile (eval compile-command))))
 
-(defun wolfe/compile-dot-emacs ()
-  "Compiles all el files in `wolfe/byte-compile-dirs'."
-  (interactive)
-  (byte-compile-file wolfe/init-file)
-  (mapc (lambda (dir) (byte-recompile-directory dir 0)) wolfe/byte-compile-dirs))
-
-
-(defun wolfe/clear-all-elc ()
-  "Delete all elc files in .emacs user files"
-  (interactive)
-  (shell-command
-   (format "find %s -name \"*.elc\" -type f -delete"
-           (s-join " " wolfe/byte-compile-dirs))))
-
 (defun wolfe/remove-elc-on-save ()
   "If you're saving an emacs-lisp file, likely the .elc is no longer valid."
   (add-hook 'after-save-hook

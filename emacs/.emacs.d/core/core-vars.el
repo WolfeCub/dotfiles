@@ -1,4 +1,4 @@
-;;; vars.el -*- lexical-binding: t; -*-
+;;; core-vars.el -*- lexical-binding: t; -*-
 
 (defvar wolfe/linux? (eq system-type 'gnu/linux)
   "Are we on linux?")
@@ -43,10 +43,4 @@
 (defvar wolfe/init-file (concat user-emacs-directory "init.el")
   "Path to emacs init file")
 
-(defvar wolfe/byte-compile-dirs 
-  (--map
-   (concat (concat user-emacs-directory it))
-   '("base/" "extensions/" "lisp/"))
-  "Path to directories to byte compile")
-
-(provide 'vars)
+(provide 'core-vars)

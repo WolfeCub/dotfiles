@@ -2,9 +2,7 @@
 
 (if (or (display-graphic-p) (daemonp))
     (use-package doom-modeline
-      :ensure t
-      :init
-      (doom-modeline-mode)
+      :hook (after-init . doom-modeline-mode)
       :config
       (setq doom-modeline-height 1)
       (set-face-attribute 'mode-line nil :height 125)

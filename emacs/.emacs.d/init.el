@@ -6,27 +6,11 @@
 ;;    \_/\_/ \___/|_|_|  \___| |___/ |_|_| |_|_|\__(_)___|_|
 
 
-;; Bootstrap straight.el
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;; If for some reason early init hasn't loaded do it now
+(unless (boundp 'wolfe/gc-cons-threshold)
+  (load (concat user-emacs-directory "early-init") nil t))
 
-;; Always fetch packages
-(setq straight-use-package-by-default t)
-
-(straight-use-package 'use-package)
-(use-package bind-key :straight nil)
-(use-package dash)
-(use-package s)
+(wolfe/initialize)
 
 (use-package general
   :demand t
@@ -38,46 +22,34 @@
     :prefix "SPC"
     :non-normal-prefix "M-SPC"))
 
-(defun recursive-add-to-load-path (base)
- (let* ((dir (concat user-emacs-directory base))
-        (default-directory dir))
-  (add-to-list 'load-path dir)
-  (normal-top-level-add-subdirs-to-load-path)))
+(wolfe! :base
+        ui
+        settings
+        modeline
+        functions
+        org-config
+        keymaps
+        project-settings
 
+        :extensions
+        web
+        javascript
+        lisp
+        latex
+        c-cpp
+        csharp
+        fsharp
+        py
+        haskell
+        elixir
+        docker
+        org-tree-slide
+        yaml
+        org-babel
 
-;; TODO: No clue where this should live
-(custom-set-variables '(warning-suppress-types '((comp))))
+        :base
+        utilities
+        incremental-narrowing
+        completion
+        backups)
 
-;; Core packages
-(recursive-add-to-load-path "base")
-(require 'vars)
-(require 'ui)
-(require 'settings)
-(require 'modeline)
-(require 'functions)
-(require 'org-config)
-(require 'keymaps)
-(require 'project-settings)
-
-;; Optional packages
-(recursive-add-to-load-path "extensions")
-(require 'vars)
-(require 'web)
-(require 'javascript)
-(require 'lisp)
-(require 'latex)
-(require 'c-cpp)
-(require 'csharp)
-(require 'fsharp)
-(require 'py)
-(require 'haskell)
-(require 'elixir)
-(require 'docker)
-(require 'org-tree-slide)
-(require 'yaml)
-
-;; Load last packages
-(require 'utilities)
-(require 'incremental-narrowing)
-(require 'completion)
-(require 'backups)

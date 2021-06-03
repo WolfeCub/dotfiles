@@ -75,12 +75,27 @@
   (company-prescient-mode))
 
 (use-package flycheck
+  :commands flycheck-list-errors flycheck-buffer
+  :hook (wolfe/first-buffer . global-flycheck-mode)
   :config
-  (global-flycheck-mode)
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 (use-package yasnippet
-  :config
-  (yas-global-mode 1))
+  :defer-incrementally eldoc easymenu help-mode
+  :commands (yas-minor-mode-on
+             yas-expand
+             yas-expand-snippet
+             yas-lookup-snippet
+             yas-insert-snippet
+             yas-new-snippet
+             yas-visit-snippet-file
+             yas-activate-extra-mode
+             yas-deactivate-extra-mode)  
+  :init
+  (--map (add-hook it #'yas-minor-mode-on)
+         '(text-mode-hook
+           prog-mode-hook
+           conf-mode-hook
+           snippet-mode-hook)))
 
 (provide 'completion)

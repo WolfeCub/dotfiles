@@ -2,14 +2,7 @@
 
 (use-package prescient
   :config
-  (setq consult-preview-key (kbd "M-."))
-  (prescient-persist-mode))
-
-(use-package consult
-  :demand t
-  :bind ("C-s" . consult-line)
-  :config
-  (setq consult-project-root-function 'projectile-project-root))
+  (setq consult-preview-key (kbd "M-.")))
 
 (defun selectrum-fido-backward-updir ()
   "Delete char before or go up directory, like `ido-mode'."
@@ -36,21 +29,24 @@
            (selectrum-select-current-candidate)))))
 
 (use-package selectrum
-  :after consult
-  :demand t
+  :hook (wolfe/first-input . selectrum-mode)
   :bind
   (:map selectrum-minibuffer-map
         ("RET" . selectrum-fido-ret)
         ("DEL" . selectrum-fido-backward-updir))
   :general                               
   (wolfe/bind-leader                     
-    "r"   '(selectrum-repeat :wk "Selectrum Repeat"))
+    "r"   '(selectrum-repeat :wk "Selectrum Repeat")))
+
+(use-package consult
+  :bind ("C-s" . consult-line)
   :config
-  (selectrum-mode))
+  (setq consult-project-root-function 'projectile-project-root))
 
 (use-package selectrum-prescient
-  :after (prescient selectrum)
-  :demand t
+  :after prescient
+  :hook (selectrum-mode . selectrum-prescient-mode)
+  :hook (selectrum-prescient-mode . prescient-persist-mode)
   :custom-face
   (selectrum-current-candidate
    ((t (:foreground ,(plist-get base16-default-dark-colors :base09)
@@ -58,8 +54,6 @@
   (selectrum-prescient-primary-highlight
    ((t (:foreground ,(plist-get base16-default-dark-colors :base0D)))))
   :config
-  (selectrum-prescient-mode)
-
   (defun selectrum-highlight-candidates-function+ (input cands)
     (let ((cands (if (eq 'file (completion-metadata-get
                                 (completion-metadata

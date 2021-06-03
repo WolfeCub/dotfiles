@@ -13,6 +13,9 @@
 
 ;; Edit all matches
 (use-package iedit
+  :general
+  (wolfe/bind-leader
+    "e" 'iedit-mode)
   :config
   (setq iedit-toggle-key-default nil))
 
@@ -30,7 +33,9 @@
 
 ;; More helpful help pages
 (use-package helpful
-  :defer t
+  :defer-incrementally
+  elisp-refs help help-fns dash s f find-func
+  nadvice info-look edebug trace imenu
   :bind
   (("C-h f" . helpful-callable)
    ("C-h v" . helpful-variable)

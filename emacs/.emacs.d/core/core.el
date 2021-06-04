@@ -140,6 +140,10 @@
   "Transient hooks run before the first interactively opened buffer.")
 (put 'wolfe/first-buffer-hook 'permanent-local t)
 
+(defvar wolfe/first-leader-hook nil
+  "Transient hooks run after the first leader press.")
+(put 'wolfe/first-leader-hook 'permanent-local t)
+
 (defun wolfe/run-hook-on (hook-var trigger-hooks)
   "Configure HOOK-VAR to be invoked exactly once when any of the TRIGGER-HOOKS
 are invoked *after* Emacs has initialized (to reduce false positives). Once
@@ -174,6 +178,15 @@ TRIGGER-HOOK is a list of quoted hooks and/or sharp-quoted functions."
             ((add-hook hook fn -101)))
       fn)))
 
+(defun wolfe/run-first-loader-hook-on-next-leader ()
+ (set-transient-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "SPC")
+      #'(lambda () (interactive)
+          (run-hooks 'wolfe/first-leader-hook)
+          (call-interactively (general-simulate-key "SPC"))))
+    map)))
+
 (defun wolfe/initialize ()
   (require 'core-modules)
   (add-hook 'emacs-startup-hook #'wolfe/load-packages-incrementally-h)
@@ -181,6 +194,7 @@ TRIGGER-HOOK is a list of quoted hooks and/or sharp-quoted functions."
   ;; TODO: Replicate switch buffer hook
   (wolfe/run-hook-on 'wolfe/first-buffer-hook '(find-file-hook doom-switch-buffer-hook))
   (wolfe/run-hook-on 'wolfe/first-file-hook   '(find-file-hook dired-initial-position-hook))
-  (wolfe/run-hook-on 'wolfe/first-input-hook  '(pre-command-hook)))
+  (wolfe/run-hook-on 'wolfe/first-input-hook  '(pre-command-hook wolfe/first-leader-hook))
+  (add-hook 'after-init-hook 'wolfe/run-first-loader-hook-on-next-leader))
 
 (provide 'base)

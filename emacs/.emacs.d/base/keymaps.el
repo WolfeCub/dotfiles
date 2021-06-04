@@ -40,8 +40,8 @@
 
   (wolfe/bind-leader
     "w"  'save-buffer
-    "S"  'wolfe/eval-and-replace
     "s"  'eval-defun
+    "S"  'eval-region
     "b"  'mode-line-other-buffer
     "c"  'wolfe/compile-no-prompt
     "n"  'narrow-or-widen-dwim

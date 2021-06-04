@@ -103,7 +103,9 @@
   (custom-set-faces
    '(column-marker-1 ((t (:background "dim gray"))))))
 
-(require 'highlight-escape-chars)
+(use-package highlight-escape-chars
+  :straight nil
+  :hook (prog-mode . highlight-escapes-mode))
 
 (add-hook 'prog-mode-hook
           (lambda ()

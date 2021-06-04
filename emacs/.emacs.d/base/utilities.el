@@ -4,13 +4,6 @@
 (use-package vterm
   :when wolfe/linux?)
 
-;; More vimy dired
-(use-package ranger
-  :commands ranger
-  :config
-  (setq ranger-cleanup-on-disable t)
-  (ranger-override-dired-mode t))
-
 ;; Edit all matches
 (use-package iedit
   :general
@@ -48,6 +41,7 @@
 
 ;; Popup rules
 (use-package shackle
+  :after-call wolfe/first-buffer-hook
   :config
   (setq shackle-default-alignment 'below
         shackle-default-size 0.4

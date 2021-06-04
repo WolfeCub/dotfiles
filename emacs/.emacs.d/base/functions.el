@@ -90,15 +90,6 @@
       (man (word-at-point))
     (woman)))
 
-;; Is used in wolfe/hydra-org-expand=. For inserting org-templates.
-(defun hot-expand (str &optional additional-text)
-  "Expand org template."
-  (insert str)
-  (org-try-structure-completion)
-  (when additional-text
-    (insert additional-text)
-    (forward-line)))
-
 (defun wolfe/if-else-projectile (if-function else-function)
   "Calls the if-function if inside a project otherwise
   it calls the else-function"
@@ -113,22 +104,10 @@
   (projectile-invalidate-cache t))
 
 (defun wolfe/ag-kill-buffers-and-window ()
-  "Kill all the open ag buffers and delete the window I'm in. Bound in ag-mode-map"
+  "Kill all the open ag buffers and delete the window I'm in. Bound in `ag-mode-map'"
   (interactive)
   (ag-kill-buffers)
   (delete-window))
-
-(defun wolfe/eval-and-replace (beginning end)
-  "Replace the preceding sexp or region with its value."
-  (interactive "r")
-  (if (region-active-p)
-      (delete-region beginning end)
-    (backward-kill-sexp))
-  (condition-case nil
-      (prin1 (eval (read (current-kill 0)))
-             (current-buffer))
-    (error (message "Invalid expression")
-           (insert (current-kill 0)))))
 
 (defun wolfe/call-and-update-ex (fun)
   "Calls the function and updates `evil-ex-history' with the result"

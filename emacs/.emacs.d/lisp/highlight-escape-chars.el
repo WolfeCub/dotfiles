@@ -20,14 +20,18 @@
   "Face for the directive component of a printf format code."
   :group 'font-lock-faces)
 
-(mapc
- (lambda (mode)
+(define-minor-mode highlight-escapes-mode
+  "Highlight escape chars in this mode."
+  :init-value nil
+  :lighter "")
+
+(add-hook 'highlight-escapes-mode-hook
+ (lambda ()
    (font-lock-add-keywords
-    mode
+    nil
     '(("\\(\\\\\\)." 1 'wolfe/backslash-escape-backslash-face prepend)
       ("\\\\\\(.\\)" 1 'wolfe/backslash-escape-char-face      prepend)
       ("\\(%\\)."    1 'wolfe/format-code-format-face         prepend)
-      ("%\\(.\\)"    1 'wolfe/format-code-directive-face      prepend))))
- wolfe/highlight-escapes-mode-list)
+      ("%\\(.\\)"    1 'wolfe/format-code-directive-face      prepend)))))
 
 (provide 'highlight-escape-chars)

@@ -31,12 +31,6 @@
 (defvar wolfe/using-light nil
   "Indicates whether we're using my light theme")
 
-(defvar wolfe/highlight-escapes-mode-list '(python-mode
-                                            c-mode
-                                            c++-mode
-                                            web-mode)
-  "List of modes to highlight escape characters in")
-
 (defvar wolfe/lisp-dir-path (concat user-emacs-directory "lisp/")
   "Path to my custom lisp files")
 

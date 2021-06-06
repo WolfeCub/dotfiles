@@ -64,6 +64,9 @@
   (setq persp-sort 'access
         persp-modestring-short t)
   (persp-mode)
-  (use-package persp-projectile))
+  (use-package persp-projectile)
 
+  (add-hook 'persp-created-hook
+            (lambda ()
+              (persp-add-buffer "*Messages*"))))
 (provide 'project-settings)

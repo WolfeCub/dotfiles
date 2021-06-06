@@ -192,7 +192,7 @@ TRIGGER-HOOK is a list of quoted hooks and/or sharp-quoted functions."
   (add-hook 'emacs-startup-hook #'wolfe/load-packages-incrementally-h)
 
   ;; TODO: Replicate switch buffer hook
-  (wolfe/run-hook-on 'wolfe/first-buffer-hook '(find-file-hook doom-switch-buffer-hook))
+  (wolfe/run-hook-on 'wolfe/first-buffer-hook '(find-file-hook)) ;;doom-switch-buffer-hook))
   (wolfe/run-hook-on 'wolfe/first-file-hook   '(find-file-hook dired-initial-position-hook))
   (wolfe/run-hook-on 'wolfe/first-input-hook  '(pre-command-hook wolfe/first-leader-hook))
   (add-hook 'after-init-hook 'wolfe/run-first-loader-hook-on-next-leader))

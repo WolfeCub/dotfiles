@@ -23,11 +23,19 @@
 (use-package s)
 
 ;; Add :defer-incrementally to use-package
-(dolist (keyword '(:defer-incrementally))
+(dolist (keyword '(:defer-incrementally :after-call))
   (push keyword use-package-deferring-keywords)
   (setq use-package-keywords
         (use-package-list-insert keyword use-package-keywords :after)))
 
+;; :defer-incrementally SYMBOL|LIST|t
+;;   Takes a symbol or list of symbols representing packages that will be loaded
+;;   incrementally at startup before this one. This is helpful for large packages
+;;   like magit or org, which load a lot of dependencies on first load. This lets
+;;   you load them piece-meal during idle periods, so that when you finally do need
+;;   the package, it'll load quicker.
+;;   NAME is implicitly added if this property is present and non-nil. No need to
+;;   specify it. A value of `t' implies NAME."
 (defalias 'use-package-normalize/:defer-incrementally #'use-package-normalize-symlist)
 (defun use-package-handler/:defer-incrementally (name _keyword targets rest state)
   (use-package-concat
@@ -37,6 +45,46 @@
           (append targets (list name)))))
    (use-package-process-keywords name rest state)))
 
+;; :after-call SYMBOL|LIST
+;;   Takes a symbol or list of symbols representing functions or hook variables.
+;;   The first time any of these functions or hooks are executed, the package is
+;;   loaded.
+(defvar wolfe/deferred-packages-alist '(t))
+(defalias 'use-package-normalize/:after-call #'use-package-normalize-symlist)
+(defun use-package-handler/:after-call (name _keyword hooks rest state)
+  (if (plist-get state :demand)
+      (use-package-process-keywords name rest state)
+    (let ((fn (make-symbol (format "wolfe--after-call-%s-h" name))))
+      (use-package-concat
+       `((fset ',fn
+               (lambda (&rest _)
+                 (condition-case e
+                     ;; If `default-directory' is a directory that doesn't
+                     ;; exist or is unreadable, Emacs throws up file-missing
+                     ;; errors, so we set it to a directory we know exists and
+                     ;; is readable.
+                     (let ((default-directory user-emacs-directory))
+                       (require ',name))
+                   ((debug error)
+                    (message "Failed to load deferred package %s: %s" ',name e)))
+                 (when-let (deferral-list (assq ',name wolfe/deferred-packages-alist))
+                   (dolist (hook (cdr deferral-list))
+                     (advice-remove hook #',fn)
+                     (remove-hook hook #',fn))
+                   (setq wolfe/deferred-packages-alist (delq deferral-list wolfe/deferred-packages-alist))
+                   (unintern ',fn nil)))))
+       (let (forms)
+         (dolist (hook hooks forms)
+           (push (if (string-match-p "-\\(?:functions\\|hook\\)$" (symbol-name hook))
+                     `(add-hook ',hook #',fn)
+                   `(advice-add #',hook :before #',fn))
+                 forms)))
+       `((unless (assq ',name wolfe/deferred-packages-alist)
+           (push '(,name) wolfe/deferred-packages-alist))
+         (nconc (assq ',name wolfe/deferred-packages-alist)
+                '(,@hooks)))
+       (use-package-process-keywords name rest state)))))
+
 
 (defmacro wolfe! (&rest modules)
   (let ((plist (copy-sequence modules))
@@ -45,7 +93,10 @@
       (let ((curr (pop plist)))
         (if (keywordp curr)
             (setq key curr)
-          (load-file (format "%s%s/%s.el" user-emacs-directory (string-trim-left (symbol-name key) ":") (symbol-name curr))))))))
+          (load-file (format "%s%s/%s.el"
+                             user-emacs-directory
+                             (string-trim-left (symbol-name key) ":")
+                             (symbol-name curr))))))))
 
 ;;
 ;;; Incremental lazy-loading from doom

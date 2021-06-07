@@ -47,10 +47,14 @@
   :after prescient
   :hook (selectrum-mode . selectrum-prescient-mode)
   :hook (selectrum-prescient-mode . prescient-persist-mode)
+  :hook (selectrum-prescient-mode
+         . (lambda ()
+             (setq selectrum-highlight-candidates-function
+                   #'selectrum-highlight-candidates-function+)))
   :custom-face
   (selectrum-current-candidate
    ((t (:foreground ,(plist-get base16-default-dark-colors :base09)
-        :background ,(plist-get base16-default-dark-colors :base01)))))
+                    :background ,(plist-get base16-default-dark-colors :base01)))))
   (selectrum-prescient-primary-highlight
    ((t (:foreground ,(plist-get base16-default-dark-colors :base0D)))))
   :config
@@ -73,10 +77,7 @@
                               else
                               collect cand)
                    cands)))
-      (selectrum-prescient--highlight input cands)))
-
-  (setq selectrum-highlight-candidates-function
-        #'selectrum-highlight-candidates-function+))
+      (selectrum-prescient--highlight input cands))))
 
 
 (provide 'incremental-narrowing)

@@ -87,16 +87,16 @@
 
 
 (defmacro wolfe! (&rest modules)
-  (let ((plist (copy-sequence modules))
-        (key nil))
-    (while plist
-      (let ((curr (pop plist)))
-        (if (keywordp curr)
-            (setq key curr)
-          (load-file (format "%s%s/%s.el"
-                             user-emacs-directory
-                             (string-trim-left (symbol-name key) ":")
-                             (symbol-name curr))))))))
+  `(progn
+     ,@(cl-loop with key = nil
+                for curr in modules
+                if (keywordp curr)
+                do (setq key curr)
+                else
+                collect `(load-file ,(format "%s%s/%s.el"
+                                             user-emacs-directory
+                                             (string-trim-left (symbol-name key) ":")
+                                             (symbol-name curr))))))
 
 ;;
 ;;; Incremental lazy-loading from doom

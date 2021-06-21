@@ -69,4 +69,14 @@
   (add-hook 'persp-created-hook
             (lambda ()
               (persp-add-buffer "*Messages*"))))
+
+(use-package treemacs
+  :commands treemacs)
+
+(use-package treemacs-evil
+  :after (treemacs evil))
+
+(use-package lsp-treemacs
+  :after treemacs)
+
 (provide 'project-settings)

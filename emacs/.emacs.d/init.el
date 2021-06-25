@@ -12,16 +12,6 @@
 
 (wolfe/initialize)
 
-(use-package general
-  :demand t
-  :config
-  (general-auto-unbind-keys)
-  (general-create-definer wolfe/bind-leader
-    :keymaps 'global
-    :states '(normal insert visual emacs)
-    :prefix "SPC"
-    :non-normal-prefix "M-SPC"))
-
 (wolfe! :base
         ui
         settings

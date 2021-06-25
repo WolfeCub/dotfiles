@@ -51,7 +51,7 @@
     "t"  'shell-pop
     "f"  'consult-ripgrep
     ";"  (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
-    "id" (lambda() (interactive) (indent-region (point-min) (point-max)))
+    "="  `(,(lambda() (interactive) (indent-region (point-min) (point-max))) :wk "Indent buffer")
     "o"  (lambda() (interactive) (wolfe/org-open "everything")))
 
   :init

@@ -55,20 +55,26 @@
   (wolfe/bind-leader
     "m"   'persp-switch-to-buffer*
     "k"   'persp-kill-buffer*
-    "p s" '(projectile-persp-switch-project :wk "Switch Project"))
-  :init
-  (setq persp-mode-prefix-key (kbd "C-c p"))
+    "p s" '(projectile-persp-switch-project :wk "Switch Project")
+    ;; Persp prefix bindings
+    "TAB"   '(nil               :wk "Perspective")
+    "TAB s" '(persp-switch      :wk "Switch")
+    "TAB k" '(persp-kill        :wk "Kill")
+    "TAB r" '(persp-rename      :wk "Rename")
+    "TAB b" '(persp-switch-last :wk "Switch Last")
+    "TAB n" '(persp-new         :wk "New"))
   :config
   (set-face-attribute 'persp-selected-face nil
                       :foreground (face-attribute 'match :foreground))
   (setq persp-sort 'access
         persp-modestring-short t)
   (persp-mode)
-  (use-package persp-projectile)
-
   (add-hook 'persp-created-hook
             (lambda ()
               (persp-add-buffer "*Messages*"))))
+
+(use-package persp-projectile
+  :after perspective projectile)
 
 (use-package treemacs
   :commands treemacs)

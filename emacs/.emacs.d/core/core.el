@@ -189,6 +189,7 @@ TRIGGER-HOOK is a list of quoted hooks and/or sharp-quoted functions."
 
 (defun wolfe/initialize ()
   (require 'core-modules)
+  (require 'core-keybinds)
   (add-hook 'emacs-startup-hook #'wolfe/load-packages-incrementally-h)
 
   ;; TODO: Replicate switch buffer hook

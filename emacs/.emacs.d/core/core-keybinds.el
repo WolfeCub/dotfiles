@@ -7,12 +7,12 @@
 
   (general-create-definer wolfe/bind-leader
     :keymaps 'global
-    :states '(normal insert visual emacs)
+    :states '(normal visual emacs)
     :prefix "SPC")
 
   (general-create-definer wolfe/bind-local-leader
      :keymaps 'global
-     :states '(normal insert visual emacs)
+     :states '(normal visual emacs)
      :prefix "SPC SPC"))
 
 (provide 'core-keybinds)

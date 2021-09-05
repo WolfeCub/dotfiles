@@ -78,6 +78,7 @@
 
 ;; Tpope's surround
 (use-package evil-surround
+  :demand t
   :commands (global-evil-surround-mode
              evil-surround-edit
              evil-Surround-edit
@@ -92,6 +93,7 @@
 
 ;; Start * or # from visual selection
 (use-package evil-visualstar
+  :demand t
   :commands (evil-visualstar/begin-search
              evil-visualstar/begin-search-forward
              evil-visualstar/begin-search-backward)

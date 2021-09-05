@@ -76,13 +76,7 @@
 (use-package persp-projectile
   :after perspective projectile)
 
-(use-package treemacs
-  :commands treemacs)
-
-(use-package treemacs-evil
-  :after (treemacs evil))
-
-(use-package lsp-treemacs
-  :after treemacs)
+(use-package consult-lsp
+  :after (lsp consult))
 
 (provide 'project-settings)

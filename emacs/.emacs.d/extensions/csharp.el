@@ -12,4 +12,7 @@
     "R" '(dotnet-run-with-args :wk "Run with args")
     "t" '(dotnet-test          :wk "Test")))
 
+(use-package protobuf-mode
+  :mode "\\.proto\\'")
+
 (provide 'csharp)

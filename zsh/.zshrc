@@ -2,9 +2,6 @@
 ## E N V I R O N M E N T
 ##
 export PAGER='less -R'
-export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
-export LIBGL_ALWAYS_INDIRECT=1
-
 export PATH="$HOME/.deno/bin:$PATH"
 export GOROOT=/usr/lib/go
 export GOPATH=$HOME/Projects/go

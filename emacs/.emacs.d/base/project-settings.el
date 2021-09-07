@@ -54,6 +54,10 @@
   :general
   (wolfe/bind-leader
     "m"   'persp-switch-to-buffer*
+    "M"   `(,(lambda () (interactive)
+               (setq current-prefix-arg '(4)) ; C-u
+               (call-interactively 'persp-switch-to-buffer*))
+            :wk "All Buffers")
     "k"   'persp-kill-buffer*
     "p s" '(projectile-persp-switch-project :wk "Switch Project")
     ;; Persp prefix bindings

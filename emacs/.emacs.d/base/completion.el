@@ -11,9 +11,11 @@
   :general
   (wolfe/bind-leader
     "l"   '(nil                     :wk "LSP Mode")
-    "l x" '(lsp-execute-code-action :wk "Code action")
+    "l x" '(lsp-execute-code-action :wk "Code Action")
     "l r" '(lsp-rename              :wk "Rename")
-    "l i" '(lsp-goto-implementation :wk "Goto Implementation"))
+    "l i" '(lsp-find-implementation :wk "Implementation")
+    "l d" '(lsp-find-definition     :wk "Definition")
+    "l u" '(lsp-find-references     :wk "Usages"))
   :init
   (setq read-process-output-max (* 1024 1024)
         lsp-idle-delay 0.500)

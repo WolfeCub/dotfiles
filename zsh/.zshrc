@@ -6,10 +6,6 @@ export PATH="$HOME/.deno/bin:$PATH"
 export GOROOT=/usr/lib/go
 export GOPATH=$HOME/Projects/go
 
-[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-which virtualenvwrapper.sh 2>&1 > /dev/null && source virtualenvwrapper.sh
-
 ##
 ## S E T T I N G S
 ##
@@ -175,8 +171,12 @@ function send {
     fi
 }
 
-pgrepk () {
+function pgrepk {
     pgrep -i $1 | xargs kill -9
+}
+
+function in_path {
+    command -v "$1" &> /dev/null
 }
 
 ##
@@ -186,14 +186,14 @@ _newline=$'\n'
 _lineup=$'\e[1A'
 _linedown=$'\e[1B'
 
-function preexec() {
+function preexec {
     echo
 }
-function precmd() {
+function precmd {
     echo
 }
 
-function promptjobs() {
+function promptjobs {
     jobs %% 2> /dev/null | cut -d " " -f6
 }
 
@@ -209,3 +209,7 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ##
 ## E N D
 ##
+[ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+in_path virtualenvwrapper.sh && source virtualenvwrapper.sh
+in_path flux && . <(flux completion zsh)

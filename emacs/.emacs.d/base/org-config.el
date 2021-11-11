@@ -64,7 +64,7 @@
                 (org-redisplay-inline-images))))
 
   (defun wolfe/confirm-babel-evaluate (lang body)
-    (not (string= lang "dot")))
+    (not (member lang '("dot" "csharp"))))
   (setq org-confirm-babel-evaluate 'wolfe/confirm-babel-evaluate)
 
   ;; Open PDFs with zathura

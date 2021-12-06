@@ -123,7 +123,8 @@
       tags-revert-without-query t ; Don't ask to reload TAGS file
       echo-keystrokes 0.5
       custom-file "~/.emacs.d/custom.el" ; Set custom file and don't load it
-      source-directory "~/Projects/emacs/")
+      source-directory "~/Projects/emacs/"
+      ring-bell-function 'ignore)
 
 ;; Vim scrolloff behaviour
 (setq scroll-margin 10

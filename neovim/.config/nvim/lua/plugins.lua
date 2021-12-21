@@ -9,6 +9,7 @@ return require('packer').startup(function()
     use 'wbthomason/packer.nvim'
 
     use 'nanotech/jellybeans.vim'
+    use 'chriskempson/base16-vim'
 
     use 'tpope/vim-surround'
     use 'tpope/vim-repeat'
@@ -83,6 +84,11 @@ return require('packer').startup(function()
                 signs = false,
             }
         end
+    }
+
+    use {
+        'maxmellon/vim-jsx-pretty',
+        requires = {'leafgarland/typescript-vim'},
     }
 
     if packer_bootstrap then

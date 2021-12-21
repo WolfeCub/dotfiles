@@ -6,6 +6,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
+set number relativenumber
 
 " Keybindings {{{
 
@@ -32,5 +33,12 @@ xnoremap > >gv
 nnoremap <leader>m <cmd>Telescope buffers<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
 nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <leader>p <cmd>Telescope projects<cr>
+
+" Lsp
+nnoremap <leader>lx <cmd>lua require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor({}))<cr>
+nnoremap <leader>lr <cmd>lua vim.lsp.buf.rename()<cr>
+nnoremap <leader>lu <cmd>Telescope lsp_references<cr>
+nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
 
 " }}}

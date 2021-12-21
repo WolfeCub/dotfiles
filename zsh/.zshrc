@@ -9,6 +9,9 @@ export GOPATH=$HOME/Projects/go
 ##
 ## S E T T I N G S
 ##
+# Don't be so loud
+unsetopt BEEP
+
 # Vi mode
 bindkey -v
 
@@ -137,7 +140,6 @@ bindkey -M viins '^x^e'  edit-command-line
 ## A L I A S E S
 ##
 # Misc
-alias :q='exit'
 alias less='less -R'
 alias grep='grep --color=always'
 alias open='xdg-open'
@@ -156,8 +158,8 @@ alias -g ......='../../../../..'
 alias e='emacs -nw'
 alias et='emacsclient -t'
 alias ec='emacsclient -c'
-# Git
-alias gitcb='$(git rev-parse --abbrev-ref HEAD)'
+# K8s
+alias k='kubectl'
 
 function em {
     (emacs $@ 2>&1 > /dev/null &)

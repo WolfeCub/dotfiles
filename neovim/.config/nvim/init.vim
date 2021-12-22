@@ -34,6 +34,10 @@ nnoremap <leader>k :bd<cr>
 xnoremap < <gv
 xnoremap > >gv
 
+" Shift + J/K moves selected lines down/up in visual mode
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
 " Telescope
 nnoremap <leader>m <cmd>Telescope buffers<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
@@ -46,7 +50,11 @@ nnoremap <leader>lr <cmd>lua vim.lsp.buf.rename()<cr>
 nnoremap <leader>lu <cmd>Telescope lsp_references<cr>
 nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
 
-nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+" Edit relative to current buffer
+nnoremap <leader>e :e <C-R>=expand("%:h") . "/" <CR>
+
+" Git good
+nnoremap <leader>G <cmd>Neogit<cr>
 
 " }}}
 

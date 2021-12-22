@@ -18,29 +18,36 @@ return require('packer').startup(function()
     use {
         'nvim-lualine/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
-        config = function() 
-            require('lualine').setup{
-                options = {
-                    theme = 'auto'
-                }
-            }
-        end
+        config = function() require('lualine_config') end
     }
 
     use {
         'nvim-telescope/telescope.nvim',
-        requires = { {'nvim-lua/plenary.nvim'} },
+        requires = { 
+            {'nvim-lua/plenary.nvim'},
+            {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+        },
         config = function() 
             require('telescope').setup{
                 defaults = { 
-                    file_ignore_patterns = {"node_modules", "bin", "obj"} ,
+                    file_ignore_patterns = {"node_modules", "bin", "obj"},
+                    layout_strategy = "vertical",
                 },
                 pickers = {
                     find_files = {
                         hidden = true,
                     },
+                },
+                extensions = {
+                    fzf = {
+                        fuzzy = true,
+                        override_generic_sorter = true,
+                        override_file_sorter = true,
+                        case_mode = "smart_case",
+                    }
                 }
             }
+            require('telescope').load_extension('fzf')
         end
     }
 
@@ -71,8 +78,13 @@ return require('packer').startup(function()
     use {
         'neovim/nvim-lspconfig',
         requires = {'ms-jpq/coq_nvim'},
+        config = function() require('lsp_servers') end
+    }
+
+    use {
+        'TimUntersberger/neogit',
         config = function()
-            require'lspconfig'.tsserver.setup(coq.lsp_ensure_capabilities({}))
+            require('neogit').setup{}
         end
     }
 

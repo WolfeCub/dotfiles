@@ -12,6 +12,7 @@ set ignorecase
 set scrolloff=10
 set splitbelow
 set splitright
+set updatetime=300
 
 " Keybindings {{{
 
@@ -49,6 +50,7 @@ nnoremap <leader>lx <cmd>lua require'telescope.builtin'.lsp_code_actions(require
 nnoremap <leader>lr <cmd>lua vim.lsp.buf.rename()<cr>
 nnoremap <leader>lu <cmd>Telescope lsp_references<cr>
 nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
+nnoremap K <cmd>lua vim.lsp.buf.hover()<cr>
 
 " Edit relative to current buffer
 nnoremap <leader>e :e <C-R>=expand("%:h") . "/" <CR>

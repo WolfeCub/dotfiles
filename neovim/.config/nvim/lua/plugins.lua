@@ -103,6 +103,8 @@ return require('packer').startup(function()
         requires = {'leafgarland/typescript-vim'},
     }
 
+    use 'jparise/vim-graphql'
+
     if packer_bootstrap then
         require('packer').sync()
     end

@@ -42,11 +42,11 @@ vnoremap K :m '<-2<CR>gv=gv
 " Telescope
 nnoremap <leader>m <cmd>Telescope buffers<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
-nnoremap <leader>f <cmd>Telescope find_files<cr>
 nnoremap <leader>p <cmd>Telescope projects<cr>
+nnoremap <leader>f <cmd>lua telescope_find_files_dwim()<cr>
 
 " Lsp
-nnoremap <leader>lx <cmd>lua require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_cursor({}))<cr>
+nnoremap <leader>lx <cmd>lua require('telescope.builtin').lsp_code_actions(require('telescope.themes').get_cursor({}))<cr>
 nnoremap <leader>lr <cmd>lua vim.lsp.buf.rename()<cr>
 nnoremap <leader>lu <cmd>Telescope lsp_references<cr>
 nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
@@ -64,6 +64,11 @@ nnoremap <leader>G <cmd>Neogit<cr>
 
 " Use :W to sudo write file
 command! W w !sudo tee % > /dev/null
+
+cnoreabbrev e lua require('telescope.builtin').file_browser(get_small_ivy({previewer = false}))<cr>
+
+" Have have working directory follow buffer
+autocmd BufEnter * silent! lcd %:p:h
 
 " Command to remove trailing whitespace
 function! TrimWhitespace()

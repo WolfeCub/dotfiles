@@ -1,3 +1,5 @@
+require('functions')
+
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -56,7 +58,8 @@ return require('packer').startup(function()
         requires = {'nvim-telescope/telescope.nvim'},
         config = function()
             require("project_nvim").setup{
-                show_hidden = true
+                show_hidden = true,
+                manual_mode = true,
             }
             require('telescope').load_extension('projects')
         end
@@ -97,6 +100,8 @@ return require('packer').startup(function()
             }
         end
     }
+
+    use 'ggandor/lightspeed.nvim'
 
     use {
         'maxmellon/vim-jsx-pretty',

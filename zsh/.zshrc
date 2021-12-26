@@ -181,6 +181,8 @@ function in_path {
     command -v "$1" &> /dev/null
 }
 
+in_path "nvim" && alias vim='nvim'
+
 ##
 ## P R O M P T
 ##

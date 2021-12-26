@@ -1,21 +1,3 @@
-lua require('plugins')
-
-let base16colorspace=256 
-colorscheme base16-default-dark
-
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-set number relativenumber
-set ignorecase
-set scrolloff=10
-set splitbelow
-set splitright
-set updatetime=300
-
-" Keybindings {{{
-
 nnoremap <Space> <nop>
 let g:mapleader = "\<Space>"
 let g:maplocalleader = "\\"
@@ -57,24 +39,3 @@ nnoremap <leader>e :e <C-R>=expand("%:h") . "/" <CR>
 
 " Git good
 nnoremap <leader>G <cmd>Neogit<cr>
-
-" }}}
-
-" Functions {{{
-
-" Use :W to sudo write file
-command! W w !sudo tee % > /dev/null
-
-cnoreabbrev e lua require('telescope.builtin').file_browser(get_small_ivy({previewer = false}))<cr>
-
-" Have have working directory follow buffer
-autocmd BufEnter * silent! lcd %:p:h
-
-" Command to remove trailing whitespace
-function! TrimWhitespace()
-    exec "%s/\\s\\+$//e"
-    exec "normal! \<C-o>"
-endfunction
-command! -nargs=0 TrimWhitespace :call TrimWhitespace()
-
-" }}}

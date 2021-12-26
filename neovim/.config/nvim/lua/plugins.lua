@@ -1,5 +1,3 @@
-require('functions')
-
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -16,11 +14,14 @@ return require('packer').startup(function()
     use 'tpope/vim-surround'
     use 'tpope/vim-repeat'
     use 'tpope/vim-rsi'
+    use 'nelstrom/vim-visual-star-search'
+    use 'tommcdo/vim-lion'
+    use 'ggandor/lightspeed.nvim'
 
     use {
         'nvim-lualine/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
-        config = function() require('lualine_config') end
+        config = function() require('plugins.lualine-config') end
     }
 
     use {
@@ -81,7 +82,7 @@ return require('packer').startup(function()
     use {
         'neovim/nvim-lspconfig',
         requires = {'ms-jpq/coq_nvim'},
-        config = function() require('lsp_servers') end
+        config = function() require('plugins.lsp-config') end
     }
 
     use {
@@ -100,8 +101,6 @@ return require('packer').startup(function()
             }
         end
     }
-
-    use 'ggandor/lightspeed.nvim'
 
     use {
         'maxmellon/vim-jsx-pretty',

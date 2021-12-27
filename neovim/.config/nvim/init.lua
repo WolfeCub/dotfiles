@@ -6,6 +6,6 @@ vim.cmd 'colorscheme base16-default-dark'
 
 require 'options'
 
-vim.cmd "source ~/.config/nvim/viml/commands.vim"
-vim.cmd "source ~/.config/nvim/viml/autocommands.vim"
-vim.cmd "source ~/.config/nvim/viml/mappings.vim"
+require_viml 'commands.vim'
+require_viml 'autocommands.vim'
+require_viml 'mappings.vim'

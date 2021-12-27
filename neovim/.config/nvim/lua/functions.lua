@@ -40,3 +40,8 @@ function get_small_ivy(opts)
 
   return vim.tbl_deep_extend("force", theme_opts, opts)
 end
+
+function require_viml(vimlConfigPath)
+    local path = vim.fn.stdpath('config')
+    vim.cmd(string.format('source %s/viml/%s', path, vimlConfigPath))
+end

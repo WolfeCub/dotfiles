@@ -70,7 +70,17 @@ return require('packer').startup(function()
         'ms-jpq/coq_nvim',
         branch = 'coq',
         setup = function()
-            vim.g.coq_settings = {auto_start = 'shut-up'}
+            vim.g.coq_settings = {
+                auto_start = 'shut-up',
+                display = {
+                    icons = {
+                        mode = 'short',
+                    },
+                    pum = {
+                        kind_context = {' ', ''},
+                    }
+                }
+            }
         end
     }
 

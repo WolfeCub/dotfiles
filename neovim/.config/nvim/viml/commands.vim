@@ -8,7 +8,7 @@ func s:eatChar(pat)
 endfunc
 
 function LaunchFileBrowser()
-    lua require('telescope.builtin').file_browser(get_small_ivy({previewer = false}))
+    lua require('telescope').extensions.file_browser.file_browser(get_small_ivy({previewer = false}))
     call s:eatChar('\s')
 endfunction
 

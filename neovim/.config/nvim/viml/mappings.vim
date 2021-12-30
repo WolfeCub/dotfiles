@@ -26,6 +26,7 @@ nnoremap <leader>m <cmd>Telescope buffers<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
 nnoremap <leader>p <cmd>Telescope projects<cr>
 nnoremap <leader>f <cmd>lua telescope_find_files_dwim()<cr>
+nnoremap <leader>r <cmd>Telescope resume<cr>
 
 " Lsp
 nnoremap <leader>lx <cmd>lua require('telescope.builtin').lsp_code_actions(require('telescope.themes').get_cursor({}))<cr>

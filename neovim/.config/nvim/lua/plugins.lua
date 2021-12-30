@@ -96,6 +96,11 @@ return require('packer').startup(function()
     }
 
     use {
+        'williamboman/nvim-lsp-installer',
+        requires = {'neovim/nvim-lspconfig'},
+    }
+
+    use {
         'TimUntersberger/neogit',
         config = function()
             require('neogit').setup{}

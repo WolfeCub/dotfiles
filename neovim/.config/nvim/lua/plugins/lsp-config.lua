@@ -1,4 +1,5 @@
 local nvim_lsp = require('lspconfig')
+local lsp_installer = require('nvim-lsp-installer')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -15,32 +16,32 @@ local on_attach = function(client, bufnr)
     local opts = { noremap=true, silent=true }
 
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+    buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
+    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
+    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+    buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts)
+    buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts)
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = { 
-    tsserver = {},
-    omnisharp = {
-        cmd = { "omnisharp", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) },
-    },
-    graphl = {},
+local server_overrides = { 
+    omnisharp = function(opts)
+        opts.cmd = { "omnisharp", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) }
+    end,
 }
 
-for lsp, config in ipairs(servers) do
-    local options = {
+lsp_installer.on_server_ready(function(server)
+    -- Specify the default options which we'll use to setup all servers
+    local opts = {
         on_attach = on_attach,
     }
-    for k, v in pairs(config) do 
-        options[k] = v
+
+    if server_overrides[server.name] then
+        -- Enhance the default opts with the server-specific ones
+        server_overrides[server.name](opts)
     end
-    nvim_lsp[lsp].setup(coq.lsp_ensure_capabilities(options))
-end
+
+    server:setup(coq.lsp_ensure_capabilities(opts))
+end)

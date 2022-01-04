@@ -26,13 +26,13 @@ return require('packer').startup(function()
 
     use {
         'nvim-telescope/telescope.nvim',
-        requires = { 
+        requires = {
             {'nvim-lua/plenary.nvim'},
             {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
         },
-        config = function() 
+        config = function()
             require('telescope').setup{
-                defaults = { 
+                defaults = {
                     file_ignore_patterns = {"node_modules", "bin", "obj"},
                     layout_strategy = "vertical",
                 },
@@ -54,7 +54,7 @@ return require('packer').startup(function()
         end
     }
 
-    use { 
+    use {
         'nvim-telescope/telescope-file-browser.nvim' ,
         requires = {'nvim-telescope/telescope.nvim'},
         config = function()
@@ -87,20 +87,22 @@ return require('packer').startup(function()
                     pum = {
                         kind_context = {' ', ''},
                     }
+                },
+                clients = {
+                    ['buffers.enabled'] = false,
+                    ['tmux.enabled'] = false,
                 }
             }
         end
     }
 
     use {
-        'ms-jpq/coq.artifacts', 
-        branch = 'artifacts'
-    }
-
-    use {
         'neovim/nvim-lspconfig',
         requires = {'ms-jpq/coq_nvim'},
-        config = function() require('plugins.lsp-config') end
+        config = function()
+            require('plugins.lsp-config')
+            require('plugins.lsp-ui-config')
+        end
     }
 
     use {
@@ -122,6 +124,14 @@ return require('packer').startup(function()
             require('todo-comments').setup{
                 signs = false,
             }
+        end
+    }
+
+
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
         end
     }
 

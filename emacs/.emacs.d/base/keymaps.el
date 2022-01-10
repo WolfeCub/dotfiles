@@ -49,7 +49,6 @@
     "g"  'magit-status
     "''" 'org-edit-src-exit
     "t"  'shell-pop
-    "f"  'consult-ripgrep
     ";"  (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
     "="  `(,(lambda() (interactive) (indent-region (point-min) (point-max))) :wk "Indent buffer")
     "o"  (lambda() (interactive) (wolfe/org-open "everything")))

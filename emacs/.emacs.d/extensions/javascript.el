@@ -1,15 +1,5 @@
 ;;; web.el -*- lexical-binding: t; -*-
 
-;; Use 2 space indentation in =.vue= files.
-(add-hook
- 'web-mode-hook
- (lambda ()
-   (when (and (stringp buffer-file-name)
-              (string-match "\\.vue\\'" buffer-file-name))
-     (setq web-mode-markup-indent-offset 2
-           web-mode-css-indent-offset 2
-           web-mode-code-indent-offset 2))))
-
 (use-package purescript-mode
   :defer t
   :mode "\\.purs\\'")
@@ -19,6 +9,7 @@
   :config
   (add-hook 'purescript-mode-hook
             (lambda ()
+              (setq psc-ide-use-npm-bin t)
               (psc-ide-mode)
               (company-mode)
               (flycheck-mode)

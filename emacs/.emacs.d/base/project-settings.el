@@ -30,7 +30,7 @@
              projectile-project-p
              projectile-locate-dominating-file)
   :config
-  (setq projectile-enable-caching t)
+  (setq projectile-enable-caching nil)
   (setq projectile-indexing-method 'alien)
   (setq projectile-git-submodule-command nil)
 

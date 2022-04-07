@@ -4,6 +4,7 @@
 
 (use-package base16-theme
   :config
+  (setq base16-theme-256-color-source 'base16-shell)
   (load-theme 'base16-default-dark t)
   (defvar my/base16-colors base16-default-dark-colors)
   (setq evil-emacs-state-cursor   `(,(plist-get my/base16-colors :base0D) box)

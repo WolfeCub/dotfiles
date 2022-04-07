@@ -23,13 +23,14 @@
   (setq lsp-completion-provider :capf))
 
 ;; The lsp-ui overlays are very slow on windows
-(when wolfe/linux?
-  (use-package lsp-ui
-    :after lsp-mode
-    :config
-    (setq lsp-completion-provider :capf
-          lsp-enable-snippet nil
-          company-lsp-enable-snippet nil)))
+(use-package lsp-ui
+  :after lsp-mode)
+
+(use-package dap-mode
+  :defer t
+  :custom
+  (dap-auto-configure-mode t)
+  (require 'dap-netcore))
 
 (defun wolfe/hot-load-company (orig-fun &rest args)
   (unless (bound-and-true-p company-mode)

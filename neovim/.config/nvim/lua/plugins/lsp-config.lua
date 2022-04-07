@@ -27,8 +27,10 @@ local on_attach = function(client, bufnr)
 end
 
 local server_overrides = { 
-    omnisharp = function(opts)
-        opts.cmd = { "omnisharp", "--languageserver" , "--hostPID", tostring(vim.fn.getpid()) }
+    yamlls = function(opts)
+        opts.settings = {
+            redhat = { telemetry = { enabled = false } },
+        }
     end,
 }
 

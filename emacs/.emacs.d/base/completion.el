@@ -8,6 +8,7 @@
   (python-mode     . lsp)
   (csharp-mode     . lsp)
   (haskell-mode    . lsp)
+  (rust-mode       . lsp)
   :general
   (wolfe/bind-leader
     "l"   '(nil                     :wk "LSP Mode")

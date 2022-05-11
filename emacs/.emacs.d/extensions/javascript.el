@@ -15,4 +15,6 @@
               (flycheck-mode)
               (turn-on-purescript-indentation))))
 
+(use-package elm-mode)
+
 (provide 'javascript)

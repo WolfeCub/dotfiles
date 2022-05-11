@@ -121,7 +121,10 @@
 
 ;; Exchange places
 (use-package evil-exchange
-  :commands evil-exchange
+  :general
+  (general-define-key
+   :states '(normal visual)
+   "gx" #'evil-exchange)
   :config
   (evil-exchange-install))
 

@@ -16,7 +16,8 @@
     "l r" '(lsp-rename              :wk "Rename")
     "l i" '(lsp-find-implementation :wk "Implementation")
     "l d" '(lsp-find-definition     :wk "Definition")
-    "l u" '(lsp-find-references     :wk "Usages"))
+    "l u" '(lsp-find-references     :wk "Usages")
+    "l D" '(dap-debug               :wk "Debug"))
   :init
   (setq read-process-output-max (* 1024 1024)
         lsp-idle-delay 0.500)
@@ -28,10 +29,19 @@
   :after lsp-mode)
 
 (use-package dap-mode
-  :defer t
+  :commands (dap-debug)
+  :general
+  (general-define-key
+   :keymaps 'dap-mode-map
+   :states '(normal insert)
+   "<f5>"  'dap-continue
+   "<f10>" 'dap-next
+   "<f11>" 'dap-step-in
+   "<f12>" 'dap-step-out)
   :custom
   (dap-auto-configure-mode t)
-  (require 'dap-netcore))
+  :config
+  (require 'netcoredbg-dap))
 
 (defun wolfe/hot-load-company (orig-fun &rest args)
   (unless (bound-and-true-p company-mode)

@@ -22,7 +22,7 @@
 (hook-if-daemonp
  (lambda ()
    (when (display-graphic-p)
-     (let ((utf8-font "Fira Code"))
+     (let ((utf8-font "Symbola"))
        (set-fontset-font "fontset-startup" '(#x000000 . #x3FFFFF) utf8-font)
        (set-fontset-font "fontset-default" '(#x000000 . #x3FFFFF) utf8-font)
        (set-fontset-font "fontset-standard" '(#x000000 . #x3FFFFF) utf8-font)))))

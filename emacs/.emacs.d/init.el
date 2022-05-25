@@ -36,6 +36,7 @@
         org-tree-slide
         yaml
         org-babel
+        rust
 
         :base
         utilities

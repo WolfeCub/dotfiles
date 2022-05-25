@@ -2,6 +2,7 @@
 
 (use-package undo-tree
   :config
+  (setq undo-tree-auto-save-history nil)
   (global-undo-tree-mode))
 
 (use-package evil
@@ -121,7 +122,10 @@
 
 ;; Exchange places
 (use-package evil-exchange
-  :commands evil-exchange
+  :general
+  (general-define-key
+   :states '(normal visual)
+   "gx" #'evil-exchange)
   :config
   (evil-exchange-install))
 

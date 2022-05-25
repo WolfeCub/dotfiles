@@ -27,3 +27,4 @@ var
 parinfer-rust/
 history
 .dap-breakpoints
+.extension

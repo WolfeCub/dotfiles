@@ -71,7 +71,8 @@
   (set-face-attribute 'persp-selected-face nil
                       :foreground (face-attribute 'match :foreground))
   (setq persp-sort 'access
-        persp-modestring-short t)
+        persp-modestring-short t
+        persp-suppress-no-prefix-key-warning t)
   (persp-mode)
   (add-hook 'persp-created-hook
             (lambda ()

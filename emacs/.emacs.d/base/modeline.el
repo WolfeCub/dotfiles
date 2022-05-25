@@ -1,12 +1,14 @@
 ;;; modeline.el -*- lexical-binding: t; -*-
 
 (if (or (display-graphic-p) (daemonp))
-    (use-package doom-modeline
-      :hook (after-init . doom-modeline-mode)
-      :config
-      (setq doom-modeline-height 1)
-      (set-face-attribute 'mode-line nil :height 125)
-      (set-face-attribute 'mode-line-inactive nil :height 125))
+    (progn 
+     (use-package all-the-icons)
+
+     (use-package doom-modeline
+       :hook (after-init . doom-modeline-mode)
+       :custom    
+       (doom-modeline-height 1)
+       (doom-modeline-bar-width 1)))
   (setq-default
    mode-line-format
    (list

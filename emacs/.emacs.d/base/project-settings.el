@@ -16,6 +16,7 @@
   :general
   (wolfe/bind-leader
     "p"   '(nil                             :wk "Projectile")
+    "p s" '(projectile-switch-project       :wk "Switch Project")
     "p f" '(projectile-find-file            :wk "Find File")
     "p d" '(projectile-find-dir             :wk "Find Directory")
     "p S" '(projectile-kill-buffers         :wk "Switch & Clear")
@@ -49,37 +50,37 @@
   (:map evil-normal-state-map
         ("g D" . dumb-jump-go)))
 
-(use-package perspective
-  :commands projectile-persp-switch-project
-  :general
-  (wolfe/bind-leader
-    "m"   'persp-switch-to-buffer*
-    "M"   `(,(lambda () (interactive)
-               (setq current-prefix-arg '(4)) ; C-u
-               (call-interactively 'persp-switch-to-buffer*))
-            :wk "All Buffers")
-    "k"   'persp-kill-buffer*
-    "p s" '(projectile-persp-switch-project :wk "Switch Project")
-    ;; Persp prefix bindings
-    "TAB"   '(nil               :wk "Perspective")
-    "TAB s" '(persp-switch      :wk "Switch")
-    "TAB k" '(persp-kill        :wk "Kill")
-    "TAB r" '(persp-rename      :wk "Rename")
-    "TAB b" '(persp-switch-last :wk "Switch Last")
-    "TAB n" '(persp-new         :wk "New"))
-  :config
-  (set-face-attribute 'persp-selected-face nil
-                      :foreground (face-attribute 'match :foreground))
-  (setq persp-sort 'access
-        persp-modestring-short t
-        persp-suppress-no-prefix-key-warning t)
-  (persp-mode)
-  (add-hook 'persp-created-hook
-            (lambda ()
-              (persp-add-buffer "*Messages*"))))
+;; (use-package perspective
+;;   :commands projectile-persp-switch-project
+;;   :general
+;;   (wolfe/bind-leader
+;;     "m"   'persp-switch-to-buffer*
+;;     "M"   `(,(lambda () (interactive)
+;;                (setq current-prefix-arg '(4)) ; C-u
+;;                (call-interactively 'persp-switch-to-buffer*))
+;;             :wk "All Buffers")
+;;     "k"   'persp-kill-buffer*
+;;     "p s" '(projectile-persp-switch-project :wk "Switch Project")
+;;     ;; Persp prefix bindings
+;;     "TAB"   '(nil               :wk "Perspective")
+;;     "TAB s" '(persp-switch      :wk "Switch")
+;;     "TAB k" '(persp-kill        :wk "Kill")
+;;     "TAB r" '(persp-rename      :wk "Rename")
+;;     "TAB b" '(persp-switch-last :wk "Switch Last")
+;;     "TAB n" '(persp-new         :wk "New"))
+;;   :config
+;;   (set-face-attribute 'persp-selected-face nil
+;;                       :foreground (face-attribute 'match :foreground))
+;;   (setq persp-sort 'access
+;;         persp-modestring-short t
+;;         persp-suppress-no-prefix-key-warning t)
+;;   (persp-mode)
+;;   (add-hook 'persp-created-hook
+;;             (lambda ()
+;;               (persp-add-buffer "*Messages*"))))
 
-(use-package persp-projectile
-  :after perspective projectile)
+;; (use-package persp-projectile
+;;   :after perspective projectile)
 
 (use-package consult-lsp
   :after (lsp consult))

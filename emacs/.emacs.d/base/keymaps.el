@@ -41,13 +41,14 @@
 
   (wolfe/bind-leader
     "w"  'save-buffer
+    "b"  'mode-line-other-buffer
+    "k"  'kill-buffer
+    "m"  'consult-buffer
     "s"  'eval-defun
     "S"  'eval-region
-    "b"  'mode-line-other-buffer
     "c"  'wolfe/compile-no-prompt
     "n"  'narrow-or-widen-dwim
-    "a"  'org-agenda
-    "g"  'magit-status
+    "G"  'magit-status
     "''" 'org-edit-src-exit
     "t"  'shell-pop
     ";"  (lambda() (interactive) (save-excursion (end-of-line) (insert-char ?\;)))
@@ -58,6 +59,13 @@
   (setq evil-want-keybinding nil
         evil-undo-system 'undo-tree)
   :config
+  (defun wolfe/define-ex-map (ex-text fun)
+    (define-key
+      evil-ex-map
+      ex-text
+      (lambda () (interactive)
+        (wolfe/call-and-update-ex fun))))
+
   (evil-mode t)
   (setq evil-split-window-below t
         evil-vsplit-window-right t
@@ -66,7 +74,8 @@
   (custom-set-variables '(evil-search-module (quote evil-search)))
   (evil-ex-define-cmd "re[load]" 'wolfe/load-init) ; Custom reload command
   (evil-ex-define-cmd "Q" 'save-buffers-kill-terminal) ; For typos
-  (define-key evil-ex-map "e " (lambda () (interactive) (wolfe/call-and-update-ex 'find-file))) ; Trigger file completion :e
+  (wolfe/define-ex-map "e " 'find-file)
+  (wolfe/define-ex-map "reg " 'consult-register)
   (global-unset-key (kbd "M-SPC")) ; Unbind secondary leader
   (add-to-list 'evil-emacs-state-modes 'vterm-mode))
 

@@ -99,7 +99,7 @@
 (use-package column-marker
   :straight nil
   :config
-  (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 81)))
+  (add-hook 'prog-mode-hook (lambda () (interactive) (column-marker-1 100)))
   (custom-set-faces
    '(column-marker-1 ((t (:background "dim gray"))))))
 

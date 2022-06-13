@@ -59,11 +59,14 @@
 ;; Quickly access and close the shell
 (use-package shell-pop
   :commands shell-pop
+  :init
+  (setq explicit-shell-file-name "C:/Program Files/git/bin/bash.exe")
+  (setq explicit-bash.exe-args '("--login" "-i")) 
   :custom
   (shell-pop-shell-type
    (if wolfe/linux?
        (quote ("vterm" "*vterm*" (lambda nil (vterm))))
-     (quote ("eshell" "*eshell*" (lambda nil (eshell))))))
+     (quote ("shell" "*shell*" (lambda nil (shell))))))
   (shell-pop-term-shell "/usr/bin/zsh")
   (shell-pop-window-position "right")
   :config
@@ -79,21 +82,6 @@
                (if (one-window-p)
                    (switch-to-buffer shell-pop-last-buffer)
                  (kill-buffer-and-window))))))))))
-
-(use-package eshell
-  :straight nil
-  :commands (eshell eshell-mode eshell-command)
-  :defer-incrementally
-  esh-util esh-module esh-proc esh-io esh-cmd
-  em-alias em-banner em-basic em-cmpl em-dirs 
-  em-glob em-hist em-ls em-script em-term em-unix
-  :config
-  (setq eshell-prompt-function
-        (lambda ()
-          (concat "\n"
-                  (abbreviate-file-name (eshell/pwd))
-                  "\n"
-                  (if (= (user-uid) 0) "# " "$ ")))))
 
 ;; Startup profiler
 (use-package esup

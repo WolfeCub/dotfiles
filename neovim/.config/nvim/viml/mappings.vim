@@ -39,3 +39,6 @@ nnoremap <leader>e :e <C-R>=expand("%:h") . "/" <CR>
 
 " Git good
 nnoremap <leader>G <cmd>Neogit<cr>
+
+" Terminal
+tnoremap <Esc> <C-\><C-n>

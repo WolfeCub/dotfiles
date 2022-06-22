@@ -25,6 +25,25 @@ return require('packer').startup(function()
     }
 
     use {
+        'gelguy/wilder.nvim',
+        config = function()
+            local wilder = require('wilder')
+            wilder.setup({modes = {':', '/', '?'}})
+
+            wilder.set_option('pipeline', {
+                wilder.branch(
+                wilder.cmdline_pipeline(),
+                wilder.search_pipeline()
+                ),
+            })
+
+            wilder.set_option('renderer', wilder.popupmenu_renderer({
+                highlighter = wilder.basic_highlighter(),
+            }))
+        end,
+    }
+
+    use {
         'nvim-telescope/telescope.nvim',
         requires = {
             {'nvim-lua/plenary.nvim'},
@@ -51,14 +70,6 @@ return require('packer').startup(function()
                 }
             }
             require('telescope').load_extension('fzf')
-        end
-    }
-
-    use {
-        'nvim-telescope/telescope-file-browser.nvim' ,
-        requires = {'nvim-telescope/telescope.nvim'},
-        config = function()
-            require('telescope').load_extension('file_browser')
         end
     }
 
@@ -126,7 +137,6 @@ return require('packer').startup(function()
             }
         end
     }
-
 
     use {
         'numToStr/Comment.nvim',

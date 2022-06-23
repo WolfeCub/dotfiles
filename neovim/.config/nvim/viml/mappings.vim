@@ -21,18 +21,17 @@ xnoremap > >gv
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" Telescope
-nnoremap <leader>m <cmd>Telescope buffers<cr>
-nnoremap <leader>g <cmd>Telescope live_grep<cr>
-nnoremap <leader>p <cmd>Telescope projects<cr>
-nnoremap <leader>f <cmd>lua telescope_find_files_dwim()<cr>
-nnoremap <leader>r <cmd>Telescope resume<cr>
+" Fzf
+nnoremap <leader>f <cmd>lua fzf_find_files_dwim()<cr>
+nnoremap <leader>m <cmd>FzfLua buffers<cr>
+nnoremap <leader>g <cmd>FzfLua live_grep<cr>
+nnoremap <leader>r <cmd>FzfLua resume<cr>
 
 " Lsp
-nnoremap <leader>lx <cmd>lua require('telescope.builtin').lsp_code_actions(require('telescope.themes').get_cursor({}))<cr>
+nnoremap <leader>lx <cmd>FzfLua lsp_code_actions<cr>
 nnoremap <leader>lr <cmd>lua vim.lsp.buf.rename()<cr>
-nnoremap <leader>lu <cmd>Telescope lsp_references<cr>
-nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
+nnoremap <leader>lu <cmd>FzfLua lsp_references<cr>
+nnoremap <leader>li <cmd>FzfLua lsp_implementations<cr>
 
 " Edit relative to current buffer
 nnoremap <leader>e :e <C-R>=expand("%:h") . "/" <CR>

@@ -24,66 +24,34 @@ return require('packer').startup(function()
         config = function() require('plugins.lualine-config') end
     }
 
-    use {
-        'gelguy/wilder.nvim',
+	use { 
+		'ibhagwan/fzf-lua',
+		requires = {'kyazdani42/nvim-web-devicons'},
         config = function()
-            local wilder = require('wilder')
-            wilder.setup({modes = {':', '/', '?'}})
-
-            wilder.set_option('pipeline', {
-                wilder.branch(
-                wilder.cmdline_pipeline(),
-                wilder.search_pipeline()
-                ),
-            })
-
-            wilder.set_option('renderer', wilder.popupmenu_renderer({
-                highlighter = wilder.basic_highlighter(),
-            }))
-        end,
-    }
-
-    use {
-        'nvim-telescope/telescope.nvim',
-        requires = {
-            {'nvim-lua/plenary.nvim'},
-            {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-        },
-        config = function()
-            require('telescope').setup{
-                defaults = {
-                    file_ignore_patterns = {"node_modules", "bin", "obj"},
-                    layout_strategy = "vertical",
+            local actions = require "fzf-lua.actions"
+            require('fzf-lua').setup {
+                global_resume = true,
+                global_resume_query = true,
+                winopts = {
+                    height = 0.3,
+                    width = 1,
+                    row = 1,
                 },
-                pickers = {
-                    find_files = {
-                        hidden = true,
+                files = {
+                    previewer = false,
+                },
+                git = {
+                    files = {
+                        previewer = false,
                     },
                 },
-                extensions = {
-                    fzf = {
-                        fuzzy = true,
-                        override_generic_sorter = true,
-                        override_file_sorter = true,
-                        case_mode = "smart_case",
-                    }
-                }
+                buffers = {
+                    previewer = false,
+                },
+                file_icon_padding = ' ',
             }
-            require('telescope').load_extension('fzf')
         end
-    }
-
-    use {
-        'ahmedkhalf/project.nvim',
-        requires = {'nvim-telescope/telescope.nvim'},
-        config = function()
-            require("project_nvim").setup{
-                show_hidden = true,
-                manual_mode = true,
-            }
-            require('telescope').load_extension('projects')
-        end
-    }
+	}
 
     use {
         'ms-jpq/coq_nvim',

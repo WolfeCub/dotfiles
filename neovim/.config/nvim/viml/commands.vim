@@ -7,13 +7,6 @@ func s:eatChar(pat)
     return (c =~ a:pat) ? '' : c
 endfunc
 
-function LaunchFileBrowser()
-    lua require('telescope').extensions.file_browser.file_browser(get_small_ivy({previewer = false}))
-    call s:eatChar('\s')
-endfunction
-
-cnoreabbrev e call LaunchFileBrowser()<cr>
-
 " Command to remove trailing whitespace
 function! TrimWhitespace()
     exec "%s/\\s\\+$//e"

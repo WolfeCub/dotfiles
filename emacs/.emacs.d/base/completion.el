@@ -21,7 +21,8 @@
     "l d" '(lsp-find-definition     :wk "Definition")
     "l u" '(lsp-find-references     :wk "Usages")
     "l D" '(dap-debug               :wk "Debug")
-    "l e" '(flycheck-explain-error-at-point :wk "Explain error"))
+    "l f" '(lsp-format-buffer       :wk "Format Buffer")
+    "l e" '(flycheck-explain-error-at-point :wk "Explain Error"))
   :init
   (setq read-process-output-max (* 1024 1024)
         lsp-idle-delay 0.500)

@@ -10,6 +10,9 @@
   (haskell-mode    . lsp)
   (rust-mode       . lsp)
   :general
+  (general-define-key
+   :states 'normal
+   "K" 'lsp-ui-doc-show)
   (wolfe/bind-leader
     "l"   '(nil                     :wk "LSP Mode")
     "l x" '(lsp-execute-code-action :wk "Code Action")
@@ -17,7 +20,8 @@
     "l i" '(lsp-find-implementation :wk "Implementation")
     "l d" '(lsp-find-definition     :wk "Definition")
     "l u" '(lsp-find-references     :wk "Usages")
-    "l D" '(dap-debug               :wk "Debug"))
+    "l D" '(dap-debug               :wk "Debug")
+    "l e" '(flycheck-explain-error-at-point :wk "Explain error"))
   :init
   (setq read-process-output-max (* 1024 1024)
         lsp-idle-delay 0.500)

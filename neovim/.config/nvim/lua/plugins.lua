@@ -70,6 +70,7 @@ return require('packer').startup(function()
                 clients = {
                     ['buffers.enabled'] = false,
                     ['tmux.enabled'] = false,
+                    ['snippets.warn'] = {},
                 }
             }
         end

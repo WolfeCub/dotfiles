@@ -9,7 +9,13 @@ return require('packer').startup(function()
     use 'wbthomason/packer.nvim'
 
     use 'nanotech/jellybeans.vim'
-    use 'chriskempson/base16-vim'
+    use {
+        'chriskempson/base16-vim',
+        config = function()
+            vim.g.base16colorspace = 256;
+            vim.cmd('colorscheme base16-default-dark');
+        end
+    }
 
     use 'tpope/vim-surround'
     use 'tpope/vim-repeat'

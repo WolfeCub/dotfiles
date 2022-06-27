@@ -90,6 +90,22 @@ return require('packer').startup(function()
     }
 
     use {
+        'j-hui/fidget.nvim',
+        requires = {'neovim/nvim-lspconfig'},
+        config = function()
+            require('fidget').setup({})
+        end
+    }
+
+    use {
+        'akinsho/toggleterm.nvim', 
+        tag = 'v1.*', 
+        config = function()
+            require('toggleterm').setup()
+        end
+    }
+
+    use {
         'TimUntersberger/neogit',
         config = function()
             require('neogit').setup{}

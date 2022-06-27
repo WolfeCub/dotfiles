@@ -41,3 +41,5 @@ nnoremap <leader>G <cmd>Neogit<cr>
 
 " Terminal
 tnoremap <Esc> <C-\><C-n>
+nnoremap <leader>t <cmd>lua open_toggle_term()<cr>
+nnoremap <leader>T <cmd>ToggleTerm direction=float<cr>

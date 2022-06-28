@@ -7,6 +7,7 @@ vim.api.nvim_command 'packadd packer.nvim'
 
 return require('packer').startup(function()
     use 'wbthomason/packer.nvim'
+    use 'nvim-lua/plenary.nvim'
 
     use 'nanotech/jellybeans.vim'
     use {
@@ -22,7 +23,11 @@ return require('packer').startup(function()
     use 'tpope/vim-rsi'
     use 'nelstrom/vim-visual-star-search'
     use 'tommcdo/vim-lion'
-    use 'ggandor/lightspeed.nvim'
+
+    use {
+        'ggandor/leap.nvim',
+        config = function() require('leap').set_default_keymaps() end
+    }
 
     use {
         'nvim-treesitter/nvim-treesitter',
@@ -131,16 +136,6 @@ return require('packer').startup(function()
         'TimUntersberger/neogit',
         config = function()
             require('neogit').setup{}
-        end
-    }
-
-    use {
-        'folke/todo-comments.nvim',
-        requires = 'nvim-lua/plenary.nvim',
-        config = function()
-            require('todo-comments').setup{
-                signs = false,
-            }
         end
     }
 

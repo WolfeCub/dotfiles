@@ -40,14 +40,14 @@ return require('packer').startup(function()
                     additional_vim_regex_highlighting = false,
                 },
             });
-            require('plugins.treesitter-config');
+            require('plugins.treesitter');
         end
     }
 
     use {
         'nvim-lualine/lualine.nvim',
         requires = {'kyazdani42/nvim-web-devicons', opt = true},
-        config = function() require('plugins.lualine-config') end
+        config = function() require('plugins.lualine') end
     }
 
 	use { 
@@ -80,26 +80,17 @@ return require('packer').startup(function()
 	}
 
     use {
-        'ms-jpq/coq_nvim',
-        branch = 'coq',
-        setup = function()
-            vim.g.coq_settings = {
-                auto_start = 'shut-up',
-                display = {
-                    icons = {
-                        mode = 'short',
-                    },
-                    pum = {
-                        kind_context = {' ', ''},
-                    }
-                },
-                clients = {
-                    ['buffers.enabled'] = false,
-                    ['tmux.enabled'] = false,
-                    ['snippets.warn'] = {},
-                }
-            }
-        end
+        'hrsh7th/nvim-cmp',
+        requires = {
+            'neovim/nvim-lspconfig',
+            'hrsh7th/cmp-nvim-lsp',
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
+            'onsails/lspkind.nvim',
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-cmdline',
+        },
+        config = function() require('plugins.cmp') end
     }
 
     use {

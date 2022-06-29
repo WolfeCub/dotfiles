@@ -12,6 +12,7 @@ vim.o.updatetime = 300
 vim.o.shm = 'I'
 vim.o.guifont = 'FiraCode NF:h12'
 vim.o.lazyredraw = true
+vim.o.wrap = false
 
 --vim.o.shell = '"C:/Program Files/git/bin/bash.exe"'
 --vim.g.python3_host_prog = 'C:\\python310\\python.exe'

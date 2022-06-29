@@ -11,7 +11,7 @@ nnoremap k gk
 
 " Buffer navigation keybinds
 nnoremap <leader>b :b#<cr>
-nnoremap <leader>k :bd<cr>
+nnoremap <leader>k :bwipeout<cr>
 
 " Don't lose visual selection with < >
 xnoremap < <gv
@@ -26,12 +26,6 @@ nnoremap <leader>f <cmd>lua fzf_find_files_dwim()<cr>
 nnoremap <leader>m <cmd>FzfLua buffers<cr>
 nnoremap <leader>g <cmd>FzfLua live_grep<cr>
 nnoremap <leader>r <cmd>FzfLua resume<cr>
-
-" Lsp
-nnoremap <leader>lx <cmd>FzfLua lsp_code_actions<cr>
-nnoremap <leader>lr <cmd>lua vim.lsp.buf.rename()<cr>
-nnoremap <leader>lu <cmd>FzfLua lsp_references<cr>
-nnoremap <leader>li <cmd>FzfLua lsp_implementations<cr>
 
 " Edit relative to current buffer
 nnoremap <leader>e :e <C-R>=expand("%:h") . "/" <CR>

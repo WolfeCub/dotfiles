@@ -182,6 +182,7 @@ function in_path {
 }
 
 in_path "nvim" && alias vim='nvim'
+in_path "bat" && alias cat='bat'
 
 ##
 ## P R O M P T

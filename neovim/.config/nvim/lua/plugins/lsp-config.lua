@@ -26,6 +26,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts)
     buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
     buf_set_keymap('n', 'gx', '<cmd>FzfLua lsp_code_actions<cr>', opts)
+    buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
 end
 
 local server_overrides = { 

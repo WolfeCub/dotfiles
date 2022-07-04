@@ -1,13 +1,7 @@
--- Hover for error window
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
-
--- Don't show inline diagnostics
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = false,
-        severity_sort = true,
-    }
-)
+vim.diagnostic.config({
+    virtual_text = false,
+    severity_sort = true,
+});
 
 -- Highlight based on lsp diagnostic
 vim.highlight.create('DiagnosticUnderlineError', {ctermfg=1, cterm=underline, gui=underline, guisp=Red}, false)

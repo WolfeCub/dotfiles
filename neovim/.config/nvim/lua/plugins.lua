@@ -11,11 +11,8 @@ return require('packer').startup(function()
 
     use 'nanotech/jellybeans.vim'
     use {
-        'chriskempson/base16-vim',
-        config = function()
-            vim.g.base16colorspace = 256;
-            vim.cmd('colorscheme base16-default-dark');
-        end
+        'RRethy/nvim-base16',
+        config = function() vim.cmd('colorscheme base16-default-dark') end
     }
 
     use 'tpope/vim-surround'

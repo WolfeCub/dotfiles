@@ -9,10 +9,12 @@ return require('packer').startup(function()
     use 'wbthomason/packer.nvim'
     use 'nvim-lua/plenary.nvim'
 
-    use 'nanotech/jellybeans.vim'
     use {
-        'RRethy/nvim-base16',
-        config = function() vim.cmd('colorscheme base16-default-dark') end
+        'folke/tokyonight.nvim',
+        config = function()
+            vim.g.tokyonight_style = 'night'
+            vim.cmd('colorscheme tokyonight');
+        end
     }
 
     use 'tpope/vim-surround'
@@ -65,6 +67,14 @@ return require('packer').startup(function()
             'hrsh7th/cmp-cmdline',
         },
         config = function() require('plugins.cmp') end
+    }
+
+    use {
+        'folke/trouble.nvim',
+        requires = 'kyazdani42/nvim-web-devicons',
+        config = function()
+            require('trouble').setup();
+        end
     }
 
     use {

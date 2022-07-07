@@ -11,7 +11,7 @@ nnoremap k gk
 
 " Buffer navigation keybinds
 nnoremap <leader>b :b#<cr>
-nnoremap <leader>k :bwipeout<cr>
+nnoremap <leader>k :bd<cr>
 
 " Don't lose visual selection with < >
 xnoremap < <gv

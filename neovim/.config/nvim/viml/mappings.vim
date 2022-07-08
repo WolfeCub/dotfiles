@@ -21,11 +21,12 @@ xnoremap > >gv
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" Fzf
-nnoremap <leader>f <cmd>lua fzf_find_files_dwim()<cr>
-nnoremap <leader>m <cmd>FzfLua buffers<cr>
-nnoremap <leader>g <cmd>FzfLua live_grep<cr>
-nnoremap <leader>r <cmd>FzfLua resume<cr>
+" Telescope
+nnoremap <leader>f <cmd>lua telescope_find_files_dwim()<cr>
+nnoremap <leader>m <cmd>Telescope buffers<cr>
+nnoremap <leader>g <cmd>Telescope live_grep<cr>
+nnoremap <leader>r <cmd>Telescope resume<cr>
+nnoremap <M-x> <cmd>Telescope commands<cr>
 
 " Edit relative to current buffer
 nnoremap <leader>e :e <C-R>=expand("%:h") . "/" <CR>

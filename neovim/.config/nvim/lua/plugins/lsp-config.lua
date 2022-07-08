@@ -16,16 +16,16 @@ local on_attach = function(client, bufnr)
     local opts = { noremap=true, silent=true }
 
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap('n', 'gD', '<cmd>FzfLua lsp_declarations<cr>', opts)
-    buf_set_keymap('n', 'gd', '<cmd>FzfLua lsp_definitions<cr>', opts)
+    buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<cr>', opts)
+    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
     buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>FzfLua lsp_implementations<cr>', opts)
+    buf_set_keymap('n', 'gi', '<cmd>Telescope lsp_implementations<cr>', opts)
     buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>FzfLua lsp_references<cr>', opts)
+    buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<cr>', opts)
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts)
     buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts)
-    buf_set_keymap('n', 'gx', '<cmd>FzfLua lsp_code_actions<cr>', opts)
+    buf_set_keymap('n', 'gx', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
     buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
 
     vim.api.nvim_create_autocmd("CursorHold", {

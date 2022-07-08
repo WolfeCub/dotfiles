@@ -52,9 +52,18 @@ return require('packer').startup(function()
     }
 
 	use { 
-		'ibhagwan/fzf-lua',
-		requires = {'kyazdani42/nvim-web-devicons'},
-        config = function() require('plugins.fzf') end
+		'nvim-telescope/telescope.nvim',
+		requires = {
+            'nvim-lua/plenary.nvim', 
+            'nvim-telescope/telescope-ui-select.nvim',
+            'kyazdani42/nvim-web-devicons',
+            {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+        },
+        config = function() 
+            require('telescope').setup();
+            require('telescope').load_extension('ui-select');
+            require('telescope').load_extension('fzf');
+        end
 	}
 
     use {
@@ -99,6 +108,13 @@ return require('packer').startup(function()
         config = function()
             require('fidget').setup({})
         end
+    }
+
+
+    use {
+        'mfussenegger/nvim-dap',
+        requires = { 'rcarriga/nvim-dap-ui' },
+        config = function() require('plugins.dap') end,
     }
 
     use {

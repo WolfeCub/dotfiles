@@ -60,7 +60,13 @@ return require('packer').startup(function()
             {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
         },
         config = function() 
-            require('telescope').setup();
+            require('telescope').setup({
+                pickers = {
+                    git_files = {
+                        show_untracked = true,
+                    },
+                },
+            });
             require('telescope').load_extension('ui-select');
             require('telescope').load_extension('fzf');
         end

@@ -1,3 +1,5 @@
+local dap = require('dap');
+
 function get_dll_path()
     local cwd = vim.fn.getcwd();
     local sln_file = vim.fn.globpath(cwd, '*.sln');
@@ -21,7 +23,6 @@ function get_dll_path()
     return result;
 end
 
-local dap = require('dap');
 dap.adapters.coreclr = {
     type = 'executable',
     command = 'netcoredbg',
@@ -34,6 +35,25 @@ dap.configurations.cs = {
         request = "launch",
         program = get_dll_path,
     },
+};
+
+dap.adapters.lldb = {
+  type = 'executable',
+  command = '/usr/sbin/lldb-vscode',
+  name = 'lldb'
+};
+dap.configurations.rust = {
+    {
+        name = 'Launch',
+        type = 'lldb',
+        request = 'launch',
+        program = function()
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+        args = {},
+    }
 };
 
 nnoremap('<F5>', '<cmd>lua require("dap").continue()<cr>');

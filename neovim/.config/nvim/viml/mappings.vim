@@ -26,6 +26,7 @@ nnoremap <leader>f <cmd>lua telescope_find_files_dwim()<cr>
 nnoremap <leader>m <cmd>Telescope buffers<cr>
 nnoremap <leader>g <cmd>Telescope live_grep<cr>
 nnoremap <leader>r <cmd>Telescope resume<cr>
+nnoremap <leader>e <cmd>Telescope file_browser<cr>
 nnoremap <M-x> <cmd>Telescope commands<cr>
 
 " Edit relative to current buffer

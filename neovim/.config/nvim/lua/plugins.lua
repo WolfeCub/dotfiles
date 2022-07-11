@@ -51,15 +51,16 @@ return require('packer').startup(function()
         config = function() require('plugins.lualine') end
     }
 
-	use { 
+	use {
 		'nvim-telescope/telescope.nvim',
 		requires = {
-            'nvim-lua/plenary.nvim', 
+            'nvim-lua/plenary.nvim',
             'nvim-telescope/telescope-ui-select.nvim',
             'kyazdani42/nvim-web-devicons',
             {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+            'nvim-telescope/telescope-file-browser.nvim',
         },
-        config = function() 
+        config = function()
             require('telescope').setup({
                 pickers = {
                     git_files = {
@@ -69,6 +70,7 @@ return require('packer').startup(function()
             });
             require('telescope').load_extension('ui-select');
             require('telescope').load_extension('fzf');
+            require('telescope').load_extension('file_browser');
         end
 	}
 
@@ -116,6 +118,8 @@ return require('packer').startup(function()
         end
     }
 
+    use 'folke/lua-dev.nvim'
+
 
     use {
         'mfussenegger/nvim-dap',
@@ -124,8 +128,8 @@ return require('packer').startup(function()
     }
 
     use {
-        'akinsho/toggleterm.nvim', 
-        tag = 'v1.*', 
+        'akinsho/toggleterm.nvim',
+        tag = 'v1.*',
         config = function()
             require('toggleterm').setup()
         end

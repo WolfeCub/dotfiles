@@ -1,6 +1,7 @@
 local dap = require('dap');
+local dapui = require('dapui');
 
-function get_dll_path()
+function get_dll_paths()
     local cwd = vim.fn.getcwd();
     local sln_file = vim.fn.globpath(cwd, '*.sln');
 
@@ -9,38 +10,34 @@ function get_dll_path()
         local dir_name = vim.fn.fnamemodify(cwd, ':t');
         matcher = string.format('**/bin/Debug/*/%s.dll', dir_name);
     else
-        local base_name = vim.fn.fnamemodify(sln_file , ':t:r');
+        local base_name = vim.fn.fnamemodify(sln_file, ':t:r');
         matcher = string.format('**/bin/Debug/*/%s*.dll', base_name);
     end
 
     local globs = vim.fn.globpath(cwd, matcher);
     local files = vim.split(globs, "\n");
 
-    local result = nil;
-    vim.ui.select(files, {
-        prompt = 'Path to dll:',
-    }, function(selection) result = selection; end);
-    return result;
+    return require('dap.ui').pick_one_sync(files, 'Path to dll:', function(item) return item end);
 end
 
 dap.adapters.coreclr = {
     type = 'executable',
     command = 'netcoredbg',
-    args = {'--interpreter=vscode'}
+    args = { '--interpreter=vscode' }
 };
 dap.configurations.cs = {
     {
         type = "coreclr",
         name = "launch - netcoredbg",
         request = "launch",
-        program = get_dll_path,
+        program = get_dll_paths,
     },
 };
 
 dap.adapters.lldb = {
-  type = 'executable',
-  command = '/usr/sbin/lldb-vscode',
-  name = 'lldb'
+    type = 'executable',
+    command = '/usr/sbin/lldb-vscode',
+    name = 'lldb'
 };
 dap.configurations.rust = {
     {
@@ -64,9 +61,9 @@ nnoremap('<F11>', '<cmd>lua require("dap").step_into()<cr>');
 nnoremap('<M-e>', '<cmd>lua require("dapui").eval()<cr>');
 vnoremap('<M-e>', '<cmd>lua require("dapui").eval()<cr>');
 
-local dapui = require('dapui');
+vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = '' })
 
-require("dapui").setup({
+dapui.setup({
     icons = { expanded = "▾", collapsed = "▸" },
     mappings = {
         -- Use a table to apply multiple mappings
@@ -121,7 +118,7 @@ require("dapui").setup({
     }
 });
 
-local dap, dapui = require("dap"), require("dapui")
+-- Auto open dapui on debug
 dap.listeners.after.event_initialized["dapui_config"] = function()
     dapui.open();
 end

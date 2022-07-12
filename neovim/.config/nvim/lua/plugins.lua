@@ -120,10 +120,12 @@ return require('packer').startup(function()
 
     use 'folke/lua-dev.nvim'
 
-
     use {
         'mfussenegger/nvim-dap',
-        requires = { 'rcarriga/nvim-dap-ui' },
+        requires = {
+            'rcarriga/nvim-dap-ui',
+            'Weissle/persistent-breakpoints.nvim',
+        },
         config = function() require('plugins.dap') end,
     }
 

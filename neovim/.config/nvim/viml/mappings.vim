@@ -29,9 +29,6 @@ nnoremap <leader>r <cmd>Telescope resume<cr>
 nnoremap <leader>e <cmd>Telescope file_browser<cr>
 nnoremap <M-x> <cmd>Telescope commands<cr>
 
-" Edit relative to current buffer
-nnoremap <leader>e :e <C-R>=expand("%:h") . "/" <CR>
-
 " Git good
 nnoremap <leader>G <cmd>Neogit<cr>
 

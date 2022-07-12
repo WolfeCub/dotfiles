@@ -14,6 +14,4 @@ vim.o.guifont = 'FiraCode NF:h12'
 vim.o.lazyredraw = true
 vim.o.wrap = false
 
---vim.o.shell = '"C:/Program Files/git/bin/bash.exe"'
---vim.g.python3_host_prog = 'C:\\python310\\python.exe'
---vim.cmd [[NvuiAnimationsEnabled 0]]
+vim.g.do_filetype_lua = true

@@ -218,6 +218,7 @@ source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 in_path virtualenvwrapper.sh && source virtualenvwrapper.sh
 in_path flux && . <(flux completion zsh)
+in_path direnv && eval "$(direnv hook zsh)"
 
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \

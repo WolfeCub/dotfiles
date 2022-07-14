@@ -54,7 +54,6 @@ return require('packer').startup(function()
 	use {
 		'nvim-telescope/telescope.nvim',
 		requires = {
-            'nvim-lua/plenary.nvim',
             'nvim-telescope/telescope-ui-select.nvim',
             'kyazdani42/nvim-web-devicons',
             {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
@@ -98,7 +97,6 @@ return require('packer').startup(function()
 
     use {
         'neovim/nvim-lspconfig',
-        requires = {'ms-jpq/coq_nvim'},
         config = function()
             require('plugins.lsp-config')
             require('plugins.lsp-ui-config')

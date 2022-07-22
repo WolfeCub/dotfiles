@@ -13,5 +13,7 @@ vim.o.shm = 'I'
 vim.o.guifont = 'FiraCode NF:h12'
 vim.o.lazyredraw = true
 vim.o.wrap = false
+vim.opt.list = true
+vim.opt.listchars = { trail = '·' }
 
 vim.g.do_filetype_lua = true

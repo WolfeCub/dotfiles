@@ -51,9 +51,9 @@ return require('packer').startup(function()
         config = function() require('plugins.lualine') end
     }
 
-	use {
-		'nvim-telescope/telescope.nvim',
-		requires = {
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = {
             'nvim-telescope/telescope-ui-select.nvim',
             'kyazdani42/nvim-web-devicons',
             {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
@@ -71,7 +71,7 @@ return require('packer').startup(function()
             require('telescope').load_extension('fzf');
             require('telescope').load_extension('file_browser');
         end
-	}
+    }
 
     use {
         'hrsh7th/nvim-cmp',
@@ -96,16 +96,15 @@ return require('packer').startup(function()
     }
 
     use {
-        'neovim/nvim-lspconfig',
+        'williamboman/mason.nvim',
+        requires = {
+            'williamboman/mason-lspconfig.nvim',
+            'neovim/nvim-lspconfig',
+        },
         config = function()
             require('plugins.lsp-config')
             require('plugins.lsp-ui-config')
         end
-    }
-
-    use {
-        'williamboman/nvim-lsp-installer',
-        requires = {'neovim/nvim-lspconfig'},
     }
 
     use {

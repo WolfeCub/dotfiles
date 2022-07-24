@@ -3,7 +3,7 @@ let g:mapleader = "\<Space>"
 let g:maplocalleader = "\\"
 
 " Fast saving
-nnoremap <leader>w :<C-u>update<cr>
+nnoremap <leader>w :<C-u>silent update<cr>
 
 " Make j and k behave like they should for wrapped lines
 nnoremap j gj

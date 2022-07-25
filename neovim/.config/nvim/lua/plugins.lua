@@ -35,6 +35,7 @@ return require('packer').startup(function()
     use 'nelstrom/vim-visual-star-search'
     use 'tommcdo/vim-lion'
     use 'lambdalisue/suda.vim'
+    use 'sbdchd/neoformat'
 
     use {
         'ggandor/leap.nvim',

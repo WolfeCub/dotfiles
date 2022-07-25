@@ -126,12 +126,11 @@ require('persistent-breakpoints').setup({});
 -- automatically load breakpoints when a file is loaded into the buffer.
 vim.api.nvim_create_autocmd({"BufReadPost"},{ callback = require('persistent-breakpoints.api').load_breakpoints });
 
-local opts = { noremap = true, silent = true };
-local keymap = vim.api.nvim_set_keymap;
-
-keymap('n', '<F5>', '<cmd>lua require("dap").continue()<cr>', opts);
-keymap('n', '<F9>', '<cmd>lua require("persistent-breakpoints.api").toggle_breakpoint()<cr>', opts);
-keymap('n', '<F10>', '<cmd>lua require("dap").step_over()<cr>', opts);
-keymap('n', '<F11>', '<cmd>lua require("dap").step_into()<cr>', opts);
-keymap('n', '<M-e>', '<cmd>lua require("dapui").eval()<cr>', opts);
-keymap('v', '<M-e>', '<cmd>lua require("dapui").eval()<cr>', opts);
+require('legendary').bind_keymaps({
+    { '<F5>', '<cmd>lua require("dap").continue()<cr>' },
+    { '<F9>', '<cmd>lua require("persistent-breakpoints.api").toggle_breakpoint()<cr>' },
+    { '<F10>', '<cmd>lua require("dap").step_over()<cr>' },
+    { '<F11>', '<cmd>lua require("dap").step_into()<cr>' },
+    { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
+    { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
+})

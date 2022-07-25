@@ -209,11 +209,15 @@ setopt promptsubst
 # Delay of 0.1 seconds
 export KEYTIMEOUT=1
 
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 ##
 ## E N D
 ##
+in_path nvim \
+    && export EDITOR='nvim' \
+    && export VISUAL='nvim' \
+
 [ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 in_path virtualenvwrapper.sh && source virtualenvwrapper.sh

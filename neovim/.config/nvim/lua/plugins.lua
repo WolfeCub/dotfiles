@@ -19,11 +19,22 @@ return require('packer').startup(function()
         end
     }
 
+    use {
+        'mrjones2014/legendary.nvim',
+        config = function() 
+            require('legendary').setup()
+            require('mappings') 
+            require('commands') 
+            require('autocommands') 
+        end,
+    }
+
     use 'tpope/vim-surround'
     use 'tpope/vim-repeat'
     use 'tpope/vim-rsi'
     use 'nelstrom/vim-visual-star-search'
     use 'tommcdo/vim-lion'
+    use 'lambdalisue/suda.vim'
 
     use {
         'ggandor/leap.nvim',

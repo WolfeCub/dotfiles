@@ -6,30 +6,29 @@ require('mason-lspconfig').setup()
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
     -- Enable completion triggered by <c-x><c-o>
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
+    local map_opts = { buffer = true }
+
     -- Mappings.
-
-    local map_opts = { noremap=true, silent=true }
-
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap('n', 'gd', '<cmd>Telescope lsp_definitions<cr>', map_opts)
-    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', map_opts)
-    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', map_opts)
-    buf_set_keymap('n', 'gi', '<cmd>Telescope lsp_implementations<cr>', map_opts)
-    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', map_opts)
-    buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<cr>', map_opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', map_opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', map_opts)
-    buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<cr>', map_opts)
-    buf_set_keymap('v', '<leader>F', '<cmd>lua vim.lsp.buf.range_formatting()<cr>', map_opts)
-    buf_set_keymap('n', 'gx', '<cmd>lua vim.lsp.buf.code_action()<cr>', map_opts)
-    buf_set_keymap('n', 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', map_opts)
+    require('legendary').bind_keymaps({
+        { 'gd', '<cmd>Telescope lsp_definitions<cr>', opts = map_opts },
+        { 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts = map_opts },
+        { 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts = map_opts },
+        { 'gi', '<cmd>Telescope lsp_implementations<cr>', opts = map_opts },
+        { '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts = map_opts },
+        { 'gr', '<cmd>Telescope lsp_references<cr>', opts = map_opts },
+        { '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts = map_opts },
+        { ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts = map_opts },
+        { '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts = map_opts },
+        { '<leader>F', '<cmd>lua vim.lsp.buf.range_formatting()<cr>', opts = map_opts },
+        { 'gx', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts = map_opts },
+        { 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', opts = map_opts },
+    })
 
     vim.api.nvim_create_autocmd("CursorHold", {
         buffer = bufnr,

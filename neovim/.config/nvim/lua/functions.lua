@@ -1,8 +1,3 @@
-function require_viml(vimlConfigPath)
-    local path = vim.fn.stdpath('config')
-    vim.cmd(string.format('source %s/viml/%s', path, vimlConfigPath))
-end
-
 function telescope_find_files_dwim()
     local opts = {};
     local ok = pcall(require"telescope.builtin".git_files, opts);

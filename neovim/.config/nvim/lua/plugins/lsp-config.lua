@@ -25,7 +25,7 @@ local on_attach = function(client, bufnr)
         { '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts = map_opts },
         { ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts = map_opts },
         { '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts = map_opts },
-        { '<leader>F', '<cmd>lua vim.lsp.buf.range_formatting()<cr>', opts = map_opts },
+        { '<leader>F', '<cmd>lua vim.lsp.buf.range_formatting()<cr>', opts = map_opts, mode = { 'v' } },
         { 'gx', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts = map_opts },
         { 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', opts = map_opts },
     })

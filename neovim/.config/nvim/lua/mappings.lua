@@ -2,7 +2,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 
 require('legendary').bind_keymaps({
-    { '<Space>' , '<nop>' },
+    { '<Space>', '<nop>' },
 
     -- Fast saving
     { '<leader>w', ':<C-u>silent update<cr>' },
@@ -12,8 +12,9 @@ require('legendary').bind_keymaps({
     { 'k', 'gk' },
 
     -- Buffer navigation keybinds
-    { '<leader>b', ':b#<cr>' },
-    { '<leader>k', ':bd<cr>' },
+    { '<leader>k', ':bwipeout<cr>' },
+    { '<leader>b', alt_buf_with_fallback },
+    { '<C-^>', alt_buf_with_fallback },
 
     -- Don't lose visual selection with < >
     { '<', '<gv', mode = { 'x' } },
@@ -27,8 +28,9 @@ require('legendary').bind_keymaps({
     { '<leader>m', '<cmd>Telescope buffers<cr>' },
     { '<leader>g', '<cmd>Telescope live_grep<cr>' },
     { '<leader>r', '<cmd>Telescope resume<cr>' },
-    { '<leader>e', '<cmd>lua require("telescope").extensions.file_browser.file_browser({path = vim.fn.expand("%:p:h")})<cr>' },
-    { '<M-x>',     '<cmd>Telescope commands<cr>' },
+    { '<leader>e',
+        '<cmd>lua require("telescope").extensions.file_browser.file_browser({path = vim.fn.expand("%:p:h")})<cr>' },
+    { '<M-x>', '<cmd>Telescope commands<cr>' },
 
     -- Help
     { '<C-h>f', '<cmd>Telescope help_tags<cr>' },

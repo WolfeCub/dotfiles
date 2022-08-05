@@ -4,12 +4,9 @@ use 'wbthomason/packer.nvim'
 use 'nvim-lua/plenary.nvim'
 
 use {
-    'folke/tokyonight.nvim',
+    'B4mbus/oxocarbon-lua.nvim',
     config = function()
-        vim.g.tokyonight_style = 'night';
-        vim.g.tokyonight_italic_comments = false;
-        vim.g.tokyonight_italic_keywords = false;
-        vim.cmd('colorscheme tokyonight');
+        vim.cmd('colorscheme oxocarbon-lua')
     end
 }
 
@@ -53,7 +50,7 @@ use {
 
 use {
     'nvim-lualine/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function() require('plugins.lualine') end
 }
 
@@ -62,7 +59,7 @@ use {
     requires = {
         'nvim-telescope/telescope-ui-select.nvim',
         'kyazdani42/nvim-web-devicons',
-        {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+        { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
         'nvim-telescope/telescope-file-browser.nvim',
     },
     config = function()
@@ -115,7 +112,7 @@ use {
 
 use {
     'j-hui/fidget.nvim',
-    requires = {'neovim/nvim-lspconfig'},
+    requires = { 'neovim/nvim-lspconfig' },
     config = function()
         require('fidget').setup({})
     end
@@ -143,7 +140,7 @@ use {
 use {
     'TimUntersberger/neogit',
     config = function()
-        require('neogit').setup{}
+        require('neogit').setup {}
     end
 }
 
@@ -156,7 +153,7 @@ use {
 
 use {
     'maxmellon/vim-jsx-pretty',
-    requires = {'leafgarland/typescript-vim'},
+    requires = { 'leafgarland/typescript-vim' },
 }
 
 use 'jparise/vim-graphql'

@@ -29,7 +29,7 @@ require('legendary').bind_keymaps({
     { '<leader>g', '<cmd>Telescope live_grep<cr>' },
     { '<leader>r', '<cmd>Telescope resume<cr>' },
     { '<leader>e',
-        '<cmd>lua require("telescope").extensions.file_browser.file_browser({path = vim.fn.expand("%:p:h")})<cr>' },
+        '<cmd>lua require("telescope").extensions.file_browser.file_browser({path = get_buf_dir()})<cr>' },
     { '<M-x>', '<cmd>Telescope commands<cr>' },
 
     -- Help

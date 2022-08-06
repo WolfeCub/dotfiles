@@ -12,7 +12,7 @@ require('legendary').bind_keymaps({
     { 'k', 'gk' },
 
     -- Buffer navigation keybinds
-    { '<leader>k', ':bwipeout<cr>' },
+    { '<leader>k', function() require('bufdelete').bufwipeout(0) end },
     { '<leader>b', alt_buf_with_fallback },
     { '<C-^>', alt_buf_with_fallback },
 

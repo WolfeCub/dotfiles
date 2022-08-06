@@ -6,6 +6,7 @@ use 'nvim-lua/plenary.nvim'
 use {
     'B4mbus/oxocarbon-lua.nvim',
     config = function()
+        vim.g.oxocarbon_lua_disable_italic = true
         vim.cmd('colorscheme oxocarbon-lua')
     end
 }
@@ -27,6 +28,7 @@ use 'nelstrom/vim-visual-star-search'
 use 'tommcdo/vim-lion'
 use 'lambdalisue/suda.vim'
 use 'sbdchd/neoformat'
+use 'famiu/bufdelete.nvim'
 
 use {
     'ggandor/leap.nvim',

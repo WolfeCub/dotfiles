@@ -18,7 +18,7 @@ require('legendary').bind_keymaps({
     { '>', '>gv', mode = { 'x' } },
 
     -- Format
-    { '<leader>F', '<cmd>Neoformat<cr>', mode = { 'n', 'v' } },
+    { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
     -- Telescope
     { '<leader>f', '<cmd>lua telescope_find_files_dwim()<cr>' },

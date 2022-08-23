@@ -14,8 +14,12 @@ function user_on_lsp_attach()
         { 'gr', '<cmd>Telescope lsp_references<cr>', opts = map_opts },
         { '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts = map_opts },
         { ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts = map_opts },
-        { '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<cr>', opts = map_opts },
-        { '<leader>F', '<cmd>lua vim.lsp.buf.range_formatting()<cr>', opts = map_opts, mode = { 'v' } },
+        { '<leader>F', {
+               n = '<cmd>lua vim.lsp.buf.formatting()<cr>',
+               v = ':lua vim.lsp.buf.range_formatting()<cr>',
+           },
+           opts = map_opts
+        },
         { 'gx', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts = map_opts },
         { 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', opts = map_opts },
     })

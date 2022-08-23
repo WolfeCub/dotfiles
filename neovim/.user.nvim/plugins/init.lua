@@ -9,7 +9,23 @@ use {
     end
 }
 
-use { 'charlie39/OneStop.nvim', branch = 'main' }
+use {
+    'charlie39/OneStop.nvim',
+    branch = 'main',
+    config = function()
+        require('onestop').setup({
+            lscmds = {
+                rust_analyzer = {
+                    'cargo build',
+                    'cargo run',
+                },
+                omnisharp = {
+                    'dotnet build',
+                },
+            },
+        })
+    end
+}
 
 use {
     'maxmellon/vim-jsx-pretty',

@@ -1,6 +1,3 @@
-vim.g.mapleader = ' '
-vim.g.maplocalleader = '\\'
-
 require('legendary').bind_keymaps({
     { '<Space>', '<nop>' },
 

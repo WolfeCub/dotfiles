@@ -1,20 +1,5 @@
 function user_install_plugins()
-    local use = require('packer').use
-    use {
-        'B4mbus/oxocarbon-lua.nvim',
-        config = function()
-            vim.g.oxocarbon_lua_disable_italic = true
-            vim.g.oxocarbon_lua_keep_terminal = true
-            vim.cmd('colorscheme oxocarbon-lua')
-        end
-    }
-
-    use {
-        'maxmellon/vim-jsx-pretty',
-        requires = { 'leafgarland/typescript-vim' },
-    }
-
-    use 'jparise/vim-graphql'
+    require('plugins')
 end
 
 function user_on_lsp_attach()

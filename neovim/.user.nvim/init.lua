@@ -7,21 +7,21 @@ function user_on_lsp_attach()
 
     require('legendary').bind_keymaps({
         { 'gd', '<cmd>Telescope lsp_definitions<cr>', opts = map_opts },
-        { 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts = map_opts },
-        { 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts = map_opts },
+        { 'gD', vim.lsp.buf.declaration, opts = map_opts },
+        { 'K', vim.lsp.buf.hover, opts = map_opts },
         { 'gi', '<cmd>Telescope lsp_implementations<cr>', opts = map_opts },
-        { '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts = map_opts },
+        { '<C-k>', vim.lsp.buf.signature_help, opts = map_opts },
         { 'gr', '<cmd>Telescope lsp_references<cr>', opts = map_opts },
-        { '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', opts = map_opts },
-        { ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', opts = map_opts },
+        { '[d', vim.diagnostic.goto_prev, opts = map_opts },
+        { ']d', vim.diagnostic.goto_next, opts = map_opts },
         { '<leader>F', {
                n = '<cmd>lua vim.lsp.buf.formatting()<cr>',
                v = ':lua vim.lsp.buf.range_formatting()<cr>',
            },
            opts = map_opts
         },
-        { 'gx', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts = map_opts },
-        { 'gR', '<cmd>lua vim.lsp.buf.rename()<cr>', opts = map_opts },
+        { 'gx', vim.lsp.buf.code_action, opts = map_opts },
+        { 'gR', vim.lsp.buf.rename, opts = map_opts },
     })
 
 end

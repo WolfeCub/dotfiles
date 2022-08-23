@@ -21,7 +21,7 @@ require('legendary').bind_keymaps({
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
     -- Telescope
-    { '<leader>f', '<cmd>lua telescope_find_files_dwim()<cr>' },
+    { '<leader>f', telescope_find_files_dwim },
     { '<leader>m', '<cmd>Telescope buffers<cr>' },
     { '<leader>g', '<cmd>Telescope live_grep<cr>' },
     { '<leader>r', '<cmd>Telescope resume<cr>' },
@@ -36,7 +36,7 @@ require('legendary').bind_keymaps({
 
     -- Terminal
     { '<Esc>', '<C-\\><C-n>', mode = { 't' } },
-    { '<leader>t', '<cmd>lua open_toggle_term()<cr>' },
+    { '<leader>t', open_toggle_term },
     { '<leader>T', '<cmd>ToggleTerm direction=float<cr>' },
 
     -- Neogit

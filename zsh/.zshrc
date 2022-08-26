@@ -160,6 +160,8 @@ alias et='emacsclient -t'
 alias ec='emacsclient -c'
 # K8s
 alias k='kubectl'
+# Git
+alias groot='cd $(git rev-parse --show-toplevel)'
 
 function em {
     (emacs $@ 2>&1 > /dev/null &)

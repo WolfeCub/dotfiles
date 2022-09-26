@@ -3,8 +3,6 @@
 ##
 export PAGER='less -R'
 export PATH="$HOME/.deno/bin:$PATH"
-export GOROOT=/usr/lib/go
-export GOPATH=$HOME/Projects/go
 
 ##
 ## S E T T I N G S
@@ -229,4 +227,4 @@ in_path direnv && eval "$(direnv hook zsh)"
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-    eval "$("$BASE16_SHELL/profile_helper.sh")" &&\
+        source "$BASE16_SHELL/profile_helper.sh"

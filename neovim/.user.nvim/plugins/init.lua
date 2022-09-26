@@ -26,10 +26,3 @@ use {
         })
     end
 }
-
-use {
-    'maxmellon/vim-jsx-pretty',
-    requires = { 'leafgarland/typescript-vim' },
-}
-
-use 'jparise/vim-graphql'

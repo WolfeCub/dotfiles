@@ -4,14 +4,15 @@ end
 
 function user_on_lsp_attach()
     local map_opts = { buffer = true }
+    local fzf = require('fzf-lua')
 
     require('legendary').bind_keymaps({
-        { 'gd', '<cmd>Telescope lsp_definitions<cr>', opts = map_opts },
+        { 'gd', fzf.lsp_definitions, opts = map_opts },
         { 'gD', vim.lsp.buf.declaration, opts = map_opts },
         { 'K', vim.lsp.buf.hover, opts = map_opts },
-        { 'gi', '<cmd>Telescope lsp_implementations<cr>', opts = map_opts },
+        { 'gi', fzf.lsp_implementations, opts = map_opts },
         { '<C-k>', vim.lsp.buf.signature_help, opts = map_opts },
-        { 'gr', '<cmd>Telescope lsp_references<cr>', opts = map_opts },
+        { 'gr', fzf.lsp_references, opts = map_opts },
         { '[d', vim.diagnostic.goto_prev, opts = map_opts },
         { ']d', vim.diagnostic.goto_next, opts = map_opts },
         { '<leader>F', {

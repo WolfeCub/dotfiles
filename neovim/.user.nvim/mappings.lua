@@ -1,3 +1,5 @@
+local fzf = require('fzf-lua')
+
 require('legendary').bind_keymaps({
     { '<Space>', '<nop>' },
 
@@ -20,18 +22,15 @@ require('legendary').bind_keymaps({
     -- Format
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
-    -- Telescope
-    { '<leader>f', telescope_find_files_dwim },
-    { '<leader>m', '<cmd>Telescope buffers<cr>' },
-    { '<leader>g', '<cmd>Telescope live_grep<cr>' },
-    { '<leader>r', '<cmd>Telescope resume<cr>' },
-    { '<leader>e',
-        '<cmd>lua require("telescope").extensions.file_browser.file_browser({path = get_buf_dir()})<cr>' },
-    { '<M-x>', '<cmd>Telescope commands<cr>' },
+    -- Fzf
+    { '<leader>f', fzf.files },
+    { '<leader>m', fzf.buffers },
+    { '<leader>g', fzf.live_grep },
+    { '<leader>r', fzf.resume },
+    { '<M-x>', fzf.commands },
 
     -- Help
-    { '<C-h>f', '<cmd>Telescope help_tags<cr>' },
-    { '<C-h>v', '<cmd>Telescope vim_options<cr>' },
+    { '<C-h>f', fzf.help_tags },
     { '<C-h>k', '<cmd>Legendary<cr>' },
 
     -- Terminal

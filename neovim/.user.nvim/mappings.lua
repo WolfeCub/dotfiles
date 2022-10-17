@@ -27,6 +27,7 @@ require('legendary').bind_keymaps({
     { '<leader>m', fzf.buffers },
     { '<leader>g', fzf.live_grep },
     { '<leader>r', fzf.resume },
+    { '<leader>e', function() fzf.files({ cwd = get_buf_dir()}) end },
     { '<M-x>', fzf.commands },
 
     -- Help

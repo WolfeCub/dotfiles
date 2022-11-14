@@ -1,6 +1,6 @@
 local fzf = require('fzf-lua')
 
-require('legendary').bind_keymaps({
+require('legendary').keymaps({
     { '<Space>', '<nop>' },
 
     -- Fast saving

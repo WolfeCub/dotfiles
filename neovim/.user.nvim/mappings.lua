@@ -15,6 +15,9 @@ require('legendary').keymaps({
     { '<leader>b', alt_buf_with_fallback },
     { '<C-^>', alt_buf_with_fallback },
 
+
+    { '<leader>n', narrow_to_function },
+
     -- Don't lose visual selection with < >
     { '<', '<gv', mode = { 'x' } },
     { '>', '>gv', mode = { 'x' } },

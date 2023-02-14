@@ -1,28 +1,23 @@
-local use = require('packer').use
+return {
 
-use {
+{
     'B4mbus/oxocarbon-lua.nvim',
+    lazy = false,
+    priority = 1000,
     config = function()
         vim.g.oxocarbon_lua_disable_italic = true
         vim.g.oxocarbon_lua_keep_terminal = true
         vim.cmd('colorscheme oxocarbon-lua')
     end
-}
+},
 
-use {
-    'charlie39/OneStop.nvim',
-    branch = 'main',
+{
+    'simrat39/symbols-outline.nvim',
     config = function()
-        require('onestop').setup({
-            lscmds = {
-                rust_analyzer = {
-                    'cargo build',
-                    'cargo run',
-                },
-                omnisharp = {
-                    'dotnet build',
-                },
-            },
+        require('symbols-outline').setup({
+            autofold_depth = 0,
         })
     end
+},
+
 }

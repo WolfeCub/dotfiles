@@ -21,7 +21,7 @@ function user_on_lsp_attach()
         { ']d',    vim.diagnostic.goto_next,              opts = map_opts },
         { '<leader>F', vim.lsp.buf.format,                opts = map_opts },
         { '<leader>F', vim.lsp.buf.range_formatting, mode = { 'v' }, opts = map_opts },
-        { 'gx',        vim.lsp.buf.code_action, opts = map_opts },
+        { 'gx',        vim.lsp.buf.code_action, mode = { 'n', 'v' }, opts = map_opts },
         { 'gR',        vim.lsp.buf.rename,      opts = map_opts },
         { '<leader>d', ':TroubleToggle<cr>',    opts = map_opts },
     })

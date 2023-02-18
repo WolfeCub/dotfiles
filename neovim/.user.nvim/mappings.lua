@@ -26,7 +26,7 @@ require('legendary').keymaps({
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
     -- Fzf
-    { '<leader>f', fzf.files },
+    { '<leader>f', fzf_files_browse },
     { '<leader>m', fzf.buffers },
     { '<leader>g', fzf.live_grep },
     { '<leader>r', fzf.resume },
@@ -42,6 +42,6 @@ require('legendary').keymaps({
     { '<leader>t', open_toggle_term },
     { '<leader>T', '<cmd>ToggleTerm direction=float<cr>' },
 
-    -- Neogit
-    { '<leader>G', '<cmd>Neogit<cr>' },
+    { '<leader>Gs', fzf.git_status },
+    { '<leader>Gb', fzf.git_branches },
 })

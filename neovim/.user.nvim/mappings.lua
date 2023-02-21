@@ -26,11 +26,11 @@ require('legendary').keymaps({
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
     -- Fzf
-    { '<leader>f', fzf_files_browse },
+    { '<leader>f', fzf.files },
+    { '<leader>e', function() fzf_find_file(get_buf_dir()) end },
     { '<leader>m', fzf.buffers },
     { '<leader>g', fzf.live_grep },
     { '<leader>r', fzf.resume },
-    { '<leader>e', function() fzf.files({ cwd = get_buf_dir()}) end },
     { '<M-x>', fzf.commands },
 
     -- Help

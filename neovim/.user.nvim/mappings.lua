@@ -29,7 +29,7 @@ require('legendary').keymaps({
     { '<leader>f', fzf.files },
     { '<leader>e', function() fzf_find_file(get_buf_dir()) end },
     { '<leader>m', fzf.buffers },
-    { '<leader>g', fzf.live_grep },
+    { '<leader>g', fzf.live_grep_native },
     { '<leader>r', fzf.resume },
     { '<M-x>', fzf.commands },
 

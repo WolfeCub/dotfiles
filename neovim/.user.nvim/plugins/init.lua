@@ -1,13 +1,13 @@
 return {
 
 {
-    'B4mbus/oxocarbon-lua.nvim',
+    'nyoom-engineering/oxocarbon.nvim',
     lazy = false,
     priority = 1000,
     config = function()
-        vim.g.oxocarbon_lua_disable_italic = true
-        vim.g.oxocarbon_lua_keep_terminal = true
-        vim.cmd('colorscheme oxocarbon-lua')
+        -- vim.g.oxocarbon_lua_disable_italic = true
+        -- vim.g.oxocarbon_lua_keep_terminal = true
+        vim.cmd('colorscheme oxocarbon')
     end
 },
 

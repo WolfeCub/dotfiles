@@ -44,4 +44,12 @@ require('legendary').keymaps({
 
     { '<leader>Gs', fzf.git_status },
     { '<leader>Gb', fzf.git_branches },
+
+    -- DAP
+    { '<F5>', '<cmd>lua require("dap").continue()<cr>' },
+    { '<F9>', '<cmd>lua require("persistent-breakpoints.api").toggle_breakpoint()<cr>' },
+    { '<F10>', '<cmd>lua require("dap").step_over()<cr>' },
+    { '<F11>', '<cmd>lua require("dap").step_into()<cr>' },
+    { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
+    { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
 })

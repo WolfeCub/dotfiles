@@ -8,16 +8,22 @@ if [ -z "$REPOPATH" ]; then
     exit 1
 fi
 
-git clone https://github.com/Mulan-Szechuan-Sauce/nvim-config $HOME/.config/nvim
+NVIMPATH="$HOME/.config/nvim"
+if [ -d "$NVIMPATH" ]; then
+    cd $NVIMPATH
+    git pull
+else
+    git clone https://github.com/Mulan-Szechuan-Sauce/nvim-config $NVIMPATH
+fi
 
-cd $HOME/dotfiles
+cd $REPOPATH
 
 git submodule init
 git submodule update
 
-ln -s $HOME/dotfiles/zsh/.zshrc $HOME
-ln -s $HOME/dotfiles/zsh/.zsh $HOME
+ln -s $REPOPATH/zsh/.zshrc $HOME
+ln -s $REPOPATH/zsh/.zsh $HOME
 
-ln -s $HOME/dotfiles/neovim/.user.nvim $HOME
+ln -s $REPOPATH/neovim/.user.nvim $HOME
 
-ln -s $HOME/dotfiles/tmux/.tmux.conf $HOME
+ln -s $REPOPATH/tmux/.tmux.conf $HOME

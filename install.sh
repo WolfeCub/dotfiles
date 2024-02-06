@@ -1,5 +1,13 @@
 #!/bin/bash
 
+REPOPATH="$(find ~ -name dotfiles -type d)"
+echo "Found dotfiles at: $REPOPATH"
+
+if [ -z "$REPOPATH" ]; then
+    echo "Could not find dotfiles repository"
+    exit 1
+fi
+
 git clone https://github.com/Mulan-Szechuan-Sauce/nvim-config $HOME/.config/nvim
 
 cd $HOME/dotfiles

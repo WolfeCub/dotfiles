@@ -32,6 +32,8 @@ require('legendary').keymaps({
     { '<leader>g', fzf.live_grep_native },
     { '<leader>r', fzf.resume },
     { '<M-x>', fzf.commands },
+    { '<leader>l', mp_files },
+    { '<leader>t', fzf.tabs },
 
     -- Help
     { '<C-h>f', fzf.help_tags },
@@ -39,8 +41,7 @@ require('legendary').keymaps({
 
     -- Terminal
     { '<Esc>', '<C-\\><C-n>', mode = { 't' } },
-    { '<leader>t', open_toggle_term },
-    { '<leader>T', '<cmd>ToggleTerm direction=float<cr>' },
+    { '<leader>T', open_toggle_term },
 
     { '<leader>Gs', fzf.git_status },
     { '<leader>Gb', fzf.git_branches },

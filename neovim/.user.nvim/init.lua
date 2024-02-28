@@ -1,3 +1,5 @@
+require('functions')
+
 function user_install_plugins()
     return require('plugins')
 end
@@ -13,7 +15,7 @@ function user_on_lsp_attach()
     local maps = {
         { 'gd',        jump_to_singlify(fzf.lsp_definitions), },
         { 'gD',        vim.lsp.buf.declaration, },
-        { 'gt',        vim.lsp.buf.type_definition, },
+        { 'gk',        vim.lsp.buf.type_definition, },
         { 'K',         vim.lsp.buf.hover, },
         { 'gi',        fzf.lsp_implementations, },
         { 'gr',        function() fzf.lsp_references({ ignore_current_line = true }) end, },

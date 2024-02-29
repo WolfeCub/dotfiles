@@ -39,6 +39,15 @@ function user_on_lsp_attach()
 end
 
 user_lsp_overrides = {
+    rust_analyzer = {
+        settings = {
+            ['rust-analyzer'] = {
+                cargo = {
+                    features = "all",
+                },
+            }
+        }
+    },
     pyright = {
         settings = {
             python = {

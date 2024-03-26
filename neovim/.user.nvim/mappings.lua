@@ -1,4 +1,5 @@
 local fzf = require('fzf-lua')
+local grapple = require('grapple')
 
 require('legendary').keymaps({
     { '<Space>', '<nop>' },
@@ -53,4 +54,15 @@ require('legendary').keymaps({
     { '<F11>', '<cmd>lua require("dap").step_into()<cr>' },
     { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
     { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
+
+    -- Grapple
+    { '\'', grapple.toggle },
+    { '<leader>h', grapple.toggle_tags },
+    { '<leader>H', function() grapple.toggle_tags({ scope = 'git' }) end },
+    { '<M-;>', '<cmd>Grapple select index=1<cr>' },
+    { '<M-,>', '<cmd>Grapple select index=2<cr>' },
+    { '<M-.>', '<cmd>Grapple select index=3<cr>' },
+    { '<M-p>', '<cmd>Grapple select index=4<cr>' },
+    { '<M-y>', '<cmd>Grapple select index=5<cr>' },
+    { '<M-i>', '<cmd>Grapple select index=5<cr>' },
 })

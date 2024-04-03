@@ -31,26 +31,12 @@ return {
 },
 
 {
-    "cbochs/grapple.nvim",
-    opts = {
-        scope = "cwd",
-    },
-},
-
-{
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "canary",
     opts = {
         debug = true, -- Enable debugging
         -- See Configuration section for rest
     },
-},
-
-{
-    'WolfeCub/harpeek.nvim',
-    config = function()
-        require('harpeek').setup()
-    end
 },
 
 }

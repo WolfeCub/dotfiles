@@ -31,12 +31,8 @@ return {
 },
 
 {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
-    opts = {
-        debug = true, -- Enable debugging
-        -- See Configuration section for rest
-    },
+    'stevearc/oil.nvim',
+    opts = {},
 },
 
 }

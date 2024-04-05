@@ -61,4 +61,5 @@ user_lsp_overrides = {
 
 function user_config()
     require('mappings')
+    require('harpeek').open({ hide_on_empty = true })
 end

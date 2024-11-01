@@ -27,7 +27,7 @@ require('legendary').keymaps({
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
     -- Fzf
-    { '<leader>f', fzf.files },
+    { '<leader>f', fzf.git_files },
     { '<leader>e', function() fzf_find_file(get_buf_dir()) end },
     { '<leader>m', fzf.buffers },
     { '<leader>g', fzf.live_grep_native },

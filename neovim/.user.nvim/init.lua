@@ -6,19 +6,15 @@ end
 
 function user_on_lsp_attach()
     local map_opts = { buffer = true }
-    local fzf = require('fzf-lua')
-
-    local jump_to_singlify = function(f)
-        return function() f({ jump_to_single_result = true }) end
-    end
+    local sp = require('snacks.picker')
 
     local maps = {
-        { 'gd',        jump_to_singlify(fzf.lsp_definitions), },
+        { 'gd',        sp.lsp_definitions, },
         { 'gD',        vim.lsp.buf.declaration, },
         { 'gk',        vim.lsp.buf.type_definition, },
         { 'K',         vim.lsp.buf.hover, },
-        { 'gi',        fzf.lsp_implementations, },
-        { 'gr',        function() fzf.lsp_references({ ignore_current_line = true }) end, },
+        { 'gi',        sp.lsp_implementations, },
+        { 'gr',        sp.lsp_references, },
         { '[d',        vim.diagnostic.goto_prev, },
         { ']d',        vim.diagnostic.goto_next, },
         { '<leader>F', vim.lsp.buf.format, },
@@ -48,18 +44,9 @@ user_lsp_overrides = {
             }
         }
     },
-    pyright = {
-        settings = {
-            python = {
-                analysis = {
-                    extraPaths = { '/Users/wolfe/src/server' },
-                },
-            },
-        },
-    },
 }
 
 function user_config()
     require('mappings')
-    require('harpeek').open({ hide_on_empty = true })
+    vim.o.showtabline = 2
 end

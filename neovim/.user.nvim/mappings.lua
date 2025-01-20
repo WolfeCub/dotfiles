@@ -1,4 +1,4 @@
-local fzf = require('fzf-lua')
+local sp = require('snacks.picker')
 local grapple = require('grapple')
 
 require('legendary').keymaps({
@@ -12,7 +12,7 @@ require('legendary').keymaps({
     { 'k', 'gk' },
 
     -- Buffer navigation keybinds
-    { '<leader>k', function() require('bufdelete').bufwipeout(0) end },
+    { '<leader>k', function() require('snacks.bufdelete').delete() end },
     { '<leader>b', alt_buf_with_fallback },
     { '<C-^>', alt_buf_with_fallback },
 
@@ -26,26 +26,27 @@ require('legendary').keymaps({
     -- Format
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
-    -- Fzf
-    { '<leader>f', fzf.git_files },
+    -- Picker
+    { '<leader>f', sp.git_files },
     { '<leader>e', function() fzf_find_file(get_buf_dir()) end },
-    { '<leader>m', fzf.buffers },
-    { '<leader>g', fzf.live_grep_native },
-    { '<leader>r', fzf.resume },
-    { '<M-x>', fzf.commands },
-    { '<leader>l', mp_files },
-    { '<leader>t', fzf.tabs },
+    { '<leader>m', sp.buffers },
+    { '<leader>g', sp.grep },
+    { '<leader>r', sp.resume },
+    { '<M-x>', sp.commands },
 
     -- Help
-    { '<C-h>f', fzf.help_tags },
+    { '<C-h>f', sp.help },
     { '<C-h>k', '<cmd>Legendary<cr>' },
 
     -- Terminal
     { '<Esc>', '<C-\\><C-n>', mode = { 't' } },
     { '<leader>T', open_toggle_term },
 
-    { '<leader>Gs', fzf.git_status },
-    { '<leader>Gb', fzf.git_branches },
+    { '<leader>Gs', sp.git_status },
+    { '<leader>Gd', sp.git_diff },
+    { '<leader>Gb', sp.git_branches },
+    { '<leader>Gl', sp.git_log },
+    { '<leader>l', require('snacks.lazygit').open },
 
     -- DAP
     { '<F5>', '<cmd>lua require("dap").continue()<cr>' },

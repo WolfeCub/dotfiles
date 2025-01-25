@@ -27,8 +27,8 @@ require('legendary').keymaps({
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
     -- Picker
-    { '<leader>f', sp.git_files },
-    { '<leader>e', function() fzf_find_file(get_buf_dir()) end },
+    { '<leader>f', snacks_git_file_root },
+    { '<leader>e', snacks_find_file },
     { '<leader>m', sp.buffers },
     { '<leader>g', sp.grep },
     { '<leader>r', sp.resume },

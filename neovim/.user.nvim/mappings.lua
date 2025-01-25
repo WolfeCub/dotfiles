@@ -12,10 +12,9 @@ require('legendary').keymaps({
     { 'k', 'gk' },
 
     -- Buffer navigation keybinds
-    { '<leader>k', function() require('snacks.bufdelete').delete() end },
+    { '<leader>k', function() require('snacks.bufdelete').delete({ wipe = true }) end },
     { '<leader>b', alt_buf_with_fallback },
     { '<C-^>', alt_buf_with_fallback },
-
 
     { '<leader>n', narrow_to_function },
 

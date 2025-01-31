@@ -26,8 +26,14 @@ require('legendary').keymaps({
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
     -- Picker
-    { '<leader>f', snacks_git_file_root },
+    { '<leader>f', sp.git_files },
     { '<leader>e', snacks_find_file },
+    { '<leader>E', function ()
+        sp.explorer({
+            tree = false,
+            layout = { preset = 'default' },
+        })
+    end },
     { '<leader>m', sp.buffers },
     { '<leader>g', sp.grep },
     { '<leader>r', sp.resume },
@@ -45,6 +51,7 @@ require('legendary').keymaps({
     { '<leader>Gd', sp.git_diff },
     { '<leader>Gb', sp.git_branches },
     { '<leader>Gl', sp.git_log },
+    { '<leader>Gw', require('snacks.git').blame_line },
     { '<leader>l', require('snacks.lazygit').open },
 
     -- DAP

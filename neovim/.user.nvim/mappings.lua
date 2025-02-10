@@ -26,7 +26,7 @@ require('legendary').keymaps({
     { '<leader>F', ':Neoformat<cr>', mode = { 'n', 'v' } },
 
     -- Picker
-    { '<leader>f', sp.git_files },
+    { '<leader>f', function() sp.git_files({ untracked = true }) end },
     { '<leader>e', snacks_find_file },
     { '<leader>E', function ()
         sp.explorer({
@@ -72,4 +72,5 @@ require('legendary').keymaps({
     { '<M-p>', '<cmd>Grapple select index=4<cr>' },
     { '<M-y>', '<cmd>Grapple select index=5<cr>' },
     { '<M-i>', '<cmd>Grapple select index=5<cr>' },
+
 })

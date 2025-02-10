@@ -44,6 +44,13 @@ user_lsp_overrides = {
             }
         }
     },
+    volar = {
+        init_options = {
+            vue = {
+                hybridMode = false,
+            },
+        },
+    },
 }
 
 function user_config()

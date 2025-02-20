@@ -15,7 +15,7 @@ return {
 -- },
 
 {
-    "wtfox/jellybeans.nvim",
+    'wtfox/jellybeans.nvim',
     priority = 1000,
     config = function()
         require('jellybeans').setup({ italics = false })

@@ -10,11 +10,13 @@ function user_on_lsp_attach()
 
     local maps = {
         { 'gd',        sp.lsp_definitions, },
+        { 'gi',        sp.lsp_implementations, },
+        { 'gr',        sp.lsp_references, },
+        { 'gs',        sp.lsp_symbols, },
+        { 'gS',        sp.lsp_workspace_symbols, },
         { 'gD',        vim.lsp.buf.declaration, },
         { 'gk',        vim.lsp.buf.type_definition, },
         { 'K',         vim.lsp.buf.hover, },
-        { 'gi',        sp.lsp_implementations, },
-        { 'gr',        sp.lsp_references, },
         { '[d',        vim.diagnostic.goto_prev, },
         { ']d',        vim.diagnostic.goto_next, },
         { '<leader>F', vim.lsp.buf.format, },

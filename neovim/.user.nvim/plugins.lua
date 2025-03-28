@@ -23,25 +23,4 @@ return {
     end,
 },
 
-{
-    'simrat39/symbols-outline.nvim',
-    config = function()
-        require('symbols-outline').setup({
-            autofold_depth = 0,
-        })
-    end
-},
-
-{
-    'tiagovla/scope.nvim',
-    config = function()
-        require('scope').setup({})
-    end,
-},
-
-{
-    'stevearc/oil.nvim',
-    opts = {},
-},
-
 }

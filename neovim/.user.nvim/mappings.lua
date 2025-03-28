@@ -47,12 +47,9 @@ require('legendary').keymaps({
     { '<Esc>', '<C-\\><C-n>', mode = { 't' } },
     { '<leader>T', open_toggle_term },
 
-    { '<leader>Gs', sp.git_status },
-    { '<leader>Gd', sp.git_diff },
-    { '<leader>Gb', sp.git_branches },
-    { '<leader>Gl', sp.git_log },
-    { '<leader>Gw', require('snacks.git').blame_line },
-    { '<leader>l', require('snacks.lazygit').open },
+    -- Git
+    { '<leader>G', require('neogit').open },
+    { '<leader>l', require('snacks.git').blame_line },
 
     -- DAP
     { '<F5>', '<cmd>lua require("dap").continue()<cr>' },

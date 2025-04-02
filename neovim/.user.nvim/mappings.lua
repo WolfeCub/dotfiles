@@ -48,7 +48,7 @@ require('legendary').keymaps({
     { '<leader>T', open_toggle_term },
 
     -- Git
-    { '<leader>G', require('neogit').open },
+    { '<leader>G', function() require('neogit').open({ cwd = get_buf_dir() }) end },
     { '<leader>l', require('snacks.git').blame_line },
 
     -- DAP

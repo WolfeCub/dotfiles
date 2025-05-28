@@ -36,21 +36,20 @@ function user_on_lsp_attach()
     require('legendary').keymaps(maps)
 end
 
-user_lsp_overrides = {
-    rust_analyzer = {
-        settings = {
-            ['rust-analyzer'] = {
-                cargo = {
-                    features = "all",
-                },
-            }
-        }
-    },
-    volar = {
-        init_options = {
-            vue = {
-                hybridMode = false,
+vim.lsp.config['rust_analyzer'] = {
+    settings = {
+        ['rust-analyzer'] = {
+            cargo = {
+                features = "all",
             },
+        }
+    }
+}
+
+vim.lsp.config['volar'] = {
+    init_options = {
+        vue = {
+            hybridMode = false,
         },
     },
 }

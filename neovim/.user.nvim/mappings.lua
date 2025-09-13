@@ -1,5 +1,6 @@
 local sp = require('snacks.picker')
 local grapple = require('grapple')
+local f = require('shared.functions')
 
 require('legendary').keymaps({
     { '<Space>', '<nop>' },
@@ -13,10 +14,10 @@ require('legendary').keymaps({
 
     -- Buffer navigation keybinds
     { '<leader>k', function() require('snacks.bufdelete').delete({ wipe = true }) end },
-    { '<leader>b', alt_buf_with_fallback },
-    { '<C-^>', alt_buf_with_fallback },
+    { '<leader>b', f.alt_buf_with_fallback },
+    { '<C-^>', f.alt_buf_with_fallback },
 
-    { '<leader>n', narrow_to_function },
+    { '<leader>n', f.narrow_to_function },
 
     -- Don't lose visual selection with < >
     { '<', '<gv', mode = { 'x' } },
@@ -27,7 +28,7 @@ require('legendary').keymaps({
 
     -- Picker
     { '<leader>f', function() sp.git_files({ untracked = true }) end },
-    { '<leader>e', snacks_find_file },
+    { '<leader>e', f.snacks_find_file },
     { '<leader>E', function ()
         sp.explorer({
             tree = false,
@@ -45,10 +46,10 @@ require('legendary').keymaps({
 
     -- Terminal
     { '<Esc>', '<C-\\><C-n>', mode = { 't' } },
-    { '<leader>T', open_toggle_term },
+    { '<leader>T', f.open_toggle_term },
 
     -- Git
-    { '<leader>G', function() require('neogit').open({ cwd = get_buf_dir() }) end },
+    { '<leader>G', function() require('neogit').open({ cwd = f.get_buf_dir() }) end },
     { '<leader>l', require('snacks.git').blame_line },
 
     -- DAP

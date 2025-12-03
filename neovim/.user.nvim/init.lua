@@ -25,16 +25,15 @@ require('shared.setup').setup({
             { 'gx',        vim.lsp.buf.code_action,                    mode = { 'n', 'v' } },
             { '<C-k>',     vim.lsp.buf.signature_help,                 mode = { 'i' } },
             { 'gR',        vim.lsp.buf.rename, },
-            { '<leader>d', ':TroubleToggle document_diagnostics<cr>', },
-            { '<leader>D', ':TroubleToggle workspace_diagnostics<cr>', },
+            { '<leader>d', ':Trouble diagnostics toggle focus=true<cr>', },
         }
 
         -- Apply shared config to all maps
         for i, map in ipairs(maps) do
-            maps[i] = vim.tbl_extend('keep', map, { opts = map_opts })
+            maps[i] = vim.tbl_extend('keep', map, map_opts)
         end
 
-        require('legendary').keymaps(maps)
+        require('which-key').add(maps)
     end,
 
     config = function()

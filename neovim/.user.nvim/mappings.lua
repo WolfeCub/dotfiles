@@ -1,8 +1,8 @@
 local sp = require('snacks.picker')
-local grapple = require('grapple')
 local f = require('shared.functions')
+local harpoon = require('harpoon')
 
-require('legendary').keymaps({
+require('which-key').add({
     { '<Space>', '<nop>' },
 
     -- Fast saving
@@ -42,7 +42,6 @@ require('legendary').keymaps({
 
     -- Help
     { '<C-h>f', sp.help },
-    { '<C-h>k', '<cmd>Legendary<cr>' },
 
     -- Terminal
     { '<Esc>', '<C-\\><C-n>', mode = { 't' } },
@@ -54,6 +53,7 @@ require('legendary').keymaps({
 
     -- DAP
     { '<F5>', '<cmd>lua require("dap").continue()<cr>' },
+    { '<F6>', function() print(require("dapui").close()) end },
     { '<F9>', '<cmd>lua require("persistent-breakpoints.api").toggle_breakpoint()<cr>' },
     { '<F10>', '<cmd>lua require("dap").step_over()<cr>' },
     { '<F11>', '<cmd>lua require("dap").step_into()<cr>' },
@@ -61,14 +61,13 @@ require('legendary').keymaps({
     { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
 
     -- Grapple
-    { '\'', grapple.toggle },
-    { '<leader>h', grapple.toggle_tags },
-    { '<leader>H', function() grapple.toggle_tags({ scope = 'git' }) end },
-    { '<M-;>', '<cmd>Grapple select index=1<cr>' },
-    { '<M-,>', '<cmd>Grapple select index=2<cr>' },
-    { '<M-.>', '<cmd>Grapple select index=3<cr>' },
-    { '<M-p>', '<cmd>Grapple select index=4<cr>' },
-    { '<M-y>', '<cmd>Grapple select index=5<cr>' },
-    { '<M-i>', '<cmd>Grapple select index=5<cr>' },
+    { '\'', function() harpoon:list():add() end },
+    { '<leader>h', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end },
+    { '<M-;>', function() harpoon:list():select(1) end },
+    { '<M-,>', function() harpoon:list():select(2) end },
+    { '<M-.>', function() harpoon:list():select(3) end },
+    { '<M-p>', function() harpoon:list():select(4) end },
+    { '<M-y>', function() harpoon:list():select(5) end },
+    { '<M-i>', function() harpoon:list():select(6) end },
 
 })

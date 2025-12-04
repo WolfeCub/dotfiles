@@ -25,7 +25,6 @@ require('shared.setup').setup({
             { 'gx',        vim.lsp.buf.code_action,                    mode = { 'n', 'v' } },
             { '<C-k>',     vim.lsp.buf.signature_help,                 mode = { 'i' } },
             { 'gR',        vim.lsp.buf.rename, },
-            { '<leader>d', ':Trouble diagnostics toggle focus=true<cr>', },
         }
 
         -- Apply shared config to all maps

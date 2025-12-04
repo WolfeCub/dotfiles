@@ -1,8 +1,9 @@
 local sp = require('snacks.picker')
 local f = require('shared.functions')
+local wk = require('which-key')
 local harpoon = require('harpoon')
 
-require('which-key').add({
+wk.add({
     { '<Space>', '<nop>' },
 
     -- Fast saving
@@ -40,8 +41,23 @@ require('which-key').add({
     { '<leader>r', sp.resume },
     { '<M-x>', sp.commands },
 
+    -- Trouble
+    { '<leader>d', function()
+        local trouble = require('trouble')
+        if trouble.is_open() then
+            trouble.focus()
+        else
+            vim.cmd('Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR')
+        end
+    end },
+
+    { '<leader>D', function() wk.show({ keys = '<leader>D' }) end },
+    { '<leader>Db', function() vim.cmd('Trouble diagnostics toggle filter.buf=0') end, desc = 'Workspace Diagnostics' },
+    { '<leader>Dw', function() vim.cmd('Trouble diagnostics toggle') end, desc = 'Workspace Diagnostics' },
+
     -- Help
     { '<C-h>f', sp.help },
+    { '<C-h>k', sp.keymaps },
 
     -- Terminal
     { '<Esc>', '<C-\\><C-n>', mode = { 't' } },

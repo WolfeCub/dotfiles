@@ -1,5 +1,6 @@
 local sp = require('snacks.picker')
 local f = require('shared.functions')
+local ext = require('shared.extensions')
 local wk = require('which-key')
 local harpoon = require('harpoon')
 
@@ -29,16 +30,18 @@ wk.add({
 
     -- Picker
     { '<leader>f', function() sp.git_files({ untracked = true }) end },
-    { '<leader>e', f.snacks_find_file },
+    { '<leader>l', sp.files },
+    { '<leader>e', ext.snacks_find_file },
     { '<leader>E', function ()
         sp.explorer({
             tree = false,
             layout = { preset = 'default' },
         })
     end },
-    { '<leader>m', sp.buffers },
+    { '<leader>m', function() sp.buffers({ formatters = { file = { filename_first = true } } }) end },
     { '<leader>g', sp.grep },
     { '<leader>r', sp.resume },
+    { '<leader>R', sp.recent },
     { '<M-x>', sp.commands },
 
     -- Trouble
@@ -65,7 +68,7 @@ wk.add({
 
     -- Git
     { '<leader>G', function() require('neogit').open({ cwd = f.get_buf_dir() }) end },
-    { '<leader>l', require('snacks.git').blame_line },
+    { '<leader>B', require('snacks.git').blame_line },
 
     -- DAP
     { '<F5>', '<cmd>lua require("dap").continue()<cr>' },

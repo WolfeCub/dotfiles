@@ -18,13 +18,25 @@ require('shared.setup').setup({
             { 'gD',        vim.lsp.buf.declaration, },
             { 'gk',        vim.lsp.buf.type_definition, },
             { 'K',         vim.lsp.buf.hover, },
-            { '[d',        vim.diagnostic.goto_prev, },
-            { ']d',        vim.diagnostic.goto_next, },
-            { '<leader>F', vim.lsp.buf.format, },
-            { '<leader>F', vim.lsp.buf.range_formatting,               mode = { 'v' } },
-            { 'gx',        vim.lsp.buf.code_action,                    mode = { 'n', 'v' } },
-            { '<C-k>',     vim.lsp.buf.signature_help,                 mode = { 'i' } },
+            { 'gx',        vim.lsp.buf.code_action,    mode = { 'n', 'v' } },
+            { '<C-k>',     vim.lsp.buf.signature_help, mode = { 'i' } },
             { 'gR',        vim.lsp.buf.rename, },
+            { '<leader>F', vim.lsp.buf.format, },
+            {
+                '<leader>F',
+                function()
+                    vim.lsp.buf.format({
+                        range = {
+                            ['start'] = vim.api.nvim_buf_get_mark(0, "<"),
+                            ['end'] = vim.api.nvim_buf_get_mark(0, ">"),
+                        },
+                    })
+                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+                end,
+                mode = "v",
+            },
+            { '[d',        function() vim.diagnostic.jump({ count = -1, float = true }) end },
+            { ']d',        function() vim.diagnostic.jump({ count = 1, float = true }) end },
         }
 
         -- Apply shared config to all maps

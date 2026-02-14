@@ -18,7 +18,11 @@ wk.add({
     { '<leader>k', function() require('snacks.bufdelete').delete({ wipe = true }) end },
     { '<leader>b', f.alt_buf_with_fallback },
     { '<C-^>', f.alt_buf_with_fallback },
+
+    -- Quickfix
     { '<leader>q', require('quicker').toggle },
+    { '<C-M-n>', vim.cmd.cnext },
+    { '<C-M-p>', vim.cmd.cprev },
 
     { '<leader>n', f.narrow_to_function },
 

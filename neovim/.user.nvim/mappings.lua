@@ -18,6 +18,7 @@ wk.add({
     { '<leader>k', function() require('snacks.bufdelete').delete({ wipe = true }) end },
     { '<leader>b', f.alt_buf_with_fallback },
     { '<C-^>', f.alt_buf_with_fallback },
+    { '<leader>q', require('quicker').toggle },
 
     { '<leader>n', f.narrow_to_function },
 

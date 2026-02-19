@@ -24,7 +24,7 @@ wk.add({
     { '<C-M-n>', vim.cmd.cnext },
     { '<C-M-p>', vim.cmd.cprev },
 
-    { '<leader>n', f.narrow_to_function },
+    { '<leader>n', ext.narrow_to_function },
 
     -- Don't lose visual selection with < >
     { '<', '<gv', mode = { 'x' } },
@@ -60,8 +60,9 @@ wk.add({
     end },
 
     { '<leader>D', function() wk.show({ keys = '<leader>D' }) end },
-    { '<leader>Db', function() vim.cmd('Trouble diagnostics toggle filter.buf=0') end, desc = 'Workspace Diagnostics' },
+    { '<leader>Db', function() vim.cmd('Trouble diagnostics toggle filter.buf=0') end, desc = 'Buffer Diagnostics' },
     { '<leader>Dw', function() vim.cmd('Trouble diagnostics toggle') end, desc = 'Workspace Diagnostics' },
+    { '<leader>Dy', f.copy_diagnostic, desc = 'Copy Diagnostic' },
 
     -- Help
     { '<C-h>f', sp.help },

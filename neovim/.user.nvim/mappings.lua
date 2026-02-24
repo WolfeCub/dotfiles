@@ -1,5 +1,6 @@
 local sp = require('snacks.picker')
-local f = require('shared.functions')
+local sf = require('shared.functions')
+local f = require('functions')
 local ext = require('shared.extensions')
 local wk = require('which-key')
 local harpoon = require('harpoon')
@@ -16,13 +17,13 @@ wk.add({
 
     -- Buffer navigation keybinds
     { '<leader>k', function() require('snacks.bufdelete').delete({ wipe = true }) end },
-    { '<leader>b', f.alt_buf_with_fallback },
-    { '<C-^>', f.alt_buf_with_fallback },
+    { '<leader>b', sf.alt_buf_with_fallback },
+    { '<C-^>', sf.alt_buf_with_fallback },
 
     -- Quickfix
-    { '<leader>q', require('quicker').toggle },
-    { '<C-M-n>', vim.cmd.cnext },
-    { '<C-M-p>', vim.cmd.cprev },
+    { '<leader>q', function() require('quicker').toggle() end },
+    { '<C-M-n>', function() f.qf_move(1) end },
+    { '<C-M-p>', function() f.qf_move(-1) end },
 
     { '<leader>n', ext.narrow_to_function },
 
@@ -49,8 +50,10 @@ wk.add({
     { '<leader>R', sp.recent },
     { '<M-x>', sp.commands },
 
-    -- Trouble
-    { '<leader>d', function()
+    -- Diagnostics
+    { '<leader>d', function() vim.diagnostic.setqflist({ open = true }) end },
+    { '<leader>D', function() wk.show({ keys = '<leader>D' }) end },
+    { '<leader>Dd', function()
         local trouble = require('trouble')
         if trouble.is_open() then
             trouble.focus()
@@ -58,11 +61,9 @@ wk.add({
             vim.cmd('Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR')
         end
     end },
-
-    { '<leader>D', function() wk.show({ keys = '<leader>D' }) end },
     { '<leader>Db', function() vim.cmd('Trouble diagnostics toggle filter.buf=0') end, desc = 'Buffer Diagnostics' },
     { '<leader>Dw', function() vim.cmd('Trouble diagnostics toggle') end, desc = 'Workspace Diagnostics' },
-    { '<leader>Dy', f.copy_diagnostic, desc = 'Copy Diagnostic' },
+    { '<leader>Dy', sf.copy_diagnostic, desc = 'Copy Diagnostic' },
 
     -- Help
     { '<C-h>f', sp.help },
@@ -70,20 +71,20 @@ wk.add({
 
     -- Terminal
     { '<Esc>', '<C-\\><C-n>', mode = { 't' } },
-    { '<leader>T', f.open_toggle_term },
+    { '<leader>T', sf.open_toggle_term },
 
     -- Git
-    { '<leader>G', function() require('neogit').open({ cwd = f.get_buf_dir() }) end },
+    { '<leader>G', function() require('neogit').open({ cwd = sf.get_buf_dir() }) end },
     { '<leader>B', require('snacks.git').blame_line },
 
     -- DAP
-    { '<F5>', '<cmd>lua require("dap").continue()<cr>' },
-    { '<F6>', function() print(require("dapui").close()) end },
-    { '<F9>', '<cmd>lua require("persistent-breakpoints.api").toggle_breakpoint()<cr>' },
-    { '<F10>', '<cmd>lua require("dap").step_over()<cr>' },
-    { '<F11>', '<cmd>lua require("dap").step_into()<cr>' },
-    { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
-    { '<M-e>', '<cmd>lua require("dapui").eval()<cr>' },
+    { '<F5>', function() require('dap').continue() end },
+    { '<F6>', function() require('dapui').close() end },
+    { '<F9>', function() require('persistent-breakpoints.api').toggle_breakpoint() end },
+    { '<F10>', function() require('dap').step_over() end },
+    { '<F11>', function() require('dap').step_into() end },
+    { '<M-e>', function() require('dapui').eval() end },
+    { '<M-e>', function() require('dapui').eval() end },
 
     -- Grapple
     { '\'', function() harpoon:list():add() end },

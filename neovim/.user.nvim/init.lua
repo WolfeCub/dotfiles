@@ -1,5 +1,3 @@
-require('functions')
-
 require('shared.setup').setup({
     install_plugins = function()
         return require('plugins')
@@ -8,8 +6,8 @@ require('shared.setup').setup({
     on_lsp_attach = function()
         local map_opts = { buffer = true }
         local sp = require('snacks.picker')
-
         local maps = {
+
             { 'gd',        sp.lsp_definitions, },
             { 'gi',        sp.lsp_implementations, },
             { 'gr',        sp.lsp_references, },

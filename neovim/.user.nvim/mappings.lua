@@ -87,8 +87,8 @@ wk.add({
     { '<M-e>', function() require('dapui').eval() end },
 
     -- Grapple
-    { '\'', function() harpoon:list():add() end },
-    { '<leader>h', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end },
+    { '<leader>h', function() harpoon:list():add() end },
+    { '<leader>H', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end },
     { '<M-;>', function() harpoon:list():select(1) end },
     { '<M-,>', function() harpoon:list():select(2) end },
     { '<M-.>', function() harpoon:list():select(3) end },

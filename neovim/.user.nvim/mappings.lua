@@ -51,18 +51,9 @@ wk.add({
     { '<M-x>', sp.commands },
 
     -- Diagnostics
-    { '<leader>d', function() vim.diagnostic.setqflist({ open = true }) end },
+    { '<leader>d', function() vim.diagnostic.setqflist({ open = true, severity =  vim.diagnostic.severity.ERROR }) end },
     { '<leader>D', function() wk.show({ keys = '<leader>D' }) end },
-    { '<leader>Dd', function()
-        local trouble = require('trouble')
-        if trouble.is_open() then
-            trouble.focus()
-        else
-            vim.cmd('Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR')
-        end
-    end },
-    { '<leader>Db', function() vim.cmd('Trouble diagnostics toggle filter.buf=0') end, desc = 'Buffer Diagnostics' },
-    { '<leader>Dw', function() vim.cmd('Trouble diagnostics toggle') end, desc = 'Workspace Diagnostics' },
+    { '<leader>DD', function() vim.diagnostic.setqflist({ open = true }) end, desc = 'All Diagnostics' },
     { '<leader>Dy', sf.copy_diagnostic, desc = 'Copy Diagnostic' },
 
     -- Help

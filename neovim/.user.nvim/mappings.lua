@@ -78,7 +78,19 @@ wk.add({
     { '<M-e>', function() require('dapui').eval() end },
 
     -- Grapple
-    { '<leader>h', function() harpoon:list():add() end },
+    { '<leader>h', function()
+        local list = harpoon:list()
+        local item = list.config.create_list_item(list.config)
+
+        if list:get_by_value(item.value) then
+            list:remove()
+            -- Remove nil hole left behind. Bit of a hack might need to revisit
+            list.items = vim.tbl_filter(function(v) return v ~= nil end, list.items)
+            list._length = #list.items
+        else
+            list:add()
+        end
+    end },
     { '<leader>H', function() harpoon.ui:toggle_quick_menu(harpoon:list()) end },
     { '<M-;>', function() harpoon:list():select(1) end },
     { '<M-,>', function() harpoon:list():select(2) end },

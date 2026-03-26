@@ -16,3 +16,5 @@
 	po = push -u origin HEAD
     b = branch
 	get = "!f() { git diff-index --quiet HEAD --; CHANGED=\"$?\"; [[ \"$CHANGED\" == \"1\" ]] && git stash; git checkout $1 && git pull --ff; [[ \"$CHANGED\" == \"1\" ]] && git stash pop; }; f"
+[init]
+	defaultBranch = master

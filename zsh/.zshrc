@@ -2,7 +2,7 @@
 ## E N V I R O N M E N T
 ##
 export PAGER='less -R'
-export PATH="$HOME/.deno/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/.deno/bin:$PATH:$HOME/.local/bin"
 
 ##
 ## S E T T I N G S
@@ -158,6 +158,7 @@ alias et='emacsclient -t'
 alias ec='emacsclient -c'
 # K8s
 alias k='kubectl'
+
 # Git
 alias groot='cd $(git rev-parse --show-toplevel)'
 
@@ -183,6 +184,13 @@ function in_path {
 
 in_path "nvim" && alias vim='nvim'
 in_path "bat" && alias cat='bat'
+compdef kubecolor=kubectl
+in_path "kubecolor" && alias k='kubecolor'
+function kwatch() {
+    watch -n 2 -c -- kubecolor "$@"
+}
+compdef kwatch=kubectl
+
 
 ##
 ## P R O M P T
@@ -219,7 +227,7 @@ in_path nvim \
     && export VISUAL='nvim' \
 
 [ -f /usr/share/nvm/init-nvm.sh ] && source /usr/share/nvm/init-nvm.sh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+in_path fzf && source <(fzf --zsh)
 in_path virtualenvwrapper.sh && source virtualenvwrapper.sh
 in_path flux && . <(flux completion zsh)
 in_path direnv && eval "$(direnv hook zsh)"

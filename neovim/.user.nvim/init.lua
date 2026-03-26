@@ -16,8 +16,8 @@ require('shared.setup').setup({
             { 'gD',        vim.lsp.buf.declaration, },
             { 'gk',        vim.lsp.buf.type_definition, },
             { 'K',         vim.lsp.buf.hover, },
-            { 'gx',        vim.lsp.buf.code_action,    mode = { 'n', 'v' } },
-            { '<C-k>',     vim.lsp.buf.signature_help, mode = { 'i' } },
+            { 'gx',        vim.lsp.buf.code_action,     mode = { 'n', 'v' } },
+            { '<C-k>',     vim.lsp.buf.signature_help,  mode = { 'i' } },
             { 'gR',        vim.lsp.buf.rename, },
             { '<leader>F', vim.lsp.buf.format, },
             {
@@ -33,8 +33,8 @@ require('shared.setup').setup({
                 end,
                 mode = "v",
             },
-            { '[d',        function() vim.diagnostic.jump({ count = -1, float = true }) end },
-            { ']d',        function() vim.diagnostic.jump({ count = 1, float = true }) end },
+            { '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end },
+            { ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end },
         }
 
         -- Apply shared config to all maps

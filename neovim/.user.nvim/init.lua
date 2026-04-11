@@ -6,6 +6,7 @@ require('shared.setup').setup({
     on_lsp_attach = function()
         local map_opts = { buffer = true }
         local sp = require('snacks.picker')
+        local sf = require('shared.functions')
         local maps = {
 
             { 'gd',        sp.lsp_definitions, },
@@ -33,8 +34,9 @@ require('shared.setup').setup({
                 end,
                 mode = "v",
             },
-            { '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end },
-            { ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end },
+            { '[d',        function() vim.diagnostic.jump({ count = -1, float = true }) end },
+            { ']d',        function() vim.diagnostic.jump({ count = 1, float = true }) end },
+            { '<leader>i', sf.toggle_inline_hints },
         }
 
         -- Apply shared config to all maps

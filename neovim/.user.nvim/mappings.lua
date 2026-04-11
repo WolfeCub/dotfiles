@@ -2,6 +2,7 @@ local sp = require('snacks.picker')
 local sf = require('shared.functions')
 local f = require('functions')
 local ext = require('shared.extensions')
+local ai_diag= require('shared.extensions.ai-diagnostics')
 local wk = require('which-key')
 local harpoon = require('harpoon')
 
@@ -54,7 +55,8 @@ wk.add({
     { '<leader>d', function() vim.diagnostic.setqflist({ open = true, severity =  vim.diagnostic.severity.ERROR }) end },
     { '<leader>D', function() wk.show({ keys = '<leader>D' }) end },
     { '<leader>DD', function() vim.diagnostic.setqflist({ open = true }) end, desc = 'All Diagnostics' },
-    { '<leader>Dy', sf.copy_diagnostic, desc = 'Copy Diagnostic' },
+    { '<leader>Dy', ai_diag.copy_diagnostic, desc = 'Copy Diagnostic' },
+    { '<leader>Da', ai_diag.codecompanion_fix_diagnostic_at_cursor, desc = 'AI Fix Diagnostic' },
 
     -- Help
     { '<C-h>f', sp.help },
@@ -77,7 +79,7 @@ wk.add({
     { '<M-e>', function() require('dapui').eval() end },
     { '<M-e>', function() require('dapui').eval() end },
 
-    -- Grapple
+    -- Harpoon
     { '<leader>h', function()
         local list = harpoon:list()
         local item = list.config.create_list_item(list.config)
@@ -99,4 +101,21 @@ wk.add({
     { '<M-y>', function() harpoon:list():select(5) end },
     { '<M-i>', function() harpoon:list():select(6) end },
 
+    -- Incremental Selection
+    {
+        '<M-o>',
+        function()
+            require('vim.treesitter._select').select_parent(vim.v.count1)
+        end,
+        desc = 'Expand treesitter selection',
+        mode = { 'x', 'o' },
+    },
+    {
+        '<M-i>',
+        function()
+            require('vim.treesitter._select').select_child(vim.v.count1)
+        end,
+        desc = 'Shrink treesitter selection',
+        mode = { 'x', 'o' },
+    },
 })

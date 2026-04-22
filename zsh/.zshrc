@@ -1,8 +1,14 @@
 ##
 ## E N V I R O N M E N T
 ##
+typeset -U path
+
 export PAGER='less -R'
-export PATH="$HOME/.cargo/bin:$HOME/.deno/bin:$PATH:$HOME/.local/bin"
+path+=("$HOME/.cargo/bin")
+path+=("$HOME/.deno/bin")
+path+=("$HOME/.local/bin")
+path+=("$HOME/.dotnet" "$HOME/.dotnet/tools/")
+export DOTNET_ROOT=$HOME/.dotnet
 
 ##
 ## S E T T I N G S

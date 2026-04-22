@@ -51,6 +51,9 @@ wk.add({
     { '<leader>R', sp.recent },
     { '<M-x>', sp.commands },
 
+    -- Navigation
+    { '<leader>N', function() require('mini.files').open() end },
+
     -- Diagnostics
     { '<leader>d', function() vim.diagnostic.setqflist({ open = true, severity =  vim.diagnostic.severity.ERROR }) end },
     { '<leader>D', function() wk.show({ keys = '<leader>D' }) end },

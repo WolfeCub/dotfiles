@@ -1,0 +1,11 @@
+font-family = "FiraCode Nerd Font Mono"
+font-size = 14
+
+mouse-hide-while-typing = true
+
+# Mac specific
+macos-option-as-alt = left
+macos-non-native-fullscreen = padded-notch
+font-thicken = true
+font-thicken-strength = 1
+

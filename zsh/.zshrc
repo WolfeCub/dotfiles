@@ -190,12 +190,12 @@ function in_path {
 
 in_path "nvim" && alias vim='nvim'
 in_path "bat" && alias cat='bat'
-compdef kubecolor=kubectl
+in_path kubectl && compdef kubecolor=kubectl
 in_path "kubecolor" && alias k='kubecolor'
 function kwatch() {
     watch -n 2 -c -- kubecolor "$@"
 }
-compdef kwatch=kubectl
+in_path kubectl && compdef kwatch=kubectl
 
 
 ##

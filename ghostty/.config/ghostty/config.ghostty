@@ -1,3 +1,5 @@
+theme = dark:base16-default-dark,light:Gruvbox Light
+
 font-family = "FiraCode Nerd Font Mono"
 font-size = 14
 

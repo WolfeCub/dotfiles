@@ -197,23 +197,38 @@ function kwatch() {
 }
 in_path kubectl && compdef kwatch=kubectl
 
-# script directory shortcut
+# script directory utilities
+function _sd_entries {
+    local dir="$HOME/bin/${1}"
+    local script name desc
+    reply=()
+    for script in "$dir"/*(N); do
+        name="${script##*/}"
+        desc=$(sed -n 's/^#[[:space:]]*desc:[[:space:]]*//p' "$script")
+        reply+=("${name}:${desc}")
+    done
+}
+
 function sd {
+    if [[ $# -eq 1 ]]; then
+        _sd_entries "$1"
+        local entry
+        for entry in $reply; do
+            printf "%-20s %s\n" "${entry%%:*}" "${entry#*:}"
+        done
+        return
+    fi
     local script="$HOME/bin/${1}/${2}"
     shift 2
     "$script" "$@"
 }
 
 function _sd {
-    local bin_dir="$HOME/bin"
-    local -a subdirs scripts
-
     if (( CURRENT == 2 )); then
-        subdirs=("${bin_dir}"/*(/:t))
-        compadd -a subdirs
+        compadd "$HOME/bin"/*(/:t)
     elif (( CURRENT == 3 )); then
-        scripts=("${bin_dir}/${words[2]}"/*(N:t))
-        compadd -a scripts
+        _sd_entries "${words[2]}"
+        _describe 'scripts' reply
     fi
 }
 compdef _sd sd

@@ -1,2 +1,3 @@
 #!/usr/bin/env sh
+# desc: set keyboard repeat delay to 230ms and rate to 30cps
 xset r rate 230 30

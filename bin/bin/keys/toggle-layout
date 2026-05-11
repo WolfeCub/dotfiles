@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# desc: toggle keyboard layout between us and dvp (programmer dvorak)
 
 if [[ `setxkbmap -query | grep layout` == "layout:     us" ]]; then
     setxkbmap dvp

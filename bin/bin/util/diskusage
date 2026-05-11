@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# desc: show top 20 entries by disk usage in a directory
 
 if [ "$#" -eq 0 ]; then
     DIR=`pwd`
@@ -9,4 +10,4 @@ else
     exit 1
 fi
 
-du --max-depth=1 $DIR 2> /dev/null | sort -n -r | head -n20
+du -h --max-depth=1 $DIR 2> /dev/null | sort -rh | head -n20

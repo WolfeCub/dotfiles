@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# desc: run conductor dev script
 
 set -euo pipefail
 

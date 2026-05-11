@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# desc: fetch weather forecast from wttr.in
 
 if [ "$#" -eq 0 ]; then
     curl -s "http://wttr.in/mississauga" | head -n -2

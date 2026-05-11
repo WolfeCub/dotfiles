@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
+# desc: remap caps lock to escape (tap) and ctrl (hold) via xcape
 xmodmap ~/.Xmodmap 
 xcape -e '#66=Escape'

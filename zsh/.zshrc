@@ -197,6 +197,27 @@ function kwatch() {
 }
 in_path kubectl && compdef kwatch=kubectl
 
+# script directory shortcut
+function sd {
+    local script="$HOME/bin/${1}/${2}"
+    shift 2
+    "$script" "$@"
+}
+
+function _sd {
+    local bin_dir="$HOME/bin"
+    local -a subdirs scripts
+
+    if (( CURRENT == 2 )); then
+        subdirs=("${bin_dir}"/*(/:t))
+        compadd -a subdirs
+    elif (( CURRENT == 3 )); then
+        scripts=("${bin_dir}/${words[2]}"/*(N:t))
+        compadd -a scripts
+    fi
+}
+compdef _sd sd
+
 
 ##
 ## P R O M P T

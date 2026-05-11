@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 kb_name='AT Translated Set 2 keyboard'
 

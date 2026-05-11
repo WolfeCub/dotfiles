@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+set -euo pipefail
+
+repo_root=$(git rev-parse --show-toplevel 2>/dev/null) || {
+    echo "error: not in a git repository" >&2
+    exit 1
+}
+
+dev_script=$(find "$repo_root" -path "*/scripts/dev.sh" -type f | head -1)
+
+if [ -z "$dev_script" ]; then
+    echo "error: no scripts/dev.sh found under $repo_root" >&2
+    exit 1
+fi
+
+dir="$(dirname "$dev_script")/.."
+exec direnv exec "$dir" "$dir/scripts/dev.sh" -c "$HOME/conductor.yaml" "$@"

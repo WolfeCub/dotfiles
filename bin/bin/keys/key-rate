@@ -1,2 +1,2 @@
-#!/bin/sh
+#!/usr/bin/env sh
 xset r rate 230 30

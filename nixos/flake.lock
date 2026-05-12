@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778401693,
-        "narHash": "sha256-OVHdCqXXUF5UdGkH+FF2ZL06OLZjj2kvP2dIUmzVWoo=",
+        "lastModified": 1778606796,
+        "narHash": "sha256-P2krpSkFVYJ89bgsnAZ9RtQiGwiTW77sfSJp9SEDscM=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "389b83002efc26f1145e89a6a8e6edc5a6435948",
+        "rev": "e1fd7350f4410972bcb8c42a697d8c924ffe642a",
         "type": "github"
       },
       "original": {
@@ -19,6 +19,22 @@
         "ref": "release-25.11",
         "repo": "home-manager",
         "type": "github"
+      }
+    },
+    "lspmux": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773222928,
+        "narHash": "sha256-OchqUe8GdBPL6tE3zpdaThfhzYZhYluagz1yXiexFT0=",
+        "ref": "refs/heads/main",
+        "rev": "18861f9d59e74ece8d867772cf07fa302c2dae98",
+        "revCount": 178,
+        "type": "git",
+        "url": "https://codeberg.org/p2502/lspmux/"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/p2502/lspmux/"
       }
     },
     "nixpkgs": {
@@ -39,11 +55,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1777954456,
-        "narHash": "sha256-hGdgeU2Nk87RAuZyYjyDjFL6LK7dAZN5RE9+hrDTkDU=",
+        "lastModified": 1778443072,
+        "narHash": "sha256-zi7/fsqM/kFdNuED//4WOCUtezGtKKqRNORjMvfwjnA=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "549bd84d6279f9852cae6225e372cc67fb91a4c1",
+        "rev": "da5ad661ba4e5ef59ba743f0d112cbc30e474f32",
         "type": "github"
       },
       "original": {
@@ -56,6 +72,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "lspmux": "lspmux",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable"
       }

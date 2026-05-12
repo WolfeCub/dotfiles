@@ -7,34 +7,32 @@
 
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    lspmux = {
+      url = "git+https://codeberg.org/p2502/lspmux/";
+      flake = false;
+    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      nixpkgs-unstable,
       home-manager,
       ...
     }@inputs:
     {
+      overlays = import ./overlays.nix { inherit inputs; };
+
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        vital-nix-vm =
-          let
-            system = "aarch64-linux";
-          in
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {
-              inherit inputs;
-              unstable = import nixpkgs-unstable {
-                inherit system;
-                config.allowUnfree = true;
-              };
-            };
-            modules = [ ./work/configuration.nix ];
-          };
+        vital-nix-vm = nixpkgs.lib.nixosSystem {
+          modules = [
+            { nixpkgs.overlays = builtins.attrValues self.overlays; }
+            ./work/configuration.nix
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint

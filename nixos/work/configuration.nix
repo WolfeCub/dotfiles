@@ -1,15 +1,4 @@
-{ pkgs, unstable, ... }:
-let
-  lspmuxPkg = pkgs.callPackage (
-    (pkgs.fetchFromGitea {
-      domain = "codeberg.org";
-      owner = "p2502";
-      repo = "lspmux";
-      rev = "18861f9d59e74ece8d867772cf07fa302c2dae98";
-      hash = "sha256-OchqUe8GdBPL6tE3zpdaThfhzYZhYluagz1yXiexFT0=";
-    }) + "/package.nix"
-  ) {};
-in
+{ pkgs, ... }:
 {
   imports =
     [
@@ -59,9 +48,9 @@ in
     ];
 
     packages = with pkgs; [
-      stow unstable.delta unstable.gh 
-      unstable.nodejs_latest unstable.rust-analyzer lspmuxPkg
-      unstable.claude-code tinty
+      stow unstable.delta unstable.gh
+      unstable.nodejs_latest unstable.rust-analyzer customPkgs.lspmux
+      unstable.claude-code
     ];
   };
 
@@ -111,10 +100,9 @@ in
 
   systemd.services.lspmux = {
     description = "Language server multiplexer server";
-    # path = [ raWrapper ];
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${lspmuxPkg}/bin/lspmux server";
+      ExecStart = "${pkgs.customPkgs.lspmux}/bin/lspmux server";
       User = "wolfe";
     };
   };

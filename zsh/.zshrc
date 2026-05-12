@@ -259,8 +259,6 @@ setopt promptsubst
 # Delay of 0.1 seconds
 export KEYTIMEOUT=1
 
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 ##
 ## E N D
 ##
@@ -278,3 +276,7 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         source "$BASE16_SHELL/profile_helper.sh"
+
+# This should be last
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+

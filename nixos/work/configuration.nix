@@ -4,6 +4,7 @@
     [
       ./hardware-configuration.nix # Include the results of the hardware scan.
       ./dev-env.nix
+      ../shared/garbage-collect.nix
     ];
 
   # Bootloader.

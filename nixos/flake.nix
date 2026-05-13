@@ -37,15 +37,15 @@
 
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'
-      # homeConfigurations = {
-      #   # FIXME replace with your username@hostname
-      #   "your-username@your-hostname" = home-manager.lib.homeManagerConfiguration {
-      #     # Home-manager requires 'pkgs' instance
-      #     pkgs = nixpkgs.legacyPackages.x86_64-linux; # FIXME replace x86_64-linux with your architecture
-      #     extraSpecialArgs = {inherit inputs;};
-      #     # > Our main home-manager configuration file <
-      #     modules = [./home-manager/home.nix];
-      #   };
-      # };
+      homeConfigurations = {
+        "wolfe@vital-nix-vm" = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            overlays = builtins.attrValues self.overlays;
+          };
+          extraSpecialArgs = { inherit inputs; };
+          modules = [ ./home.nix ];
+        };
+      };
     };
 }

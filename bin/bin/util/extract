@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# desc: Universal extractor
+
+if [[ -z "$1" ]]; then
+  echo "Usage: extract <archive>"
+  exit 1
+fi
+
+FILE="$1"
+
+case "$FILE" in
+  *.tar.gz|*.tgz) tar -xzvf "$FILE" ;;
+  *.tar.bz2|*.tbz2) tar -xjvf "$FILE" ;;
+  *.tar.xz|*.txz) tar -xJvf "$FILE" ;;
+  *.zip) unzip "$FILE" ;;
+  *.gz) gunzip "$FILE" ;;
+  *.bz2) bunzip2 "$FILE" ;;
+  *.xz) unxz "$FILE" ;;
+  *.rar) unrar x "$FILE" ;;
+  *.7z) 7z x "$FILE" ;;
+  *) echo "Unsupported file type: $FILE" ;;
+esac

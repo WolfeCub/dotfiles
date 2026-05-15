@@ -2,7 +2,7 @@ local function rust_analyzer_cmd()
     if vim.fn.executable('lspmux') == 1 then
         vim.fn.system('lspmux status 2>/dev/null')
         if vim.v.shell_error == 0 then
-            return { 'lspmux', 'client' }
+            return { 'lspmux', 'client', '--server-path', 'rust-analyzer' }
         end
     end
     return { 'rust-analyzer' }
@@ -16,6 +16,7 @@ vim.lsp.config['rust_analyzer'] = {
             cargo = {
                 features = "all",
                 cfgs = { "motor", "motor_ia", "motor_ht", "motor_cc", "motor_cc_ia" },
+                targetDir = true,
             },
         }
     }
@@ -32,3 +33,14 @@ vim.lsp.config['volar'] = {
 
 vim.lsp.enable('hls')
 
+vim.lsp.config['nixd'] = {
+    ---@type lspconfig.settings.nixd
+    settings = {
+        nixd = {
+            formatting = {
+                command = { 'alejandra' },
+            },
+        },
+    }
+}
+vim.lsp.enable('nixd')

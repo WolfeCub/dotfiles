@@ -26,7 +26,7 @@ wk.add({
     { '<C-M-n>', function() f.qf_move(1) end },
     { '<C-M-p>', function() f.qf_move(-1) end },
 
-    { '<leader>n', ext.narrow_to_function },
+    { '<leader>N', ext.narrow_to_function },
 
     -- Don't lose visual selection with < >
     { '<', '<gv', mode = { 'x' } },
@@ -52,7 +52,7 @@ wk.add({
     { '<M-x>', sp.commands },
 
     -- Navigation
-    { '<leader>N', function() require('mini.files').open() end },
+    { '<leader>n', function() require('mini.files').open(vim.api.nvim_buf_get_name(0)) end },
 
     -- Diagnostics
     { '<leader>d', function() vim.diagnostic.setqflist({ open = true, severity =  vim.diagnostic.severity.ERROR }) end },

@@ -14,38 +14,37 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      ...
-    }@inputs:
-    {
-      overlays = import ./overlays.nix { inherit inputs; };
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: {
+    overlays = import ./overlays.nix {inherit inputs;};
 
-      # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild --flake .#your-hostname'
-      nixosConfigurations = {
-        vital-nix-vm = nixpkgs.lib.nixosSystem {
-          modules = [
-            { nixpkgs.overlays = builtins.attrValues self.overlays; }
-            ./work/configuration.nix
-          ];
-        };
-      };
-
-      # Standalone home-manager configuration entrypoint
-      # Available through 'home-manager --flake .#your-username@your-hostname'
-      homeConfigurations = {
-        "wolfe@vital-nix-vm" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            system = "aarch64-linux";
-            overlays = builtins.attrValues self.overlays;
-          };
-          extraSpecialArgs = { inherit inputs; };
-          modules = [ ./home.nix ];
-        };
+    # NixOS configuration entrypoint
+    # Available through 'nixos-rebuild --flake .#your-hostname'
+    nixosConfigurations = {
+      vital-nix-vm = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        modules = [
+          {nixpkgs.overlays = builtins.attrValues self.overlays;}
+          ./work/configuration.nix
+        ];
       };
     };
+
+    # Standalone home-manager configuration entrypoint
+    # Available through 'home-manager --flake .#your-username@your-hostname'
+    homeConfigurations = {
+      "wolfe@vital-nix-vm" = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = "aarch64-linux";
+          overlays = builtins.attrValues self.overlays;
+        };
+        extraSpecialArgs = {inherit inputs;};
+        modules = [./home.nix];
+      };
+    };
+  };
 }

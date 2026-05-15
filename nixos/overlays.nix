@@ -1,7 +1,10 @@
 {inputs, ...}: {
   # This one brings our custom packages from the 'pkgs' directory
   customPkgs = final: _prev: {
-      customPkgs = import ./pkgs.nix { pkgs = final; inherit inputs; };
+    customPkgs = import ./pkgs.nix {
+      pkgs = final;
+      inherit inputs;
+    };
   };
 
   # This one contains whatever you want to overlay

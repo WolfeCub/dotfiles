@@ -1,11 +1,10 @@
-{ pkgs, ... }:
-{
-  imports =
-    [
-      ./hardware-configuration.nix # Include the results of the hardware scan.
-      ./dev-env.nix
-      ../shared/garbage-collect.nix
-    ];
+{pkgs, ...}: {
+  imports = [
+    ./hardware-configuration.nix # Include the results of the hardware scan.
+    ./dev-env.nix
+    ../shared/packages.nix
+    ../shared/nh.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -36,21 +35,24 @@
   # Use the x11 keymap for ttys
   console.useXkbConfig = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.wolfe = {
     shell = pkgs.zsh;
     isNormalUser = true;
     description = "Josh Wolfe";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINnJSGHR4ANwejRjD/WVVtN366Fxf1XBv2KhH6mnfMPX wolfe@wolfe-vb-mbp"
     ];
 
     packages = with pkgs; [
-      stow unstable.delta unstable.gh
-      unstable.nodejs_latest unstable.rust-analyzer customPkgs.lspmux
+      stow
+      unstable.delta
+      unstable.gh
+      unstable.nodejs_latest
+      customPkgs.lspmux
       unstable.claude-code
     ];
   };
@@ -61,7 +63,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    zsh tmux vim unstable.neovim gitFull gcc ripgrep fd fzf ghostty.terminfo nixfmt
+    ghostty.terminfo
   ];
 
   programs.zsh.enable = true;

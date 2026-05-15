@@ -11,14 +11,12 @@ let
     lib.filterAttrs (name: user: user.isNormalUser or false) config.users.users
   );
   mainUser =
-    if config.services.getty.autologinUser != null then
-      config.services.getty.autologinUser
-    else if userList != [ ] then
-      builtins.head userList
-    else
-      throw "No autologin user or normal users found for PostgreSQL setup";
-in
-{
+    if config.services.getty.autologinUser != null
+    then config.services.getty.autologinUser
+    else if userList != []
+    then builtins.head userList
+    else throw "No autologin user or normal users found for PostgreSQL setup";
+in {
   # Source: https://nixos.wiki/wiki/PostgreSQL
   config.services.postgresql = {
     enable = true;
@@ -44,7 +42,7 @@ in
   #   (fetchTarball "https://github.com/nix-community/nixos-vscode-server/tarball/master")
   # ];
   config = {
-    boot.kernelParams = [ "usbcore.usbfs_memory_mb=1000" ];
+    boot.kernelParams = ["usbcore.usbfs_memory_mb=1000"];
 
     programs = {
       ssh.startAgent = true;
@@ -103,7 +101,7 @@ in
           "https://cache.nixos.org/"
           "https://hydra.vital.company/"
         ];
-        trusted-public-keys = [ "hydra.vital.company-1:olecgNoiYwSyPA3/vfE7bbkq0yfp5NGbV1xdc/LZpIQ=" ];
+        trusted-public-keys = ["hydra.vital.company-1:olecgNoiYwSyPA3/vfE7bbkq0yfp5NGbV1xdc/LZpIQ="];
       };
       # extraOptions = ''
       #   extra-experimental-features = nix-command flakes

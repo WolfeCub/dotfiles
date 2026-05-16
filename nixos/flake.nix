@@ -8,6 +8,11 @@
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     lspmux = {
       url = "git+https://codeberg.org/p2502/lspmux/";
       flake = false;
@@ -18,33 +23,56 @@
     self,
     nixpkgs,
     home-manager,
+    nixos-wsl,
     ...
-  } @ inputs: {
-    overlays = import ./overlays.nix {inherit inputs;};
+  } @ inputs: let
+    hosts = {
+      vital-nix-vm = {
+        system = "aarch64-linux";
+        nixosModule = ./work/configuration.nix;
+      };
 
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      vital-nix-vm = nixpkgs.lib.nixosSystem {
+      nixos = {
+        system = "x86_64-linux";
+        nixosModule = ./wsl/configuration.nix;
+      };
+    };
+
+    mkHost = name: cfg:
+      nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
+
         modules = [
           {nixpkgs.overlays = builtins.attrValues self.overlays;}
-          ./work/configuration.nix
+          ./shared/packages.nix
+          ./shared/nh.nix
+          cfg.nixosModule
         ];
       };
-    };
-
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      "wolfe@vital-nix-vm" = home-manager.lib.homeManagerConfiguration {
+    mkHome = name: cfg:
+      home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
-          system = "aarch64-linux";
+          system = cfg.system;
           overlays = builtins.attrValues self.overlays;
         };
-        extraSpecialArgs = {inherit inputs;};
-        modules = [./home.nix];
+
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+
+        modules = [
+          ./home.nix
+        ];
       };
-    };
+  in {
+    overlays = import ./overlays.nix {inherit inputs;};
+
+    nixosConfigurations = builtins.mapAttrs mkHost hosts;
+    homeConfigurations =
+      nixpkgs.lib.mapAttrs' (host: cfg: {
+        name = "wolfe@${host}";
+        value = mkHome host cfg;
+      })
+      hosts;
   };
 }

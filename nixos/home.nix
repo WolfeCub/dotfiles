@@ -18,4 +18,5 @@
 
   home.file.".user.nvim".source = ../neovim/.user.nvim;
   home.file.".tmux.conf".source = ../tmux/.tmux.conf;
+  home.file.".gitconfig".source = ../git/.gitconfig;
 }

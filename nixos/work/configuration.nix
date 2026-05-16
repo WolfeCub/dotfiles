@@ -2,8 +2,6 @@
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ./dev-env.nix
-    ../shared/packages.nix
-    ../shared/nh.nix
   ];
 
   # Bootloader.

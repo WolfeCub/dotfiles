@@ -6,6 +6,7 @@
 }: {
   imports = [
     inputs.nixos-wsl.nixosModules.default
+    ../shared/user.nix
   ];
 
   wsl.enable = true;

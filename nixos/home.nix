@@ -10,5 +10,12 @@
   # Have home manager manage itself
   programs.home-manager.enable = true;
 
+  programs.zsh = {
+    enable = true;
+    syntaxHighlighting.enable = true;
+    initContent = builtins.readFile ../zsh/.zshrc;
+  };
+
   home.file.".user.nvim".source = ../neovim/.user.nvim;
+  home.file.".tmux.conf".source = ../tmux/.tmux.conf;
 }

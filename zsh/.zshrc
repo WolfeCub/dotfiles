@@ -278,5 +278,5 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
         source "$BASE16_SHELL/profile_helper.sh"
 
 # This should be last
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f ~/.zsh/zsh-syntax-highlighting ] && source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

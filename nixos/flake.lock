@@ -107,13 +107,27 @@
         "type": "github"
       }
     },
+    "nvim-shared": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779390035,
+        "narHash": "sha256-VMckpEdui5tQvQeZnOyzEOkFkS1uTifPugh39HneTtU=",
+        "path": "/home/wolfe/.nvim-shared",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/wolfe/.nvim-shared",
+        "type": "path"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "lspmux": "lspmux",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "nvim-shared": "nvim-shared"
       }
     }
   },

@@ -1,7 +1,9 @@
 {pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
-    ./dev-env.nix
+    ./software-workstation.nix
+    ./postgres.nix
+    ./remote-build.nix
   ];
 
   # Bootloader.

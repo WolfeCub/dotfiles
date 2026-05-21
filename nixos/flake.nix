@@ -17,6 +17,11 @@
       url = "git+https://codeberg.org/p2502/lspmux/";
       flake = false;
     };
+
+    nvim-shared = {
+      url = "path:/home/wolfe/.nvim-shared";
+      flake = false;
+    };
   };
 
   outputs = {

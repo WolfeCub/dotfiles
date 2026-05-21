@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# desc: relock nvim-shared flake input and apply via home-manager
+
+set -euo pipefail
+
+cd "$HOME/dotfiles/nixos"
+nix flake update nvim-shared
+nh home switch

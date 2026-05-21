@@ -9,6 +9,7 @@
     ripgrep
     fd
     fzf
+    btop
 
     nixd
     alejandra

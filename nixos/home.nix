@@ -23,6 +23,8 @@ in {
     initContent = builtins.readFile ../zsh/.zshrc;
   };
 
+  home.file.bin.source = ../bin/bin;
+
   home.file.".user.nvim" = {
     source = userNvim;
     recursive = true;

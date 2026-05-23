@@ -2,6 +2,8 @@
   description = "NixOS Configuration";
 
   inputs = {
+    self.submodules = true;
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -15,11 +17,6 @@
 
     lspmux = {
       url = "git+https://codeberg.org/p2502/lspmux/";
-      flake = false;
-    };
-
-    nvim-shared = {
-      url = "path:/home/wolfe/.nvim-shared";
       flake = false;
     };
   };

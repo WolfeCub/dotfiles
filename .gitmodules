@@ -4,3 +4,6 @@
 [submodule "zsh/.zsh/zsh-syntax-highlighting"]
 	path = zsh/.zsh/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "neovim/nvim-shared"]
+	path = neovim/.nvim-shared
+	url = git@github.com:Mulan-Szechuan-Sauce/nvim-config

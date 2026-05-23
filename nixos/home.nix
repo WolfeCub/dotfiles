@@ -33,7 +33,7 @@ in {
     config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/dotfiles/neovim/.user.nvim/lazy-lock.json";
 
-  xdg.configFile."nvim".source = lib.cleanSource inputs.nvim-shared;
+  xdg.configFile."nvim".source = lib.cleanSource ../neovim/.nvim-shared;
 
   home.file.".tmux.conf".source = ../tmux/.tmux.conf;
   home.file.".gitconfig".source = ../git/.gitconfig;

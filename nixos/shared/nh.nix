@@ -6,6 +6,6 @@
   };
 
   environment.variables = {
-      NH_FLAKE = "/home/wolfe/dotfiles/nixos";
+    NH_FLAKE = "/home/wolfe/dotfiles/nixos";
   };
 }

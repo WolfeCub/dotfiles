@@ -46,7 +46,6 @@
 
         modules = [
           {nixpkgs.overlays = builtins.attrValues self.overlays;}
-          ./shared/packages.nix
           ./shared/nh.nix
           cfg.nixosModule
         ];

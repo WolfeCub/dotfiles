@@ -49,8 +49,6 @@
 
     packages = with pkgs; [
       stow
-      unstable.delta
-      unstable.gh
       unstable.nodejs_latest
       customPkgs.lspmux
       unstable.claude-code

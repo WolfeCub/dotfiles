@@ -101,6 +101,7 @@
 
   systemd.services.lspmux = {
     description = "Language server multiplexer server";
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "simple";
       ExecStart = "${pkgs.customPkgs.lspmux}/bin/lspmux server";

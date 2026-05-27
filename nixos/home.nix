@@ -34,9 +34,6 @@ in {
 
     nixd
     alejandra
-
-    kubectl
-    kubectx
   ];
 
   programs.zsh = {

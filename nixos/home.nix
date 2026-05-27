@@ -31,6 +31,7 @@ in {
     fzf
     direnv
     btop
+    gnupg
 
     nixd
     alejandra

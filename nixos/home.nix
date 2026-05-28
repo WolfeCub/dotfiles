@@ -32,6 +32,7 @@ in {
     direnv
     btop
     gnupg
+    jq
 
     nixd
     alejandra

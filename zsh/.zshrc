@@ -229,6 +229,16 @@ function _sd {
     elif (( CURRENT == 3 )); then
         _sd_entries "${words[2]}"
         _describe 'scripts' reply
+    elif (( CURRENT >= 4 )); then
+        local script="$HOME/bin/${words[2]}/${words[3]}"
+        reply=( ${(f)"$(sed -n 's/^# flag: //p' "$script")"} )
+        _describe 'flags' reply
+        local spec=$(sed -n "s/^# arg$(( CURRENT - 3 )): //p" "$script")
+        case "$spec" in
+            @file) _files ;;
+            @dir)  _directories ;;
+            *)     compadd -- ${=spec} ;;
+        esac
     fi
 }
 compdef _sd sd

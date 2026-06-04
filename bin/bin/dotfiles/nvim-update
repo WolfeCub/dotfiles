@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # desc: update neovim's lazy-lock.json in the dotfiles repo
+# flag: --switch:run nh home switch after syncing
+# flag: --help:show help
 
 set -euo pipefail
 

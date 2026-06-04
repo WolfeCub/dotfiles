@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 # desc: show top 20 entries by disk usage in a directory
+# arg1: @dir
 
 if [ "$#" -eq 0 ]; then
     DIR=`pwd`

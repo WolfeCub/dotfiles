@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # desc: toggle or enable/disable the built-in keyboard via xinput
+# arg1: enable disable
 
 kb_name='AT Translated Set 2 keyboard'
 

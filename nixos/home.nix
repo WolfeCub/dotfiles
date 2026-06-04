@@ -4,12 +4,9 @@
   lib,
   inputs,
   ...
-}: let
-  userNvim = lib.cleanSourceWith {
-    src = ../neovim/.user.nvim;
-    filter = path: _type: baseNameOf path != "lazy-lock.json";
-  };
-in {
+}: {
+  imports = [./neovim.nix];
+
   home.username = "wolfe";
   home.homeDirectory = "/home/wolfe";
   home.stateVersion = "25.11";
@@ -21,7 +18,6 @@ in {
     zsh
     tmux
     vim
-    unstable.neovim
     gitFull
     unstable.delta
     unstable.gh
@@ -45,16 +41,6 @@ in {
   };
 
   home.file.bin.source = ../bin/bin;
-
-  home.file.".user.nvim" = {
-    source = userNvim;
-    recursive = true;
-  };
-  home.file.".user.nvim/lazy-lock.json".source =
-    config.lib.file.mkOutOfStoreSymlink
-    "${config.home.homeDirectory}/dotfiles/neovim/.user.nvim/lazy-lock.json";
-
-  xdg.configFile."nvim".source = lib.cleanSource ../neovim/.nvim-shared;
 
   home.file.".tmux.conf".source = ../tmux/.tmux.conf;
   home.file.".gitconfig".source = ../git/.gitconfig;

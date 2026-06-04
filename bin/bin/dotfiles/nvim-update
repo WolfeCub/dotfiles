@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+# desc: update neovim's lazy-lock.json in the dotfiles repo
+
+set -euo pipefail
+
+DOTFILES="${DOTFILES:-$HOME/dotfiles}"
+USER_NVIM="$DOTFILES/neovim/.user.nvim"
+LOCKFILE="$USER_NVIM/lazy-lock.json"
+LAZY_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy"
+
+# Colors, disabled when not writing to a terminal or when NO_COLOR is set.
+if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
+    BOLD=$'\e[1m' DIM=$'\e[2m' RED=$'\e[31m' GREEN=$'\e[32m'
+    BLUE=$'\e[34m' CYAN=$'\e[36m' RESET=$'\e[0m'
+else
+    BOLD='' DIM='' RED='' GREEN='' BLUE='' CYAN='' RESET=''
+fi
+
+usage() {
+    cat <<EOF
+Usage: nvim-update [--switch]
+
+Sync neovim plugins and rewrite lazy-lock.json in the dotfiles repo.
+
+  --switch     run 'nh home switch' afterward to apply the new pins
+  -h, --help   show this help
+EOF
+}
+
+switch=0
+for arg in "$@"; do
+    case "$arg" in
+        --switch) switch=1 ;;
+        -h | --help)
+            usage
+            exit 0
+            ;;
+        *)
+            printf '%s\n' "${RED}unknown argument: $arg${RESET}" >&2
+            usage >&2
+            exit 1
+            ;;
+    esac
+done
+
+if [ ! -d "$USER_NVIM" ]; then
+    printf '%s\n' "${RED}nvim user config not found at $USER_NVIM${RESET}" >&2
+    exit 1
+fi
+
+before="$(mktemp)"
+log="$(mktemp)"
+trap 'rm -f "$before" "$log"' EXIT
+cp "$LOCKFILE" "$before" 2>/dev/null || echo '{}' >"$before"
+
+# The wrapped nvim bundles the config from the read-only nix store, so :Lazy
+# can't write the lockfile there. Point it at the writable repo copy instead;
+# lazy writes lazy-lock.json next to this config (see shared/bootstrap.lua).
+# Lazy spams a per-task progress log in headless mode, so hide it and print our
+# own summary from the lockfile diff below.
+printf '%s\n' "${BLUE}Syncing plugins...${RESET}"
+if ! MSS_NEOVIM_USER_DIR="$USER_NVIM" nvim --headless "+Lazy! sync" +qa >"$log" 2>&1; then
+    printf '%s\n' "${RED}lazy sync failed:${RESET}" >&2
+    cat "$log" >&2
+    exit 1
+fi
+
+# old != new commit per plugin (covers updated, added, and removed plugins).
+changed="$(jq -nr \
+    --slurpfile old "$before" \
+    --slurpfile new "$LOCKFILE" \
+    '($old[0] // {}) as $o | ($new[0] // {}) as $n
+     | ($o + $n | keys_unsorted | unique)[]
+     | {name: ., old: $o[.].commit, new: $n[.].commit}
+     | select(.old != .new)
+     | "\(.name) \(.old // "-") \(.new // "-")"')"
+
+if [ -z "$changed" ]; then
+    printf '%s\n' "${GREEN}Already up to date${RESET} — no plugin changes."
+    [ "$switch" -eq 1 ] && printf '%s\n' "${DIM}Nothing to switch.${RESET}"
+    exit 0
+fi
+
+while read -r name old new; do
+    if [ "$old" = "-" ]; then
+        printf '\n%s  %s\n' "${BOLD}${CYAN}${name}${RESET}" "${GREEN}installed${RESET} ${DIM}${new:0:7}${RESET}"
+    elif [ "$new" = "-" ]; then
+        printf '\n%s  %s\n' "${BOLD}${CYAN}${name}${RESET}" "${RED}removed${RESET} ${DIM}${old:0:7}${RESET}"
+    else
+        printf '\n%s  %s %s %s\n' "${BOLD}${CYAN}${name}${RESET}" \
+            "${RED}${old:0:7}${RESET}" "${DIM}→${RESET}" "${GREEN}${new:0:7}${RESET}"
+        if [ -d "$LAZY_DIR/$name/.git" ]; then
+            git -C "$LAZY_DIR/$name" log --oneline --no-decorate "$old..$new" 2>/dev/null |
+                while IFS= read -r line; do
+                    printf '%s\n' "    ${DIM}${line}${RESET}"
+                done
+        fi
+    fi
+done <<<"$changed"
+
+printf '\n%s %s\n' "${GREEN}Updated${RESET}" "$LOCKFILE"
+
+if [ "$switch" -eq 1 ]; then
+    printf '%s\n' "${BLUE}Running nh home switch...${RESET}"
+    nh home switch "${NH_FLAKE:-$DOTFILES/nixos}"
+    printf '%s\n' "${GREEN}Done.${RESET} Remember to commit lazy-lock.json."
+else
+    printf '%s\n' "Commit it and rebuild to bundle the new pins."
+fi

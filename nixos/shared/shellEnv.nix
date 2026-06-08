@@ -1,12 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: {
-  imports = [./neovim.nix];
-
+{pkgs, ...}: {
   home.username = "wolfe";
   home.homeDirectory = "/home/wolfe";
   home.stateVersion = "25.11";
@@ -37,13 +29,13 @@
   programs.zsh = {
     enable = true;
     syntaxHighlighting.enable = true;
-    initContent = builtins.readFile ../zsh/.zshrc;
+    initContent = builtins.readFile ../../zsh/.zshrc;
   };
 
-  home.file.bin.source = ../bin/bin;
+  home.file.bin.source = ../../bin/bin;
 
-  home.file.".tmux.conf".source = ../tmux/.tmux.conf;
-  home.file.".gitconfig".source = ../git/.gitconfig;
+  home.file.".tmux.conf".source = ../../tmux/.tmux.conf;
+  home.file.".gitconfig".source = ../../git/.gitconfig;
 
   # SQLite shell history
   programs.atuin = {

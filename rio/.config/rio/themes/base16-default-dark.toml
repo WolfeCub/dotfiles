@@ -1,0 +1,66 @@
+# Base16 Default Dark theme for Rio Terminal
+# Scheme Author: Chris Kempson (http://chriskempson.com)
+# Based on the Ghostty/Tinted Terminal palette
+# Place at ~/.config/rio/themes/base16-default-dark.toml
+# Then set `theme = "base16-default-dark"` in config.toml
+
+[colors]
+# Background / Foreground
+background       = '#181818'  # base00 / palette 0
+foreground       = '#d8d8d8'  # base05 / palette 7
+
+# Regular ANSI colors (palette 0–7)
+black            = '#181818'  # base00
+red              = '#ab4642'  # base08
+green            = '#a1b56c'  # base0B
+yellow           = '#f7ca88'  # base0A
+blue             = '#7cafc2'  # base0D
+magenta          = '#ba8baf'  # base0E
+cyan             = '#86c1b9'  # base0C
+white            = '#d8d8d8'  # base05
+
+# Bright colors (palette 8–15)
+light-black      = '#585858'  # base03 / palette 8
+light-red        = '#ab4642'  # base08 / palette 9
+light-green      = '#a1b56c'  # base0B / palette 10
+light-yellow     = '#f7ca88'  # base0A / palette 11
+light-blue       = '#7cafc2'  # base0D / palette 12
+light-magenta    = '#ba8baf'  # base0E / palette 13
+light-cyan       = '#86c1b9'  # base0C / palette 14
+light-white      = '#f8f8f8'  # base07 / palette 15
+light-foreground = '#e8e8e8'  # base06 / palette 21
+
+# Dim colors (palette 16–20 range)
+dim-black        = '#282828'  # base01 / palette 18
+dim-red          = '#a16946'  # base09-ish / palette 17
+dim-green        = '#a1b56c'  # base0B (muted)
+dim-yellow       = '#dc9656'  # base09 / palette 16
+dim-blue         = '#7cafc2'  # base0D (muted)
+dim-magenta      = '#ba8baf'  # base0E (muted)
+dim-cyan         = '#86c1b9'  # base0C (muted)
+dim-white        = '#b8b8b8'  # base04 / palette 20
+dim-foreground   = '#b8b8b8'  # base04 / palette 20
+
+# Cursor
+cursor           = '#d8d8d8'  # base05
+vi-cursor        = '#86c1b9'  # base0C
+
+# Navigation
+bar              = '#181818'  # base00
+split            = '#282828'  # base01
+tabs             = '#585858'  # base03
+tabs-active      = '#d8d8d8'  # base05
+
+# Selection (from Ghostty: bg=#d8d8d8, fg=#383838)
+selection-background = '#d8d8d8'  # base05
+selection-foreground = '#383838'  # base02 / palette 19
+
+# Search (from Ghostty: search-background=#f7ca88 fg=#282828, focused=#dc9656 fg=#282828)
+search-match-background         = '#f7ca88'  # base0A / palette 11
+search-match-foreground         = '#282828'  # base01 / palette 18
+search-focused-match-background = '#dc9656'  # base09 / palette 16
+search-focused-match-foreground = '#282828'  # base01 / palette 18
+
+# Hints
+hint-background  = '#f7ca88'  # base0A
+hint-foreground  = '#282828'  # base01

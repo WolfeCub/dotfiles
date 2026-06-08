@@ -1,0 +1,8 @@
+theme = "base16-default-dark"
+
+option-as-alt = 'left'
+
+[fonts]
+size = 14
+family = "FiraCode Nerd Font Mono"
+

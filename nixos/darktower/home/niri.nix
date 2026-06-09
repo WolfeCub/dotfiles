@@ -9,9 +9,12 @@
     vertical = "DP-2";
   };
 in {
+  imports = [
+    inputs.niri.homeModules.config
+  ];
+
   home.packages = with pkgs; [
     niri
-    inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
     xwayland-satellite
     playerctl
   ];
@@ -47,6 +50,11 @@ in {
       mod-key-nested = "Super";
 
       focus-follows-mouse.enable = true;
+
+      keyboard = {
+        repeat-delay = 230;
+        repeat-rate = 40;
+      };
     };
 
     outputs = {
@@ -434,9 +442,5 @@ in {
       # moving the mouse or pressing any other key.
       "Mod+Shift+P".action.power-off-monitors = {};
     };
-  };
-
-  programs.noctalia = {
-    enable = true;
   };
 }

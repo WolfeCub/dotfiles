@@ -4,21 +4,26 @@
   ...
 }: {
   imports = [
-    inputs.niri.homeModules.config
-    inputs.noctalia.homeModules.default
+    inputs.nixcord.homeModules.nixcord
 
     ../../shared/shellEnv.nix
     ../../shared/neovim.nix
     ../../shared/rio.nix
 
     ./fonts.nix
-    ./desktop.nix
+    ./niri.nix
+    ./noctalia.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     rio
     firefox-devedition
-    discord
   ];
+
+  programs.nixcord = {
+    enable = true;
+    discord.vencord.enable = true;
+    discord.krisp.enable = true;
+  };
 }

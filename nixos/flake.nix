@@ -28,6 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixcord = {
+      url = "github:FlameFlag/nixcord";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     lspmux = {
       url = "git+https://codeberg.org/p2502/lspmux/";
       flake = false;

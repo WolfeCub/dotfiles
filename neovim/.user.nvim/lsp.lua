@@ -33,15 +33,32 @@ vim.lsp.config['volar'] = {
 
 vim.lsp.enable('hls')
 
+local hostname = vim.loop.os_gethostname()
+local username = vim.env.USER
 vim.lsp.config['nixd'] = {
+    cmd = { "nixd" },
+    filetypes = { "nix" },
+    root_markers = { "flake.nix", ".git" },
     ---@type lspconfig.settings.nixd
     settings = {
         nixd = {
             formatting = {
                 command = { 'alejandra' },
             },
+            nixpkgs = {
+                expr = "import <nixpkgs> { }",
+            },
+            options = {
+                nixos = {
+                    expr = string.format('(builtins.getFlake (toString ./.)).nixosConfigurations.%s.options', hostname),
+                },
+                home_manager = {
+                    expr = string.format('(builtins.getFlake (toString ./.)).homeConfigurations."%s@%s".options', username, hostname),
+                },
+            },
         },
     }
 }
+
 vim.lsp.enable('nixd')
 vim.lsp.enable('yamlls')

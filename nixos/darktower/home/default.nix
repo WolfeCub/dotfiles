@@ -9,7 +9,9 @@
 
     ../../shared/shellEnv.nix
     ../../shared/neovim.nix
+    ../../shared/rio.nix
 
+    ./fonts.nix
     ./desktop.nix
   ];
 

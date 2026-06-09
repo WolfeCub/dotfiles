@@ -9,6 +9,10 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./audio.nix
+    ./graphics.nix
+    ./substitutors.nix
+    ./games.nix
   ];
 
   # Bootloader.
@@ -95,30 +99,5 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  nix.settings = {
-    extra-substituters = [
-      "https://noctalia.cachix.org"
-      "https://niri.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
-    ];
-  };
-
-  hardware.graphics.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.nvidia.open = true;
-
   programs.nix-ld.enable = true;
-
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  services.blueman.enable = true;
 }

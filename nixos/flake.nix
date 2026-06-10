@@ -7,6 +7,10 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
+    import-tree.url = "github:vic/import-tree";
+
     home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -39,70 +43,6 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    ...
-  } @ inputs: let
-    hosts = {
-      vital-nix-vm = {
-        system = "aarch64-linux";
-        path = ./work;
-      };
-
-      nixos = {
-        system = "x86_64-linux";
-        path = ./wsl;
-      };
-
-      darktower = {
-        system = "x86_64-linux";
-        path = ./darktower;
-      };
-    };
-
-    # Prefer a directory (`base`) over a sibling `.nix` file.
-    pickPath = base:
-      if builtins.pathExists base
-      then base
-      else base + ".nix";
-
-    mkHost = name: cfg:
-      nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
-
-        modules = [
-          {nixpkgs.overlays = builtins.attrValues self.overlays;}
-          ./shared/nh.nix
-          (cfg.path + "/configuration")
-        ];
-      };
-    mkHome = name: cfg:
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = cfg.system;
-          overlays = builtins.attrValues self.overlays;
-        };
-
-        extraSpecialArgs = {
-          inherit inputs;
-          dfRoot = ../.;
-        };
-
-        modules = [
-          (pickPath (cfg.path + "/home"))
-        ];
-      };
-  in {
-    overlays = import ./overlays.nix {inherit inputs;};
-
-    nixosConfigurations = builtins.mapAttrs mkHost hosts;
-    homeConfigurations =
-      nixpkgs.lib.mapAttrs' (host: cfg: {
-        name = "wolfe@${host}";
-        value = mkHome host cfg;
-      })
-      hosts;
-  };
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
 }

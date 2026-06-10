@@ -87,6 +87,7 @@
 
         extraSpecialArgs = {
           inherit inputs;
+          dfRoot = ../.;
         };
 
         modules = [

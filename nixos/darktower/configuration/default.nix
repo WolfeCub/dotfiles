@@ -7,6 +7,7 @@
   ...
 }: {
   imports = [
+    ../../shared/user.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./audio.nix

@@ -62,6 +62,12 @@
       };
     };
 
+    # Prefer a directory (`base`) over a sibling `.nix` file.
+    pickPath = base:
+      if builtins.pathExists base
+      then base
+      else base + ".nix";
+
     mkHost = name: cfg:
       nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;};
@@ -69,7 +75,6 @@
         modules = [
           {nixpkgs.overlays = builtins.attrValues self.overlays;}
           ./shared/nh.nix
-          ./shared/user.nix
           (cfg.path + "/configuration")
         ];
       };
@@ -85,7 +90,7 @@
         };
 
         modules = [
-          (cfg.path + "/home")
+          (pickPath (cfg.path + "/home"))
         ];
       };
   in {

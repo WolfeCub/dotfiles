@@ -62,6 +62,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     ghostty.terminfo
+    rio.terminfo
   ];
 
   programs.zsh.enable = true;

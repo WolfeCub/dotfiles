@@ -1,5 +1,11 @@
 _: {
-  flake.nixosModules.vital-nix-vm = {pkgs, ...}: {
+  flake.nixosModules.vital-nix-vm = {
+    pkgs,
+    inputs,
+    ...
+  }: let
+    lspmux = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.lspmux;
+  in {
     # Bootloader.
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
@@ -44,7 +50,7 @@ _: {
       packages = with pkgs; [
         stow
         unstable.nodejs_latest
-        customPkgs.lspmux
+        lspmux
         unstable.claude-code
       ];
     };
@@ -96,7 +102,7 @@ _: {
       wantedBy = ["multi-user.target"];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.customPkgs.lspmux}/bin/lspmux server";
+        ExecStart = "${lspmux}/bin/lspmux server";
         User = "wolfe";
       };
     };

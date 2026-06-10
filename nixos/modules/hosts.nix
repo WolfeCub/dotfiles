@@ -2,6 +2,7 @@
   inputs,
   lib,
   withSystem,
+  dfRoot,
   ...
 }: let
   inherit (inputs.self) nixosModules homeModules;
@@ -32,10 +33,7 @@
       inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        extraSpecialArgs = {
-          inherit inputs;
-          dfRoot = ../..;
-        };
+        extraSpecialArgs = {inherit inputs dfRoot;};
 
         modules = [homeModules.${name}];
       });

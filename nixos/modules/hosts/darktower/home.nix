@@ -11,7 +11,6 @@
         noctalia
       ]);
 
-    nixpkgs.config.allowUnfree = true;
     home.packages = with pkgs; [
       rio
       firefox-devedition

@@ -4,6 +4,7 @@
 
 Here are my personal dotfiles.
 
+- [NixOS](https://nixos.org/) - my machines (and home directory) are built from the flake in this repo
 - [zsh](http://www.zsh.org/) - shell
 - [neovim](https://github.com/neovim/neovim) - my primary editor
   - Most of the config can be found here [Mulan-Szechuan-Sauce/nvim-config](https://github.com/Mulan-Szechuan-Sauce/nvim-config) which
@@ -11,33 +12,23 @@ Here are my personal dotfiles.
 - [emacs](https://www.gnu.org/software/emacs/) - used to be my primary editor (my old `.emacs.d` makes up a good portion of this repo)
 
 
-## Installing
+## NixOS
 
-My dotfiles are managed using [GNU Stow](https://www.gnu.org/software/stow/). This makes it easy to add and remove modules
-(and their symbolic links).
+My machines are built from the Nix flake at the root of this repo. The flake is tiny — it uses
+[`flake-parts`](https://github.com/hercules-ci/flake-parts) + [`import-tree`](https://github.com/vic/import-tree) so
+every `.nix` file under `nixos/` is auto-imported as a module (the "dendritic" pattern). There's no central module list;
+each file just registers what it adds via `flake.nixosModules.*`, `flake.homeModules.*`, or `perSystem.packages.*`.
 
-
-### One Liner
-
-This one line will clone my dotfiles and begin the installer.
-
-```bash
-curl https://raw.githubusercontent.com/WolfeCub/dotfiles/master/install.sh | bash -s -- -g <& 1
 ```
-
-
-### Manual Installation
-
-If you don't want to use the one liner or the install script.
-You can install each module individually using `stow [name]` as shown below.
-This allows you to only use the modules that you want.
-
-```bash
-    git clone --recursive https://github.com/WolfeCub/dotfiles.git
-    cd dotfiles
-    stow zsh
-    stow emacs
-    ...
+nixos/
+├── parts.nix        # flake-parts setup
+├── overlays.nix     # the one place nixpkgs is built (allowUnfree + pkgs.unstable)
+├── hosts.nix        # assembles nixosConfigurations + homeConfigurations
+├── checks.nix       # exposes every host/home build as a flake check
+├── os/              # nixos system modules: user, nh, audio, graphics, games
+├── home/            # home-manager modules: shell, neovim, niri, noctalia, rio, fonts
+├── packages/        # flake package outputs, runnable via `nix run`
+└── hosts/           # per-machine config
 ```
 
 

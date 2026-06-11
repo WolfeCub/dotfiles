@@ -1,7 +1,7 @@
 {inputs, ...}: let
   # The dotfiles repo root, one level above this flake. Threaded to both the
   # nixos/home configs (via hosts.nix) and perSystem packages as `dfRoot`.
-  dfRoot = ../..;
+  dfRoot = ../.;
 in {
   imports = [
     inputs.home-manager.flakeModules.home-manager

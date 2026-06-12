@@ -28,10 +28,11 @@ _: {
         preset-column-widths = [
           {proportion = 0.5;}
           {proportion = 0.33333;}
+          {proportion = 0.66666;}
         ];
 
         default-column-width = {
-          proportion = 1.0;
+          proportion = 0.5;
         };
 
         struts = {
@@ -67,6 +68,7 @@ _: {
         "${monitors.primary}" = {
           position.x = 3072;
           position.y = 0;
+          focus-at-startup = true;
         };
 
         "${monitors.vertical}" = {

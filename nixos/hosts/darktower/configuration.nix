@@ -8,6 +8,7 @@
       audio
       graphics
       games
+      ly
     ];
 
     # Bootloader.

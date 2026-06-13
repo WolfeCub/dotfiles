@@ -19,5 +19,15 @@ _: {
       "nvidia-drm.modeset=1"
       "nvidia-drm.fbdev=1" # needed on driver 545+
     ];
+
+    environment.sessionVariables = {
+      # for hyprland with nvidia gpu" = " ref https://wiki.hyprland.org/Nvidia/
+      "LIBVA_DRIVER_NAME" = "nvidia";
+      "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
+      # VA-API hardware video acceleration
+      "NVD_BACKEND" = "direct";
+
+      "GBM_BACKEND" = "nvidia-drm";
+    };
   };
 }

@@ -6,3 +6,6 @@ option-as-alt = 'left'
 size = 14
 family = "FiraCode Nerd Font Mono"
 
+
+[window]
+decorations = "Disabled"

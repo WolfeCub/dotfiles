@@ -93,13 +93,5 @@
     nix.settings.experimental-features = ["nix-command" "flakes"];
 
     programs.nix-ld.enable = true;
-
-    # Don't show the TTY on the 1080p vertical monitor
-    #boot.kernelParams = ["video=DP-2:d"];
-    #console = {
-    #  font = "ter-v32n"; # good for 4K; go up to ter-v40n if you want bigger
-    #  packages = [pkgs.terminus_font];
-    #  earlySetup = true; # applies font from initrd, not just after boot
-    #};
   };
 }

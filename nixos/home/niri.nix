@@ -116,9 +116,9 @@ _: {
           hotkey-overlay.title = "Open Noctalia launcher";
           action.spawn-sh = "noctalia msg panel-toggle launcher";
         };
-        "Super+Alt+L" = {
-          hotkey-overlay.title = "Lock the Screen: swaylock";
-          action.spawn = "swaylock";
+        "Mod+B" = {
+          hotkey-overlay.title = "Open a Browser: firefox";
+          action.spawn = "firefox-devedition";
         };
 
         # Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.

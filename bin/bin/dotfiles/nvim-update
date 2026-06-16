@@ -13,9 +13,9 @@ LAZY_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy"
 # Colors, disabled when not writing to a terminal or when NO_COLOR is set.
 if [ -t 1 ] && [ -z "${NO_COLOR:-}" ]; then
     BOLD=$'\e[1m' DIM=$'\e[2m' RED=$'\e[31m' GREEN=$'\e[32m'
-    BLUE=$'\e[34m' CYAN=$'\e[36m' RESET=$'\e[0m'
+    YELLOW=$'\e[33m' BLUE=$'\e[34m' CYAN=$'\e[36m' RESET=$'\e[0m'
 else
-    BOLD='' DIM='' RED='' GREEN='' BLUE='' CYAN='' RESET=''
+    BOLD='' DIM='' RED='' GREEN='' YELLOW='' BLUE='' CYAN='' RESET=''
 fi
 
 usage() {
@@ -107,5 +107,5 @@ if [ "$switch" -eq 1 ]; then
     nh home switch "${NH_FLAKE:-$DOTFILES/nixos}"
     printf '%s\n' "${GREEN}Done.${RESET} Remember to commit lazy-lock.json."
 else
-    printf '%s\n' "Commit it and rebuild to bundle the new pins."
+    printf '%s\n' "Remember to run ${YELLOW}nh home switch${RESET} to apply the changes"
 fi

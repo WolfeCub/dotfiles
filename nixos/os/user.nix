@@ -1,5 +1,9 @@
 _: {
-  flake.nixosModules.user = {pkgs, ...}: {
+  flake.nixosModules.user = {
+    pkgs,
+    config,
+    ...
+  }: {
     users.users.wolfe = {
       shell = pkgs.zsh;
       isNormalUser = true;
@@ -8,6 +12,8 @@ _: {
     };
 
     programs.zsh.enable = true;
-    programs.ssh.startAgent = true;
+
+    # Unable sshAgent unless we've enabled gnome-keyring somewhere
+    programs.ssh.startAgent = !config.services.gnome.gnome-keyring.enable;
   };
 }

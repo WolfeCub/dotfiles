@@ -9,6 +9,9 @@
       graphics
       games
       gpg
+      niri
+      hyprland
+      noctalia-greeter
     ];
 
     # Bootloader.
@@ -93,5 +96,7 @@
     nix.settings.experimental-features = ["nix-command" "flakes"];
 
     programs.nix-ld.enable = true;
+
+    boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-bore-lto-x86_64-v3;
   };
 }

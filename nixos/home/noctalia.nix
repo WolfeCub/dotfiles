@@ -20,7 +20,13 @@ _: {
 
       settings = {
         theme = {
-          builtin = "Ayu";
+          mode = "dark";
+          source = "wallpaper";
+          wallpaper_scheme = "m3-content";
+        };
+
+        wallpaper = {
+          directory = "~/Pictures/wallpapers/";
         };
 
         widget.gap = {
@@ -44,7 +50,18 @@ _: {
           display = "graph";
         };
 
+        widget.workspaces = {
+          display = "name";
+        };
+
         bar.default = {
+          margin_edge = 0;
+          margin_ends = 0;
+          radius = 0;
+          shadow = false;
+          capsule = true;
+
+          start = ["workspaces"];
           center = ["clock"];
           end = [
             "media"
@@ -62,11 +79,6 @@ _: {
             "brightness"
             "notifications"
           ];
-          margin_edge = 0;
-          margin_ends = 0;
-          radius = 0;
-          shadow = false;
-          start = ["workspaces"];
         };
 
         location.auto_locate = true;
@@ -75,6 +87,7 @@ _: {
         dock = {
           enabled = true;
           auto_hide = true;
+          reserve_space = false;
         };
 
         system.monitor = {

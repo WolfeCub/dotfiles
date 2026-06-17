@@ -7,8 +7,9 @@
         neovim
         rio
         fonts
-        niri
+        niriConfig
         noctalia
+        ghostty
       ]);
 
     home.packages = with pkgs; [

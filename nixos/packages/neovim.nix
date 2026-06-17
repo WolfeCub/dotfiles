@@ -10,7 +10,7 @@
     packages.neovim = let
       userNvim = lib.cleanSource (dfRoot + /neovim/.user.nvim);
     in
-      inputs.nix-wrapper-modules.wrappers.neovim.wrap {
+      inputs.wrapper-modules.wrappers.neovim.wrap {
         inherit pkgs;
 
         # Base neovim. Wrap the unwrapped derivation so we don't double-wrap.

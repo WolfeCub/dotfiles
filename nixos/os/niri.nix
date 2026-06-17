@@ -1,5 +1,18 @@
 _: {
-  flake.homeModules.niri = {
+  flake.nixosModules.niri = {
+    pkgs,
+    inputs,
+    ...
+  }: {
+    imports = [
+      inputs.niri.nixosModules.niri
+    ];
+
+    programs.niri.enable = true;
+    programs.niri.package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
+  };
+
+  flake.homeModules.niriConfig = {
     pkgs,
     inputs,
     ...
@@ -11,16 +24,14 @@ _: {
     };
   in {
     imports = [
-      inputs.niri.homeModules.config
+      inputs.niri.homeModules.niri
     ];
 
     home.packages = with pkgs; [
-      niri
       xwayland-satellite
       playerctl
     ];
 
-    programs.niri.package = pkgs.niri;
     programs.niri.settings = {
       layout = {
         gaps = 0;
@@ -109,8 +120,8 @@ _: {
 
         # Suggested binds for running programs: terminal, app launcher, screen locker.
         "Mod+T" = {
-          hotkey-overlay.title = "Open a Terminal: rio";
-          action.spawn = "rio";
+          hotkey-overlay.title = "Open a Terminal: ghostty";
+          action.spawn = "ghostty";
         };
         "Mod+Return" = {
           hotkey-overlay.title = "Open Noctalia launcher";
@@ -377,7 +388,8 @@ _: {
         # maximize-window-to-edges doesn't: the window expands to the edges of the screen.
         # This bind corresponds to normal window maximizing,
         # e.g. by double-clicking on the titlebar.
-        "Mod+M".action.maximize-window-to-edges = {};
+        # TODO:
+        # "Mod+M".action.maximize-window-to-edges = {};
 
         # Expand the focused column to space not taken up by other fully visible columns.
         # Makes the column "fill the rest of the space".

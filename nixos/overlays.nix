@@ -15,6 +15,8 @@
             config.allowUnfree = true;
           };
         })
+
+        inputs.nix-cachyos-kernel.overlays.pinned
       ];
     };
   };

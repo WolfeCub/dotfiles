@@ -6,6 +6,8 @@ _: {
   }: let
     lspmux = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.lspmux;
   in {
+    imports = [inputs.self.nixosModules.lspmux];
+
     # Bootloader.
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
@@ -97,14 +99,9 @@ _: {
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
     system.stateVersion = "25.11"; # Did you read the comment?
 
-    systemd.services.lspmux = {
-      description = "Language server multiplexer server";
-      wantedBy = ["multi-user.target"];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${lspmux}/bin/lspmux server";
-        User = "wolfe";
-      };
+    services.lspmux = {
+      enable = true;
+      user = "wolfe";
     };
   };
 }

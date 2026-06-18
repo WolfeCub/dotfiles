@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.graphics = {...}: {
+  flake.nixosModules.graphics = {config, ...}: {
     hardware.graphics = {
       enable = true;
       enable32Bit = true; # Needed for Steam/WINE
@@ -9,6 +9,8 @@ _: {
 
     hardware.nvidia = {
       open = true;
+      package = config.boot.kernelPackages.nvidiaPackages.new_feature;
+
       modesetting.enable = true;
 
       powerManagement.enable = false;

@@ -210,14 +210,14 @@ _: {
           action.close-window = {};
         };
 
-        "Mod+Left".action.focus-column-left = {};
+        "Mod+Left".action.focus-column-or-monitor-left = {};
         "Mod+Down".action.focus-window-down = {};
         "Mod+Up".action.focus-window-up = {};
-        "Mod+Right".action.focus-column-right = {};
-        "Mod+H".action.focus-column-left = {};
+        "Mod+Right".action.focus-column-or-monitor-right = {};
+        "Mod+H".action.focus-column-or-monitor-left = {};
         "Mod+J".action.focus-window-down = {};
         "Mod+K".action.focus-window-up = {};
-        "Mod+L".action.focus-column-right = {};
+        "Mod+L".action.focus-column-or-monitor-right = {};
 
         "Mod+Ctrl+Left".action.move-column-left = {};
         "Mod+Ctrl+Down".action.move-window-down = {};

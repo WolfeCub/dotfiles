@@ -52,6 +52,7 @@ _: {
 
         widget.workspaces = {
           display = "name";
+          hide_when_empty = true;
         };
 
         bar.default = {

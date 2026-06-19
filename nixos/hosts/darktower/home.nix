@@ -10,6 +10,7 @@
         niriConfig
         noctalia
         ghostty
+        mangoConfig
       ]);
 
     home.packages = with pkgs; [

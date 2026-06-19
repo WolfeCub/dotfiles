@@ -80,6 +80,8 @@ _: {
           position.x = 3072;
           position.y = 0;
           focus-at-startup = true;
+
+          variable-refresh-rate = "on-demand";
         };
 
         "${monitors.vertical}" = {
@@ -100,6 +102,14 @@ _: {
           matches = [{app-id = "discord";}];
           open-on-output = monitors.vertical;
           open-fullscreen = true;
+        }
+        {
+          # Enable VRR for games.
+          matches = [
+            {app-id = "^steam_app_";}
+            {app-id = "^gamescope$";}
+          ];
+          variable-refresh-rate = true;
         }
       ];
 

@@ -43,10 +43,13 @@ _: {
         # Reduces input lag for gaming. Global but 2 = fullscreen-only
         allow_tearing = 2;
 
-        repeat_delay = 230;
-        repeat_rate = 40;
         focus_cross_monitor = 1; # let focusdir h/l cross monitor edges
         exchange_cross_monitor = 1; # let exchange_client move windows across monitors
+        drag_tile_to_tile = 1;
+
+        # Input
+        repeat_delay = 230;
+        repeat_rate = 40;
 
         monitorrule = [
           # Left monitor

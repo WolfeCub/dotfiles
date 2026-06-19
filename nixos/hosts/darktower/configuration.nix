@@ -12,6 +12,7 @@
       niri
       hyprland
       noctalia-greeter
+      mango
     ];
 
     # Bootloader.

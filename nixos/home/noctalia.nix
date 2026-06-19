@@ -10,10 +10,6 @@ _: {
       inputs.noctalia.homeModules.default
     ];
 
-    # home.packages = [
-    #   inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-    # ];
-
     programs.noctalia = {
       enable = true;
       package = noctalia-pkg.override {cudaSupport = true;};

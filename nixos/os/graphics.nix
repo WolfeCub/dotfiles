@@ -1,5 +1,9 @@
 _: {
-  flake.nixosModules.graphics = {config, ...}: {
+  flake.nixosModules.graphics = {
+    pkgs,
+    config,
+    ...
+  }: {
     hardware.graphics = {
       enable = true;
       enable32Bit = true; # Needed for Steam/WINE
@@ -31,5 +35,9 @@ _: {
 
       "GBM_BACKEND" = "nvidia-drm";
     };
+
+    environment.systemPackages = [
+      pkgs.nvtopPackages.nvidia
+    ];
   };
 }

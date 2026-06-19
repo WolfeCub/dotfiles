@@ -1,5 +1,5 @@
-_: {
-  flake.nixosModules.mango = {inputs, ...}: {
+{inputs, ...}: {
+  flake.nixosModules.mango = {...}: {
     imports = [
       inputs.mangowm.nixosModules.mango
     ];
@@ -7,27 +7,23 @@ _: {
     programs.mango.enable = true;
   };
 
-  flake.homeModules.mangoConfig = {
-    pkgs,
-    inputs,
-    ...
-  }: let
-    monitors = {
-      primary = "DP-3";
-      secondary = "HDMI-A-1";
-      vertical = "DP-2";
-    };
-    mod = "ALT";
-  in {
+  flake.homeModules.mangoConfig = {pkgs, ...}: {
     imports = [
       inputs.mangowm.hmModules.mango
     ];
 
-    home.packages = with pkgs; [
-      playerctl
+    home.packages = [
+      pkgs.playerctl
     ];
 
-    wayland.windowManager.mango = {
+    wayland.windowManager.mango = let
+      monitors = {
+        primary = "DP-3";
+        secondary = "HDMI-A-1";
+        vertical = "DP-2";
+      };
+      mod = "ALT";
+    in {
       enable = true;
 
       autostart_sh = ''
@@ -43,19 +39,26 @@ _: {
         # Reduces input lag for gaming. Global but 2 = fullscreen-only
         allow_tearing = 2;
 
-        focus_cross_monitor = 1; # let focusdir h/l cross monitor edges
-        exchange_cross_monitor = 1; # let exchange_client move windows across monitors
+        focus_cross_monitor = 1;
         drag_tile_to_tile = 1;
+        drag_tile_small = 0;
 
         # Input
         repeat_delay = 230;
         repeat_rate = 40;
 
+        # Visual
+        focuscolor = "0xbec7dbff";
+        tab_bar_height = 25;
+        tab_bar_decorate_font_desc = "monospace Bold 11";
+        tab_bar_decorate_border_width = 2;
+
         monitorrule = [
           # Left monitor
           "name:${monitors.secondary},scale:1.25,x:0,y:0"
           # Middle monitor (primary), vrr for variable refresh rate
-          "name:${monitors.primary},scale:1.25,x:3072,y:0,vrr:1"
+          "name:${monitors.primary},scale:1.25,x:3072,y:0"
+          # "name:${monitors.primary},scale:1.25,x:3072,y:0,vrr:1"
           # Right monitor (vertical), rr:1 = 90deg rotation
           "name:${monitors.vertical},scale:1,x:6144,y:0,rr:1"
         ];
@@ -75,8 +78,8 @@ _: {
           "${mod},btn_right,moveresize,curresize"
         ];
 
-        # Auto fullscreen Discord on the vertical monitor
         windowrule = [
+          # Auto fullscreen Discord on the vertical monitor
           "appid:^([Dd]iscord|[Vv]esktop|com\\.discordapp\\.Discord)$,monitor:${monitors.vertical},isfullscreen:1"
         ];
 
@@ -104,6 +107,9 @@ _: {
           "${mod}+SHIFT,e,quit"
           "${mod},f,togglefullscreen,"
           "${mod},space,togglefloating,"
+          "${mod},m,setlayout,monocle"
+          "${mod},d,setlayout,dwindle"
+          "${mod},TAB,focuslast,"
           "${mod},o,toggleoverview,"
 
           # Focus / Movement
@@ -116,6 +122,13 @@ _: {
           "${mod}+CTRL,l,exchange_client,right"
           "${mod}+CTRL,j,exchange_client,down"
           "${mod}+CTRL,k,exchange_client,up"
+          "${mod}+CTRL+SHIFT,H,tagmon,left"
+          "${mod}+CTRL+SHIFT,L,tagmon,right"
+          "${mod}+CTRL+SHIFT,J,tagmon,down"
+          "${mod}+CTRL+SHIFT,K,tagmon,up"
+
+          # Super binds
+          "${mod}+CTRL,r,reload_config"
 
           # Media keys
           "none,XF86AudioRaiseVolume,spawn,wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1.0"

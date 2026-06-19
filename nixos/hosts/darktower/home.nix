@@ -8,9 +8,9 @@
         rio
         fonts
         niriConfig
+        mangoConfig
         noctalia
         ghostty
-        mangoConfig
       ]);
 
     home.packages = with pkgs; [

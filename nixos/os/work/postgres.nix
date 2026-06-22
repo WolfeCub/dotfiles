@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.vital-nix-vm = {
+  flake.nixosModules.workPostgres = {
     config,
     pkgs,
     lib,

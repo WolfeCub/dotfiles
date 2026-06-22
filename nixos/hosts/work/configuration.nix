@@ -1,4 +1,4 @@
-_: {
+{inputs, ...}: {
   flake.nixosModules.vital-nix-vm = {
     pkgs,
     inputs,
@@ -6,7 +6,12 @@ _: {
   }: let
     lspmux = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.lspmux;
   in {
-    imports = [inputs.self.nixosModules.lspmux];
+    imports = with inputs.self.nixosModules; [
+      workPostgres
+      workRemoteBuild
+      workSoftwareWorkstation
+      lspmux
+    ];
 
     # Bootloader.
     boot.loader.systemd-boot.enable = true;
@@ -26,7 +31,7 @@ _: {
     time.timeZone = "America/Toronto";
 
     # Select internationalisation properties.
-    i18n.defaultLocale = "en_CA.UTF-8";
+    i18n.defaultLocale = "en_US.UTF-8";
 
     # Configure keymap in X11
     services.xserver.xkb = {

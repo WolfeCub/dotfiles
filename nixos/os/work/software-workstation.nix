@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.vital-nix-vm = {pkgs, ...}: {
+  flake.nixosModules.workSoftwareWorkstation = {pkgs, ...}: {
     # Software Workstation:
 
     # imports = [

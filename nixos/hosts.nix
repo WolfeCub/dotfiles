@@ -12,6 +12,7 @@
   # from the per-system pkgs defined in overlays.nix, via withSystem.
   hosts = {
     vital-nix-vm = "aarch64-linux";
+    vital-nix-orb = "aarch64-linux";
     nixos = "x86_64-linux";
     darktower = "x86_64-linux";
   };

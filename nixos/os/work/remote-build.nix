@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.vital-nix-vm = {...}: {
+  flake.nixosModules.workRemoteBuild = {...}: {
     nix = {
       # Remote builder for swops ./push.sh
       distributedBuilds = true;

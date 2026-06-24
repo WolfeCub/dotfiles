@@ -28,6 +28,7 @@
 
       autostart_sh = ''
         noctalia &
+        sleep 0.5 && mmsg -d focusmon,${monitors.primary} &
       '';
 
       settings = {
@@ -109,7 +110,8 @@
           "${mod},space,togglefloating,"
           "${mod},m,setlayout,monocle"
           "${mod},d,setlayout,dwindle"
-          "${mod},TAB,focuslast,"
+          "${mod},TAB,focusstack,next"
+          "${mod}+SHIFT,TAB,focusstack,previous"
           "${mod},o,toggleoverview,"
 
           # Focus / Movement

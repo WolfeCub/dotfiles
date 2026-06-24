@@ -13,6 +13,7 @@
       hyprland
       noctalia-greeter
       mango
+      sshd
     ];
 
     # Bootloader.

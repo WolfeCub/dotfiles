@@ -22,7 +22,6 @@ _: {
       ripgrep
       fd
       fzf
-      direnv
       btop
       gnupg
       jq
@@ -31,10 +30,21 @@ _: {
       alejandra
     ];
 
+    programs.direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+    };
+
     programs.zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
       initContent = builtins.readFile (dfRoot + /zsh/.zshrc);
+      plugins = [
+        {
+          name = "zsh-completion-sync";
+          src = pkgs.zsh-completion-sync.src;
+        }
+      ];
     };
 
     home.file.bin.source = dfRoot + /bin/bin;

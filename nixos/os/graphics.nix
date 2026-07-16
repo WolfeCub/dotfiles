@@ -17,8 +17,8 @@ _: {
 
       modesetting.enable = true;
 
-      powerManagement.enable = false;
-      powerManagement.finegrained = false;
+      powerManagement.enable = true;
+      # powerManagement.finegrained = false;
     };
 
     boot.kernelParams = [

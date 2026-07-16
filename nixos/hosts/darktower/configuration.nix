@@ -14,6 +14,7 @@
       noctalia-greeter
       mango
       sshd
+      docker
     ];
 
     # Bootloader.

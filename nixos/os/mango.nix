@@ -50,9 +50,9 @@
 
         # Visual
         focuscolor = "0xbec7dbff";
-        tab_bar_height = 25;
-        tab_bar_decorate_font_desc = "monospace Bold 11";
-        tab_bar_decorate_border_width = 2;
+        group_bar_height = 25;
+        group_bar_decorate_font_desc = "monospace Bold 11";
+        group_bar_decorate_border_width = 2;
 
         monitorrule = [
           # Left monitor

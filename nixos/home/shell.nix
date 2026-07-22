@@ -29,6 +29,7 @@ _: {
 
       nixd
       alejandra
+      nix-output-monitor
     ];
 
     programs.direnv = {

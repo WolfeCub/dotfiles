@@ -2,6 +2,7 @@ _: {
   flake.homeModules.shell = {
     pkgs,
     dfRoot,
+    inputs,
     ...
   }: {
     home.username = "wolfe";
@@ -42,7 +43,7 @@ _: {
       plugins = [
         {
           name = "zsh-completion-sync";
-          src = pkgs.zsh-completion-sync.src;
+          src = inputs.zsh-completion-sync;
         }
       ];
     };

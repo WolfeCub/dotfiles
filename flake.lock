@@ -962,7 +962,8 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "noctalia": "noctalia",
         "noctalia-greeter": "noctalia-greeter",
-        "wrapper-modules": "wrapper-modules"
+        "wrapper-modules": "wrapper-modules",
+        "zsh-completion-sync": "zsh-completion-sync"
       }
     },
     "scenefx": {
@@ -1109,6 +1110,22 @@
       "original": {
         "owner": "Supreeeme",
         "repo": "xwayland-satellite",
+        "type": "github"
+      }
+    },
+    "zsh-completion-sync": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784746505,
+        "narHash": "sha256-1XvVWQPwkt4jilNfp8ggPgdwdzytHqnZuuiR9/dN66U=",
+        "owner": "WolfeCub",
+        "repo": "zsh-completion-sync",
+        "rev": "401761acda9fdc3d4eae50c974c3714ad0170526",
+        "type": "github"
+      },
+      "original": {
+        "owner": "WolfeCub",
+        "repo": "zsh-completion-sync",
         "type": "github"
       }
     }

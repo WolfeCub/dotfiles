@@ -58,6 +58,11 @@
       url = "git+https://codeberg.org/p2502/lspmux/";
       flake = false;
     };
+
+    zsh-completion-sync = {
+      url = "github:WolfeCub/zsh-completion-sync";
+      flake = false;
+    };
   };
 
   outputs = inputs:

@@ -131,6 +131,7 @@
 
           # Super binds
           "${mod}+CTRL,r,reload_config"
+          "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
 
           # Media keys
           "none,XF86AudioRaiseVolume,spawn,wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1.0"

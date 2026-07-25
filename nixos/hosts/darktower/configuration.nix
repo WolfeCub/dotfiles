@@ -15,6 +15,7 @@
       mango
       sshd
       docker
+      xdg-portal
     ];
 
     # Bootloader.

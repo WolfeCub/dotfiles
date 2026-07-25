@@ -33,7 +33,9 @@
     programs.nixcord = {
       enable = true;
       discord.vencord.enable = true;
-      discord.krisp.enable = true;
+      # discord.krisp.enable = true;
+
+      vesktop.enable = true;
     };
   };
 }

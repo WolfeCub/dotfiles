@@ -35,8 +35,8 @@
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia/v5.0.0-beta.3";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      url = "github:noctalia-dev/noctalia/cachix";
+      # inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     noctalia-greeter = {

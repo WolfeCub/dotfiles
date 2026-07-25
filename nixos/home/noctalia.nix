@@ -1,10 +1,10 @@
-_: {
+{self, ...}: {
   flake.homeModules.noctalia = {
     pkgs,
     inputs,
     ...
   }: let
-    noctalia-pkg = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    noctalia-pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.noctalia;
   in {
     imports = [
       inputs.noctalia.homeModules.default
@@ -12,7 +12,7 @@ _: {
 
     programs.noctalia = {
       enable = true;
-      package = noctalia-pkg.override {cudaSupport = true;};
+      package = noctalia-pkg;
 
       settings = {
         theme = {
@@ -92,5 +92,11 @@ _: {
         };
       };
     };
+
+    # xdg.configFile."xdg-desktop-portal-wlr/config".text = ''
+    #   [screencast]
+    #   chooser_type=dmenu
+    #   chooser_cmd=${noctalia-pkg}/bin/noctalia dmenu
+    # '';
   };
 }

@@ -1,3 +1,5 @@
+local f = require('functions')
+
 return {
 
 {
@@ -41,16 +43,34 @@ return {
 },
 
 {
-    'seblyng/roslyn.nvim',
-    ft = 'cs',
-    dependencies = 'williamboman/mason-lspconfig.nvim',
-    ---@module 'roslyn.config'
-    ---@type RoslynNvimConfig
+    'huggingface/llm.nvim',
+    event = 'InsertEnter',
+    config = function(_, opts)
+        if f.tcp_port_open('host.orb.internal', 8080, 100) then
+            require('llm').setup(opts)
+        end
+    end,
     opts = {
-        ignore_target = function(target)
-            return string.match(target, 'Unified.sln') ~= nil
-        end,
-        lock_target = true,
+        backend = 'llamacpp',
+        model = 'unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:UD-Q4_K_XL',
+        url = 'http://host.orb.internal:8080',
+        -- must be non-empty or it gets JSON-encoded as [] and llm-ls rejects it;
+        -- max_tokens keeps completions from decoding until they fill the context
+        request_body = {
+            temperature = 0.2,
+            top_p = 0.95,
+            max_tokens = 128,
+        },
+        -- Qwen's FIM tokens are pipe-wrapped, not llm.nvim's StarCoder-style defaults
+        fim = {
+            enabled = true,
+            prefix = '<|fim_prefix|>',
+            middle = '<|fim_middle|>',
+            suffix = '<|fim_suffix|>',
+        },
+        lsp = {
+            bin_path = vim.api.nvim_call_function("stdpath", { "data" }) .. "/mason/bin/llm-ls",
+        },
     },
 },
 

@@ -41,6 +41,11 @@
       ];
     };
 
+    environment.systemPackages = with pkgs; [
+      ghostty.terminfo
+      rio.terminfo
+    ];
+
     services.getty.autologinUser = "wolfe";
     programs.zsh.enable = true;
     security.sudo.wheelNeedsPassword = false;

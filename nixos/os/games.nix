@@ -6,5 +6,10 @@ _: {
       extraCompatPackages = [pkgs.proton-ge-bin];
       gamescopeSession.enable = true;
     };
+
+    environment.systemPackages = with pkgs; [
+        heroic
+        bottles
+    ];
   };
 }

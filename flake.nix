@@ -21,17 +21,17 @@
 
     niri = {
       url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      # inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     mangowm = {
-      url = "github:mangowm/mango/0.15.0";
+      url = "github:mangowm/mango/0.16.1";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      # inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     noctalia = {

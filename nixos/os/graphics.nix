@@ -2,6 +2,7 @@ _: {
   flake.nixosModules.graphics = {
     pkgs,
     config,
+    lib,
     ...
   }: {
     hardware.graphics = {
@@ -13,7 +14,23 @@ _: {
 
     hardware.nvidia = {
       open = true;
-      package = config.boot.kernelPackages.nvidiaPackages.new_feature;
+      # https://github.com/xddxdd/nix-cachyos-kernel/issues/101
+      package = let
+        base = config.boot.kernelPackages.nvidiaPackages.new_feature;
+      in
+        base
+        // {
+          open = base.open.overrideAttrs (old: {
+            postPatch =
+              (lib.optionalString (old.postPatch or null != null) old.postPatch)
+              + ''
+                substituteInPlace kernel-open/common/inc/nv-linux.h \
+                  --replace-fail \
+                    'struct gpio_chip *chip = gpio_device_get_chip(gdev);' \
+                    'struct gpio_chip *chip = gpio_device_get_chip((struct gpio_device *)gdev);'
+              '';
+          });
+        };
 
       modesetting.enable = true;
 

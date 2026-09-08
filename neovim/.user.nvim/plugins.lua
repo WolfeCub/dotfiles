@@ -44,26 +44,28 @@ return {
 
 {
     'huggingface/llm.nvim',
-    event = 'InsertEnter',
+    event = { 'BufReadPost', 'BufNewFile' },
     config = function(_, opts)
         if f.tcp_port_open('host.orb.internal', 8080, 100) then
             require('llm').setup(opts)
         end
     end,
     opts = {
-        backend = 'llamacpp',
-        model = 'unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:UD-Q4_K_XL',
+        -- must be 'openai', not 'llamacpp': llama-swap routes on the "model" field,
+        -- and only the openai backend sends one
+        backend = 'openai',
+        model = 'qwen3-coder-30b',
         url = 'http://host.orb.internal:8080',
         -- must be non-empty or it gets JSON-encoded as [] and llm-ls rejects it;
-        -- max_tokens keeps completions from decoding until they fill the context
         request_body = {
             temperature = 0.2,
             top_p = 0.95,
+            -- max_tokens keeps completions from decoding until they fill the context
             max_tokens = 128,
         },
-        -- Qwen's FIM tokens are pipe-wrapped, not llm.nvim's StarCoder-style defaults
         fim = {
             enabled = true,
+            -- Qwen's style FIM tokens
             prefix = '<|fim_prefix|>',
             middle = '<|fim_middle|>',
             suffix = '<|fim_suffix|>',
@@ -72,6 +74,19 @@ return {
             bin_path = vim.api.nvim_call_function("stdpath", { "data" }) .. "/mason/bin/llm-ls",
         },
     },
+},
+
+{
+    'kndndrj/nvim-dbee',
+    dependencies = {
+        'MunifTanjim/nui.nvim',
+    },
+    build = function()
+        require('dbee').install()
+    end,
+    config = function()
+        require('dbee').setup()
+    end,
 },
 
 }

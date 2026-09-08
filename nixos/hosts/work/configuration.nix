@@ -1,112 +1,106 @@
 {inputs, ...}: {
-  flake.nixosModules.vital-nix-vm = {
+  flake.nixosModules.vital-nix-orb = {
+    config,
     pkgs,
-    inputs,
+    modulesPath,
+    lib,
     ...
-  }: let
-    lspmux = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.lspmux;
-  in {
+  }: {
     imports = with inputs.self.nixosModules; [
+      # Include the default lxd configuration.
+      "${modulesPath}/virtualisation/lxc-container.nix"
       workPostgres
       workRemoteBuild
       workSoftwareWorkstation
       lspmux
     ];
 
-    # Bootloader.
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
-
-    networking.hostName = "vital-nix-vm"; # Define your hostname.
-    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-    # Configure network proxy if necessary
-    # networking.proxy.default = "http://user:password@proxy:port/";
-    # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    # Enable networking
-    networking.networkmanager.enable = true;
-
-    # Set your time zone.
-    time.timeZone = "America/Toronto";
-
-    # Select internationalisation properties.
-    i18n.defaultLocale = "en_US.UTF-8";
-
-    # Configure keymap in X11
-    services.xserver.xkb = {
-      layout = "us";
-      variant = "dvp";
-    };
-
-    # Use the x11 keymap for ttys
-    console.useXkbConfig = true;
-
-    nix.settings.experimental-features = ["nix-command" "flakes"];
-
-    # Define a user account. Don't forget to set a password with ‘passwd’.
     users.users.wolfe = {
-      shell = pkgs.zsh;
+      # uid = 501;
+      uid = 1000;
+      extraGroups = ["wheel" "orbstack" "audio"];
+
+      # simulate isNormalUser, but with an arbitrary UID
+      # isSystemUser = true;
+      # isNormalUser = lib.mkForce false; # Don't let user.nix override this
+
       isNormalUser = true;
-      description = "Josh Wolfe";
-      extraGroups = ["networkmanager" "wheel"];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINnJSGHR4ANwejRjD/WVVtN366Fxf1XBv2KhH6mnfMPX wolfe@wolfe-vb-mbp"
-      ];
+
+      # group = "users";
+      # createHome = true;
+      # home = "/home/wolfe";
+      # homeMode = "700";
+      shell = pkgs.zsh;
 
       packages = with pkgs; [
         stow
+        socat
         unstable.nodejs_latest
-        lspmux
+        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.lspmux
         unstable.claude-code
+        unstable.opencode
       ];
     };
 
-    # List packages installed in system profile. To search, run:
-    # $ nix search wget
     environment.systemPackages = with pkgs; [
       ghostty.terminfo
       rio.terminfo
     ];
 
+    services.getty.autologinUser = "wolfe";
     programs.zsh.enable = true;
+    security.sudo.wheelNeedsPassword = false;
 
-    # Helps cargo find our private keys
-    programs.ssh.startAgent = true;
+    # This being `true` leads to a few nasty bugs, change at your own risk!
+    users.mutableUsers = false;
 
-    # If using VS Code. Allows the remote-ssh extension to link binaries as if on a non-nix system.
+    time.timeZone = "America/Toronto";
+
+    networking = {
+      dhcpcd.enable = false;
+      useDHCP = false;
+      useHostResolvConf = false;
+    };
+
+    systemd.network = {
+      enable = true;
+      networks."50-eth0" = {
+        matchConfig.Name = "eth0";
+        networkConfig = {
+          DHCP = "ipv4";
+          IPv6AcceptRA = true;
+        };
+        linkConfig.RequiredForOnline = "routable";
+      };
+    };
+
+    networking.hostName = "vital-nix-orb";
+
+    nix.settings.experimental-features = ["nix-command" "flakes"];
     programs.nix-ld.enable = true;
-
-    # Some programs need SUID wrappers, can be configured further or are
-    # started in user sessions.
-    # programs.mtr.enable = true;
-    # programs.gnupg.agent = {
-    #   enable = true;
-    #   enableSSHSupport = true;
-    # };
-
-    # List services that you want to enable:
-
-    # Enable the OpenSSH daemon.
-    services.openssh.enable = true;
-
-    # Open ports in the firewall.
-    # networking.firewall.allowedTCPPorts = [ ... ];
-    # networking.firewall.allowedUDPPorts = [ ... ];
-    # Or disable the firewall altogether.
-    # networking.firewall.enable = false;
-
-    # This value determines the NixOS release from which the default
-    # settings for stateful data, like file locations and database versions
-    # on your system were taken. It‘s perfectly fine and recommended to leave
-    # this value at the release version of the first install of this system.
-    # Before changing this value read the documentation for this option
-    # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-    system.stateVersion = "25.11"; # Did you read the comment?
 
     services.lspmux = {
       enable = true;
       user = "wolfe";
     };
+
+    # This option defines the first version of NixOS you have installed on this particular machine,
+    # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
+    #
+    # Most users should NEVER change this value after the initial install, for any reason,
+    # even if you've upgraded your system to a new NixOS release.
+    #
+    # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
+    # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
+    # to actually do that.
+    #
+    # This value being lower than the current NixOS release does NOT mean your system is
+    # out of date, out of support, or vulnerable.
+    #
+    # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
+    # and migrated your data accordingly.
+    #
+    # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
+    system.stateVersion = "25.11"; # Did you read the comment?
   };
 }

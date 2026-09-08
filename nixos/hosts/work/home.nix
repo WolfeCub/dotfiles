@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.homeModules.vital-nix-vm = {
+  flake.homeModules.vital-nix-orb = {
     imports = with inputs.self.homeModules; [
       shell
       neovim

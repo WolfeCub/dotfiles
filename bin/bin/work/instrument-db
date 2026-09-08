@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# desc: browse an instrument's postgres in nvim-dbee over an ssh tunnel
+# arg1: @host
+
+set -euo pipefail
+
+port=${INSTRUMENT_DB_PORT:-1234}
+db=${INSTRUMENT_DB_NAME:-}
+sock=${INSTRUMENT_DB_SOCKET:-/run/postgresql/.s.PGSQL.5432}
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <host|user@host>" >&2
+    exit 1
+fi
+
+host=$1
+ctl=/tmp/instrument-db-$$.ctl
+relay=
+
+# closing the master EOFs every channel, so each remote nc exits on its own
+cleanup() {
+    [ -n "$relay" ] && kill -- "-$relay" 2>/dev/null || :
+    ssh -S "$ctl" -O exit "$host" 2>/dev/null || :
+}
+
+ssh -fN -M -S "$ctl" "$host"
+trap cleanup EXIT
+trap 'exit 130' INT TERM HUP
+
+# the app database is versioned per release, so pick from what is really there
+if [ -z "$db" ]; then
+    dbs=$(ssh -S "$ctl" "$host" sudo -u postgres psql -tAf - 2>/dev/null <<'SQL'
+select d.datname from pg_database d
+left join pg_stat_activity a on a.datname = d.datname
+where not d.datistemplate
+group by d.datname
+order by count(a.pid) desc, d.datname -- busiest first: what the software uses
+SQL
+    )
+    [ -n "$dbs" ] || {
+        echo "error: could not list databases on $host" >&2
+        exit 1
+    }
+    db=$(fzf --select-1 --reverse --height=~40% --prompt="$host db> " <<<"$dbs")
+fi
+
+# tcp auth wants a password the postgres role does not have, so go in through
+# the socket as the postgres user and let peer auth pass. -N stops nc
+# outliving the ssh channel it is wired to
+remote="sudo -u postgres nc -N -U $sock"
+
+# set -m gives the relay its own process group, so cleanup also reaches the
+# per-connection ssh clients it forks
+set -m
+socat -d0 "TCP-LISTEN:$port,bind=127.0.0.1,reuseaddr,fork" \
+    EXEC:"ssh -S $ctl $host $remote" &
+relay=$!
+set +m
+
+until pg_isready -q -h 127.0.0.1 -p "$port" -d "$db" -U postgres; do
+    kill -0 "$relay" 2>/dev/null || {
+        echo "error: relay to $host died" >&2
+        exit 1
+    }
+    sleep 0.2
+done
+
+url="postgres://postgres@127.0.0.1:$port/$db?sslmode=disable"
+export DBEE_CONNECTIONS="[{\"name\":\"$host\",\"type\":\"postgres\",\"url\":\"$url\"}]"
+
+nvim -c 'lua require("dbee").open()'

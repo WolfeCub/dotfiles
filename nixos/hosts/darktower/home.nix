@@ -8,10 +8,10 @@
         neovim
         rio
         fonts
-        niriConfig
         mangoConfig
         noctalia
         ghostty
+        polkit
       ]);
 
     home.packages = let

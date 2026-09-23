@@ -9,13 +9,13 @@
       graphics
       games
       gpg
-      niri
       hyprland
       noctalia-greeter
       mango
       sshd
       docker
       xdg-portal
+      caps-esc
     ];
 
     # Bootloader.

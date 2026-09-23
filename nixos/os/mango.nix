@@ -48,6 +48,9 @@
         repeat_delay = 230;
         repeat_rate = 40;
 
+        xkb_rules_layout = "us,us";
+        xkb_rules_variant = ",dvp";
+
         # Visual
         focuscolor = "0xbec7dbff";
         group_bar_height = 25;
@@ -85,23 +88,25 @@
         ];
 
         bind = [
+          # Tag switching
+          "${mod},1,view,1,0"
+          "${mod},2,view,2,0"
+          "${mod},3,view,3,0"
+          "${mod},4,view,4,0"
+          "${mod},5,view,5,0"
+
+          # Move window to tag
+          "${mod}+CTRL,1,tag,1,0"
+          "${mod}+CTRL,2,tag,2,0"
+          "${mod}+CTRL,3,tag,3,0"
+          "${mod}+CTRL,4,tag,4,0"
+          "${mod}+CTRL,5,tag,5,0"
+        ];
+
+        binds = [
           "${mod},Return,spawn,noctalia msg panel-toggle launcher"
           "${mod},t,spawn,ghostty"
           "${mod},b,spawn,firefox-devedition"
-
-          # Tag switching
-          "${mod}+SHIFT,7,view,1,0"
-          "${mod},bracketleft,view,2,0"
-          "${mod}+SHIFT,bracketleft,view,3,0"
-          "${mod}+SHIFT,bracketright,view,4,0"
-          "${mod}+SHIFT,9,view,5,0"
-
-          # Move window to tag
-          "${mod}+CTRL+SHIFT,7,tag,1,0"
-          "${mod}+CTRL,bracketleft,tag,2,0"
-          "${mod}+CTRL+SHIFT,bracketleft,tag,3,0"
-          "${mod}+CTRL+SHIFT,bracketright,tag,4,0"
-          "${mod}+CTRL+SHIFT,9,tag,5,0"
 
           # Window bindings
           "${mod},q,killclient,"
@@ -132,6 +137,7 @@
           # Super binds
           "${mod}+CTRL,r,reload_config"
           "SUPER+SHIFT,S,spawn,noctalia msg screenshot-region"
+          "SUPER,space,switch_keyboard_layout,"
 
           # Media keys
           "none,XF86AudioRaiseVolume,spawn,wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1.0"

@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+# desc: Claude Code status in tmux tabs
+#
+# claude-tmux init            install tmux hook and M-a binding (run from .tmux.conf)
+# claude-tmux hook            Claude lifecycle hooks, JSON on stdin
+# claude-tmux statusline      Claude statusLine command, JSON on stdin
+# claude-tmux next <session>  jump to the next window waiting on you
+# claude-tmux seen <window>   clear the unread dot on a window
+#
+# Options written, each already rendered for the status bar:
+#   window @claude_icon  tab marker
+#   window @claude_style tab colors, opened at the start of the tab format
+#   pane   @claude_ctx   context fill (also set on the window, for a Claude in another split)
+#   global @claude_5h    5-hour rate limit used
+
+pane="$TMUX_PANE"
+
+# set_state <target> <working|needs|done|error|"">
+set_state() {
+    local icon style
+    case "$2" in
+        working) style='#[bg=blue,fg=black]' ;;
+        needs)   style='#[bg=yellow,fg=black]' icon='? ' ;;
+        done)    style='#[bg=green,fg=black]'  icon='● ' ;;
+        error)   style='#[bg=red,fg=black]'    icon='e ' ;;
+    esac
+    tmux set -w -t "$1" @claude_state "$2" \; set -w -t "$1" @claude_icon "$icon" \; set -w -t "$1" @claude_style "$style"
+    if [ "$2" = working ] && ! kill -0 "$(tmux show -wv -t "$1" @claude_spin 2>/dev/null)" 2>/dev/null; then
+        spin "$1" >/dev/null 2>&1 </dev/null &
+        tmux set -w -t "$1" @claude_spin $!
+    fi
+}
+
+spin() {
+    local frames=(· ✻ ✽ ✶ ✳ ✢) i=0
+    while [ "$(tmux show -wv -t "$1" @claude_state 2>/dev/null)" = working ]; do
+        tmux set -w -t "$1" @claude_icon "${frames[i++ % ${#frames[@]}]} "
+        sleep 0.25
+    done
+}
+
+hook() {
+    local event type
+    read -r event type < <(jq -r '"\(.hook_event_name) \(.notification_type // "")"')
+    case "$event" in
+        SessionStart)
+            tmux set -p -t "$pane" @claude 1 \; set -w -t "$pane" monitor-activity off
+            set_state "$pane" ""
+            ;;
+        UserPromptSubmit | PostToolUse)
+            set_state "$pane" working
+            ;;
+        Notification)
+            if [ "$type" = permission_prompt ]; then
+                set_state "$pane" needs
+            fi
+            ;;
+        Stop)
+            # No unread dot if you are already looking at it.
+            if [ "$(tmux display -p -t "$pane" '#{&&:#{window_active},#{session_attached}}')" = 1 ]; then
+                set_state "$pane" ""
+            else
+                set_state "$pane" done
+            fi
+            ;;
+        StopFailure)
+            set_state "$pane" error
+            ;;
+        SessionEnd)
+            set_state "$pane" ""
+            tmux set -pu -t "$pane" @claude \; set -pu -t "$pane" @claude_ctx \; set -wu -t "$pane" @claude_ctx
+            tmux list-panes -t "$pane" -F '#{@claude}' | grep -q 1 || tmux set -wu -t "$pane" monitor-activity
+            ;;
+    esac
+}
+
+statusline() {
+    local ctx five
+    read -r ctx five < <(jq -r '[(.context_window.used_percentage // 0), (.rate_limits.five_hour.used_percentage // "")] | @tsv')
+
+    # nf-md-circle_slice_1..8, filled in eighths
+    local slices=($'\U000F0A9E' $'\U000F0A9F' $'\U000F0AA0' $'\U000F0AA1' $'\U000F0AA2' $'\U000F0AA3' $'\U000F0AA4' $'\U000F0AA5')
+    local fill="${slices[ctx * 8 / 101]} ${ctx}% "
+    tmux set -p -t "$pane" @claude_ctx "$fill" \; set -w -t "$pane" @claude_ctx "$fill"
+
+    if [ -n "$five" ]; then
+        tmux set -g @claude_5h "#[fg=colour173]✻#[default] ${five}% "
+    fi
+}
+
+next() {
+    local target
+    target=$(tmux list-windows -t "$1" -F '#{window_active} #{window_index} #{@claude_state}' |
+        awk '$1 == 1 { seen = 1; next }
+             $3 ~ /^(needs|done|error)$/ { if (seen && after == "") after = $2; if (first == "") first = $2 }
+             END { print (after != "" ? after : first) }')
+    if [ -n "$target" ]; then
+        tmux select-window -t "$1:$target"
+    fi
+}
+
+seen() {
+    if [ "$(tmux show -wv -t "$1" @claude_state 2>/dev/null)" = done ]; then
+        set_state "$1" ""
+    fi
+}
+
+init() {
+    tmux set-hook -g session-window-changed[50] "run-shell -b '$0 seen #{window_id}'"
+    tmux bind -n M-a run-shell "$0 next '#{session_id}'"
+}
+
+case "$1" in
+    init | next | seen) "$@" ;;
+    hook | statusline) [ -z "$pane" ] || "$1" ;;
+esac

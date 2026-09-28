@@ -1,0 +1,16 @@
+{
+  "theme": "custom:base16-default-dark",
+  "permissions": {
+    "defaultMode": "manual"
+  },
+  "statusLine": { "type": "command", "command": "~/bin/util/claude-tmux statusline" },
+  "hooks": {
+    "SessionStart":     [{ "hooks": [{ "type": "command", "command": "~/bin/util/claude-tmux hook" }] }],
+    "UserPromptSubmit": [{ "hooks": [{ "type": "command", "command": "~/bin/util/claude-tmux hook" }] }],
+    "PostToolUse":      [{ "matcher": "", "hooks": [{ "type": "command", "command": "~/bin/util/claude-tmux hook" }] }],
+    "Notification":     [{ "matcher": "", "hooks": [{ "type": "command", "command": "~/bin/util/claude-tmux hook" }] }],
+    "Stop":             [{ "hooks": [{ "type": "command", "command": "~/bin/util/claude-tmux hook" }] }],
+    "StopFailure":      [{ "hooks": [{ "type": "command", "command": "~/bin/util/claude-tmux hook" }] }],
+    "SessionEnd":       [{ "hooks": [{ "type": "command", "command": "~/bin/util/claude-tmux hook" }] }]
+  }
+}

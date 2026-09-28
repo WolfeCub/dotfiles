@@ -37,8 +37,6 @@
         socat
         unstable.nodejs_latest
         inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.lspmux
-        unstable.claude-code
-        unstable.opencode
       ];
     };
 

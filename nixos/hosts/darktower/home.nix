@@ -4,6 +4,7 @@
       [inputs.nixcord.homeModules.nixcord]
       ++ (with inputs.self.homeModules; [
         shell
+        ai
         firefox
         neovim
         rio

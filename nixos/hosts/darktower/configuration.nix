@@ -15,7 +15,7 @@
       sshd
       docker
       xdg-portal
-      caps-esc
+      udev-rules
     ];
 
     # Bootloader.

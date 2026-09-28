@@ -3,6 +3,7 @@
     imports = with inputs.self.homeModules; [
       shell
       neovim
+      ai
     ];
   };
 }

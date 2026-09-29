@@ -88,6 +88,7 @@
           "${mod},Return,spawn,noctalia msg panel-toggle launcher"
           "${mod},t,spawn,ghostty"
           "${mod},b,spawn,firefox-devedition"
+          "${mod},slash,spawn,vesktop-mute"
 
           # Tag switching
           "${mod}+SHIFT,7,view,1,0"

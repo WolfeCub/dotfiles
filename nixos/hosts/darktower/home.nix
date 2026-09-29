@@ -1,5 +1,9 @@
 {inputs, ...}: {
-  flake.homeModules.darktower = {pkgs, ...}: {
+  flake.homeModules.darktower = {
+    pkgs,
+    dfRoot,
+    ...
+  }: {
     imports =
       [inputs.nixcord.homeModules.nixcord]
       ++ (with inputs.self.homeModules; [
@@ -29,14 +33,21 @@
       with pkgs; [
         rio
         orca-slicer-wrapped
+        (writeShellScriptBin "vesktop-mute" ''
+          dir="''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is not set}/vesktop-global-mute"
+          mkdir -p -m 700 "$dir"
+          touch "$dir/mute"
+        '')
       ];
 
     programs.nixcord = {
       enable = true;
-      discord.vencord.enable = true;
-      # discord.krisp.enable = true;
-
+      discord.enable = false;
       vesktop.enable = true;
+
+      # Global mute toggle, triggered by vesktop-mute
+      userPlugins.GlobalMute = dfRoot + /vesktop/globalMute;
+      extraConfig.plugins.GlobalMute.enable = true;
     };
   };
 }

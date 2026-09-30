@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# desc: run neovim built from the local dotfiles, including unpushed submodule changes
+# arg1: @file
+
+set -euo pipefail
+
+DOTFILES="${DOTFILES:-${NH_FLAKE:-$HOME/dotfiles}}"
+
+# Plain git+file refs fetch submodules from their remote; ?submodules=1 reads the local checkout.
+exec nix run "git+file://$DOTFILES?submodules=1#neovim" -- "$@"

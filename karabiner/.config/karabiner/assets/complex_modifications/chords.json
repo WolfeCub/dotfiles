@@ -14,7 +14,11 @@
                         "simultaneous_options": { "detect_key_down_uninterruptedly": true }
                     },
                     "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
-                    "to": [{ "key_code": "tab" }],
+                    "to": [
+                        { "set_variable": { "name": "caps_word", "value": 0 } },
+                        { "set_notification_message": { "id": "caps_word", "text": "" } },
+                        { "key_code": "tab" }
+                    ],
                     "type": "basic"
                 }
             ]
@@ -32,7 +36,11 @@
                         "simultaneous_options": { "detect_key_down_uninterruptedly": true }
                     },
                     "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
-                    "to": [{ "key_code": "escape" }],
+                    "to": [
+                        { "set_variable": { "name": "caps_word", "value": 0 } },
+                        { "set_notification_message": { "id": "caps_word", "text": "" } },
+                        { "key_code": "escape" }
+                    ],
                     "type": "basic"
                 }
             ]
@@ -50,7 +58,11 @@
                         "simultaneous_options": { "detect_key_down_uninterruptedly": true }
                     },
                     "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
-                    "to": [{ "key_code": "return_or_enter" }],
+                    "to": [
+                        { "set_variable": { "name": "caps_word", "value": 0 } },
+                        { "set_notification_message": { "id": "caps_word", "text": "" } },
+                        { "key_code": "return_or_enter" }
+                    ],
                     "type": "basic"
                 }
             ]

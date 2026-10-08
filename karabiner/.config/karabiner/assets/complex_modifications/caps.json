@@ -25,6 +25,8 @@
                         }
                     ],
                     "to_if_alone": [
+                        { "set_variable": { "name": "caps_word", "value": 0 } },
+                        { "set_notification_message": { "id": "caps_word", "text": "" } },
                         {
                             "key_code": "escape",
                             "repeat": true
@@ -53,6 +55,8 @@
                         }
                     ],
                     "to_if_alone": [
+                        { "set_variable": { "name": "caps_word", "value": 0 } },
+                        { "set_notification_message": { "id": "caps_word", "text": "" } },
                         {
                             "key_code": "escape",
                             "repeat": true

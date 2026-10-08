@@ -13,7 +13,7 @@
                         ],
                         "simultaneous_options": { "detect_key_down_uninterruptedly": true }
                     },
-                    "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
+                    "parameters": { "basic.simultaneous_threshold_milliseconds": 30 },
                     "to": [
                         { "set_variable": { "name": "caps_word", "value": 0 } },
                         { "set_notification_message": { "id": "caps_word", "text": "" } },
@@ -35,7 +35,7 @@
                         ],
                         "simultaneous_options": { "detect_key_down_uninterruptedly": true }
                     },
-                    "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
+                    "parameters": { "basic.simultaneous_threshold_milliseconds": 30 },
                     "to": [
                         { "set_variable": { "name": "caps_word", "value": 0 } },
                         { "set_notification_message": { "id": "caps_word", "text": "" } },
@@ -57,7 +57,7 @@
                         ],
                         "simultaneous_options": { "detect_key_down_uninterruptedly": true }
                     },
-                    "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
+                    "parameters": { "basic.simultaneous_threshold_milliseconds": 30 },
                     "to": [
                         { "set_variable": { "name": "caps_word", "value": 0 } },
                         { "set_notification_message": { "id": "caps_word", "text": "" } },
@@ -79,8 +79,38 @@
                         ],
                         "simultaneous_options": { "detect_key_down_uninterruptedly": true }
                     },
-                    "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
+                    "parameters": { "basic.simultaneous_threshold_milliseconds": 30 },
                     "to": [{ "key_code": "delete_or_backspace" }],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "Chord trainer",
+            "description_notes": [
+                "- Disables physical escape, return and backspace to force chord use",
+                "- Disables bare tab only, so cmd+tab and similar still work",
+                "- Keep above Caps Word"
+            ],
+            "manipulators": [
+                {
+                    "from": { "key_code": "tab" },
+                    "to": [{ "key_code": "vk_none" }],
+                    "type": "basic"
+                },
+                {
+                    "from": { "key_code": "escape", "modifiers": { "optional": ["any"] } },
+                    "to": [{ "key_code": "vk_none" }],
+                    "type": "basic"
+                },
+                {
+                    "from": { "key_code": "return_or_enter", "modifiers": { "optional": ["any"] } },
+                    "to": [{ "key_code": "vk_none" }],
+                    "type": "basic"
+                },
+                {
+                    "from": { "key_code": "delete_or_backspace", "modifiers": { "optional": ["any"] } },
+                    "to": [{ "key_code": "vk_none" }],
                     "type": "basic"
                 }
             ]

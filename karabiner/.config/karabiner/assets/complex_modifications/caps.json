@@ -2,7 +2,11 @@
     "title": "Caps Lock",
     "rules": [
         {
-            "description": "Caps to cmd unless in terminal then ctrl, plus swap opt/cmd in Ghostty",
+            "description": "Caps Lock: tap for escape, hold for cmd",
+            "description_notes": [
+                "- Hold is ctrl instead in Ghostty and Rio",
+                "- Tapping also ends Caps Word"
+            ],
             "manipulators": [
                 {
                     "conditions": [

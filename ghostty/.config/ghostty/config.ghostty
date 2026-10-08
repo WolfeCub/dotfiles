@@ -8,6 +8,7 @@ mouse-hide-while-typing = true
 # Mac specific
 macos-option-as-alt = left
 macos-non-native-fullscreen = padded-notch
+macos-titlebar-style = tabs
 font-thicken = true
 font-thicken-strength = 1
 

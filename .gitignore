@@ -4,3 +4,4 @@
 vim/.vim/.netrwhist
 vim/.vim/plugged/
 ncmpcpp/.ncmpcpp/error.log
+.DS_store

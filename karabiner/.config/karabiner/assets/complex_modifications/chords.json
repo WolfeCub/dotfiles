@@ -1,0 +1,77 @@
+{
+    "title": "Chords",
+    "rules": [
+        {
+            "description": "k+j (physical c+v) chord → tab",
+            "manipulators": [
+                {
+                    "from": {
+                        "modifiers": { "optional": ["any"] },
+                        "simultaneous": [
+                            { "key_code": "c" },
+                            { "key_code": "v" }
+                        ],
+                        "simultaneous_options": { "detect_key_down_uninterruptedly": true }
+                    },
+                    "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
+                    "to": [{ "key_code": "tab" }],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": ".+p (physical e+r) chord → escape",
+            "manipulators": [
+                {
+                    "from": {
+                        "modifiers": { "optional": ["any"] },
+                        "simultaneous": [
+                            { "key_code": "e" },
+                            { "key_code": "r" }
+                        ],
+                        "simultaneous_options": { "detect_key_down_uninterruptedly": true }
+                    },
+                    "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
+                    "to": [{ "key_code": "escape" }],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "m+w (physical m+,) chord → return",
+            "manipulators": [
+                {
+                    "from": {
+                        "modifiers": { "optional": ["any"] },
+                        "simultaneous": [
+                            { "key_code": "m" },
+                            { "key_code": "comma" }
+                        ],
+                        "simultaneous_options": { "detect_key_down_uninterruptedly": true }
+                    },
+                    "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
+                    "to": [{ "key_code": "return_or_enter" }],
+                    "type": "basic"
+                }
+            ]
+        },
+        {
+            "description": "g+c (physical u+i) chord → backspace",
+            "manipulators": [
+                {
+                    "from": {
+                        "modifiers": { "optional": ["any"] },
+                        "simultaneous": [
+                            { "key_code": "u" },
+                            { "key_code": "i" }
+                        ],
+                        "simultaneous_options": { "detect_key_down_uninterruptedly": true }
+                    },
+                    "parameters": { "basic.simultaneous_threshold_milliseconds": 25 },
+                    "to": [{ "key_code": "delete_or_backspace" }],
+                    "type": "basic"
+                }
+            ]
+        }
+    ]
+}

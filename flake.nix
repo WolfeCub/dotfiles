@@ -29,11 +29,6 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      # inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
     noctalia = {
       url = "github:noctalia-dev/noctalia/cachix";
       # inputs.nixpkgs.follows = "nixpkgs-unstable";

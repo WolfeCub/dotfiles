@@ -9,7 +9,6 @@
       graphics
       games
       gpg
-      hyprland
       noctalia-greeter
       mango
       sshd

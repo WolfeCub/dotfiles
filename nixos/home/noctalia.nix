@@ -19,6 +19,7 @@
           mode = "dark";
           source = "wallpaper";
           wallpaper_scheme = "m3-content";
+          templates.builtin_ids = ["umbriel"];
         };
 
         wallpaper = {

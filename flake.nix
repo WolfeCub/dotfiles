@@ -29,15 +29,9 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    noctalia = {
-      url = "github:noctalia-dev/noctalia/cachix";
-      # inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-
-    noctalia-greeter = {
-      url = "github:noctalia-dev/noctalia-greeter";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
+    umbriel.url = "github:noctalia-dev/umbriel/cachix";
+    noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
 
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";

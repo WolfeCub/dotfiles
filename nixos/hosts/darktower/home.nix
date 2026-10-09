@@ -14,6 +14,7 @@
         rio
         fonts
         mangoConfig
+        umbrielConfig
         noctalia
         ghostty
         polkit

@@ -11,6 +11,7 @@
       gpg
       noctalia-greeter
       mango
+      umbriel
       sshd
       docker
       xdg-portal

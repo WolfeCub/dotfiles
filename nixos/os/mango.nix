@@ -32,29 +32,31 @@
       '';
 
       settings = {
-        gappih = 0;
-        gappiv = 0;
-        gappoh = 0;
-        gappov = 0;
-        borderpx = 2;
+        gap_inner_horizontal = 0;
+        gap_inner_vertical = 0;
+        gap_outer_horizontal = 0;
+        gap_outer_vertical = 0;
+        border_px = 2;
         # Reduces input lag for gaming. Global but 2 = fullscreen-only
         allow_tearing = 2;
 
         focus_cross_monitor = 1;
         drag_tile_to_tile = 1;
         drag_tile_small = 0;
+        auto_reload_config = 1;
 
         # Input
         repeat_delay = 230;
         repeat_rate = 40;
 
         # Visual
-        focuscolor = "0xbec7dbff";
+        focus_color = "0xbec7dbff";
+        monocle_tab_mode = 1;
         group_bar_height = 25;
         group_bar_decorate_font_desc = "monospace Bold 11";
         group_bar_decorate_border_width = 2;
 
-        monitorrule = [
+        monitor_rule = [
           # Left monitor
           "name:${monitors.secondary},scale:1.25,x:0,y:0"
           # Middle monitor (primary), vrr for variable refresh rate
@@ -64,7 +66,7 @@
           "name:${monitors.vertical},scale:1,x:6144,y:0,rr:1"
         ];
 
-        tagrule = [
+        tag_rule = [
           "id:1,monitor_name:${monitors.primary},layout_name:dwindle"
           "id:2,monitor_name:${monitors.primary},layout_name:dwindle"
           "id:3,monitor_name:${monitors.primary},layout_name:dwindle"
@@ -79,9 +81,9 @@
           "${mod},btn_right,moveresize,curresize"
         ];
 
-        windowrule = [
+        window_rule = [
           # Auto fullscreen Discord on the vertical monitor
-          "appid:^([Dd]iscord|[Vv]esktop|com\\.discordapp\\.Discord)$,monitor:${monitors.vertical},isfullscreen:1"
+          "app_id:^([Dd]iscord|[Vv]esktop|com\\.discordapp\\.Discord)$,monitor:${monitors.vertical},is_fullscreen:1"
         ];
 
         bind = [
@@ -140,7 +142,6 @@
           "none,XF86AudioMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
           "none,XF86AudioMicMute,spawn,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
           "none,XF86AudioPlay,spawn,playerctl play-pause"
-          "none,XF86AudioPause,spawn,playerctl play-pause"
           "none,XF86AudioStop,spawn,playerctl stop"
           "none,XF86AudioPrev,spawn,playerctl previous"
           "none,XF86AudioNext,spawn,playerctl next"

@@ -33,21 +33,24 @@
         widget.cpu = {
           type = "sysmon";
           stat = "cpu_usage";
-          display = "graph";
+          visualization = "graph";
+          show_value = true;
         };
         widget.ram = {
           type = "sysmon";
           stat = "ram_used";
-          display = "graph";
+          visualization = "graph";
+          show_value = true;
         };
         widget.gpu = {
           type = "sysmon";
           stat = "gpu_vram";
-          display = "graph";
+          visualization = "graph";
+          show_value = true;
         };
 
         widget.workspaces = {
-          display = "name";
+          label_source = "name";
           hide_when_empty = true;
         };
 

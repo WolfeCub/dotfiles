@@ -8,8 +8,8 @@ _: {
     };
 
     environment.systemPackages = with pkgs; [
-        heroic
-        bottles
+      heroic
+      bottles
     ];
   };
 }

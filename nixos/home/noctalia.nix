@@ -82,6 +82,12 @@
           ];
         };
 
+        # discord plays its own notification sound
+        notification.filter.discord = {
+          match = "vesktop";
+          play_sound = false;
+        };
+
         location.auto_locate = true;
         shell.telemetry_enabled = false;
 

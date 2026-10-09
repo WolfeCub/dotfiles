@@ -54,6 +54,7 @@
             position = [0 0];
             tearing = true;
             workspace_axis = "horizontal";
+            workspaces = 2;
           };
           # Middle monitor (primary)
           ${monitors.primary} = {
@@ -79,6 +80,15 @@
           gap = 0;
           scrolling.default_extent_fraction = 1.0;
         };
+
+        workspace = [
+          # Left monitor: keep the left 30% empty so windows use only the right 70%
+          {
+            output = monitors.secondary;
+            index = 1;
+            layout.struts.left = 922;
+          }
+        ];
 
         appearance = {
           border_width = 2;

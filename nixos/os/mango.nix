@@ -81,9 +81,13 @@
           "${mod},btn_right,moveresize,curresize"
         ];
 
-        window_rule = [
+        window_rule = let
+          discord = "app_id:^([Dd]iscord|[Vv]esktop|com\\.discordapp\\.Discord)$";
+        in [
           # Auto fullscreen Discord on the vertical monitor
-          "app_id:^([Dd]iscord|[Vv]esktop|com\\.discordapp\\.Discord)$,monitor:${monitors.vertical},is_fullscreen:1"
+          "${discord},title:^(?!Discord Popout$),monitor:${monitors.vertical},is_fullscreen:1"
+          # Popouts open titled "Discord Popout" before renaming themselves
+          "${discord},title:^Discord Popout$,monitor:${monitors.primary}"
         ];
 
         bind = [

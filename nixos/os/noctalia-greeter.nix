@@ -10,9 +10,6 @@
 
     systemd.tmpfiles.rules = let
       greeterConfig = pkgs.writeText "greeter.toml" ''
-        [session]
-        default = "Mango"
-
         [appearance]
         scheme = "Synced"
 

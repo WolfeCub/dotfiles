@@ -37,6 +37,7 @@
         general = {
           mod_key = "Alt";
           autostart = ["noctalia"];
+          show_cheatsheet = false;
         };
 
         input = {

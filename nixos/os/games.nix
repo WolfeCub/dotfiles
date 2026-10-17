@@ -1,9 +1,14 @@
 _: {
-  flake.nixosModules.games = {pkgs, ...}: {
+  flake.nixosModules.games = {
+    pkgs,
+    inputs,
+    ...
+  }: {
     programs.gamemode.enable = true;
+    users.users.wolfe.extraGroups = ["gamemode"];
     programs.steam = {
       enable = true;
-      extraCompatPackages = [pkgs.proton-ge-bin];
+      extraCompatPackages = [inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.proton-ge];
       gamescopeSession.enable = true;
     };
 

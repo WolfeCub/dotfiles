@@ -52,6 +52,11 @@
       url = "github:WolfeCub/zsh-completion-sync";
       flake = false;
     };
+
+    proton-ge = {
+      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-9/GE-Proton11-9-x86_64.tar.gz";
+      flake = false;
+    };
   };
 
   outputs = inputs:

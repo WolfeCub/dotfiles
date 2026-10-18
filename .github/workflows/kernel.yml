@@ -1,0 +1,63 @@
+name: Build kernel
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kernel
+  cancel-in-progress: false
+
+env:
+  TARGETS: >-
+    .#nixosConfigurations.darktower.config.boot.kernelPackages.kernel^*
+    .#nixosConfigurations.darktower.config.hardware.nvidia.package.open
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      # Submodules use SSH URLs, which the runner has no key for
+      - name: Rewrite GitHub SSH URLs to HTTPS
+        run: |
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: cachix/install-nix-action@v31
+
+      - uses: cachix/cachix-action@v16
+        with:
+          name: wolfe
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Update nix-cachyos-kernel
+        run: nix flake update nix-cachyos-kernel
+
+      - name: Check cache
+        id: cache
+        run: |
+          if nix path-info --store https://wolfe.cachix.org $TARGETS; then
+            echo "hit=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "hit=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Free disk space
+        if: steps.cache.outputs.hit == 'false'
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache /usr/local/share/boost
+          sudo docker image prune --all --force
+          df -h /
+
+      - name: Build kernel and nvidia-open
+        if: steps.cache.outputs.hit == 'false'
+        run: nix build --no-link --print-build-logs $TARGETS

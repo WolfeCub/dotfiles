@@ -28,13 +28,13 @@ jobs:
           git config --global url."https://github.com/".insteadOf "git@github.com:"
           git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
 
       - uses: cachix/install-nix-action@v31
 
-      - uses: cachix/cachix-action@v16
+      - uses: cachix/cachix-action@v17
         with:
           name: wolfe
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
@@ -45,7 +45,7 @@ jobs:
       - name: Check cache
         id: cache
         run: |
-          if nix path-info --store https://wolfe.cachix.org $TARGETS; then
+          if nix path-info --store https://wolfe.cachix.org --eval-store auto $TARGETS; then
             echo "hit=true" >> "$GITHUB_OUTPUT"
           else
             echo "hit=false" >> "$GITHUB_OUTPUT"

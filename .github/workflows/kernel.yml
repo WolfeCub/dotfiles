@@ -61,3 +61,10 @@ jobs:
       - name: Build kernel and nvidia-open
         if: steps.cache.outputs.hit == 'false'
         run: nix build --no-link --print-build-logs $TARGETS
+
+      - name: Notify Discord on failure
+        if: failure()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          title: Kernel build

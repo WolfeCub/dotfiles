@@ -768,15 +768,15 @@
     "zsh-completion-sync": {
       "flake": false,
       "locked": {
-        "lastModified": 1784746505,
-        "narHash": "sha256-1XvVWQPwkt4jilNfp8ggPgdwdzytHqnZuuiR9/dN66U=",
-        "owner": "WolfeCub",
+        "lastModified": 1785057923,
+        "narHash": "sha256-1EzK6FeTBpierHP9/rfU6ZZJN0xlzhz3QCB9Uq1sZ1k=",
+        "owner": "BronzeDeer",
         "repo": "zsh-completion-sync",
-        "rev": "401761acda9fdc3d4eae50c974c3714ad0170526",
+        "rev": "fc772a7977c7df9923a87e947ac8560a5c4dddbc",
         "type": "github"
       },
       "original": {
-        "owner": "WolfeCub",
+        "owner": "BronzeDeer",
         "repo": "zsh-completion-sync",
         "type": "github"
       }

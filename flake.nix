@@ -49,7 +49,7 @@
     };
 
     zsh-completion-sync = {
-      url = "github:WolfeCub/zsh-completion-sync";
+      url = "github:BronzeDeer/zsh-completion-sync";
       flake = false;
     };
 

@@ -126,32 +126,32 @@
         ];
 
         keybinds = {
-          "Mod+Return" = "spawn:noctalia msg panel-toggle launcher";
-          "Mod+T" = "spawn:ghostty";
-          "Mod+B" = "spawn:firefox-devedition";
-          "Mod+slash" = "spawn:vesktop-mute";
+          "Mod+Return" = "spawn noctalia msg panel-toggle launcher";
+          "Mod+T" = "spawn ghostty";
+          "Mod+B" = "spawn firefox-devedition";
+          "Mod+slash" = "spawn vesktop-mute";
 
           # Workspace switching
-          "Mod+Shift+7" = "workspace-switch:1";
-          "Mod+bracketleft" = "workspace-switch:2";
-          "Mod+Shift+bracketleft" = "workspace-switch:3";
-          "Mod+Shift+bracketright" = "workspace-switch:4";
-          "Mod+Shift+9" = "workspace-switch:5";
+          "Mod+Shift+7" = "workspace-switch 1";
+          "Mod+bracketleft" = "workspace-switch 2";
+          "Mod+Shift+bracketleft" = "workspace-switch 3";
+          "Mod+Shift+bracketright" = "workspace-switch 4";
+          "Mod+Shift+9" = "workspace-switch 5";
 
           # Move window to workspace
-          "Mod+Ctrl+Shift+7" = "window-move-to-workspace:1";
-          "Mod+Ctrl+bracketleft" = "window-move-to-workspace:2";
-          "Mod+Ctrl+Shift+bracketleft" = "window-move-to-workspace:3";
-          "Mod+Ctrl+Shift+bracketright" = "window-move-to-workspace:4";
-          "Mod+Ctrl+Shift+9" = "window-move-to-workspace:5";
+          "Mod+Ctrl+Shift+7" = "window-move-to-workspace 1";
+          "Mod+Ctrl+bracketleft" = "window-move-to-workspace 2";
+          "Mod+Ctrl+Shift+bracketleft" = "window-move-to-workspace 3";
+          "Mod+Ctrl+Shift+bracketright" = "window-move-to-workspace 4";
+          "Mod+Ctrl+Shift+9" = "window-move-to-workspace 5";
 
           # Window bindings
           "Mod+Q" = "window-close";
-          "Mod+Shift+E" = "session-quit:skip-confirmation";
+          "Mod+Shift+E" = "session-quit skip-confirmation";
           "Mod+F" = "window-toggle-fullscreen";
           "Mod+Space" = "window-toggle-floating";
-          "Mod+M" = "workspace-set-layout:scrolling";
-          "Mod+D" = "workspace-set-layout:dwindle";
+          "Mod+M" = "workspace-set-layout scrolling";
+          "Mod+D" = "workspace-set-layout dwindle";
           "Mod+Tab" = "window-focus-next";
           "Mod+Shift+Tab" = "window-focus-previous";
           "Mod+O" = "overview-toggle";
@@ -173,17 +173,17 @@
 
           # Super binds
           "Mod+Ctrl+R" = "config-reload";
-          "Super+Shift+S" = "spawn:noctalia msg screenshot-region";
+          "Super+Shift+S" = "spawn noctalia msg screenshot-region";
 
           # Media keys
-          "XF86AudioRaiseVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1.0";
-          "XF86AudioLowerVolume" = "spawn:wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-";
-          "XF86AudioMute" = "spawn:wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-          "XF86AudioMicMute" = "spawn:wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-          "XF86AudioPlay" = "spawn:playerctl play-pause";
-          "XF86AudioStop" = "spawn:playerctl stop";
-          "XF86AudioPrev" = "spawn:playerctl previous";
-          "XF86AudioNext" = "spawn:playerctl next";
+          "XF86AudioRaiseVolume" = "spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1.0";
+          "XF86AudioLowerVolume" = "spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-";
+          "XF86AudioMute" = "spawn wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+          "XF86AudioMicMute" = "spawn wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+          "XF86AudioPlay" = "spawn playerctl play-pause";
+          "XF86AudioStop" = "spawn playerctl stop";
+          "XF86AudioPrev" = "spawn playerctl previous";
+          "XF86AudioNext" = "spawn playerctl next";
         };
       };
     };

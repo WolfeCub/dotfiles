@@ -8,7 +8,7 @@ _: {
       shell = pkgs.zsh;
       isNormalUser = true;
       description = "Josh Wolfe";
-      extraGroups = ["networkmanager" "wheel" "docker"];
+      extraGroups = ["networkmanager" "wheel" "docker" "dialout"];
     };
 
     programs.zsh.enable = true;

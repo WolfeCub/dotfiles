@@ -57,6 +57,11 @@
       url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton11-9/GE-Proton11-9-x86_64.tar.gz";
       flake = false;
     };
+
+    submersion = {
+      url = "https://github.com/submersion-app/submersion/releases/download/v1.8.3.9095/Submersion-v1.8.3.9095-Linux.tar.gz";
+      flake = false;
+    };
   };
 
   outputs = inputs:

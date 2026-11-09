@@ -27,13 +27,17 @@
         buildInputs = [pkgs.makeWrapper];
         postBuild = ''
           wrapProgram $out/bin/orca-slicer \
-            --suffix XDG_DATA_DIRS : "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
+            --suffix XDG_DATA_DIRS : "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}" \
+            --set GDK_BACKEND x11 \
+            --set WEBKIT_DISABLE_DMABUF_RENDERER 1
         '';
       };
     in
       with pkgs; [
         rio
+        chromium
         orca-slicer-wrapped
+        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.submersion
         (writeShellScriptBin "vesktop-mute" ''
           dir="''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is not set}/vesktop-global-mute"
           mkdir -p -m 700 "$dir"

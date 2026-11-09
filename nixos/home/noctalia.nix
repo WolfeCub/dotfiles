@@ -50,6 +50,8 @@
           show_value = true;
         };
 
+        widget.hass.type = "pozzoo/hassio:status";
+
         widget.workspaces = {
           label_source = "name";
           hide_when_empty = true;
@@ -72,6 +74,7 @@
             "ram"
             "gpu"
             "gap"
+            "hass"
             "screenshot"
             "clipboard"
             "network"
@@ -86,6 +89,12 @@
         notification.filter.discord = {
           match = "vesktop";
           play_sound = false;
+        };
+
+        plugins.enabled = ["pozzoo/hassio"];
+        plugin_settings."pozzoo/hassio" = {
+          entity_manager_placement = "attached";
+          entity_manager_position = "top_right";
         };
 
         location.auto_locate = true;
